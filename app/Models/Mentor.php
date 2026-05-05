@@ -14,6 +14,7 @@ class Mentor extends Model
         'email',
         'position',
         'phone',
+        'photo_path',
         'is_active',
         'user_id',
         'team_id',

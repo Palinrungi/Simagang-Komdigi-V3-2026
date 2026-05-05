@@ -2,263 +2,542 @@
 
 @section('title', 'Absensi Anak Bimbingan - Sistem Magang')
 
+@push('styles')
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+    *, body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+
+    /* ── Page background ── */
+    .dash-bg {
+        min-height: 100vh;
+        background: #f1f5ff;
+    }
+
+    /* ── Header strip ── */
+    .hero-strip {
+        background: linear-gradient(110deg, #0f2878 0%, #2d3ecb 55%, #4f46e5 100%);
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 28px;
+    }
+    .hero-strip::before {
+        content: '';
+        position: absolute;
+        top: -80px; right: -60px;
+        width: 260px; height: 260px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .hero-strip::after {
+        content: '';
+        position: absolute;
+        bottom: -100px; left: 25%;
+        width: 320px; height: 320px;
+        background: rgba(255,255,255,0.04);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* ── Panel ── */
+    .panel {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 1px 3px rgba(20,40,120,0.06), 0 4px 18px rgba(20,40,120,0.06);
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+    .panel-header {
+        background: linear-gradient(100deg, #1e3a8a 0%, #3b4fd8 100%);
+        padding: 16px 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .panel-header h2 {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        margin: 0;
+    }
+    .panel-body { padding: 20px 22px; }
+
+    /* ── Filter Form ── */
+    .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+    }
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .filter-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: #374151;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .filter-label i {
+        font-size: 12px;
+    }
+    .filter-input,
+    .filter-select {
+        padding: 10px 12px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 13px;
+        font-family: inherit;
+        background: #fff;
+        transition: all .2s ease;
+    }
+    .filter-input:focus,
+    .filter-select:focus {
+        outline: none;
+        border-color: #3b4fd8;
+        box-shadow: 0 0 0 3px rgba(59,79,216,0.1);
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+    }
+    .btn-filter {
+        padding: 10px 16px;
+        background: linear-gradient(135deg, #3b4fd8, #3b82f6);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .btn-filter:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59,79,216,0.3);
+    }
+
+    .btn-clear {
+        padding: 10px 14px;
+        background: #e5e7eb;
+        color: #374151;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+    .btn-clear:hover {
+        background: #d1d5db;
+    }
+
+    /* ── Table ── */
+    .table-wrapper {
+        overflow-x: auto;
+        border-radius: 12px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    thead {
+        background: #f0f4ff;
+    }
+    thead th {
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 700;
+        color: #3b4fd8;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-bottom: 2px solid #e5e7eb;
+        white-space: nowrap;
+    }
+    tbody td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e8eeff;
+        font-size: 13px;
+        color: #374151;
+    }
+    tbody tr {
+        transition: background .15s ease;
+    }
+    tbody tr:hover {
+        background: #f9fafb;
+    }
+    tbody tr.row-absent {
+        background: #fff5f5;
+    }
+    tbody tr.row-absent:hover {
+        background: #fef2f2;
+    }
+
+    /* ── Date display ── */
+    .date-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #374151;
+        font-size: 13px;
+    }
+    .date-cell i {
+        color: #9ca3af;
+        font-size: 12px;
+        flex-shrink: 0;
+    }
+
+    /* ── Avatar ── */
+    .avatar-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e5e7eb;
+        flex-shrink: 0;
+    }
+
+    /* ── Status badges ── */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    .badge-hadir {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    .badge-izin {
+        background: #fef9c3;
+        color: #92400e;
+    }
+    .badge-sakit {
+        background: #ffedd5;
+        color: #c2410c;
+    }
+    .badge-alfa,
+    .badge-absent {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    /* ── Time display ── */
+    .time-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'DM Mono', monospace;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .time-cell i {
+        font-size: 11px;
+        flex-shrink: 0;
+    }
+
+    /* ── Photo preview ── */
+    .photo-thumbnail {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 2px solid #dbeafe;
+        cursor: pointer;
+        transition: all .2s ease;
+        flex-shrink: 0;
+    }
+    .photo-thumbnail:hover {
+        border-color: #3b82f6;
+        transform: scale(1.1);
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+        text-align: center;
+        padding: 48px 20px;
+        color: #9ca3af;
+    }
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.5;
+    }
+    .empty-state p {
+        font-size: 13px;
+        margin: 4px 0;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .a1 { animation: fadeUp .5s ease both; }
+    .a2 { animation: fadeUp .5s .08s ease both; }
+    .a3 { animation: fadeUp .5s .16s ease both; }
+</style>
+@endpush
+
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 py-4 sm:py-8">
-        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+<div class="dash-bg py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-
-            <div class="mb-4 sm:mb-8">
-                <h1 class="text-4xl font-bold text-blue-600 mb-3">
-                    Absensi Anak Bimbingan
-                </h1>
-                <p class="text-sm sm:text-base text-gray-600">Pantau dan kelola data kehadiran anak magang</p>
+        {{-- ── HERO HEADER ──────────────────────────────── --}}
+        <div class="hero-strip shadow-xl a1">
+            <div class="relative z-10 px-6 py-8">
+                <h1 class="text-2xl font-bold text-white mb-1">Absensi Anak Bimbingan</h1>
+                <p class="text-blue-200 text-sm">Pantau dan kelola data kehadiran anak magang Anda</p>
             </div>
+        </div>
 
-            <div class="bg-white rounded-2xl shadow-lg border border-blue-100 overflow-hidden mb-4 sm:mb-6">
-                <div class="bg-blue-600 px-4 sm:px-6 py-3 sm:py-4">
-                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center">
-                        <i class="fas fa-filter mr-2 sm:mr-3 text-sm sm:text-base"></i>
-                        <span class="text-base sm:text-xl">Filter Data</span>
-                    </h2>
-                </div>
-                <div class="p-4 sm:p-6">
-                    <form method="GET" action="{{ route('mentor.attendance.index') }}">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-3 sm:mb-4">
-
-                            <div class="sm:col-span-2 lg:col-span-1">
-                                <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-user mr-1 text-blue-500 text-xs sm:text-sm"></i>
-                                    <span class="text-xs sm:text-sm">Anak Magang</span>
-                                </label>
-                                <select name="intern_id"
-                                    class="w-full px-2 sm:px-3 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                                    <option value="">Semua</option>
-                                    @foreach ($interns as $intern)
-                                        <option value="{{ $intern->id }}" @selected(request('intern_id') == $intern->id)>{{ $intern->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-calendar-alt mr-1 text-green-500 text-xs sm:text-sm"></i>
-                                    <span class="text-xs sm:text-sm">Dari Tanggal</span>
-                                </label>
-                                <input type="date" name="date_from" value="{{ request('date_from') }}"
-                                    class="w-full px-2 sm:px-3 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-                            </div>
-
-                            <div>
-                                <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-calendar-check mr-1 text-purple-500 text-xs sm:text-sm"></i>
-                                    <span class="text-xs sm:text-sm">Hingga Tanggal</span>
-                                </label>
-                                <input type="date" name="date_to" value="{{ request('date_to') }}"
-                                    class="w-full px-2 sm:px-3 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-                            </div>
-
-                            <div>
-                                <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
-                                    <i class="fas fa-info-circle mr-1 text-yellow-500 text-xs sm:text-sm"></i>
-                                    <span class="text-xs sm:text-sm">Status</span>
-                                </label>
-                                <select name="status"
-                                    class="w-full px-2 sm:px-3 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
-                                    <option value="">Semua</option>
-                                    <option value="hadir" @selected(request('status') === 'hadir')>Hadir</option>
-                                    <option value="izin" @selected(request('status') === 'izin')>Izin</option>
-                                    <option value="sakit" @selected(request('status') === 'sakit')>Sakit</option>
-                                    <option value="alfa" @selected(request('status') === 'alfa')>Tidak Hadir</option>
-                                </select>
-                            </div>
-
-                            <div class="flex items-end space-x-2 sm:col-span-2 lg:col-span-1">
-                                <button type="submit"
-                                    class="flex-1 inline-flex items-center justify-center px-3 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300">
-                                    <i class="fas fa-search mr-1 sm:mr-2 text-xs sm:text-sm"></i>
-                                    <span class="text-xs sm:text-base">Filter</span>
-                                </button>
-                                @if (request()->anyFilled(['intern_id', 'date_from', 'date_to', 'status']))
-                                    <a href="{{ route('mentor.attendance.index') }}"
-                                        class="inline-flex items-center justify-center bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 sm:py-3 px-3 sm:px-6 rounded-xl transition duration-200">
-                                        <i class="fas fa-times text-xs sm:text-sm"></i>
-                                    </a>
-                                @endif
-                            </div>
+        {{-- ── FILTER PANEL ────────────────────────────── --}}
+        <div class="panel a2">
+            <div class="panel-header">
+                <i class="fas fa-sliders-h text-blue-200"></i>
+                <h2>Filter Data</h2>
+            </div>
+            <div class="panel-body">
+                <form method="GET" action="{{ route('mentor.attendance.index') }}">
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-user"></i> Anak Magang
+                            </label>
+                            <select name="intern_id" class="filter-select">
+                                <option value="">Semua</option>
+                                @foreach ($interns as $intern)
+                                    <option value="{{ $intern->id }}" @selected(request('intern_id') == $intern->id)>
+                                        {{ $intern->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
-                    </form>
-                </div>
-            </div>
 
-            <div class="bg-white rounded-2xl shadow-lg border border-blue-100 overflow-hidden">
-                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 sm:px-6 py-3 sm:py-4">
-                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center">
-                        <i class="fas fa-clipboard-list mr-2 sm:mr-3 text-sm sm:text-base"></i>
-                        <span class="text-base sm:text-xl">Data Absensi</span>
-                    </h2>
-                </div>
-                <div class="p-3 sm:p-6">
-                    <div class="overflow-x-auto -mx-3 sm:mx-0">
-                        <div class="inline-block min-w-full align-middle">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr class="bg-blue-50">
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg whitespace-nowrap">
-                                            Tanggal</th>
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider whitespace-nowrap">
-                                            Nama</th>
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider whitespace-nowrap">
-                                            Status</th>
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider whitespace-nowrap">
-                                            Check In</th>
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider whitespace-nowrap">
-                                            Check Out</th>
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider whitespace-nowrap">
-                                            Foto In</th>
-                                        <th
-                                            class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg whitespace-nowrap">
-                                            Foto Out</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-100">
-                                    {{-- Baris virtual: intern belum absen hari ini --}}
-                                    @foreach($todayAbsentInterns as $absentIntern)
-                                        <tr class="bg-red-50">
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <div class="flex items-center text-xs sm:text-sm text-gray-900">
-                                                    <i class="fas fa-calendar mr-1 sm:mr-2 text-gray-400 text-xs"></i>
-                                                    <span class="hidden sm:inline">{{ \Carbon\Carbon::parse($todayWita)->format('d M Y') }}</span>
-                                                    <span class="sm:hidden">{{ \Carbon\Carbon::parse($todayWita)->format('d/m/y') }}</span>
-                                                    <span class="ml-1 text-xs text-gray-400">(Hari ini)</span>
-                                                </div>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    @if($absentIntern->photo_path)
-                                                        <img src="{{ url('storage/' . $absentIntern->photo_path) }}"
-                                                            class="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover border-2 border-blue-200 mr-2 sm:mr-3 flex-shrink-0"
-                                                            alt="{{ $absentIntern->name }}" />
-                                                    @else
-                                                        <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
-                                                            <i class="fas fa-user text-white text-xs"></i>
-                                                        </div>
-                                                    @endif
-                                                    <span class="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[100px] sm:max-w-none">{{ $absentIntern->name }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <span class="px-2 sm:px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                    Tidak Hadir
-                                                </span>
-                                            </td>
-                                            <td colspan="4" class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-400 italic">
-                                                Belum melakukan absensi hari ini
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-calendar-alt"></i> Dari Tanggal
+                            </label>
+                            <input type="date" name="date_from" class="filter-input"
+                                value="{{ request('date_from') }}">
+                        </div>
 
-                                    @forelse($attendances as $a)
-                                        <tr class="hover:bg-blue-50 transition-colors duration-150">
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <div class="flex items-center text-xs sm:text-sm text-gray-900">
-                                                    <i class="fas fa-calendar mr-1 sm:mr-2 text-gray-400 text-xs"></i>
-                                                    <span
-                                                        class="hidden sm:inline">{{ \Carbon\Carbon::parse($a->date)->format('d M Y') }}</span>
-                                                    <span
-                                                        class="sm:hidden">{{ \Carbon\Carbon::parse($a->date)->format('d/m/y') }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    @if ($a->intern->photo_path)
-                                                        <img src="{{ url('storage/' . $a->intern->photo_path) }}"
-                                                            class="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover border-2 border-blue-200 mr-2 sm:mr-3 flex-shrink-0"
-                                                            alt="{{ $a->intern->name }}" />
-                                                    @else
-                                                        <div
-                                                            class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
-                                                            <i class="fas fa-user text-white text-xs"></i>
-                                                        </div>
-                                                    @endif
-                                                    <span
-                                                        class="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[100px] sm:max-w-none">{{ $a->intern->name }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <span class="px-2 sm:px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
-                                                    @if ($a->status == 'hadir') bg-green-100 text-green-800
-                                                    @elseif($a->status == 'izin') bg-yellow-100 text-yellow-800
-                                                    @elseif($a->status == 'sakit') bg-orange-100 text-orange-800
-                                                    @else bg-red-100 text-red-800 @endif">
-                                                    @if($a->status == 'alfa') Tidak Hadir
-                                                    @else {{ ucfirst($a->status) }}
-                                                    @endif
-                                                </span>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <div class="flex items-center text-xs sm:text-sm text-gray-600">
-                                                    <i class="fas fa-sign-in-alt mr-1 sm:mr-2 text-green-500 text-xs"></i>
-                                                    {{ $a->check_in ? \Carbon\Carbon::parse($a->check_in)->format('H:i') : '-' }}
-                                                </div>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                <div class="flex items-center text-xs sm:text-sm text-gray-600">
-                                                    <i class="fas fa-sign-out-alt mr-1 sm:mr-2 text-red-500 text-xs"></i>
-                                                    {{ $a->check_out ? \Carbon\Carbon::parse($a->check_out)->format('H:i') : '-' }}
-                                                </div>
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                @if ($a->photo_path)
-                                                    <img src="{{ url('storage/' . $a->photo_path) }}" alt="Check In"
-                                                        class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-all shadow-sm"
-                                                        onclick="window.open('{{ url('storage/' . $a->photo_path) }}', '_blank')"
-                                                        title="Klik untuk melihat full size" />
-                                                @else
-                                                    <span class="text-gray-400 text-xs sm:text-sm">-</span>
-                                                @endif
-                                            </td>
-                                            <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                                @if ($a->photo_checkout)
-                                                    <img src="{{ url('storage/' . $a->photo_checkout) }}" alt="Check Out"
-                                                        class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-all shadow-sm"
-                                                        onclick="window.open('{{ url('storage/' . $a->photo_checkout) }}', '_blank')"
-                                                        title="Klik untuk melihat full size" />
-                                                @else
-                                                    <span class="text-gray-400 text-xs sm:text-sm">-</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="7" class="px-3 sm:px-6 py-6 sm:py-8 text-center">
-                                                <div class="flex flex-col items-center justify-center text-gray-500">
-                                                    <i
-                                                        class="fas fa-inbox text-4xl sm:text-5xl mb-2 sm:mb-3 text-gray-300"></i>
-                                                    <p class="text-xs sm:text-sm font-medium">Tidak ada data absensi.</p>
-                                                    <p class="text-xs text-gray-400 mt-1">Coba ubah filter untuk melihat
-                                                        data lainnya</p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-calendar-check"></i> Hingga Tanggal
+                            </label>
+                            <input type="date" name="date_to" class="filter-input"
+                                value="{{ request('date_to') }}">
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fas fa-info-circle"></i> Status
+                            </label>
+                            <select name="status" class="filter-select">
+                                <option value="">Semua</option>
+                                <option value="hadir" @selected(request('status') === 'hadir')>Hadir</option>
+                                <option value="izin" @selected(request('status') === 'izin')>Izin</option>
+                                <option value="sakit" @selected(request('status') === 'sakit')>Sakit</option>
+                                <option value="alfa" @selected(request('status') === 'alfa')>Tidak Hadir</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button type="submit" class="btn-filter">
+                                <i class="fas fa-search"></i> Filter
+                            </button>
+                            @if (request()->anyFilled(['intern_id', 'date_from', 'date_to', 'status']))
+                                <a href="{{ route('mentor.attendance.index') }}" class="btn-clear">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            @endif
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
 
-                    <div class="mt-4 sm:mt-6">
+        {{-- ── ATTENDANCE TABLE PANEL ──────────────────– --}}
+        <div class="panel a3">
+            <div class="panel-header">
+                <i class="fas fa-clipboard-check text-blue-200"></i>
+                <h2>Data Absensi</h2>
+            </div>
+            <div class="panel-body">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Nama</th>
+                                <th>Status</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Foto In</th>
+                                <th>Foto Out</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- Belum absen hari ini --}}
+                            @foreach($todayAbsentInterns as $absentIntern)
+                                <tr class="row-absent">
+                                    <td>
+                                        <div class="date-cell">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>{{ \Carbon\Carbon::parse($todayWita)->translatedFormat('d M Y') }}</span>
+                                            <span style="color:#9ca3af; font-size:11px;">(Hari ini)</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-cell">
+                                            @if($absentIntern->photo_path)
+                                                <img src="{{ url('storage/' . $absentIntern->photo_path) }}"
+                                                    alt="{{ $absentIntern->name }}" class="avatar">
+                                            @else
+                                                <div class="avatar" style="background: linear-gradient(135deg,#3b82f6,#6366f1); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:12px;">
+                                                    {{ strtoupper(substr($absentIntern->name, 0, 1)) }}
+                                                </div>
+                                            @endif
+                                            <span>{{ $absentIntern->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge badge-absent">
+                                            <i class="fas fa-times-circle"></i> Belum Absen
+                                        </span>
+                                    </td>
+                                    <td colspan="4" style="color:#9ca3af; font-size:12px; font-style:italic;">
+                                        Belum melakukan absensi hari ini
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            {{-- Data absensi --}}
+                            @forelse($attendances as $a)
+                                <tr>
+                                    <td>
+                                        <div class="date-cell">
+                                            <i class="fas fa-calendar"></i>
+                                            {{ \Carbon\Carbon::parse($a->date)->translatedFormat('d M Y') }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-cell">
+                                            @if ($a->intern->photo_path)
+                                                <img src="{{ url('storage/' . $a->intern->photo_path) }}"
+                                                    alt="{{ $a->intern->name }}" class="avatar">
+                                            @else
+                                                <div class="avatar" style="background: linear-gradient(135deg,#3b82f6,#6366f1); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:12px;">
+                                                    {{ strtoupper(substr($a->intern->name, 0, 1)) }}
+                                                </div>
+                                            @endif
+                                            <span>{{ $a->intern->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge @if ($a->status == 'hadir') badge-hadir
+                                            @elseif($a->status == 'izin') badge-izin
+                                            @elseif($a->status == 'sakit') badge-sakit
+                                            @else badge-alfa @endif">
+                                            @if($a->status == 'hadir')
+                                                <i class="fas fa-check-circle"></i> Hadir
+                                            @elseif($a->status == 'izin')
+                                                <i class="fas fa-notes-medical"></i> Izin
+                                            @elseif($a->status == 'sakit')
+                                                <i class="fas fa-notes-medical"></i> Sakit
+                                            @else
+                                                <i class="fas fa-times-circle"></i> Tidak Hadir
+                                            @endif
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="time-cell">
+                                            @if($a->check_in)
+                                                <i class="fas fa-sign-in-alt" style="color: #22c55e;"></i>
+                                                {{ \Carbon\Carbon::parse($a->check_in)->format('H:i') }}
+                                            @else
+                                                <span style="color:#d1d5db;">—</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="time-cell">
+                                            @if($a->check_out)
+                                                <i class="fas fa-sign-out-alt" style="color: #ef4444;"></i>
+                                                {{ \Carbon\Carbon::parse($a->check_out)->format('H:i') }}
+                                            @else
+                                                <span style="color:#d1d5db;">—</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if ($a->photo_path)
+                                            <img src="{{ url('storage/' . $a->photo_path) }}" alt="Check In"
+                                                class="photo-thumbnail"
+                                                onclick="window.open('{{ url('storage/' . $a->photo_path) }}', '_blank')"
+                                                title="Klik untuk melihat full size">
+                                        @else
+                                            <span style="color:#d1d5db; font-size:12px;">—</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($a->photo_checkout)
+                                            <img src="{{ url('storage/' . $a->photo_checkout) }}" alt="Check Out"
+                                                class="photo-thumbnail"
+                                                onclick="window.open('{{ url('storage/' . $a->photo_checkout) }}', '_blank')"
+                                                title="Klik untuk melihat full size">
+                                        @else
+                                            <span style="color:#d1d5db; font-size:12px;">—</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="empty-state">
+                                            <i class="fas fa-inbox"></i>
+                                            <p class="font-semibold">Tidak ada data absensi</p>
+                                            <p style="font-size:12px;">Coba ubah filter untuk melihat data lainnya</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (method_exists($attendances, 'links'))
+                    <div style="margin-top: 20px;">
                         {{ $attendances->links() }}
                     </div>
-                </div>
+                @endif
             </div>
-
         </div>
+
     </div>
+</div>
 @endsection

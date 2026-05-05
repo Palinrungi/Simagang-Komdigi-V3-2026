@@ -2,242 +2,500 @@
 
 @section('title', 'Anak Magang Bimbingan - Sistem Magang')
 
+@push('styles')
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+    *, body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+
+    /* ── Page background ── */
+    .dash-bg {
+        min-height: 100vh;
+        background: #f1f5ff;
+    }
+
+    /* ── Header strip ── */
+    .hero-strip {
+        background: linear-gradient(110deg, #0f2878 0%, #2d3ecb 55%, #4f46e5 100%);
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 28px;
+    }
+    .hero-strip::before {
+        content: '';
+        position: absolute;
+        top: -80px; right: -60px;
+        width: 260px; height: 260px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .hero-strip::after {
+        content: '';
+        position: absolute;
+        bottom: -100px; left: 25%;
+        width: 320px; height: 320px;
+        background: rgba(255,255,255,0.04);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* ── Panel ── */
+    .panel {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 1px 3px rgba(20,40,120,0.06), 0 4px 18px rgba(20,40,120,0.06);
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+    .panel-header {
+        background: linear-gradient(100deg, #1e3a8a 0%, #3b4fd8 100%);
+        padding: 16px 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .panel-header h2 {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        margin: 0;
+    }
+    .panel-body { padding: 20px 22px; }
+
+    /* ── Search and filter ── */
+    .search-box {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .search-input-wrapper {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+    }
+    .search-input-wrapper input {
+        width: 100%;
+        padding: 11px 14px 11px 38px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 13px;
+        font-family: inherit;
+        transition: all .2s ease;
+    }
+    .search-input-wrapper input:focus {
+        outline: none;
+        border-color: #3b4fd8;
+        box-shadow: 0 0 0 3px rgba(59,79,216,0.1);
+    }
+    .search-input-wrapper i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        font-size: 14px;
+    }
+
+    .filter-select {
+        min-width: 150px;
+        padding: 11px 14px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 13px;
+        font-family: inherit;
+        background: #fff;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+    .filter-select:focus {
+        outline: none;
+        border-color: #3b4fd8;
+        box-shadow: 0 0 0 3px rgba(59,79,216,0.1);
+    }
+
+    .btn-search {
+        padding: 11px 20px;
+        background: linear-gradient(135deg, #3b4fd8, #3b82f6);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .btn-search:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59,79,216,0.3);
+    }
+
+    .btn-clear {
+        padding: 11px 16px;
+        background: #e5e7eb;
+        color: #374151;
+        border: none;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-clear:hover {
+        background: #d1d5db;
+    }
+
+    /* ── Table ── */
+    .table-wrapper {
+        overflow-x: auto;
+        border-radius: 14px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    thead {
+        background: #f0f4ff;
+    }
+    thead th {
+        padding: 14px 16px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        color: #3b4fd8;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    tbody td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #e8eeff;
+        font-size: 13px;
+        color: #374151;
+    }
+    tbody tr {
+        transition: background .15s ease;
+    }
+    tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    /* ── Avatar ── */
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e5e7eb;
+    }
+
+    /* ── Status badge ── */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    .badge-active {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    .badge-alumni {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+    .badge-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: 'DM Mono', monospace;
+    }
+    .badge-logbook {
+        background: #f3e8ff;
+        color: #7e22ce;
+    }
+    .badge-attendance {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    .badge-microskill {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+        text-align: center;
+        padding: 48px 20px;
+        color: #9ca3af;
+    }
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.5;
+    }
+    .empty-state p {
+        font-size: 14px;
+        margin: 4px 0;
+    }
+
+    /* ── Quick action cards ── */
+    .action-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(20,40,120,0.06), 0 4px 18px rgba(20,40,120,0.06);
+        text-decoration: none;
+        color: inherit;
+        transition: all .2s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .action-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 28px rgba(20,40,120,0.12);
+    }
+    .action-card-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #fff;
+    }
+    .action-card.attendance .action-card-icon {
+        background: linear-gradient(135deg, #3b82f6, #1e40af);
+    }
+    .action-card.logbook .action-card-icon {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+    .action-card.report .action-card-icon {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+    .action-card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0;
+    }
+    .action-card p {
+        font-size: 13px;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    /* ── Fade-in animations ── */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .a1 { animation: fadeUp .5s ease both; }
+    .a2 { animation: fadeUp .5s .08s ease both; }
+</style>
+@endpush
+
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="dash-bg py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-            <div class="mb-8">
-                <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 mb-3">
-                    Anak Magang Bimbingan
-                </h1>
-                <p class="text-sm sm:text-base text-gray-600">Kelola dan pantau perkembangan anak magang Anda</p>
-            </div>
-
-            <div
-                class="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-xl border border-blue-200 overflow-hidden mb-6">
-                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 sm:px-6 py-3 sm:py-5">
-                    <h2 class="text-lg sm:text-xl font-bold text-white">
-                        Cari Anak Magang
-                    </h2>
+        {{-- ── HERO HEADER ──────────────────────────────── --}}
+        <div class="hero-strip shadow-xl a1">
+            <div class="relative z-10 px-6 py-8 flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-white mb-1">Anak Magang Bimbingan</h1>
+                    <p class="text-blue-200 text-sm">Kelola dan pantau perkembangan anak magang Anda</p>
                 </div>
-                <div class="p-3 sm:p-6">
+            </div>
+        </div>
 
-                    <form method="GET" action="{{ route('mentor.intern.index') }}" class="mb-4 sm:mb-6">
-                        <div class="flex gap-2">
-                            <div class="flex-1 relative group">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i
-                                        class="fas fa-search text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
-                                </div>
-                                <input type="text" name="search" id="search" value="{{ request('search') }}"
-                                    placeholder="Cari nama anak magang..."
-                                    class="block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-400 text-sm">
-                            </div>
-                            <div class="relative group w-40 sm:w-44">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="fas fa-filter text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
-                                </div>
-                                <select name="status" id="status"
-                                    class="block w-full pl-10 pr-10 py-3 appearance-none border-2 border-gray-300 rounded-xl bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-400 text-sm">
-                                    <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua</option>
-                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
-                                    <option value="alumni" {{ request('status') == 'alumni' ? 'selected' : '' }}>Alumni</option>
-                                </select>
-                                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <button type="submit"
-                                class="inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-sm rounded-xl hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 whitespace-nowrap">
-                                <i class="fas fa-search mr-2"></i>
-                                Cari
-                            </button>
-                            @if (request()->filled('search') || request()->filled('status'))
-                                <a href="{{ route('mentor.intern.index') }}"
-                                    class="inline-flex items-center justify-center bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-3 px-4 rounded-xl transition duration-200 shadow-md hover:shadow-lg flex-shrink-0">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            @endif
+        {{-- ── SEARCH & FILTER PANEL ────────────────────── --}}
+        <div class="panel a2">
+            <div class="panel-header">
+                <i class="fas fa-search text-blue-200"></i>
+                <h2>Cari Anak Magang</h2>
+            </div>
+            <div class="panel-body">
+                <form method="GET" action="{{ route('mentor.intern.index') }}">
+                    <div class="search-box">
+                        <div class="search-input-wrapper" style="flex: 1; min-width: 250px;">
+                            <i class="fas fa-search"></i>
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Cari nama anak magang...">
                         </div>
-                    </form>
 
-                    <div class="overflow-x-auto rounded-xl shadow-inner">
-                        <table class="w-full divide-y divide-gray-200">
-                            <thead>
-                                <tr class="bg-gradient-to-r from-blue-500 to-indigo-500">
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Foto</th>
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Nama</th>
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Status</th>
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider hidden sm:table-cell">
-                                        Institusi</th>
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Logbook</th>
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Absensi</th>
-                                    <th
-                                        class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                        Mikroskill</th>
+                        <select name="status" class="filter-select">
+                            <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua</option>
+                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
+                            <option value="alumni" {{ request('status') == 'alumni' ? 'selected' : '' }}>Alumni</option>
+                        </select>
+
+                        <button type="submit" class="btn-search">
+                            <i class="fas fa-search"></i> Cari
+                        </button>
+
+                        @if (request()->filled('search') || request()->filled('status'))
+                            <a href="{{ route('mentor.intern.index') }}" class="btn-clear">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        @endif
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{-- ── INTERNS TABLE PANEL ──────────────────────– --}}
+        <div class="panel a2">
+            <div class="panel-header">
+                <i class="fas fa-users-cog text-blue-200"></i>
+                <h2>Daftar Anak Magang</h2>
+                <span style="margin-left:auto;background:rgba(255,255,255,0.15);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:999px;">
+                    {{ $interns->total() ?? count($interns) }} orang
+                </span>
+            </div>
+            <div class="panel-body">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nama</th>
+                                <th>Status</th>
+                                <th class="hidden sm:table-cell">Institusi</th>
+                                <th>Logbook</th>
+                                <th>Absensi</th>
+                                <th>Mikroskill</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($interns as $intern)
+                                <tr>
+                                    <td>
+                                        @if ($intern->photo_path)
+                                            <img src="{{ url('storage/' . $intern->photo_path) }}"
+                                                alt="{{ $intern->name }}" class="avatar">
+                                        @else
+                                            <div class="avatar" style="background: linear-gradient(135deg,#3b82f6,#6366f1); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;">
+                                                {{ strtoupper(substr($intern->name, 0, 1)) }}
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('mentor.intern.show', $intern) }}"
+                                            style="color:#3b4fd8; font-weight:600; text-decoration:none; transition:all .2s;">
+                                            {{ $intern->name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if ($intern->is_active)
+                                            <span class="badge badge-active">
+                                                <i class="fas fa-check-circle"></i> Aktif
+                                            </span>
+                                        @else
+                                            <span class="badge badge-alumni">
+                                                <i class="fas fa-user-graduate"></i> Alumni
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="hidden sm:table-cell">
+                                        <span style="color:#6b7280; font-size:12px;">{{ $intern->institution }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge-count badge-logbook">
+                                            <i class="fas fa-book"></i>
+                                            {{ $intern->logbooks_count ?? 0 }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge-count badge-attendance">
+                                            <i class="fas fa-calendar-check"></i>
+                                            {{ $intern->attendances_count ?? 0 }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge-count badge-microskill">
+                                            <i class="fas fa-star"></i>
+                                            {{ $intern->micro_skills_count ?? 0 }}
+                                        </span>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-100">
-                                @forelse($interns as $intern)
-                                    <tr
-                                        class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200">
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            @if ($intern->photo_path)
-                                                <div
-                                                    class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 rounded-full overflow-hidden border-3 border-blue-300 shadow-lg ring-2 ring-blue-100 hover:ring-blue-400 transition-all aspect-square flex items-center justify-center">
-                                                    <img src="{{ url('storage/' . $intern->photo_path) }}"
-                                                        class="w-full h-full object-cover object-center"
-                                                        alt="{{ $intern->name }}" />
-                                                </div>
-                                            @else
-                                                <div
-                                                    class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg ring-2 ring-blue-100 hover:ring-blue-400 transition-all flex-shrink-0 aspect-square">
-                                                    <i class="fas fa-user text-white text-lg sm:text-xl"></i>
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            <a class="text-blue-600 hover:text-indigo-700 font-bold hover:underline transition-colors text-xs sm:text-sm md:text-base"
-                                                href="{{ route('mentor.intern.show', $intern) }}">
-                                                {{ $intern->name }}
-                                            </a>
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            @if ($intern->is_active)
-                                                <span
-                                                    class="px-2.5 sm:px-3 py-1.5 sm:py-2 inline-flex items-center justify-center text-xs sm:text-sm leading-5 font-bold rounded-full bg-green-100 text-green-800 shadow-sm">
-                                                    Aktif
-                                                </span>
-                                            @else
-                                                <span
-                                                    class="px-2.5 sm:px-3 py-1.5 sm:py-2 inline-flex items-center justify-center text-xs sm:text-sm leading-5 font-bold rounded-full bg-gray-100 text-gray-800 shadow-sm">
-                                                    Alumni
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap hidden sm:table-cell">
-                                            <div class="text-xs sm:text-sm text-gray-700 flex items-center font-medium">
-                                                {{ $intern->institution }}
-                                            </div>
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2.5 sm:px-3 py-1.5 sm:py-2 inline-flex items-center justify-center text-xs sm:text-sm leading-5 font-bold rounded-full bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 shadow-sm hover:shadow-md transition-all">
-                                                <i class="fas fa-book mr-1.5 sm:mr-2"></i>
-                                                {{ $intern->logbooks_count }}
-                                            </span>
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2.5 sm:px-3 py-1.5 sm:py-2 inline-flex items-center justify-center text-xs sm:text-sm leading-5 font-bold rounded-full bg-gradient-to-r from-green-100 to-green-200 text-green-800 shadow-sm hover:shadow-md transition-all">
-                                                <i class="fas fa-check-circle mr-1.5 sm:mr-2"></i>
-                                                {{ $intern->attendances_count }}
-                                            </span>
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2.5 sm:px-3 py-1.5 sm:py-2 inline-flex items-center justify-center text-xs sm:text-sm leading-5 font-bold rounded-full bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 shadow-sm hover:shadow-md transition-all">
-                                                <i class="fas fa-graduation-cap mr-1.5 sm:mr-2"></i>
-                                                {{ $intern->micro_skills_count }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="px-6 py-12 text-center">
-                                            <div class="flex flex-col items-center justify-center text-gray-500">
-                                                <div
-                                                    class="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-4">
-                                                    <i class="fas fa-user-slash text-5xl text-gray-300"></i>
-                                                </div>
-                                                <p class="text-lg font-bold text-gray-700 mb-2">Belum ada anak magang</p>
-                                                <p class="text-sm text-gray-400">Data anak magang akan muncul di sini
-                                                </p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-
-                    @if (method_exists($interns, 'links'))
-                        <div class="mt-6">
-                            {{ $interns->links() }}
-                        </div>
-                    @endif
+                            @empty
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="empty-state">
+                                            <i class="fas fa-inbox"></i>
+                                            <p class="font-semibold text-sm">Belum ada anak magang</p>
+                                            <p class="text-xs">Data anak magang akan muncul di sini</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
+
+                @if (method_exists($interns, 'links'))
+                    <div style="margin-top: 20px;">
+                        {{ $interns->links() }}
+                    </div>
+                @endif
             </div>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <a href="{{ route('mentor.attendance.index') }}"
-                    class="group bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-blue-200 hover:border-blue-400 transform hover:scale-105">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
-                                <i class="fas fa-clipboard-check text-white text-2xl"></i>
-                            </div>
-                            <div class="transform group-hover:translate-x-2 transition-transform duration-300">
-                                <i class="fas fa-arrow-right text-blue-600 text-2xl"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Absensi</h3>
-                        <p class="text-sm text-gray-600">Lihat dan kelola data kehadiran anak magang</p>
-                    </div>
-                    <div class="h-2 bg-gradient-to-r from-blue-500 to-blue-700"></div>
-                </a>
+        {{-- ── QUICK ACTION CARDS ────────────────────────– --}}
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-top:28px;" class="a2">
 
-                <a href="{{ route('mentor.logbook.index') }}"
-                    class="group bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-green-200 hover:border-green-400 transform hover:scale-105">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
-                                <i class="fas fa-book text-white text-2xl"></i>
-                            </div>
-                            <div class="transform group-hover:translate-x-2 transition-transform duration-300">
-                                <i class="fas fa-arrow-right text-green-600 text-2xl"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Logbook</h3>
-                        <p class="text-sm text-gray-600">Pantau catatan harian dan aktivitas</p>
-                    </div>
-                    <div class="h-2 bg-gradient-to-r from-green-500 to-emerald-700"></div>
-                </a>
+            <a href="{{ route('mentor.attendance.index') }}" class="action-card attendance">
+                <div class="action-card-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div>
+                    <h3>Absensi</h3>
+                    <p>Lihat dan kelola data kehadiran anak magang</p>
+                </div>
+            </a>
 
-                <a href="{{ route('mentor.report.index') }}"
-                    class="group bg-gradient-to-br from-red-50 to-red-100 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-red-200 hover:border-red-400 transform hover:scale-105">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
-                                <i class="fas fa-file-alt text-white text-2xl"></i>
-                            </div>
-                            <div class="transform group-hover:translate-x-2 transition-transform duration-300">
-                                <i class="fas fa-arrow-right text-red-600 text-2xl"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Laporan</h3>
-                        <p class="text-sm text-gray-600">Lihat dan nilai laporan akhir</p>
-                    </div>
-                    <div class="h-2 bg-gradient-to-r from-red-500 to-red-700"></div>
-                </a>
-            </div>
+            <a href="{{ route('mentor.logbook.index') }}" class="action-card logbook">
+                <div class="action-card-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div>
+                    <h3>Logbook</h3>
+                    <p>Pantau catatan harian dan aktivitas</p>
+                </div>
+            </a>
+
+            <a href="{{ route('mentor.report.index') }}" class="action-card report">
+                <div class="action-card-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div>
+                    <h3>Laporan</h3>
+                    <p>Lihat dan nilai laporan akhir</p>
+                </div>
+            </a>
 
         </div>
+
     </div>
+</div>
 @endsection
