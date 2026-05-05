@@ -58,6 +58,7 @@ class AdminInternController extends Controller
             ->whereHas('pengajuan', function ($q) {
                 $q->where('status', 'approved');
             })
+            ->doesntHave('intern')
             ->get();
 
         $mentors = \App\Models\Mentor::with('team')
@@ -96,6 +97,7 @@ class AdminInternController extends Controller
             'purpose' => ['nullable', 'string', 'in:Magang,KKN Profesi,PKL,Praktek Industri,Magang Industri,Guru Magang Industri,Job on Training'],
             'mentor_id' => ['required', 'exists:mentors,id'],
             // 'team' => ['nullable', 'string', Rule::in($validTeams)],
+            'pengajuan_detail_id' => ['nullable', 'exists:pengajuan_details,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
             'photo' => ['required', 'image', 'max:2048'],
@@ -161,6 +163,7 @@ class AdminInternController extends Controller
             'end_date' => $validated['end_date'],
             'photo_path' => $photoPath,
             'is_active' => $request->has('is_active') ? $request->boolean('is_active') : false,
+            'pengajuan_detail_id' => $request->pengajuan_detail_id,
         ]);
 
         return redirect()->route('admin.intern.index')

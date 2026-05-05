@@ -21,4 +21,9 @@ class PengajuanDetail extends Model
     {
         return $this->belongsTo(Pengajuan::class);
     }
+
+    public function intern()
+    {
+        return $this->hasOne(Intern::class);
+    }
 }

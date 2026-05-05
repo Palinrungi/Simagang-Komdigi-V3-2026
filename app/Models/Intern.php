@@ -25,6 +25,7 @@ class Intern extends Model
         'photo_path',
         'is_active',
         'team_id',
+        'pengajuan_detail_id',
     ];
 
     protected $casts = [
@@ -76,6 +77,11 @@ class Intern extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+    
+    public function pengajuanDetail()
+    {
+        return $this->belongsTo(PengajuanDetail::class);
     }
     
 }

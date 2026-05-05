@@ -44,6 +44,7 @@
 
                                 @foreach($calonMagang as $c)
                                     <option value="{{ $c->nama }}"
+                                        data-id="{{ $c->id }}"
                                         data-name="{{ $c->nama }}"
                                         data-email="{{ $c->email }}"
                                         data-gender="{{ $c->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}"
@@ -67,6 +68,7 @@
                         </div>
 
                         <div>
+                            <input type="hidden" name="pengajuan_detail_id" id="detailIdInput">
                             <label class="text-sm font-medium text-blue-900 mb-2">
                                 Email <span class="text-red-500">*</span>
                             </label>
@@ -351,6 +353,7 @@
 
             if (this.value === "") return;
 
+            document.getElementById('detailIdInput').value = selected.dataset.id || '';
             document.getElementById('emailInput').value = selected.dataset.email || '';
             document.getElementById('phoneInput').value = selected.dataset.phone || '';
             document.getElementById('majorInput').value = selected.dataset.major || '';
