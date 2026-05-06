@@ -24,7 +24,7 @@
             <!-- INFORMASI MAGANG -->
             <div class="p-8 border-b bg-gray-50">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-    
+
                     <!-- Kiri: Icon + Judul -->
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
@@ -164,6 +164,7 @@
                     <form id="update-status-form" method="POST" action="{{ route('admin.pengajuan.update-status', $pengajuan) }}">
                         @csrf
                         @method('PUT')
+                        <input type="hidden" name="notify_whatsapp" id="notify_whatsapp" value="0">
 
                         <div class="mb-6">
                             <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">
@@ -171,7 +172,7 @@
                             </label>
                             <select name="status" id="status" required 
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                {{ $pengajuan->status == 'approved' ? 'disabled' : '' }}>
+                                {{ in_array($pengajuan->status, ['approved', 'rejected'], true) ? 'disabled' : '' }}>
                                 {{-- <option value="pending" {{ $pengajuan->status == 'pending' ? 'selected' : '' }}>
                                     Pending
                                 </option> --}}
@@ -245,91 +246,187 @@
                             })();
                             </script>
 
-                        <!-- Modal Konfirmasi (tersimpan di DOM, ditampilkan via JS) -->
-                        <div id="confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+                        <!-- Modal Konfirmasi Simpan -->
+                        <div id="save-confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
                             <div class="absolute inset-0 bg-black bg-opacity-40"></div>
                             <div class="relative max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
                                 <div class="p-6 text-center">
                                     <div class="mx-auto w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mb-3">
                                         <span class="text-blue-600 text-xl">?</span>
                                     </div>
-                                    <h3 class="text-lg font-bold text-gray-800 modal-title">Simpan Perubahan?</h3>
-                                    <p class="mt-2 text-sm text-gray-500 modal-message">Apakah Anda yakin ingin menyimpan perubahan?</p>
+                                    <h3 class="text-lg font-bold text-gray-800">Simpan Perubahan?</h3>
+                                    <p class="mt-2 text-sm text-gray-500">
+                                        Status akan diperbarui terlebih dahulu. Setelah itu Anda bisa memilih apakah ingin langsung mengirim notifikasi WhatsApp.
+                                    </p>
                                 </div>
                                 <div class="px-4 pb-4 pt-2 bg-gray-50 flex gap-3 justify-center">
-                                    <button id="confirm-cancel" type="button" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 font-semibold hover:bg-gray-100">
+                                    <button id="save-confirm-cancel" type="button" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 font-semibold hover:bg-gray-100">
                                         Tidak
                                     </button>
-                                    <button id="confirm-accept" type="button" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold">
+                                    <button id="save-confirm-accept" type="button" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold">
                                         Ya, Simpan
                                     </button>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Modal WhatsApp -->
+                        <div id="whatsapp-confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+                            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                            <div class="relative max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                                <div class="p-6 text-center">
+                                    <div class="mx-auto w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mb-3">
+                                        <i class="fab fa-whatsapp text-green-600 text-2xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-gray-800" id="whatsapp-modal-title">Kirim Notifikasi WhatsApp?</h3>
+                                    <p class="mt-2 text-sm text-gray-500" id="whatsapp-modal-message">
+                                        Status sudah tersimpan. Apakah Anda ingin langsung membuka WhatsApp dengan template pesan yang sudah siap?
+                                    </p>
+                                </div>
+                                <div class="px-4 pb-4 pt-2 bg-gray-50 flex gap-3 justify-center">
+                                    <button id="whatsapp-confirm-cancel" type="button" class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 font-semibold hover:bg-gray-100">
+                                        Tidak
+                                    </button>
+                                    <button id="whatsapp-confirm-accept" type="button" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold">
+                                        Ya, Kirim WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <script>
-                            (function(){
+                            (function() {
                                 const form = document.getElementById('update-status-form');
                                 const statusEl = document.getElementById('status');
-                                const modal = document.getElementById('confirm-modal');
-                                const modalTitle = modal.querySelector('.modal-title');
-                                const modalMessage = modal.querySelector('.modal-message');
-                                const btnCancel = document.getElementById('confirm-cancel');
-                                const btnConfirm = document.getElementById('confirm-accept');
+                                const saveModal = document.getElementById('save-confirm-modal');
+                                const whatsappModal = document.getElementById('whatsapp-confirm-modal');
+                                const saveCancelButton = document.getElementById('save-confirm-cancel');
+                                const saveAcceptButton = document.getElementById('save-confirm-accept');
+                                const whatsappCancelButton = document.getElementById('whatsapp-confirm-cancel');
+                                const whatsappAcceptButton = document.getElementById('whatsapp-confirm-accept');
+                                const whatsappModalTitle = document.getElementById('whatsapp-modal-title');
+                                const whatsappModalMessage = document.getElementById('whatsapp-modal-message');
+                                const whatsappSection = document.getElementById('whatsapp-resend-section');
+                                const whatsappLink = document.getElementById('whatsapp-resend-link');
 
-                                let confirmed = false;
+                                let latestWhatsappUrl = @json($whatsapp['url'] ?? null);
+                                let isSaving = false;
 
-                                function getMessage(status) {
-                                    if (status === 'approved') {
-                                        return {
-                                            title: 'Simpan Status?',
-                                            message: 'Apakah Anda yakin ingin menyimpan status? tindakan ini akan menyetujui pengajuan magang dan tidak dapat diubah kembali.'
-                                        };
-                                    }
-                                    if (status === 'rejected') {
-                                        return {
-                                            title: 'Simpan Status?',
-                                            message: 'Apakah Anda yakin ingin menyimpan status? tindakan ini akan menolak pengajuan magang dan tidak dapat diubah kembali.'
-                                        };
-                                    }
-                                    return {
-                                        title: 'Simpan Perubahan?',
-                                        message: 'Konfirmasi: lanjutkan perubahan status?'
-                                    };
+                                function openModal(modal) {
+                                    modal.classList.remove('hidden');
                                 }
 
-                                form.addEventListener('submit', function(e){
-                                    const status = statusEl.value;
+                                function closeModal(modal) {
+                                    modal.classList.add('hidden');
+                                }
 
-                                    // langsung submit jika pilih 'revised'
+                                function updateWhatsappButton(url) {
+                                    latestWhatsappUrl = url || null;
+
+                                    if (whatsappLink) {
+                                        whatsappLink.href = url || '#';
+                                    }
+
+                                    if (whatsappSection) {
+                                        if (url) {
+                                            whatsappSection.classList.remove('hidden');
+                                        } else {
+                                            whatsappSection.classList.add('hidden');
+                                        }
+                                    }
+                                }
+
+                                function buildWhatsappMessageLabel(status) {
+                                    if (status === 'approved') {
+                                        return 'Pengajuan sudah disetujui. Apakah Anda ingin langsung membuka WhatsApp untuk mengirim notifikasi ke institusi?';
+                                    }
+
+                                    if (status === 'rejected') {
+                                        return 'Pengajuan sudah ditolak. Apakah Anda ingin langsung membuka WhatsApp untuk mengirim notifikasi ke institusi?';
+                                    }
+
                                     if (status === 'revised') {
-                                        return true;
+                                        return 'Pengajuan perlu revisi. Apakah Anda ingin langsung membuka WhatsApp untuk mengirim catatan revisi ke institusi?';
                                     }
 
-                                    // jika sudah dikonfirmasi melalui modal, biarkan submit berjalan
-                                    if (confirmed) {
-                                        return true;
+                                    return 'Status sudah tersimpan. Apakah Anda ingin langsung membuka WhatsApp untuk mengirim notifikasi ke institusi?';
+                                }
+
+                                async function saveStatus() {
+                                    if (isSaving) {
+                                        return;
                                     }
 
-                                    e.preventDefault();
+                                    isSaving = true;
+                                    saveAcceptButton.disabled = true;
+                                    saveCancelButton.disabled = true;
+                                    saveAcceptButton.textContent = 'Menyimpan...';
 
-                                    const info = getMessage(status);
-                                    modalTitle.textContent = info.title;
-                                    modalMessage.textContent = info.message;
-                                    modal.classList.remove('hidden');
-                                    // fokus ke tombol batal agar aksesibilitas lebih baik
-                                    btnCancel.focus();
+                                    try {
+                                        const formData = new FormData(form);
+
+                                        const response = await fetch(form.action, {
+                                            method: 'POST',
+                                            headers: {
+                                                'X-Requested-With': 'XMLHttpRequest',
+                                                'Accept': 'application/json',
+                                            },
+                                            body: formData,
+                                        });
+
+                                        const payload = await response.json();
+
+                                        if (!response.ok) {
+                                            const errorMessages = payload.errors
+                                                ? Object.values(payload.errors).flat().join('\n')
+                                                : (payload.message || 'Gagal menyimpan status.');
+                                            throw new Error(errorMessages);
+                                        }
+
+                                        updateWhatsappButton(payload.whatsapp?.url || null);
+                                        whatsappModalTitle.textContent = 'Kirim Notifikasi WhatsApp?';
+                                        whatsappModalMessage.textContent = buildWhatsappMessageLabel(payload.status);
+
+                                        closeModal(saveModal);
+                                        openModal(whatsappModal);
+                                    } catch (error) {
+                                        alert(error.message || 'Gagal menyimpan status.');
+                                    } finally {
+                                        isSaving = false;
+                                        saveAcceptButton.disabled = false;
+                                        saveCancelButton.disabled = false;
+                                        saveAcceptButton.textContent = 'Ya, Simpan';
+                                    }
+                                }
+
+                                form.addEventListener('submit', function(event) {
+                                    event.preventDefault();
+
+                                    openModal(saveModal);
+                                    saveCancelButton.focus();
                                 });
 
-                                btnCancel.addEventListener('click', function(){
-                                    modal.classList.add('hidden');
+                                saveCancelButton.addEventListener('click', function() {
+                                    closeModal(saveModal);
                                 });
 
-                                btnConfirm.addEventListener('click', function(){
-                                    confirmed = true;
-                                    modal.classList.add('hidden');
-                                    // kirim form setelah menutup modal
-                                    form.submit();
+                                saveAcceptButton.addEventListener('click', function() {
+                                    saveStatus();
+                                });
+
+                                whatsappCancelButton.addEventListener('click', function() {
+                                    closeModal(whatsappModal);
+                                    window.location.reload();
+                                });
+
+                                whatsappAcceptButton.addEventListener('click', function() {
+                                    if (!latestWhatsappUrl) {
+                                        closeModal(whatsappModal);
+                                        return;
+                                    }
+
+                                    window.open(latestWhatsappUrl, '_blank', 'noopener');
+                                    closeModal(whatsappModal);
                                 });
                             })();
                         </script>
@@ -345,13 +442,28 @@
                                     class="mt-6 w-full inline-flex items-center px-6 py-3 bg-gray-300 text-gray-700 justify-center font-bold rounded-xl shadow-sm transition-all duration-300">
                                     Sudah Disetujui — Tidak dapat diubah
                                 </button>
-
+                            @elseif($pengajuan->status == 'rejected')
+                                <button type="button" disabled
+                                    class="w-full inline-flex items-center px-6 py-3 bg-gray-300 text-gray-700 justify-center font-bold rounded-xl shadow-sm transition-all duration-300">
+                                    Sudah Ditolak — Tidak dapat diubah
+                                </button>
                             @else
                                 <button type="submit" 
                                     class="w-full inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white justify-center font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
                                     Simpan Status
                                 </button>
                             @endif
+
+                            <div id="whatsapp-resend-section" class="mt-6 {{ empty($whatsapp['url']) ? 'hidden' : '' }}">
+                                <a id="whatsapp-resend-link" href="{{ $whatsapp['url'] ?? '#' }}" target="_blank" rel="noopener"
+                                    class="w-full inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white justify-center font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
+                                    <i class="fab fa-whatsapp mr-2"></i>
+                                    Kirim Notifikasi WhatsApp
+                                </a>
+                                <p class="text-xs text-gray-500 text-center mt-2">
+                                    Gunakan tombol ini jika Anda memilih tidak mengirim WhatsApp setelah status disimpan.
+                                </p>
+                            </div>
 
                         </div>
                     </form>

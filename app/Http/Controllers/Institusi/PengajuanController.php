@@ -8,6 +8,7 @@ use App\Models\Pengajuan;
 use App\Models\PengajuanDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Services\PengajuanWhatsappService;
 
 class PengajuanController extends Controller
 {
@@ -80,27 +81,29 @@ class PengajuanController extends Controller
             ->with('success', 'Pengajuan berhasil dikirim');
     }
 
-    public function show($id)
+    public function show(int $id, PengajuanWhatsappService $whatsappService)
     {
-        $pengajuan = Pengajuan::with('details')
+        $pengajuan = Pengajuan::with(['details', 'institusi'])
             ->where('institusi_id', Auth::user()->institusi->id)
             ->findOrFail($id);
 
-        return view('institusi.pengajuan.show', compact('pengajuan'));
+        $whatsapp = $whatsappService->payloadFor($pengajuan);
+
+        return view('institusi.pengajuan.show', compact('pengajuan', 'whatsapp'));
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $pengajuan = Pengajuan::where('institusi_id', Auth::user()->institusi->id)->findOrFail($id);
 
-        // Cek status
+        // 🔥 Cek status dulu
         if ($pengajuan->status !== 'rejected' && $pengajuan->status !== 'pending') {
             return redirect()
                 ->back()
                 ->with('error', 'Pengajuan hanya bisa dihapus jika statusnya rejected atau pending.');
         }
 
-        // Hapus relasi details
+        // Hapus relasi detail dulu
         $pengajuan->details()->delete();
 
         // Hapus pengajuan
@@ -127,6 +130,12 @@ class PengajuanController extends Controller
         $pdf->useTemplate($tpl, 0, 0, 210);
 
         $pdf->SetFont('Times', '', 12);
+
+        /**
+         * =========================
+         * ISI DATA DINAMIS
+         * =========================
+         */
 
         // Nomor surat
         $pdf->SetXY(43.8, 80.6);
@@ -198,6 +207,7 @@ class PengajuanController extends Controller
         $pdf->SetFont('Times', '', 12);
 
         $no = 1;
+
         foreach ($pengajuan->details as $detail) {
 
             $pdf->SetX(22); 

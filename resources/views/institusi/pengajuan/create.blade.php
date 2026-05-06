@@ -24,7 +24,7 @@
             </div>
 
             <div class="p-8">
-               <form method="POST" action="{{ route('institusi.pengajuan.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('institusi.pengajuan.store') }}" enctype="multipart/form-data">
                     @csrf
 
                     <div class="p-8 border-b">
