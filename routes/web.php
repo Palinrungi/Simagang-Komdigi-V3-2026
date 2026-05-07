@@ -41,6 +41,8 @@ use App\Http\Controllers\Institusi\LogbookController as InstitusiLogbookControll
 use App\Http\Controllers\Institusi\MicroSkillController as InstitusiMicroSkillController;
 use App\Http\Controllers\Institusi\ProfileController as InstitusiProfileController;
 use App\Http\Controllers\Institusi\CertificateController as InstitusiCertificateController;
+use App\Http\Controllers\PengajuanFileController;
+use App\Http\Controllers\SecureDownloadController;
 use App\Models\Testimonial;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -69,7 +71,7 @@ Route::get('/', function () {
 })->name('landing');
 
 Route::get('/convert-font', function () {
-    $fontPath = storage_path('app/fonts/Poppins-Extralight.ttf');
+    $fontPath = storage_path('app/fonts/Poppins-Reguler.ttf');
 
     TCPDF_FONTS::addTTFfont(
         $fontPath,
@@ -78,7 +80,7 @@ Route::get('/convert-font', function () {
         32
     );
 
-    return 'Poppins Extralight berhasil di-convert';
+    return 'Poppins Reguler berhasil di-convert';
 });
 
 // API Routes for Institution Search
@@ -87,6 +89,11 @@ Route::get('/api/institutions/all', [InstitutionController::class, 'getAllUniver
 
 // API Route cek hari libur (real-time, butuh auth)
 Route::middleware('auth')->get('/api/attendance/is-holiday', [HolidayController::class, 'check'])->name('api.attendance.is-holiday');
+
+// Protected download route for pengajuan documents
+Route::get('/pengajuan/{pengajuan}/surat', PengajuanFileController::class)
+    ->middleware('auth')
+    ->name('pengajuan.surat');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -115,28 +122,28 @@ Route::middleware(['auth', 'institusi'])->prefix('institusi')->name('institusi.'
     Route::put('/profile', [InstitusiProfileController::class, 'update'])->name('profile.update');
     // Attendance monitoring for institusi
     Route::get('/attendance', [InstitusiAttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendance/photo/{filename}', [InstitusiAttendanceController::class, 'servePhoto'])->name('attendance.photo');
     // Intern management for institusi
     Route::get('/intern', [InstitusiInternController::class, 'index'])->name('intern.index');
     // Logbook monitoring for institusi
     Route::get('/logbook', [InstitusiLogbookController::class, 'index'])->name('logbook.index');
     Route::get('/logbook/{id}', [InstitusiLogbookController::class, 'show'])->name('logbook.show');
+    Route::get('/logbook/photo/{filename}', [InstitusiLogbookController::class, 'servePhoto'])->name('logbook.photo');
     // Certificate management for institusi
     Route::get('/sertifikat', [InstitusiCertificateController::class, 'index'])->name('certificate.index');
     Route::get('/sertifikat/{certificate}', [InstitusiCertificateController::class, 'show'])->name('certificate.show');
     // Mikro skill monitoring for institusi
     Route::get('/microskill', [InstitusiMicroSkillController::class, 'index'])->name('microskill.index');
+    Route::get('/microskill/photo/{filename}', [InstitusiMicroSkillController::class, 'servePhoto'])->name('microskill.photo');
 
 }); 
 Route::resource('institusi', DaftarInstitusiController::class);
 
-// File Download Route
-Route::get('/download/{path}', function ($path) {
-    $fullPath = storage_path('app/public/' . $path);
-    if (file_exists($fullPath)) {
-        return response()->download($fullPath);
-    }
-    abort(404);
-})->middleware('auth')->where('path', '.*')->name('download');
+// File Download Route with access validation per user
+Route::get('/download/{path}', SecureDownloadController::class)
+    ->middleware('auth')
+    ->where('path', '.*')
+    ->name('download');
 
 // Intern Routes
 Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(function () {

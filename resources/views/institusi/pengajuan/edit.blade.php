@@ -103,7 +103,8 @@
                                 @if($pengajuan->surat_path)
                                     <p class="text-xs text-gray-500 mb-2">File saat ini: <a href="{{ asset('storage/'.$pengajuan->surat_path) }}" class="text-blue-600 hover:underline" target="_blank">Lihat file</a></p>
                                 @endif
-                                <input type="file" name="surat_magang" id="surat_magang" accept=".pdf,.doc,.docx"
+                                {{-- only pdf--}}
+                                <input type="file" name="surat_magang" id="surat_magang" accept=".pdf"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
                                 @error('surat_magang')
                                     <p class="mt-2 text-sm text-red-600 flex items-center">

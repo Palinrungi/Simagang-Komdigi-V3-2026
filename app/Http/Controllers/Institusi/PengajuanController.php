@@ -32,7 +32,7 @@ class PengajuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'surat_magang' => 'required|file|mimes:pdf,doc,docx',
+            'surat_magang' => 'required|file|mimes:pdf',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'keperluan' => 'required|string',
@@ -49,8 +49,22 @@ class PengajuanController extends Controller
             'no_surat.unique' => 'Nomor surat ini sudah pernah digunakan oleh institusi Anda. Silakan gunakan nomor surat yang berbeda.',
         ]);
 
-        // upload file
-        $path = $request->file('surat_magang')->store('surat_magang', 'public');
+        // Simpan dokumen pengajuan di storage privat agar tidak bisa dibuka langsung lewat URL publik
+        $file = $request->file('surat_magang');
+        $fileName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'pdf');
+        $storedFileName = 'surat_' . time() . '_' . uniqid() . '.' . $extension;
+        $destinationPath = storage_path('app/private/surat_magang');
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        if (!$file->move($destinationPath, $storedFileName)) {
+            return back()->withErrors(['surat_magang' => 'Gagal menyimpan file.'])->withInput();
+        }
+
+        $path = 'surat_magang/' . $storedFileName;
 
         // simpan pengajuan utama
         $pengajuan = Pengajuan::create([
