@@ -18,11 +18,10 @@
         .font-etna { font-family: 'Etna', sans-serif; }
 
         *, *::before, *::after { box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
 
         body {
-            font-family:  'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #f0f7ff;
             color: #0f2d4a;
             margin: 0;
@@ -60,11 +59,7 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .logo-wrap img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-        }
+        .logo-wrap img { width: 24px; height: 24px; object-fit: contain; }
         .nav-links { display: flex; align-items: center; gap: 4px; }
         .nav-links a {
             text-decoration: none;
@@ -91,7 +86,6 @@
             transition: all 0.25s;
         }
         .btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(14,99,201,0.4); }
-
         .nav-toggle {
             display: none;
             width: 44px;
@@ -106,7 +100,6 @@
             transition: all 0.2s;
         }
         .nav-toggle:hover { background: #eff6ff; }
-
         .mobile-menu {
             position: absolute;
             top: 70px;
@@ -163,6 +156,7 @@
         .hero-blob-1 { width: 500px; height: 500px; background: #38bdf8; top: -150px; left: -100px; }
         .hero-blob-2 { width: 400px; height: 400px; background: #818cf8; bottom: -100px; right: 0; }
         .hero-blob-3 { width: 300px; height: 300px; background: #22d3ee; top: 40%; left: 40%; }
+
         .hero-inner {
             position: relative;
             max-width: 1280px;
@@ -172,9 +166,18 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
+            width: 100%;
         }
-        .hero-badge {
+
+        /* Kolom kiri: satu flex column — badge → judul → desc → stats → btns */
+        .hero-text-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* .hero-badge {
             display: inline-flex;
+            align-self: flex-start;
             align-items: center;
             gap: 8px;
             background: rgba(56,189,248,0.18);
@@ -186,8 +189,8 @@
             text-transform: uppercase;
             padding: 6px 16px;
             border-radius: 50px;
-            margin-bottom: 1.5rem;
-        }
+            margin-bottom: 1.25rem;
+        } */
         .hero-title {
             font-size: clamp(2rem, 4vw, 3.25rem);
             font-weight: 800;
@@ -196,14 +199,34 @@
             margin: 0 0 1.25rem;
         }
         .hero-title span { color: #7dd3fc; }
+
         .hero-desc {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.75;
             color: rgba(255,255,255,0.75);
-            margin: 0 0 2.5rem;
+            margin: 0;          /* stats langsung menyusul */
             max-width: 480px;
         }
-        .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 2rem; }
+
+        /* Stats — tepat di bawah deskripsi */
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-bottom: 1.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.14);
+        }
+        .hero-stat-num { font-size: 1.75rem; font-weight: 800; color: white; line-height: 1; }
+        .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+        .hero-stat-divider { width: 1px; background: rgba(255,255,255,0.14); flex-shrink: 0; }
+
+        /* Tombol — di bawah stats */
+        .hero-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 1.75rem;
+        }
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -234,21 +257,14 @@
             transition: all 0.25s;
         }
         .btn-outline:hover { background: rgba(255,255,255,0.22); }
+
+        /* Kolom kanan: gambar */
         .hero-image-wrap {
             width: 100%;
-            max-width: 100%;
-            transition: transform 0.35s;
-            margin-bottom: 0;
             display: flex;
             justify-content: flex-end;
         }
-        .hero-image-card {
-            position: static;
-            width: 100%;
-        }
-        .hero-image-card::before {
-            display: none;
-        }
+        .hero-image-card { width: 100%; }
         .hero-image-card img {
             width: 100%;
             max-width: 100%;
@@ -256,22 +272,6 @@
             object-fit: contain;
             display: block;
         }
-    
-        .hero-card-float {
-            position: absolute;
-            background: white;
-            border-radius: 16px;
-            padding: 14px 18px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .hero-card-float .icon { font-size: 22px; }
-        .hero-card-float .label { font-size: 12px; color: #64748b; }
-        .hero-card-float .value { font-size: 15px; font-weight: 700; color: #0f2d4a; }
-        .card-top { top: -20px; right: -20px; }
-        .card-bottom { bottom: -20px; left: -20px; }
 
         /* ── SECTION WRAPPER ── */
         .section-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
@@ -287,7 +287,7 @@
             border-radius: 50px;
             margin-bottom: 1rem;
         }
-        .section-eyebrow-tutorial {
+        .section-eyebrow-alt {
             display: inline-block;
             font-size: 12px;
             font-weight: 700;
@@ -303,75 +303,9 @@
         .section-desc { font-size: 1.05rem; color: #4b6580; line-height: 1.7; margin: 0; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ── PROCESS SECTION ── */
+        /* ── PROCESS ── */
         .section-process { background: white; padding: 6rem 0; }
         .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .process-carousel {
-            display: none;
-            overflow: hidden;
-            position: relative;
-        }
-        .process-carousel.active {
-            display: none;
-        }
-        .process-carousel-wrapper {
-            display: flex;
-            transition: transform 0.4s ease-out;
-            width: 100%; 
-            padding-bottom: 2rem;
-        }
-        .process-carousel-item {
-            flex: 0 0 100%;
-            min-width: 100%;
-        }
-        .process-carousel-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .process-carousel-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #eff6ff;
-            border: 1.5px solid #bfdbfe;
-            color: #1d6fca;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .process-carousel-btn:hover {
-            background: #1d6fca;
-            color: white;
-            border-color: #1d6fca;
-        }
-        .process-carousel-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .process-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .process-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #dbeafe;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .process-dot.active {
-            background: #1d6fca;
-            width: 24px;
-            border-radius: 4px;
-        }
         .process-card {
             background: #f0f7ff;
             border: 1.5px solid #bfdbfe;
@@ -401,15 +335,11 @@
             line-height: 1;
         }
         .process-icon {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             background: linear-gradient(135deg, #1d6fca, #0ea5e9);
             border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 22px;
             margin-bottom: 1.5rem;
             position: relative;
             box-shadow: 0 8px 24px rgba(29,111,202,0.3);
@@ -417,14 +347,41 @@
         .process-title { font-size: 1.2rem; font-weight: 700; color: #0f2d4a; margin: 0 0 0.6rem; }
         .process-desc { font-size: 0.95rem; color: #4b6580; line-height: 1.6; margin: 0; }
 
-        /* ── FEATURES / USAGE ── */
-        .section-usage { background: #f0f7ff; padding: 6rem 1.5rem; }
+        /* Carousel shared styles */
+        .process-carousel { display: none; overflow: hidden; }
+        .testi-carousel  { display: none; overflow: hidden; }
+        .carousel-wrapper { display: flex; transition: transform 0.4s ease-out; }
+        .carousel-item { flex: 0 0 100%; min-width: 100%; }
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .carousel-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: #eff6ff; border: 1.5px solid #bfdbfe; color: #1d6fca;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s; font-size: 13px;
+        }
+        .carousel-btn:hover { background: #1d6fca; color: white; border-color: #1d6fca; }
+        .carousel-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .dot-wrap { display: flex; gap: 0.5rem; }
+        .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #dbeafe; cursor: pointer; transition: all 0.3s;
+        }
+        .dot.active { background: #1d6fca; width: 24px; border-radius: 4px; }
+
+        /* ── USAGE / TUTORIAL ── */
+        .section-usage { background: #f0f7ff; padding: 6rem 0; }
         .step-block {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            padding: 3.5rem 1rem;
+            padding: 3.5rem 0;
         }
         .step-block + .step-block { border-top: 1px solid #bfdbfe; }
         .step-badge {
@@ -433,24 +390,16 @@
             gap: 6px;
             background: #eff6ff;
             color: #1d6fca;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
             text-transform: uppercase;
-            padding: 5px 12px;
-            border-radius: 50px;
-            margin-bottom: 1rem;
+            padding: 5px 12px; border-radius: 50px; margin-bottom: 1rem;
         }
         .step-icon-wrap {
-            width: 56px;
-            height: 56px;
+            width: 56px; height: 56px;
             background: linear-gradient(135deg, #1d6fca, #0ea5e9);
             border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 20px;
             box-shadow: 0 6px 20px rgba(29,111,202,0.28);
             margin-bottom: 1.25rem;
         }
@@ -458,27 +407,15 @@
         .step-desc { font-size: 1.05rem; color: #4b6580; line-height: 1.75; margin: 0; }
         .step-list { list-style: none; padding: 0; margin: 1.25rem 0 0; display: flex; flex-direction: column; gap: 10px; }
         .step-list li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            color: #4b6580;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.95rem; color: #4b6580;
         }
         .step-list li::before {
             content: '';
-            width: 22px;
-            height: 22px;
-            min-width: 22px;
-            background: #eff6ff;
+            width: 22px; height: 22px; min-width: 22px;
+            background: #eff6ff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%231d6fca'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E") center/13px no-repeat;
             border: 1.5px solid #93c5fd;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%231d6fca'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
-            background-size: 13px;
-            background-repeat: no-repeat;
-            background-position: center;
         }
         .step-image {
             width: 100%;
@@ -487,78 +424,11 @@
             border: 2px solid #bfdbfe;
             transition: transform 0.35s;
         }
-
         .step-image:hover { transform: scale(1.025); }
 
         /* ── TESTIMONIALS ── */
         .section-testimonials { background: white; padding: 6rem 0; }
         .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .testi-carousel {
-            display: none;
-            overflow: hidden;
-            position: relative;
-        }
-        .testi-carousel.active {
-            display: none;
-        }
-        .testi-carousel-wrapper {
-            display: flex;
-            transition: transform 0.4s ease-out;
-            width: 100%;
-            padding-bottom: 2rem;
-        }
-        .testi-carousel-item {
-            flex: 0 0 100%;
-            min-width: 100%;
-        }
-        .testi-carousel-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .testi-carousel-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #eff6ff;
-            border: 1.5px solid #bfdbfe;
-            color: #1d6fca;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .testi-carousel-btn:hover {
-            background: #1d6fca;
-            color: white;
-            border-color: #1d6fca;
-        }
-        .testi-carousel-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .testi-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .testi-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #dbeafe;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .testi-dot.active {
-            background: #1d6fca;
-            width: 24px;
-            border-radius: 4px;
-        }
         .testi-card {
             background: #f0f7ff;
             border: 1.5px solid #bfdbfe;
@@ -566,40 +436,20 @@
             padding: 2rem;
             position: relative;
             transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            min-height: 380px;
+            display: flex; flex-direction: column;
+            min-height: 320px;
         }
         .testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 44px rgba(14,99,201,0.1); }
-        .testi-quote-icon {
-            font-size: 2.5rem;
-            color: #bfdbfe;
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
+        .testi-quote-icon { font-size: 2.5rem; color: #bfdbfe; line-height: 1; margin-bottom: 1rem; }
         .testi-stars { color: #f59e0b; font-size: 13px; margin-bottom: 0.75rem; letter-spacing: 2px; }
         .testi-text { font-size: 1rem; color: #4b6580; line-height: 1.7; margin: 0 0 1.5rem; font-style: italic; flex-grow: 1; }
         .testi-author { display: flex; align-items: center; gap: 12px; padding-top: 1.25rem; border-top: 1px solid #bfdbfe; }
         .testi-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1d6fca, #0ea5e9);
-            color: white;
-            font-weight: 700;
-            font-size: 15px;
+            width: 48px; height: 48px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #1d6fca, #0ea5e9); color: white; font-weight: 700; font-size: 15px;
         }
-        .testi-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .testi-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .testi-name { font-weight: 700; font-size: 14px; color: #0f2d4a; }
         .testi-inst { font-size: 12px; color: #64748b; margin-top: 2px; }
 
@@ -611,14 +461,12 @@
             border: 1.5px solid #bfdbfe;
             border-radius: 20px;
             padding: 1.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.3s;
         }
         .partner-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(14,99,201,0.1); border-color: #93c5fd; }
-        .partner-card img { max-height: 64px; object-fit: contain; filter: grayscale(0.3); transition: filter 0.3s; }
-        .partner-card:hover img { filter: grayscale(0); }
+        .partner-card img { max-height: 64px; object-fit: contain; filter: none ; transition: filter 0.3s; }
+        .partner-card:hover img {transform: scale(1.05); }
         .partner-empty {
             grid-column: 1 / -1;
             text-align: center;
@@ -629,69 +477,292 @@
             border: 1.5px dashed #bfdbfe;
         }
 
-        /* ── CTA SECTION ── */
+        /* ── CTA ── */
         .section-cta { background: linear-gradient(135deg, #0c2d5e 0%, #1251a3 50%, #0891b2 100%); padding: 6rem 0; }
-        .cta-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
+        .cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
         .cta-tag {
             display: inline-block;
             background: rgba(34,211,238,0.18);
             border: 1px solid rgba(34,211,238,0.3);
             color: #67e8f9;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.2em;
+            font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
             text-transform: uppercase;
-            padding: 5px 14px;
-            border-radius: 50px;
-            margin-bottom: 1rem;
+            padding: 5px 14px; border-radius: 50px; margin-bottom: 1rem;
         }
         .cta-title { font-size: 2.25rem; font-weight: 800; color: white; margin: 0 0 1rem; line-height: 1.2; }
         .cta-desc { font-size: 1.05rem; color: rgba(255,255,255,0.65); line-height: 1.7; margin: 0; }
         .cta-cards { display: flex; flex-direction: column; gap: 1rem; }
         .cta-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             background: rgba(255,255,255,0.07);
             border: 1.5px solid rgba(255,255,255,0.12);
-            border-radius: 20px;
-            padding: 1.25rem 1.5rem;
-            text-decoration: none;
-            color: white;
-            transition: all 0.25s;
-            cursor: pointer;
+            border-radius: 20px; padding: 1.25rem 1.5rem;
+            text-decoration: none; color: white;
+            transition: all 0.25s; cursor: pointer;
         }
         .cta-card:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.25); transform: translateX(4px); }
         .cta-card-left { display: flex; align-items: center; gap: 14px; }
         .cta-card-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            flex-shrink: 0;
+            width: 46px; height: 46px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: white; flex-shrink: 0;
         }
         .cta-card-name { font-weight: 700; font-size: 15px; }
         .cta-card-sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
         .cta-arrow { font-size: 20px; opacity: 0.6; }
 
         /* ── FOOTER ── */
-        .footer {
-            background: #071b35;
-            color: rgba(255,255,255,0.5);
-            text-align: center;
-            padding: 2rem 1.5rem;
-            font-size: 13px;
+        .main-footer {
+            background:  linear-gradient(135deg, #10499e 100%, #0e60cc 40%, #0891b2 30%);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-top: 1px solid rgba(34, 211, 238, 0.3);
+            backdrop-filter: blur(10px); 
+            box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
         }
-        .footer span { color: #38bdf8; }
+
+        .footer-simple-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logos-simple, 
+        .social-links-simple {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logos-simple {
+            gap: 1.5rem;
+        }
+
+        .footer-logos-simple img {
+            height: 28px;
+            object-fit: contain;
+            /* Membuat logo sedikit lebih terang agar kontras */
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .footer-logos-simple img:hover {
+            transform: translateY(-5px) scale(1.1);
+            filter: drop-shadow(0 5px 15px rgba(34, 211, 238, 0.4));
+        }
+
+        .copyright-simple {
+            flex: 1.5;
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .copyright-simple strong {
+            color: #22d3ee;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+
+        .social-links-simple {
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .social-links-simple a {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links-simple a:hover {
+            background: rgba(34, 211, 238, 0.15);
+            color: #22d3ee;
+            border-color: #22d3ee;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(34, 211, 238, 0.2);
+        }
+
+        /* Responsif untuk Mobile */
+        @media (max-width: 768px) {
+            .main-footer { padding: 10px 0; }
+            .footer-simple-inner { flex-direction: column; gap: 8px; }
+            .copyright-simple { order: 3; font-size: 11px; }
+            .footer-logos-simple { order: 1; justify-content: center; }
+            .social-links-simple { order: 2; justify-content: center; }
+        }
+
+
+        /* Newsletter Input matching your theme */
+        .newsletter-form { display: flex; gap: 8px; margin-top: 1.25rem; }
+        .newsletter-form input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: white;
+            flex-grow: 1;
+            font-size: 14px;
+            outline: none;
+        }
+        .newsletter-form input:focus { border-color: #22d3ee; background: rgba(255,255,255,0.1); }
+        
+        .newsletter-btn {
+            background: #22d3ee; /* Sesuai warna btn-primary Anda */
+            color: #0c2d5e;
+            padding: 0 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .newsletter-btn:hover { background: #38bdf8; transform: translateY(-2px); }
+
+        .social-links { display: flex; gap: 12px; margin-top: 1.5rem; }
+        .social-links a {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 12px; color: white; transition: 0.3s;
+        }
+        .social-links a:hover { 
+            background: #22d3ee; 
+            color: #0c2d5e;
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(34,211,238,0.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .partner-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            align-items: center;
+        }
+        .partner-logos img { 
+            height: 30px; 
+            opacity: 1; 
+            transition: transform 0.3s;
+            object-fit: contain;
+        }
+        .partner-logos img:hover { transform: scale(1.1); }
+
+        .copyright { font-size: 13px; color: rgba(255,255,255,0.4); text-align: center; }
+        .copyright span { color: #22d3ee; font-weight: 600; }
+
+
+        /* ── MODERN NEWS SECTION ── */
+        .news-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Berita Utama (Kiri) */
+        .news-main-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            height: 500px;
+            cursor: pointer;
+        }
+
+        .news-main-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .news-main-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(2, 11, 26, 0.95), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+        }
+
+        /* Daftar Berita Samping (Kanan) */
+        .news-side-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-side-item {
+            display: flex;
+            gap: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 242, 255, 0.05);
+            text-decoration: none;
+        }
+
+        .news-side-item:hover {
+            border-color: #00f2ff;
+            transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.05);
+        }
+
+        .news-side-img {
+            width: 120px;
+            height: 90px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .news-side-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .news-side-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #020b1a;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .news-container { grid-template-columns: 1fr; }
+            .news-main-card { height: 350px; }
+        }
+
 
         /* ── SCROLL ANIMATION ── */
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -699,28 +770,23 @@
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
-            .section-usage {
-                padding: 4rem 1.25rem;
+            .hero { min-height: auto; }
+            .hero-inner {
+                grid-template-columns: 1fr;
+                padding: 3.5rem 1.5rem;
+                gap: 2.5rem;
+                text-align: center;
             }
-
-            .step-block {
-                padding: 2rem 1rem; 
-            }
-            .hero { min-height: auto; padding: 4rem 0; }
-            .hero-inner { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 2.5rem; text-align: center; }
-            .hero-btns { justify-content: center; }
+            /* .hero-badge { align-self: center; } */
+            .hero-desc { margin-left: auto; margin-right: auto; }
             .hero-stats { justify-content: center; }
-            .hero-image-wrap { max-width: 520px; margin: 0 auto; order: -1; justify-content: center; }
-            .card-top, .card-bottom { display: none; }
+            .hero-btns { justify-content: center; }
+            .hero-image-wrap { justify-content: center; max-width: 520px; margin: 0 auto; order: -1; }
             .process-grid { grid-template-columns: 1fr; }
-            .process-carousel { display: none !important; }
-            .process-carousel.active { display: none !important; }
-            .step-block { grid-template-columns: 1fr; gap: 2rem; }
+            .step-block { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 0; }
             .step-block .order-swap { order: 0; }
             .step-block .step-image-wrap { order: -1; }
             .testi-grid { grid-template-columns: 1fr; }
-            .testi-carousel { display: none !important; }
-            .testi-carousel.active { display: none !important; }
             .partners-grid { grid-template-columns: repeat(2, 1fr); }
             .cta-inner { grid-template-columns: 1fr; }
             .nav-links { display: none; }
@@ -728,23 +794,14 @@
             .btn-login { display: none; }
         }
         @media (max-width: 640px) {
-            .section-usage {
-                padding: 3rem 1rem;
-            }
-
-            .step-block {
-                padding: 1.5rem 0.75rem;
-            }
             .hero-inner { padding: 2.5rem 1rem; gap: 1.5rem; }
-            .partners-grid { grid-template-columns: 1fr 1fr; }
             .hero-title { font-size: 1.8rem; }
             .hero-image-wrap { max-width: 100%; }
+            .partners-grid { grid-template-columns: 1fr 1fr; }
             .process-grid { display: none; }
-            .process-carousel { display: block !important; }
-            .process-carousel.active { display: block !important; }
+            .process-carousel { display: block; }
             .testi-grid { display: none; }
-            .testi-carousel { display: block !important; }
-            .testi-carousel.active { display: block !important; }
+            .testi-carousel { display: block; }
         }
     </style>
 </head>
@@ -767,10 +824,11 @@
 
         <nav class="nav-links">
             <a href="#hero">Beranda</a>
-            <a href="#process">Proses</a>
+            <a href="#process">Tahapan</a>
             <a href="#usage">Fitur</a>
             <a href="#testimonials">Testimoni</a>
             <a href="#partners">Partner</a>
+            <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Berita</a>
         </nav>
 
         <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false">
@@ -779,13 +837,13 @@
 
         <div class="mobile-menu" aria-hidden="true">
             <a href="#hero">Beranda</a>
-            <a href="#process">Proses</a>
+            <a href="#process">Tahapan</a>
             <a href="#usage">Fitur</a>
             <a href="#testimonials">Testimoni</a>
             <a href="#partners">Partner</a>
+            <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Berita</a>
             <a href="{{ route('login') }}" class="login-link">
-                <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>
-                Login
+                <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>Login
             </a>
         </div>
 
@@ -805,27 +863,50 @@
     <div class="hero-blob hero-blob-3"></div>
 
     <div class="hero-inner">
-        <div>
+
+        <div class="hero-text-col">
+{{-- 
             <div class="hero-badge">
                 <i class="fas fa-circle" style="font-size:6px"></i>
                 Sistem Manajemen Magang
-            </div>
+            </div> --}}
+
             <h1 class="hero-title">
                 Sistem Magang untuk <span>Kampus & Sekolah</span> Masa Kini
             </h1>
+
             <p class="hero-desc">
                 Komdigi membantu mengelola absensi, logbook, dan sertifikat secara real time.
             </p>
-            <div class="hero-btns ">
+
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num">30+</div>
+                    <div class="hero-stat-label">Peserta Aktif</div>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div>
+                    <div class="hero-stat-num">11+</div>
+                    <div class="hero-stat-label">Institusi Bergabung</div>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div>
+                    <div class="hero-stat-num">98%</div>
+                    <div class="hero-stat-label">Tingkat Kepuasan</div>
+                </div>
+            </div>
+
+            <div class="hero-btns">
                 <a href="#daftar" class="btn-primary">
                     <i class="fas fa-rocket" style="font-size:14px"></i>
-                    Mulai Daftar Sekarang
+                    Daftar Sekarang
                 </a>
                 <a href="#usage" class="btn-outline">
                     Lihat Fitur
                     <i class="fas fa-arrow-right" style="font-size:13px"></i>
                 </a>
             </div>
+
         </div>
 
         <div class="hero-image-wrap">
@@ -833,6 +914,7 @@
                 <img src="{{ asset('storage/tutorial/hero.png') }}" alt="Dashboard Simagang">
             </div>
         </div>
+
     </div>
 </section>
 
@@ -844,8 +926,8 @@
             <h2 class="section-title">Langkah Sederhana untuk Setiap Pengguna</h2>
             <p class="section-desc">Mulai dari pendaftaran hingga sertifikat, semua proses dipandu dengan tampilan yang mudah dipahami.</p>
         </div>
-        
-        <!-- Desktop/Tablet Grid -->
+
+        <!-- Desktop Grid -->
         <div class="process-grid">
             <div class="process-card reveal">
                 <div class="process-num">01</div>
@@ -868,45 +950,41 @@
         </div>
 
         <!-- Mobile Carousel -->
-        <div class="process-carousel active" id="process-carousel">
-            <div class="process-carousel-wrapper" id="process-carousel-wrapper">
-                <div class="process-carousel-item">
+        <div class="process-carousel" id="process-carousel">
+            <div class="carousel-wrapper" id="process-wrapper">
+                <div class="carousel-item">
                     <div class="process-card">
                         <div class="process-num">01</div>
                         <div class="process-icon"><i class="fas fa-user-plus"></i></div>
                         <h3 class="process-title">Daftar & Profil</h3>
-                        <p class="process-desc">Isi data peserta dan pilih institusi asal dengan cepat. Sistem akan memandu proses onboarding secara otomatis.</p>
+                        <p class="process-desc">Isi data peserta dan pilih institusi asal dengan cepat.</p>
                     </div>
                 </div>
-                <div class="process-carousel-item">
+                <div class="carousel-item">
                     <div class="process-card">
                         <div class="process-num">02</div>
                         <div class="process-icon"><i class="fas fa-calendar-check"></i></div>
                         <h3 class="process-title">Absensi & Logbook</h3>
-                        <p class="process-desc">Catat kehadiran dan aktivitas magang setiap hari secara digital. Mentor dapat memantau perkembangan secara real time.</p>
+                        <p class="process-desc">Catat kehadiran dan aktivitas magang setiap hari secara digital.</p>
                     </div>
                 </div>
-                <div class="process-carousel-item">
+                <div class="carousel-item">
                     <div class="process-card">
                         <div class="process-num">03</div>
                         <div class="process-icon"><i class="fas fa-award"></i></div>
                         <h3 class="process-title">Laporan & Sertifikat</h3>
-                        <p class="process-desc">Upload laporan akhir, terima feedback mentor, dan dapatkan sertifikat digital resmi secara otomatis.</p>
+                        <p class="process-desc">Upload laporan akhir dan dapatkan sertifikat digital resmi.</p>
                     </div>
                 </div>
             </div>
-            <div class="process-carousel-nav">
-                <button class="process-carousel-btn" id="process-prev" aria-label="Proses sebelumnya">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <div class="process-dots" id="process-dots">
-                    <div class="process-dot active" data-index="0"></div>
-                    <div class="process-dot" data-index="1"></div>
-                    <div class="process-dot" data-index="2"></div>
+            <div class="carousel-nav">
+                <button class="carousel-btn" id="process-prev"><i class="fas fa-chevron-left"></i></button>
+                <div class="dot-wrap" id="process-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                <button class="process-carousel-btn" id="process-next" aria-label="Proses berikutnya">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
+                <button class="carousel-btn" id="process-next"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </div>
@@ -916,15 +994,18 @@
 <section id="usage" class="section-usage">
     <div class="container">
         <div class="section-header reveal">
-            <span class="section-eyebrow-tutorial">Tutorial</span>
-                <h2 class="section-title">Cara Menggunakan <span class="font-etna" style="color:#9d272a">SI</span><span class="font-etna" style="color:#086bb0">MA</span><span class="font-etna" style="color:#2dabe2">GA</span><span class="font-etna" style="color:#efc400">NG</span> </h2>
-                <p class="section-desc">Ikuti langkah-langkah berikut untuk memahami alur penggunaan aplikasi secara cepat dan mudah.</p>
+            <span class="section-eyebrow-alt">Tutorial</span>
+            <h2 class="section-title">
+                Cara Menggunakan
+                <span class="font-etna" style="color:#9d272a">SI</span><span class="font-etna" style="color:#086bb0">MA</span><span class="font-etna" style="color:#2dabe2">GA</span><span class="font-etna" style="color:#efc400">NG</span>
+            </h2>
+            <p class="section-desc">Ikuti langkah-langkah berikut untuk memahami alur penggunaan aplikasi secara cepat dan mudah.</p>
         </div>
 
         <!-- Step 1 -->
         <div class="step-block reveal">
-            <div class="step-image-wrap flex justify-center">
-                <img src="{{ asset('storage/tutorial/dashboardLP.png') }}" alt="Login Dashboard" class="step-image" style="width:50%;">
+            <div class="step-image-wrap" style="display:flex;justify-content:center">
+                <img src="{{ asset('storage/tutorial/dashboardLP.png') }}" alt="Dashboard" class="step-image" style="width:50%">
             </div>
             <div>
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 1</div>
@@ -945,9 +1026,7 @@
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 2</div>
                 <div class="step-icon-wrap"><i class="fas fa-calendar-check"></i></div>
                 <h3 class="step-title">Kelola Absensi</h3>
-                <p class="step-desc">
-                    Lakukan absensi harian sebagai bukti kehadiran selama kegiatan magang berlangsung secara akurat dan real-time.
-                </p>
+                <p class="step-desc">Lakukan absensi harian sebagai bukti kehadiran selama kegiatan magang berlangsung secara akurat dan real-time.</p>
                 <ul class="step-list">
                     <li>Check-in dan check-out harian secara digital</li>
                     <li>Verifikasi lokasi untuk memastikan kehadiran valid</li>
@@ -968,9 +1047,7 @@
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 3</div>
                 <div class="step-icon-wrap"><i class="fas fa-book"></i></div>
                 <h3 class="step-title">Kelola Logbook</h3>
-                <p class="step-desc">
-                    Catat aktivitas pekerjaan harian untuk mendokumentasikan progres dan hasil kerja selama magang.
-                </p>
+                <p class="step-desc">Catat aktivitas pekerjaan harian untuk mendokumentasikan progres dan hasil kerja selama magang.</p>
                 <ul class="step-list">
                     <li>Mencatat aktivitas kerja setiap hari</li>
                     <li>Riwayat kegiatan tersimpan rapi dan terstruktur</li>
@@ -979,16 +1056,13 @@
             </div>
         </div>
 
-
         <!-- Step 4 -->
         <div class="step-block reveal">
             <div class="order-swap">
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 4</div>
                 <div class="step-icon-wrap"><i class="fas fa-file-upload"></i></div>
                 <h3 class="step-title">Upload Laporan</h3>
-                <p class="step-desc">
-                    Kirim laporan akhir magang sebagai bentuk hasil evaluasi dan dokumentasi kegiatan yang telah dilakukan.
-                </p>
+                <p class="step-desc">Kirim laporan akhir magang sebagai bentuk hasil evaluasi dan dokumentasi kegiatan yang telah dilakukan.</p>
                 <ul class="step-list">
                     <li>Upload laporan dalam berbagai format file</li>
                     <li>Status laporan dapat dipantau secara langsung</li>
@@ -1000,19 +1074,16 @@
             </div>
         </div>
 
-
         <!-- Step 5 -->
         <div class="step-block reveal">
-            <div class="step-image-wrap flex justify-center">
-                <img src="{{ asset('storage/tutorial/mikroskill.png') }}" alt="Mikroskill" class="step-image" style="width:50%;">
+            <div class="step-image-wrap" style="display:flex;justify-content:center">
+                <img src="{{ asset('storage/tutorial/mikroskill.png') }}" alt="Mikroskill" class="step-image" style="width:50%">
             </div>
             <div>
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 5</div>
                 <div class="step-icon-wrap"><i class="fas fa-award"></i></div>
                 <h3 class="step-title">Mikroskill & Sertifikat</h3>
-                <p class="step-desc">
-                    Lengkapi penilaian mikroskill untuk mengukur kompetensi yang diperoleh selama magang dan dapatkan sertifikat resmi.
-                </p>
+                <p class="step-desc">Lengkapi penilaian mikroskill untuk mengukur kompetensi yang diperoleh selama magang dan dapatkan sertifikat resmi.</p>
                 <ul class="step-list">
                     <li>Penilaian kompetensi berdasarkan aktivitas</li>
                     <li>Validasi oleh mentor atau pembimbing</li>
@@ -1020,7 +1091,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -1032,17 +1102,18 @@
             <h2 class="section-title">Dipercaya oleh Banyak Institusi</h2>
             <p class="section-desc">Berbagai kampus dan sekolah sudah menggunakan Simagang untuk mengelola program magang mereka.</p>
         </div>
-        
+
         <!-- Desktop Grid -->
         <div class="testi-grid">
             @php $testimonials = $testimonials ?? []; @endphp
             @forelse($testimonials as $testimony)
                 <div class="testi-card reveal">
                     <div class="testi-quote-icon">"</div>
+                    <div class="testi-stars">★★★★★</div>
                     <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
                     <div class="testi-author">
                         <div class="testi-avatar">
-                            <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="Foto {{ $testimony->intern->name }}">
+                            <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
                         </div>
                         <div>
                             <div class="testi-name">{{ $testimony->intern->name }}</div>
@@ -1051,48 +1122,45 @@
                     </div>
                 </div>
             @empty
-                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                    <p style="color: #4b6580; font-size: 1.05rem; margin: 0;">Belum ada testimoni. Jadilah yang pertama berbagi pengalaman Anda!</p>
+                <div style="grid-column:1/-1;text-align:center;padding:2rem">
+                    <p style="color:#4b6580;font-size:1.05rem;margin:0">Belum ada testimoni. Jadilah yang pertama berbagi pengalaman Anda!</p>
                 </div>
             @endforelse
         </div>
 
         <!-- Mobile Carousel -->
         @if(count($testimonials ?? []) > 0)
-            <div class="testi-carousel active" id="testi-carousel">
-                <div class="testi-carousel-wrapper" id="testi-carousel-wrapper">
-                    @foreach($testimonials as $testimony)
-                        <div class="testi-carousel-item">
-                            <div class="testi-card">
-                                <div class="testi-quote-icon">"</div>
-                                <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
-                                <div class="testi-author">
-                                    <div class="testi-avatar">
-                                        <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="Foto {{ $testimony->intern->name }}">
-                                    </div>
-                                    <div>
-                                        <div class="testi-name">{{ $testimony->intern->name }}</div>
-                                        <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
-                                    </div>
-                                </div>
+        <div class="testi-carousel" id="testi-carousel">
+            <div class="carousel-wrapper" id="testi-wrapper">
+                @foreach($testimonials as $testimony)
+                <div class="carousel-item">
+                    <div class="testi-card">
+                        <div class="testi-quote-icon">"</div>
+                        <div class="testi-stars">★★★★★</div>
+                        <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
+                        <div class="testi-author">
+                            <div class="testi-avatar">
+                                <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
+                            </div>
+                            <div>
+                                <div class="testi-name">{{ $testimony->intern->name }}</div>
+                                <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <div class="carousel-nav">
+                <button class="carousel-btn" id="testi-prev"><i class="fas fa-chevron-left"></i></button>
+                <div class="dot-wrap" id="testi-dots">
+                    @foreach($testimonials as $i => $t)
+                    <div class="dot{{ $i === 0 ? ' active' : '' }}"></div>
                     @endforeach
                 </div>
-                <div class="testi-carousel-nav">
-                    <button class="testi-carousel-btn" id="testi-prev" aria-label="Testimoni sebelumnya">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="testi-dots" id="testi-dots">
-                        @foreach($testimonials as $index => $testimony)
-                            <div class="testi-dot{{ $index === 0 ? ' active' : '' }}" data-index="{{ $index }}"></div>
-                        @endforeach
-                    </div>
-                    <button class="testi-carousel-btn" id="testi-next" aria-label="Testimoni berikutnya">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+                <button class="carousel-btn" id="testi-next"><i class="fas fa-chevron-right"></i></button>
             </div>
+        </div>
         @endif
     </div>
 </section>
@@ -1101,7 +1169,7 @@
 <section id="partners" class="section-partners">
     <div class="container">
         <div class="section-header reveal">
-            <span class="section-eyebrow-tutorial">Partner</span>
+            <span class="section-eyebrow-alt">Partner</span>
             <h2 class="section-title">Institusi yang Telah Bergabung</h2>
             <p class="section-desc">Bergabunglah bersama institusi terkemuka yang sudah mempercayakan manajemen magang kepada Simagang.</p>
         </div>
@@ -1113,15 +1181,123 @@
                 </div>
             @empty
                 <div class="partner-empty reveal">
-                    <i class="fas fa-building" style="font-size:2rem; color:#bfdbfe; margin-bottom:0.75rem; display:block"></i>
-                    <p style="margin:0; font-size:15px">Belum ada logo partner yang ditambahkan.</p>
+                    <i class="fas fa-building" style="font-size:2rem;color:#bfdbfe;margin-bottom:0.75rem;display:block"></i>
+                    <p style="margin:0;font-size:15px">Belum ada logo partner yang ditambahkan.</p>
                 </div>
             @endforelse
         </div>
     </div>
 </section>
 
-<!-- ===== PENDAFTARAN ===== -->
+<!-- ===== FOTO/MICRO SKILL ===== -->
+<section id="news" class="py-24 bg-[#f8faff]">
+    <div class="container mx-auto px-6">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-[#020b1a]">Berita Terbaru</h2>
+                <div class="h-1 w-20 bg-[#00f2ff] mt-2"></div>
+            </div>
+        </div>
+
+        <div class="news-container">
+    <div class="news-main-card relative group overflow-hidden rounded-[24px] h-[500px]">
+        <div id="newsSlider" class="flex transition-transform duration-700 ease-in-out h-full">
+            
+            <div class="min-w-full h-full relative">
+                <img src="{{ url('storage/photos-landingpage/sharingsession01.jpeg') }}" class="w-full h-full object-cover" alt="Berita 1">
+                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
+                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Terbaru</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Knowledge Management</h3>
+                    <p class="text-gray-300 text-sm">5 Mei 2026</p>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full relative">
+                <img src="{{ url('storage/photos-landingpage/senampagi.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
+                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
+                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Kamis Bersih & Senam</h3>
+                    <p class="text-gray-300 text-sm">6 Mei 2026</p>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full relative">
+                <img src="{{ url('storage/photos-landingpage/pengajian.png') }}" class="w-full h-full object-cover" alt="Berita 3">
+                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
+                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Update</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Kajian Rutin</h3>
+                    <p class="text-gray-300 text-sm">7 Mei 2026</p>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full relative">
+                <img src="{{ url('storage/photos-landingpage/fotobersama.png') }}" class="w-full h-full object-cover" alt="Berita 2">
+                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
+                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Foto Bersama</h3>
+                    <p class="text-gray-300 text-sm">6 Mei 2026</p>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full relative">
+                <img src="{{ url('storage/photos-landingpage/sharingsession02.jpg') }}" class="w-full h-full object-cover" alt="Berita 2">
+                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
+                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Bijak Berkomentar di Era Digital</h3>
+                    <p class="text-gray-300 text-sm">8 Mei 2026</p>
+                </div>
+            </div>
+
+            <div class="min-w-full h-full relative">
+                <img src="{{ url('storage/photos-landingpage/kerjaproject.webp') }}" class="w-full h-full object-cover" alt="Berita 2">
+                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
+                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Mengerjakan Project</h3>
+                    <p class="text-gray-300 text-sm">8 Mei 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-5 right-10 flex gap-2">
+            <div class="w-2 h-2 rounded-full bg-[#00f2ff] opacity-50"></div>
+            <div class="w-2 h-2 rounded-full bg-white opacity-30"></div>
+            <div class="w-2 h-2 rounded-full bg-white opacity-30"></div>
+        </div>
+    </div>
+
+            <div class="news-side-list">
+                <a href="https://digitalent.komdigi.go.id/pelatihan/10030" target="_blank" class="news-side-item">
+                    <img src="https://bucket.sdmdigital.id/dts-pelatihan/pelatihan/banner_pelatihan/c685e11b-1f1e-4308-bfc6-154c67ea4aa5.jpg" class="news-side-img">
+                    <div class="news-side-content">
+                        <span class="text-[11px] text-[#00f2ff] font-semibold mb-1">MICRO SKILL</span>
+                        <h4 class="news-side-title">Ethical Hacker For Dummies</h4>
+                        <span class="text-[12px] text-gray-400">07 Mei 2026</span>
+                    </div>
+                </a>
+
+                <a href="https://digitalent.komdigi.go.id/pelatihan/9864" target="_blank" class="news-side-item">
+                    <img src="https://bucket.sdmdigital.id/dts-pelatihan/pelatihan/banner_pelatihan/9829ee97-62b6-4be7-b03a-10bd0fa7b719.png" class="news-side-img">
+                    <div class="news-side-content">
+                        <span class="text-[11px] text-[#00f2ff] font-semibold mb-1">MICRO SKILL</span>
+                        <h4 class="news-side-title">Introduction To Cloud Computing</h4>
+                        <span class="text-[12px] text-gray-400">06 Mei 2026</span>
+                    </div>
+                </a>
+
+                <a href="https://digitalent.komdigi.go.id/pelatihan/9750" target="_blank" class="news-side-item">
+                    <img src="https://bucket.sdmdigital.id/dts-pelatihan/pelatihan/banner_pelatihan/a1f3fee2-5ee1-44e0-b055-4efba656d318.png" class="news-side-img">
+                    <div class="news-side-content">
+                        <span class="text-[11px] text-[#00f2ff] font-semibold mb-1">MICRO SKILL</span>
+                        <h4 class="news-side-title">Seberapa Aman Informasi Anda dari Ancaman Digital</h4>
+                        <span class="text-[12px] text-gray-400">05 Mei 2026</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA / PENDAFTARAN ===== -->
 <section class="section-cta">
     <div id="daftar" class="container">
         <div class="cta-inner">
@@ -1129,17 +1305,17 @@
                 <div class="cta-tag">Pendaftaran Institusi</div>
                 <h2 class="cta-title">Khusus untuk Sekolah & Kampus</h2>
                 <p class="cta-desc">Bergabunglah sekarang dan mulai kelola program magang institusi Anda dengan lebih efisien dan profesional bersama Simagang.</p>
-                <div style="margin-top:2rem; display:flex; gap:1.5rem; flex-wrap:wrap;">
-                    <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.65); font-size:14px">
-                        <i class="fas fa-check-circle" style="color:#22d3ee; font-size:16px"></i>
+                <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+                    <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px">
+                        <i class="fas fa-check-circle" style="color:#22d3ee;font-size:16px"></i>
                         Gratis untuk institusi pendidikan
                     </div>
-                    <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.65); font-size:14px">
-                        <i class="fas fa-check-circle" style="color:#22d3ee; font-size:16px"></i>
+                    <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px">
+                        <i class="fas fa-check-circle" style="color:#22d3ee;font-size:16px"></i>
                         Dukungan teknis 24/7
                     </div>
-                    <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.65); font-size:14px">
-                        <i class="fas fa-check-circle" style="color:#22d3ee; font-size:16px"></i>
+                    <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px">
+                        <i class="fas fa-check-circle" style="color:#22d3ee;font-size:16px"></i>
                         Setup dalam hitungan menit
                     </div>
                 </div>
@@ -1177,323 +1353,130 @@
 </main>
 
 <!-- ===== FOOTER ===== -->
-<footer class="footer">
-    <p style="margin:0">&copy; 2026 <span>Simagang</span> — Kementerian Komunikasi & Digital Republik Indonesia. Seluruh hak dilindungi.</p>
+<footer class="main-footer">
+    <div class="footer-simple-inner">
+        <div class="footer-logos-simple">
+            <img src="{{ url('storage/vendor/logo_berakhlak.png') }}" alt="BerAkhlak"> 
+            <img src="{{ url('storage/vendor/logo_banggamelayani.png') }}" alt="Bangga Melayani">
+            <img src="{{ url('storage/vendor/logo_antikorupsi.png') }}" alt="Anti Korupsi">
+        </div>
+
+        <div class="copyright-simple">
+            &copy; 2026 <strong>Simagang</strong> — Komdigi RI. All rights reserved.
+        </div>
+
+        <div class="social-links-simple">
+            <a href="https://www.instagram.com/bblsdm.komdigi.makassar/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/komdigi" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.tiktok.com/@balaikomdigimakassar" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.youtube.com/@bblsdm.komdigi.makassar" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
 </footer>
 
 <script>
-    /* Scroll reveal */
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, entry.target.dataset.delay || 0);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.reveal').forEach((el, i) => {
-        el.dataset.delay = (i % 3) * 100;
-        observer.observe(el);
+/* ── Scroll Reveal ── */
+const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+            revealObs.unobserve(entry.target);
+        }
     });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.dataset.delay = (i % 3) * 100;
+    revealObs.observe(el);
+});
 
-    /* Active nav link */
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const navObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                navLinks.forEach(link => {
-                    link.style.background = '';
-                    link.style.color = '';
-                    if (link.getAttribute('href') === '#' + entry.target.id) {
-                        link.style.background = '#eff6ff';
-                        link.style.color = '#1d6fca';
-                    }
-                });
-            }
-        });
-    }, { threshold: 0.5 });
-    sections.forEach(s => navObserver.observe(s));
-
-    const navToggle = document.querySelector('.nav-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    if (navToggle && mobileMenu) {
-        navToggle.addEventListener('click', () => {
-            const isOpen = mobileMenu.classList.toggle('open');
-            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                navToggle.setAttribute('aria-expanded', 'false');
-                mobileMenu.setAttribute('aria-hidden', 'true');
+/* ── Active Nav ── */
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+                link.style.background = '';
+                link.style.color = '';
+                if (link.getAttribute('href') === '#' + entry.target.id) {
+                    link.style.background = '#eff6ff';
+                    link.style.color = '#1d6fca';
+                }
             });
-        });
-    }
-
-    /* ===== PROCESS CAROUSEL ===== */
-    const processCarousel = document.getElementById('process-carousel');
-    const processWrapper = document.getElementById('process-carousel-wrapper');
-    const processPrevBtn = document.getElementById('process-prev');
-    const processNextBtn = document.getElementById('process-next');
-    const processDots = document.querySelectorAll('.process-dot');
-    
-    let processCurrentIndex = 0;
-    let processTouchStartX = 0;
-    let processTouchEndX = 0;
-    let processAutoPlayInterval;
-
-    function updateProcessCarousel() {
-        if (processWrapper) {
-            const offset = -processCurrentIndex * 100;
-            processWrapper.style.transform = `translateX(${offset}%)`;
-            
-            processDots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === processCurrentIndex);
-            });
-
-            if (processPrevBtn) processPrevBtn.disabled = processCurrentIndex === 0;
-            if (processNextBtn) processNextBtn.disabled = processCurrentIndex === processDots.length - 1;
         }
-    }
+    });
+}, { threshold: 0.5 });
+document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
 
-    function processNextSlide() {
-        if (processCurrentIndex < processDots.length - 1) {
-            processCurrentIndex++;
-        } else {
-            processCurrentIndex = 0;
-        }
-        updateProcessCarousel();
-    }
-
-    function processPrevSlide() {
-        if (processCurrentIndex > 0) {
-            processCurrentIndex--;
-        } else {
-            processCurrentIndex = processDots.length - 1;
-        }
-        updateProcessCarousel();
-    }
-
-    function startProcessAutoPlay() {
-        processAutoPlayInterval = setInterval(() => {
-            processCurrentIndex = (processCurrentIndex + 1) % processDots.length;
-            updateProcessCarousel();
-        }, 5000);
-    }
-
-    function stopProcessAutoPlay() {
-        if (processAutoPlayInterval) {
-            clearInterval(processAutoPlayInterval);
-        }
-    }
-
-    function resetProcessAutoPlay() {
-        stopProcessAutoPlay();
-        startProcessAutoPlay();
-    }
-
-    function processGoToSlide(index) {
-        processCurrentIndex = index;
-        updateProcessCarousel();
-    }
-
-    // Event listeners untuk buttons
-    if (processNextBtn) {
-        processNextBtn.addEventListener('click', () => {
-            processNextSlide();
-            resetProcessAutoPlay();
-        });
-    }
-    if (processPrevBtn) {
-        processPrevBtn.addEventListener('click', () => {
-            processPrevSlide();
-            resetProcessAutoPlay();
-        });
-    }
-
-    // Event listeners untuk dots
-    processDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            processGoToSlide(index);
-            resetProcessAutoPlay();
+/* ── Mobile Menu ── */
+const toggle = document.querySelector('.nav-toggle');
+const menu   = document.querySelector('.mobile-menu');
+if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open);
+        menu.setAttribute('aria-hidden', !open);
+    });
+    menu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            menu.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            menu.setAttribute('aria-hidden', 'true');
         });
     });
+}
 
-    // Touch/Swipe events
-    if (processCarousel) {
-        processCarousel.addEventListener('touchstart', (e) => {
-            processTouchStartX = e.changedTouches[0].screenX;
-        }, false);
+document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.getElementById('newsSlider');
+        const slides = slider.children;
+        let index = 0;
 
-        processCarousel.addEventListener('touchend', (e) => {
-            processTouchEndX = e.changedTouches[0].screenX;
-            handleProcessSwipe();
-        }, false);
-
-        processCarousel.addEventListener('mousedown', (e) => {
-            processTouchStartX = e.clientX;
-        }, false);
-
-        processCarousel.addEventListener('mouseup', (e) => {
-            processTouchEndX = e.clientX;
-            handleProcessSwipe();
-        }, false);
-    }
-
-    function handleProcessSwipe() {
-        const swipeThreshold = 50;
-        const diff = processTouchStartX - processTouchEndX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                processNextSlide();
-            } else {
-                processPrevSlide();
+        function nextSlide() {
+            index++;
+            if (index >= slides.length) {
+                index = 0;
             }
+            slider.style.transform = `translateX(-${index * 100}%)`;
         }
-    }
 
-    // Initialize carousel on page load
-    if (processCarousel) {
-        updateProcessCarousel();
-        startProcessAutoPlay();
-    }
-
-    /* ===== TESTIMONIAL CAROUSEL ===== */
-    const testiCarousel = document.getElementById('testi-carousel');
-    const testiWrapper = document.getElementById('testi-carousel-wrapper');
-    const testiPrevBtn = document.getElementById('testi-prev');
-    const testiNextBtn = document.getElementById('testi-next');
-    const testiDots = document.querySelectorAll('.testi-dot');
-    
-    let testiCurrentIndex = 0;
-    let testiTouchStartX = 0;
-    let testiTouchEndX = 0;
-    let testiAutoPlayInterval;
-
-    function updateTestiCarousel() {
-        if (testiWrapper) {
-            const offset = -testiCurrentIndex * 100;
-            testiWrapper.style.transform = `translateX(${offset}%)`;
-            
-            testiDots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === testiCurrentIndex);
-            });
-
-            if (testiPrevBtn) testiPrevBtn.disabled = testiCurrentIndex === 0;
-            if (testiNextBtn) testiNextBtn.disabled = testiCurrentIndex === testiDots.length - 1;
-        }
-    }
-
-    function testiNextSlide() {
-        if (testiCurrentIndex < testiDots.length - 1) {
-            testiCurrentIndex++;
-        } else {
-            testiCurrentIndex = 0;
-        }
-        updateTestiCarousel();
-    }
-
-    function testiPrevSlide() {
-        if (testiCurrentIndex > 0) {
-            testiCurrentIndex--;
-        } else {
-            testiCurrentIndex = testiDots.length - 1;
-        }
-        updateTestiCarousel();
-    }
-
-    function startTestiAutoPlay() {
-        testiAutoPlayInterval = setInterval(() => {
-            testiCurrentIndex = (testiCurrentIndex + 1) % testiDots.length;
-            updateTestiCarousel();
-        }, 5000);
-    }
-
-    function stopTestiAutoPlay() {
-        if (testiAutoPlayInterval) {
-            clearInterval(testiAutoPlayInterval);
-        }
-    }
-
-    function resetTestiAutoPlay() {
-        stopTestiAutoPlay();
-        startTestiAutoPlay();
-    }
-
-    function testiGoToSlide(index) {
-        testiCurrentIndex = index;
-        updateTestiCarousel();
-    }
-
-    // Event listeners untuk buttons
-    if (testiNextBtn) {
-        testiNextBtn.addEventListener('click', () => {
-            testiNextSlide();
-            resetTestiAutoPlay();
-        });
-    }
-    if (testiPrevBtn) {
-        testiPrevBtn.addEventListener('click', () => {
-            testiPrevSlide();
-            resetTestiAutoPlay();
-        });
-    }
-
-    // Event listeners untuk dots
-    testiDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            testiGoToSlide(index);
-            resetTestiAutoPlay();
-        });
+        setInterval(nextSlide, 5000);
     });
 
-    // Touch/Swipe events
-    if (testiCarousel) {
-        testiCarousel.addEventListener('touchstart', (e) => {
-            testiTouchStartX = e.changedTouches[0].screenX;
-        }, false);
+/* ── Carousel Factory ── */
+function initCarousel({ wrapperId, dotsId, prevId, nextId, interval = 5000 }) {
+    const wrapper = document.getElementById(wrapperId);
+    if (!wrapper) return;
+    const dotsWrap = document.getElementById(dotsId);
+    const dots     = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.dot')) : [];
+    const total    = wrapper.children.length;
+    let cur = 0, timer;
 
-        testiCarousel.addEventListener('touchend', (e) => {
-            testiTouchEndX = e.changedTouches[0].screenX;
-            handleTestiSwipe();
-        }, false);
+    const go = (n) => {
+        cur = ((n % total) + total) % total;
+        wrapper.style.transform = `translateX(-${cur * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+    };
 
-        testiCarousel.addEventListener('mousedown', (e) => {
-            testiTouchStartX = e.clientX;
-        }, false);
+    const reset = () => { clearInterval(timer); timer = setInterval(() => go(cur + 1), interval); };
 
-        testiCarousel.addEventListener('mouseup', (e) => {
-            testiTouchEndX = e.clientX;
-            handleTestiSwipe();
-        }, false);
-    }
+    document.getElementById(prevId)?.addEventListener('click', () => { go(cur - 1); reset(); });
+    document.getElementById(nextId)?.addEventListener('click', () => { go(cur + 1); reset(); });
+    dots.forEach((d, i) => d.addEventListener('click', () => { go(i); reset(); }));
 
-    function handleTestiSwipe() {
-        const swipeThreshold = 50;
-        const diff = testiTouchStartX - testiTouchEndX;
+    /* Touch swipe */
+    let sx = 0;
+    const root = wrapper.closest('.process-carousel, .testi-carousel') || wrapper.parentElement;
+    root.addEventListener('touchstart', e => { sx = e.changedTouches[0].screenX; }, { passive: true });
+    root.addEventListener('touchend',   e => {
+        const dx = sx - e.changedTouches[0].screenX;
+        if (Math.abs(dx) > 50) { go(cur + (dx > 0 ? 1 : -1)); reset(); }
+    });
 
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                testiNextSlide();
-            } else {
-                testiPrevSlide();
-            }
-            resetTestiAutoPlay();
-        }
-    }
+    go(0);
+    reset();
+}
 
-    // Initialize carousel on page load
-    if (testiCarousel && testiDots.length > 0) {
-        updateTestiCarousel();
-        startTestiAutoPlay();
-    }
+initCarousel({ wrapperId:'process-wrapper', dotsId:'process-dots', prevId:'process-prev', nextId:'process-next' });
+initCarousel({ wrapperId:'testi-wrapper',   dotsId:'testi-dots',   prevId:'testi-prev',   nextId:'testi-next' });
 </script>
 
 </body>
