@@ -104,11 +104,13 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($l->photo_path)
-                                            <img src="{{ url('storage/'.$l->photo_path) }}" 
-                                                 alt="Logbook" 
-                                                 class="w-12 h-12 object-cover rounded-lg border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-all" 
-                                                 onclick="window.open('{{ url('storage/'.$l->photo_path) }}', '_blank')" 
-                                                 title="Klik untuk melihat full size">
+                                            @php $logbookFilename = basename($l->photo_path); @endphp
+                                            @php $logbookUrl = URL::temporarySignedRoute('admin.logbook.photo', now()->addSeconds(30), ['filename' => $logbookFilename]); @endphp
+                                            <img src="{{ $logbookUrl }}" 
+                                                alt="Logbook" 
+                                                class="w-12 h-12 object-cover rounded-lg border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-all" 
+                                                onclick="window.open('{{ $logbookUrl }}', '_blank')" 
+                                                title="Klik untuk melihat full size">
                                         @else
                                             <span class="text-gray-400">-</span>
                                         @endif

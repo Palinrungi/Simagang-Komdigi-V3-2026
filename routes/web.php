@@ -248,6 +248,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/attendance/{attendance}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
     Route::put('/attendance/{attendance}/document-status', [AdminAttendanceController::class, 'updateDocumentStatus'])->name('attendance.update-document-status');
     // Logbook Monitoring Routes
+    Route::get('/logbook/photo/{filename}', [AdminLogbookController::class, 'servePhoto'])
+        ->name('logbook.photo')
+        ->middleware('signed')
+        ->where('filename', '[^/]+');
     Route::get('/logbook', [AdminLogbookController::class, 'index'])->name('logbook.index');
     Route::delete('/logbook/{logbook}', [AdminLogbookController::class, 'destroy'])->name('logbook.destroy');
 
@@ -257,6 +261,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/report/{report}/status', [AdminReportController::class, 'updateStatus'])->name('report.update-status');
 
     // Micro Skill Routes
+    Route::get('/microskill/photo/{filename}', [AdminMicroSkillController::class, 'servePhoto'])
+        ->name('microskill.photo')
+        ->middleware('signed')
+        ->where('filename', '[^/]+');
     Route::get('/microskill', [AdminMicroSkillController::class, 'index'])->name('microskill.index');
     Route::delete('/microskill/{submission}', [AdminMicroSkillController::class, 'destroy'])->name('microskill.destroy');
     Route::get('/microskill/leaderboard', [AdminMicroSkillLeaderboardController::class, 'index'])->name('microskill.leaderboard');

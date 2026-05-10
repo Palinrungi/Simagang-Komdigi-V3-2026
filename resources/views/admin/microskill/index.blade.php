@@ -83,7 +83,13 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $s->title }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $s->submitted_at ? \Carbon\Carbon::parse($s->submitted_at)->format('d M Y H:i') : '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <img src="{{ url('storage/'.$s->photo_path) }}" class="w-12 h-12 object-cover rounded border cursor-pointer" onclick="window.open('{{ url('storage/'.$s->photo_path) }}','_blank')">
+                                        @if($s->photo_path)
+                                            @php $microSkillFilename = basename($s->photo_path); @endphp
+                                            @php $microSkillUrl = URL::temporarySignedRoute('admin.microskill.photo', now()->addSeconds(30), ['filename' => $microSkillFilename]); @endphp
+                                            <img src="{{ $microSkillUrl }}" class="w-12 h-12 object-cover rounded border cursor-pointer" onclick="window.open('{{ $microSkillUrl }}','_blank')">
+                                        @else
+                                            <span class="text-gray-400">-</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 @empty

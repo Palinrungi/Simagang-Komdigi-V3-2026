@@ -21,12 +21,14 @@ class AdminDashboardController extends Controller
         $activeInterns = Intern::where('is_active', true)->count();
         $totalInterns  = Intern::count();
 
-        $totalHadir = Attendance::where('status', 'hadir')->count();
-        $totalIzin  = Attendance::where('status', 'izin')->count();
-        $totalSakit = Attendance::where('status', 'sakit')->count();
-        $totalAlfa  = Attendance::where('status', 'alfa')->count();
+        // Daily stats (hanya untuk hari ini)
+        $totalHadir = Attendance::whereDate('date', $today)->where('status', 'hadir')->count();
+        $totalIzin  = Attendance::whereDate('date', $today)->where('status', 'izin')->count();
+        $totalSakit = Attendance::whereDate('date', $today)->where('status', 'sakit')->count();
+        $totalAlfa  = Attendance::whereDate('date', $today)->where('status', 'alfa')->count();
 
-        $microTotal = MicroSkillSubmission::count();
+        // Mikro skill yang diperbarui hari ini
+        $microTotal = MicroSkillSubmission::whereDate('updated_at', $today)->count();
 
         $todayAttendances = Attendance::whereDate('date', $today)
             ->with('intern')
