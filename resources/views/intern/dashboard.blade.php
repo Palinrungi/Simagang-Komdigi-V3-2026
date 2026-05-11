@@ -73,6 +73,10 @@
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-direction: row-reverse; /* desktop: keep icon on right */
     }
     .stat-tile:hover {
         transform: translateY(-3px);
@@ -100,12 +104,16 @@
         letter-spacing: 0.08em;
     }
     .stat-icon {
-        width: 2.75rem; height: 2.75rem;
+        width: 56px; height: 56px;
         border-radius: 0.75rem;
         display: flex; align-items: center; justify-content: center;
         font-size: 1.2rem;
         color: white;
+        flex-shrink: 0;
     }
+    .stat-content { flex: 1; }
+    .stat-label { font-size: 11px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em; }
+    .stat-value { font-size: 1.75rem; font-weight:700; color:#1f2937; margin:0.25rem 0 0; font-family:'DM Mono', monospace; }
 
     /* ── Section label ── */
     .section-label {
@@ -280,6 +288,12 @@
         .panel { padding: 16px; }
         .stat-tile { padding: 1rem; }
         .stat-tile .stat-value { font-size: 1.4rem; }
+        /* Make stat tiles 2 columns on small screens and avoid icon cramping */
+        .grid.grid-cols-3 { grid-template-columns: repeat(2, 1fr); }
+        .stat-tile { display: flex; align-items: center; gap: 12px; flex-direction: row; }
+        .stat-icon { width: 44px; height: 44px; border-radius: 10px; font-size: 1rem; flex: 0 0 44px; }
+        .stat-value { font-size: 1.25rem; }
+        .stat-label { font-size: 9px; }
     }
 </style>
 @endpush
@@ -345,11 +359,10 @@
                 @endif
             </div>
 
-            {{-- Summary right --}}
+            {{-- Summary right: show internship period instead of total hadir --}}
             <div class="flex-shrink-0 text-center sm:text-right">
-                <p class="text-blue-200 text-xs font-semibold uppercase tracking-widest mb-1">Total Hadir</p>
-                <p class="text-5xl font-extrabold text-white mono">{{ $totalHadir }}</p>
-                <p class="text-blue-300 text-xs mt-1">dari {{ $totalAbsen }} hari tercatat</p>
+                <p class="text-blue-200 text-xs font-semibold uppercase tracking-widest mb-1">Periode Magang</p>
+                <p class="text-lg font-extrabold text-white mono">{{ $intern->start_date ? $intern->start_date->format('d M Y') : '-' }} &mdash; {{ $intern->end_date ? $intern->end_date->format('d M Y') : '-' }}</p>
             </div>
         </div>
     </div>
@@ -357,71 +370,57 @@
     {{-- ── STAT TILES ── --}}
     <div class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-4 anim-2">
         <div class="stat-tile" style="--stat-color:#22c55e;">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="stat-label">Hadir</p>
-                    <p class="stat-value">{{ $totalHadir }}</p>
-                </div>
-                <div class="stat-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a);">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
+            <div class="stat-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a);">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Hadir</p>
+                <p class="stat-value">{{ $totalHadir }}</p>
             </div>
         </div>
         <div class="stat-tile" style="--stat-color:#f59e0b;">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="stat-label">Izin</p>
-                    <p class="stat-value">{{ $totalIzin }}</p>
-                </div>
-                <div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
-                    <i class="fas fa-calendar-times"></i>
-                </div>
+            <div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
+                <i class="fas fa-calendar-times"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Izin</p>
+                <p class="stat-value">{{ $totalIzin }}</p>
             </div>
         </div>
         <div class="stat-tile" style="--stat-color:#ef5350;">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="stat-label">Sakit</p>
-                    <p class="stat-value">{{ $totalSakit }}</p>
-                </div>
-                <div class="stat-icon" style="background:linear-gradient(135deg,#ef5350,#e53935);">
-                    <i class="fas fa-calendar-minus"></i>
-                </div>
+            <div class="stat-icon" style="background:linear-gradient(135deg,#ef5350,#e53935);">
+                <i class="fas fa-calendar-minus"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Sakit</p>
+                <p class="stat-value">{{ $totalSakit }}</p>
             </div>
         </div>
         <div class="stat-tile" style="--stat-color:#f97316;">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="stat-label">Tidak Hadir</p>
-                    <p class="stat-value">{{ $totalTidakHadir }}</p>
-                </div>
-                <div class="stat-icon" style="background:linear-gradient(135deg,#f97316,#ea580c);">
-                    <i class="fas fa-user-times"></i>
-                </div>
+            <div class="stat-icon" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+                <i class="fas fa-user-times"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Tidak Hadir</p>
+                <p class="stat-value">{{ $totalTidakHadir }}</p>
             </div>
         </div>
         <div class="stat-tile" style="--stat-color:#10b981;">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="stat-label">Laporan</p>
-                    <p class="stat-value" style="font-size:1.1rem;margin-top:0.6rem;">
-                        {{ $hasFinalReport ? 'Sudah' : 'Belum' }}
-                    </p>
-                </div>
-                <div class="stat-icon" style="background:linear-gradient(135deg,#10b981,#059669);">
-                    <i class="fas fa-file-alt"></i>
-                </div>
+            <div class="stat-icon" style="background:linear-gradient(135deg,#10b981,#059669);">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Laporan</p>
+                <p class="stat-value" style="font-size:1.1rem;margin-top:0.6rem;">{{ $hasFinalReport ? 'Sudah' : 'Belum' }}</p>
             </div>
         </div>
         <div class="stat-tile" style="--stat-color:#8b5cf6;">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="stat-label">Mikro Skill</p>
-                    <p class="stat-value">{{ $microSkillApproved }}<span style="font-size:1rem;color:#94a3b8;">/{{ $microSkillTotal }}</span></p>
-                </div>
-                <div class="stat-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
+            <div class="stat-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Mikro Skill</p>
+                <p class="stat-value">{{ $microSkillApproved }}<span style="font-size:1rem;color:#94a3b8;">/{{ $microSkillTotal }}</span></p>
             </div>
         </div>
     </div>
@@ -641,54 +640,6 @@
                             <span class="text-gray-600 font-medium">Tidak Hadir</span>
                         </div>
                         <span class="mono text-gray-800 font-semibold">{{ $totalTidakHadir }} hari</span>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Mikro Skill Progress ── --}}
-            <div class="panel anim-3">
-                <p class="section-label">Progress Mikro Skill</p>
-
-                <div class="space-y-3">
-                    <div class="status-item" style="background:#f0f4ff;border-color:#c7d2fe;">
-                        <div class="flex items-center gap-3">
-                            <div style="width:36px;height:36px;background:#ede9fe;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                                <i class="fas fa-graduation-cap" style="color:#7c3aed;"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 text-sm">Total Diajukan</p>
-                                <div class="stat-bar-track mt-1" style="width:120px;">
-                                    <div class="stat-bar-fill" style="background:#8b5cf6;" data-width="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="count-pill" style="background:#ede9fe;color:#5b21b6;">{{ $microSkillTotal }}</span>
-                    </div>
-                    <div class="status-item">
-                        <div class="flex items-center gap-3">
-                            <div style="width:36px;height:36px;background:#dcfce7;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                                <i class="fas fa-check-circle" style="color:#16a34a;"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 text-sm">Disetujui</p>
-                                <div class="stat-bar-track mt-1" style="width:120px;">
-                                    <div class="stat-bar-fill" style="background:#22c55e;" data-width="{{ $microPct }}"></div>
-                                </div>
-                                <p class="text-xs text-gray-400">{{ $microPct }}% dari total</p>
-                            </div>
-                        </div>
-                        <span class="count-pill" style="background:#dcfce7;color:#15803d;">{{ $microSkillApproved }}</span>
-                    </div>
-                    <div class="status-item">
-                        <div class="flex items-center gap-3">
-                            <div style="width:36px;height:36px;background:#fef9c3;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                                <i class="fas fa-clock" style="color:#a16207;"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 text-sm">Menunggu Review</p>
-                            </div>
-                        </div>
-                        <span class="count-pill" style="background:#fef9c3;color:#a16207;">{{ $microSkillTotal - $microSkillApproved }}</span>
                     </div>
                 </div>
             </div>

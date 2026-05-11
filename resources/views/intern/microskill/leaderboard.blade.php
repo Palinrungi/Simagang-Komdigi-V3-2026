@@ -2,21 +2,55 @@
 
 @section('title', 'Leaderboard Mikro Skill - Sistem Magang')
 
+@push('styles')
+<style>
+    .leader-hero { background: linear-gradient(135deg,#eef2ff,#f8fbff); padding:18px; border-radius:12px; }
+    .hero-strip { background: linear-gradient(110deg, #0f2878 0%, #2d3ecb 55%, #4f46e5 100%); border-radius: 20px; position: relative; overflow: hidden; margin-bottom: 28px; }
+    .hero-strip::before { content: ''; position: absolute; top: -80px; right: -60px; width: 260px; height: 260px; background: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none; }
+    .hero-strip::after { content: ''; position: absolute; bottom: -100px; left: 25%; width: 320px; height: 320px; background: rgba(255,255,255,0.04); border-radius: 50%; pointer-events: none; }
+    .panel { background:#fff;border-radius:20px;padding:24px;box-shadow:0 1px 3px rgba(30,58,138,0.06), 0 4px 20px rgba(30,58,138,0.06); }
+    .cta-btn { display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:linear-gradient(110deg,#1e3a8a,#3b4fd8);color:#fff;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s ease }
+    .cta-btn:hover { box-shadow:0 6px 16px rgba(59,79,216,0.3); transform:translateY(-1px); color:#fff }
+    .leader-card-header { background:#1e40af; padding:14px 18px; }
+    .leader-card-header h2 { color:#fff; font-size:1rem; margin:0; }
+    .lb-item { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-radius:14px; background:#fff; border:1px solid #eef2ff; transition:all .15s ease; }
+    .lb-item:hover { box-shadow:0 8px 20px rgba(15,23,42,0.06); transform:translateY(-3px);} 
+    .lb-rank { width:44px; height:44px; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:700; color:#fff; flex-shrink:0; }
+    .leader-avatar { width:48px; height:48px; border-radius:999px; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .leader-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+    @media (max-width:640px) {
+        .leader-hero { padding:12px; }
+        .lb-item { padding:12px; }
+        .leader-avatar, .lb-rank { width:40px; height:40px; }
+        .grid.md\:grid-cols-12 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    }
+    @media (max-width:420px) {
+        .leader-avatar, .lb-rank { width:36px; height:36px; }
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="min-h-screen bg-blue-50 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-blue-600">
-                Leaderboard Mikro Skill
-            </h1>
-            <p class="text-gray-600 mt-1 text-sm sm:text-base">
-                Lihat peringkat peserta berdasarkan jumlah course yang telah diselesaikan.
-            </p>
+        <!-- Header (logbook-style hero) -->
+        <div class="hero-strip shadow-xl mb-6">
+            <div class="relative z-10 px-6 py-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold leading-tight text-white mb-1">Leaderboard Mikro Skill</h1>
+                        <p class="text-blue-200">Lihat peringkat peserta berdasarkan jumlah course yang telah diselesaikan.</p>
+                    </div>
+                    <a href="{{ route('intern.dashboard') }}" class="cta-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Kembali
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-white shadow-md rounded-lg p-6 mb-6 border-t-4 border-blue-500">
+        <div class="panel mb-6">
             <!-- Filter & Search -->
             <form method="GET" action="{{ route('intern.microskill.leaderboard') }}"
                 class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -50,7 +84,7 @@
                 </div>
 
                 <!-- Button -->
-                <div class="md:col-span-3 flex items-end gap-2">
+                <div class="md:col-span-3 flex items-end gap-2 flex-wrap">
                     <button type="submit"
                         class="flex-1 inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-all">
                         <i class="fas fa-filter mr-2"></i>
@@ -83,53 +117,54 @@
             <div class="p-6">
 
                 <!-- List -->
-                <div class="max-h-[540px] overflow-y-auto pr-1 space-y-3">
+                <div class="max-h-none md:max-h-[540px] overflow-y-auto pr-1 space-y-3">
 
                     @forelse($rows as $index => $row)
                         @php
                             $rank = $rows->firstItem() + $index;
                         @endphp
 
-                        <div class="flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 hover:shadow-md transition-all duration-200">
+                        <div class="lb-item">
 
                             <!-- Left -->
                             <div class="flex items-center min-w-0">
 
-                                <!-- Rank -->
-                                <div class="mr-4 relative">
-                                    <span class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white
-                                        @if($rank == 1) bg-yellow-500
-                                        @elseif($rank == 2) bg-gray-400
-                                        @elseif($rank == 3) bg-orange-500
-                                        @else bg-blue-600
-                                        @endif">
-                                        {{ $rank }}
-                                    </span>
+                                <div class="flex items-center min-w-0">
+                                    <!-- Rank -->
+                                    <div class="mr-4 relative">
+                                        <span class="lb-rank"
+                                            style="@if($rank == 1) background:linear-gradient(135deg,#f59e0b,#d97706);
+                                                @elseif($rank == 2) background:linear-gradient(135deg,#94a3b8,#64748b);
+                                                @elseif($rank == 3) background:linear-gradient(135deg,#f97316,#ea580c);
+                                                @else background:linear-gradient(135deg,#3b82f6,#6366f1); @endif">
+                                            {{ $rank }}
+                                        </span>
 
-                                    @if($rank <= 3)
-                                        <i class="fas fa-crown absolute -top-2 -right-1 text-yellow-500 text-xs"></i>
-                                    @endif
-                                </div>
-
-                                <!-- Avatar -->
-                                @if($row->photo_path)
-                                    <img src="{{ url('storage/' . $row->photo_path) }}"
-                                        alt="{{ $row->name }}"
-                                        class="w-12 h-12 rounded-full object-cover border-2 border-white shadow mr-4">
-                                @else
-                                    <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
-                                        <i class="fas fa-user text-gray-500"></i>
+                                        @if($rank <= 3)
+                                            <i class="fas fa-crown absolute -top-2 -right-1 text-yellow-500 text-xs"></i>
+                                        @endif
                                     </div>
-                                @endif
 
-                                <!-- Info -->
-                                <div class="min-w-0">
-                                    <p class="font-semibold text-gray-900 truncate">
-                                        {{ $row->name }}
-                                    </p>
-                                    <p class="text-sm text-gray-500 truncate">
-                                        {{ $row->institution }}
-                                    </p>
+                                    <!-- Avatar -->
+                                    @if($row->photo_path)
+                                        <div class="leader-avatar mr-4">
+                                            <img src="{{ url('storage/' . $row->photo_path) }}" alt="{{ $row->name }}" class="w-full h-full object-cover">
+                                        </div>
+                                    @else
+                                        <div class="leader-avatar mr-4" style="background:linear-gradient(135deg,#60a5fa,#818cf8);">
+                                            <i class="fas fa-user text-white"></i>
+                                        </div>
+                                    @endif
+
+                                    <!-- Info -->
+                                    <div class="min-w-0">
+                                        <p class="font-semibold text-gray-900 truncate">
+                                            {{ $row->name }}
+                                        </p>
+                                        <p class="text-sm text-gray-500 truncate">
+                                            {{ $row->institution }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 

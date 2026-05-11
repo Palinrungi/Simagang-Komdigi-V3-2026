@@ -3,17 +3,36 @@
 @section('title', 'Upload Bukti Mikro Skill - Sistem Magang')
 
 @section('content')
+@push('styles')
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body.page-microskill { background: linear-gradient(135deg, #e8eeff 0%, #f0f4ff 40%, #e4ecff 100%); }
+
+    .dash-bg { background: transparent; min-height: 100vh; }
+    .hero-strip { background: linear-gradient(110deg, #0f2878 0%, #2d3ecb 55%, #4f46e5 100%); border-radius: 20px; position: relative; overflow: hidden; margin-bottom: 28px; }
+    .hero-strip::before { content: ''; position: absolute; top: -80px; right: -60px; width: 260px; height: 260px; background: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none; }
+    .hero-strip::after { content: ''; position: absolute; bottom: -100px; left: 25%; width: 320px; height: 320px; background: rgba(255,255,255,0.04); border-radius: 50%; pointer-events: none; }
+    .cta-btn { display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:linear-gradient(110deg,#1e3a8a,#3b4fd8);color:#fff;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s ease }
+    .cta-btn:hover { box-shadow:0 6px 16px rgba(59,79,216,0.3); transform:translateY(-1px); color:#fff }
+</style>
+@endpush
 <div class="min-h-screen bg-blue-50 py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Header -->
-        <div class="mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-                <div>
-                    <h1 class="text-4xl font-bold leading-tight text-blue-600 mb-2 pb-2">
-                        Upload Bukti Mikro Skill
-                    </h1>
-                    <p class="text-gray-600">Unggah bukti pengumpulan mikro skill Anda</p>
+        <div class="hero-strip shadow-xl a1 mb-6">
+            <div class="relative z-10 px-6 py-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold leading-tight text-white mb-1">Upload Bukti Mikro Skill</h1>
+                        <p class="text-blue-200">Unggah bukti pengumpulan mikro skill Anda</p>
+                    </div>
+                    <a href="{{ route('intern.microskill.index') }}" class="cta-btn" style="width:auto;">
+                        <i class="fas fa-arrow-left"></i>
+                        Kembali
+                    </a>
                 </div>
             </div>
         </div>
@@ -108,5 +127,9 @@
             </form>
         </div>
     </div>
+    @push('scripts')
+    <script>document.body.classList.add('page-microskill');</script>
+    @endpush
+
 </div>
 @endsection

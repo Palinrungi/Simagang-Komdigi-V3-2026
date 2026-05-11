@@ -3,15 +3,37 @@
 @section('title', 'Laporan Akhir - Sistem Magang')
 
 @section('content')
-<div class="min-h-screen bg-blue-50 py-8">
+
+@push('styles')
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+    body.page-report { background: linear-gradient(135deg, #e8eeff 0%, #f0f4ff 40%, #e4ecff 100%); }
+
+    .dash-bg { background: transparent; min-height: 100vh; }
+    .hero-strip { background: linear-gradient(110deg, #0f2878 0%, #2d3ecb 55%, #4f46e5 100%); border-radius: 20px; position: relative; overflow: hidden; margin-bottom: 28px; }
+    .hero-strip::before { content: ''; position: absolute; top: -80px; right: -60px; width: 260px; height: 260px; background: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none; }
+    .hero-strip::after { content: ''; position: absolute; bottom: -100px; left: 25%; width: 320px; height: 320px; background: rgba(255,255,255,0.04); border-radius: 50%; pointer-events: none; }
+    .cta-btn { display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:linear-gradient(110deg,#1e3a8a,#3b4fd8);color:#fff;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s ease }
+    .cta-btn:hover { box-shadow:0 6px 16px rgba(59,79,216,0.3); transform:translateY(-1px); color:#fff }
+</style>
+@endpush
+
+<div class="dash-bg py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-4xl font-bold leading-tight text-blue-600 mb-2 pb-2">
-                Laporan Akhir
-            </h1>
-            <p class="text-gray-600">Kelola dan submit laporan akhir magang Anda</p>
+        <div class="hero-strip shadow-xl a1 mb-6">
+            <div class="relative z-10 px-6 py-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold leading-tight text-white mb-1">Laporan Akhir</h1>
+                        <p class="text-blue-200">Kelola dan submit laporan akhir magang Anda</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         @if($report)
@@ -213,8 +235,8 @@
                 <div class="mt-6 flex flex-col sm:flex-row gap-4">
                     @if($report->status !== 'approved' || $report->needs_revision)
                     <button onclick="document.getElementById('uploadForm').classList.toggle('hidden')"
-                        class="inline-flex items-center justify-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                        <i class="fas fa-upload mr-2"></i>
+                        class="cta-btn">
+                        <i class="fas fa-upload"></i>
                         {{ $report->needs_revision ? 'Upload Revisi' : 'Update Laporan' }}
                     </button>
                     @endif
@@ -502,6 +524,7 @@
         @push('scripts')
         <script>
         document.addEventListener('DOMContentLoaded', function(){
+            document.body.classList.add('page-report');
             // Custom file input functions
             function updateFileDisplay(input) {
                 const display = document.getElementById('fileDisplay');
