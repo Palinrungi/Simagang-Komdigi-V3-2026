@@ -8,14 +8,14 @@
         <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
                 <h1 class="text-4xl font-bold leading-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2 pb-2">
-                    Kelola Tim
+                    Kelola Tim Kerja
                 </h1>
-                <p class="mt-2 text-gray-600">Kelola Tim untuk kebutuhan penempatan anak magang.</p>
+                <p class="mt-2 text-gray-600">Kelola Tim Kerja/Bagian untuk kebutuhan penempatan anak magang.</p>
             </div>
 
             <a href="{{ route('admin.team.create') }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <i class="fas fa-plus"></i>
-                <span>Tambah Tim</span>
+                <span>Tambah Tim Kerja</span>
             </a>
         </div>
 
@@ -23,7 +23,7 @@
             <div class="bg-blue-600 px-6 py-4 flex items-center justify-between">
                 <h2 class="text-white text-xl font-bold flex items-center">
                     <i class="fas fa-users mr-3"></i>
-                    Daftar Tim
+                    Tim Kerja/Bagian
                 </h2>
             </div>
 

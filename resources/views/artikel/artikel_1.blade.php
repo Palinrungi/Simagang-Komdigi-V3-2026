@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
@@ -140,54 +140,25 @@
         /* ── HERO ── */
         .hero {
             position: relative;
+            background: linear-gradient(135deg, #0c2d5e 0%, #1251a3 40%, #0891b2 100%);
             overflow: hidden;
             min-height: 90vh;
             display: flex;
             align-items: center;
         }
-
-        .hero-bg-image {
+        .hero-blob {
             position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            z-index: 0;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                105deg,
-                rgba(8, 28, 70, 0.53) 0%,
-                rgba(12, 52, 120, 0.70) 50%,
-                rgba(8, 60, 100, 0.347) 100%
-            );
-            z-index: 1;
-        }
-
-        .hero-accent {
-            position: absolute;
-            bottom: -120px;
-            left: -80px;
-            width: 500px;
-            height: 500px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%);
-            z-index: 2;
+            filter: blur(80px);
+            opacity: 0.25;
             pointer-events: none;
-            animation: pulseAccent 6s ease-in-out infinite alternate;
         }
-        @keyframes pulseAccent {
-            from { transform: scale(1); opacity: 0.8; }
-            to   { transform: scale(1.15); opacity: 1; }
-        }
+        .hero-blob-1 { width: 500px; height: 500px; background: #38bdf8; top: -150px; left: -100px; }
+        .hero-blob-2 { width: 400px; height: 400px; background: #818cf8; bottom: -100px; right: 0; }
+        .hero-blob-3 { width: 300px; height: 300px; background: #22d3ee; top: 40%; left: 40%; }
 
         .hero-inner {
             position: relative;
-            z-index: 3;
             max-width: 1280px;
             margin: 0 auto;
             padding: 5rem 1.5rem;
@@ -198,41 +169,58 @@
             width: 100%;
         }
 
+        /* Kolom kiri: satu flex column — badge → judul → desc → stats → btns */
         .hero-text-col {
             display: flex;
             flex-direction: column;
         }
 
+        /* .hero-badge {
+            display: inline-flex;
+            align-self: flex-start;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56,189,248,0.18);
+            border: 1px solid rgba(56,189,248,0.35);
+            color: #7dd3fc;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 1.25rem;
+        } */
         .hero-title {
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 800;
             line-height: 1.15;
             color: white;
             margin: 0 0 1.25rem;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
         .hero-title span { color: #7dd3fc; }
 
         .hero-desc {
             font-size: 1rem;
             line-height: 1.75;
-            color: rgba(255,255,255,0.82);
-            margin: 0;
+            color: rgba(255,255,255,0.75);
+            margin: 0;          /* stats langsung menyusul */
             max-width: 480px;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.25);
         }
 
+        /* Stats — tepat di bawah deskripsi */
         .hero-stats {
             display: flex;
             gap: 2rem;
             margin-top: 1.5rem;
             padding-bottom: 1.75rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.14);
         }
-        .hero-stat-num { font-size: 1.75rem; font-weight: 800; color: white; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,0.2); }
-        .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 4px; }
-        .hero-stat-divider { width: 1px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+        .hero-stat-num { font-size: 1.75rem; font-weight: 800; color: white; line-height: 1; }
+        .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+        .hero-stat-divider { width: 1px; background: rgba(255,255,255,0.14); flex-shrink: 0; }
 
+        /* Tombol — di bawah stats */
         .hero-btns {
             display: flex;
             flex-wrap: wrap;
@@ -250,50 +238,42 @@
             font-size: 15px;
             border-radius: 9999px;
             text-decoration: none;
-            box-shadow: 0 6px 28px rgba(34,211,238,0.35);
+            box-shadow: 0 6px 28px rgba(34,211,238,0.28);
             transition: all 0.25s;
         }
-        .btn-primary:hover { background: #38bdf8; transform: translateY(-2px); box-shadow: 0 10px 36px rgba(34,211,238,0.45); }
+        .btn-primary:hover { background: #38bdf8; transform: translateY(-2px); }
         .btn-outline {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             padding: 14px 32px;
-            background: rgba(255,255,255,0.15);
-            border: 1.5px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.28);
             color: white;
             font-weight: 600;
             font-size: 15px;
             border-radius: 9999px;
             text-decoration: none;
-            backdrop-filter: blur(6px);
             transition: all 0.25s;
         }
-        .btn-outline:hover { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.6); }
+        .btn-outline:hover { background: rgba(255,255,255,0.22); }
 
+        /* Kolom kanan: gambar */
         .hero-image-wrap {
             width: 100%;
             display: flex;
             justify-content: flex-end;
         }
-        .hero-image-card {
-            width: 100%;
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 20px;
-            padding: 12px;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05);
-        }
+        .hero-image-card { width: 100%; }
         .hero-image-card img {
             width: 100%;
             max-width: 100%;
             height: auto;
             object-fit: contain;
             display: block;
-            border-radius: 12px;
         }
 
+        /* ── SECTION WRAPPER ── */
         .section-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
         .section-eyebrow {
             display: inline-block;
@@ -367,6 +347,7 @@
         .process-title { font-size: 1.2rem; font-weight: 700; color: #0f2d4a; margin: 0 0 0.6rem; }
         .process-desc { font-size: 0.95rem; color: #4b6580; line-height: 1.6; margin: 0; }
 
+        /* Carousel shared styles */
         .process-carousel { display: none; overflow: hidden; }
         .testi-carousel  { display: none; overflow: hidden; }
         .carousel-wrapper { display: flex; transition: transform 0.4s ease-out; }
@@ -619,18 +600,13 @@
             box-shadow: 0 5px 15px rgba(34, 211, 238, 0.2);
         }
 
-        /* Padding body agar konten tidak tertutup fixed footer */
-        body { padding-bottom: 60px; } /* tinggi footer desktop */
-
         /* Responsif untuk Mobile */
         @media (max-width: 768px) {
             .main-footer { padding: 10px 0; }
-            .footer-simple-inner { flex-direction: column; gap: 8px; padding: 4px 1rem; }
+            .footer-simple-inner { flex-direction: column; gap: 8px; }
             .copyright-simple { order: 3; font-size: 11px; }
             .footer-logos-simple { order: 1; justify-content: center; }
             .social-links-simple { order: 2; justify-content: center; }
-            /* Tambah padding bawah lebih besar di mobile karena footer jadi lebih tinggi (stacked) */
-            body { padding-bottom: 110px; }
         }
 
 
@@ -832,563 +808,124 @@
 <body>
 
 <!-- ===== NAVBAR ===== -->
-<header class="navbar">
-    <div class="navbar-inner">
-        <a href="#hero" class="nav-logo">
-            <div class="logo-wrap">
-                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Komdigi">
-            </div>
-            <div>
-                <div class="font-etna" style="font-size:20px; font-weight:900; line-height:1.1">
-                    <span style="color:#9d272a">SI</span><span style="color:#086bb0">MA</span><span style="color:#2dabe2">GA</span><span style="color:#efc400">NG</span>
-                </div>
-                <div class="font-etna" style="font-size:10px; color:#8ea5bc; margin-top:2px">Sistem Manajemen Magang</div>
-            </div>
-        </a>
 
-        <nav class="nav-links">
-            <a href="#hero">Beranda</a>
-            <a href="#process">Tahapan</a>
-            <a href="#usage">Fitur</a>
-            <a href="#testimonials">Testimoni</a>
-            <a href="#partners">Partner</a>
-            <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Aktivitas</a>
-        </nav>
-
-        <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false">
-            <i class="fas fa-bars" style="font-size:18px"></i>
-        </button>
-
-        <div class="mobile-menu" aria-hidden="true">
-            <a href="#hero">Beranda</a>
-            <a href="#process">Tahapan</a>
-            <a href="#usage">Fitur</a>
-            <a href="#testimonials">Testimoni</a>
-            <a href="#partners">Partner</a>
-            <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Aktivitas</a>
-            <a href="{{ route('login') }}" class="login-link">
-                <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>Login
-            </a>
-        </div>
-
-        <a href="{{ route('login') }}" class="btn-login">
-            <i class="fas fa-sign-in-alt" style="font-size:13px"></i>
-            Login
-        </a>
-    </div>
-</header>
 
 <main>
+    <section id="artikel1" class="section-usage">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-eyebrow">Sharing Session</span>
+                <h2 class="section-title">
+                    Visualisasi Data Sederhana Menggunakan Looker Studio
+                </h2>
+                <p class="section-desc">
+                    Kegiatan sharing session ini membahas cara membuat visualisasi data secara sederhana menggunakan Google Looker Studio untuk membantu penyajian informasi menjadi lebih menarik, interaktif, dan mudah dipahami.
+                </p>
+            </div>
 
-<!-- ===== HERO ===== -->
-<section id="hero" class="hero">
-    <!-- Background image — ganti path sesuai lokasi foto Anda -->
-    <img src="{{ asset('storage/photos-landingpage/hero-bg.png') }}" alt="" class="hero-bg-image" aria-hidden="true">
-    <!-- Dark transparent overlay agar teks tetap terbaca -->
-    <div class="hero-overlay"></div>
-    <!-- Accent glow kiri bawah -->
-    <div class="hero-accent"></div>
-
-    <div class="hero-inner">
-
-        <div class="hero-text-col">
-            <h1 class="hero-title">
-                Sitem Magang untuk <span>Kampus dan Sekolah</span> Masa Kini
-            </h1>
-
-            <p class="hero-desc">
-                Dapatkan pengalaman terbaik hanya melalui mitra terpercaya. Masa depan menawarkan peluang yang lebih besar saatnya tumbuh menjadi talenta profesional dan uji kemampuanmu bersama BBLSDM Komdigi Makassar sekarang.
-            </p>
-
-            <div class="hero-stats">
+            <div class="step-block reveal">
                 <div>
-                    <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
-                    <div class="hero-stat-label">Siswa/Mahasiswa</div>
+                    <div class="step-badge">
+                        <i class="fas fa-chart-line"></i>
+                        Sharing Session
+                    </div>
+
+                    <div class="step-icon-wrap">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+
+                    <h3 class="step-title">
+                        Memahami Dasar Visualisasi Data
+                    </h3>
+
+                    <p class="step-desc">
+                        Pada kegiatan ini, peserta diperkenalkan dengan konsep dasar visualisasi data serta pentingnya penyajian data yang efektif dalam mendukung analisis dan pengambilan keputusan. Materi difokuskan pada penggunaan Looker Studio sebagai salah satu tools visualisasi data yang mudah digunakan dan dapat diakses secara online.
+                    </p>
+
+                    <ul class="step-list">
+                        <li>Mengenal fitur dasar Looker Studio</li>
+                        <li>Membuat dashboard sederhana</li>
+                        <li>Menghubungkan data dari spreadsheet</li>
+                        <li>Menampilkan grafik dan tabel interaktif</li>
+                    </ul>
                 </div>
-                <div class="hero-stat-divider"></div>
+
+                <div class="step-image-wrap">
+                    <img src="{{ asset('storage/artikel/artikel_1.jpeg') }} "
+                        alt="Sharing Session Looker Studio" 
+                        class="step-image">
+                </div>
+            </div>
+
+            <div class="step-block reveal">
+                <div class="step-image-wrap order-swap">
+                    <img src="{{ asset('storage/artikel/artikel_1_1.png') }} " 
+                        alt="Praktik Looker Studio" 
+                        class="step-image">
+                </div>
+
+                <div class="order-swap">
+                    <div class="step-badge">
+                        <i class="fas fa-users"></i>
+                        Praktik Langsung
+                    </div>
+
+                    <div class="step-icon-wrap">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+
+                    <h3 class="step-title">
+                        Praktik Membuat Dashboard Interaktif
+                    </h3>
+
+                    <p class="step-desc">
+                        Selain penyampaian materi, peserta juga melakukan praktik langsung membuat dashboard visualisasi data menggunakan dataset sederhana. Melalui sesi ini, peserta belajar bagaimana mengubah data mentah menjadi tampilan informasi yang lebih komunikatif dan mudah dianalisis.
+                    </p>
+
+                    <ul class="step-list">
+                        <li>Mendesain tampilan dashboard</li>
+                        <li>Mengatur filter dan interaksi data</li>
+                        <li>Menggunakan chart untuk analisis sederhana</li>
+                        <li>Meningkatkan kemampuan pengolahan data digital</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step-block reveal">
                 <div>
-                    <div class="hero-stat-num text-center">11+</div>
-                    <div class="hero-stat-label">Mitra pendidikan dan industri</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div>
-                    <div class="hero-stat-num text-center">93.25</div>
-                    <div class="hero-stat-label">Tingkat Kepuasan</div>
-                </div>
-            </div>
-
-            <div class="hero-btns">
-                <a href="#daftar" class="btn-primary">
-                    <i class="fas fa-rocket" style="font-size:14px"></i>
-                    Daftar Sekarang
-                </a>
-                <a href="#usage" class="btn-outline">
-                    Lihat Fitur
-                    <i class="fas fa-arrow-right" style="font-size:13px"></i>
-                </a>
-            </div>
-
-        </div>
-
-        {{-- <div class="hero-image-wrap">
-            <div class="hero-image-card">
-                <img src="{{ asset('storage/photos-landingpage/hero.png') }}" alt="Dashboard Simagang">
-            </div>
-        </div> --}}
-
-    </div>
-</section>
-
-<!-- ===== PROSES ===== -->
-<section id="process" class="section-process">
-    <div class="container">
-        <div class="section-header reveal">
-            <span class="section-eyebrow">Alur Magang</span>
-            <h2 class="section-title">Langkah Sederhana untuk Setiap Pengguna</h2>
-            <p class="section-desc">Mulai dari pendaftaran hingga sertifikat, semua proses dipandu dengan tampilan yang mudah dipahami.</p>
-        </div>
-
-        <!-- Desktop Grid -->
-        <div class="process-grid">
-            <div class="process-card reveal">
-                <div class="process-num">01</div>
-                <div class="process-icon"><i class="fas fa-user-plus"></i></div>
-                <h3 class="process-title">Daftar & Profil</h3>
-                <p class="process-desc">Isi data peserta dan pilih institusi asal dengan cepat. Sistem akan memandu proses onboarding secara otomatis.</p>
-            </div>
-            <div class="process-card reveal">
-                <div class="process-num">02</div>
-                <div class="process-icon"><i class="fas fa-calendar-check"></i></div>
-                <h3 class="process-title">Absensi & Logbook</h3>
-                <p class="process-desc">Catat kehadiran dan aktivitas magang setiap hari secara digital. Mentor dapat memantau perkembangan secara real time.</p>
-            </div>
-            <div class="process-card reveal">
-                <div class="process-num">03</div>
-                <div class="process-icon"><i class="fas fa-award"></i></div>
-                <h3 class="process-title">Laporan & Sertifikat</h3>
-                <p class="process-desc">Upload laporan akhir, terima feedback mentor, dan dapatkan sertifikat digital resmi secara otomatis.</p>
-            </div>
-        </div>
-
-        <!-- Mobile Carousel -->
-        <div class="process-carousel" id="process-carousel">
-            <div class="carousel-wrapper" id="process-wrapper">
-                <div class="carousel-item">
-                    <div class="process-card">
-                        <div class="process-num">01</div>
-                        <div class="process-icon"><i class="fas fa-user-plus"></i></div>
-                        <h3 class="process-title">Daftar & Profil</h3>
-                        <p class="process-desc">Isi data peserta dan pilih institusi asal dengan cepat.</p>
+                    <div class="step-badge">
+                        <i class="fas fa-lightbulb"></i>
+                        Insight
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="process-card">
-                        <div class="process-num">02</div>
-                        <div class="process-icon"><i class="fas fa-calendar-check"></i></div>
-                        <h3 class="process-title">Absensi & Logbook</h3>
-                        <p class="process-desc">Catat kehadiran dan aktivitas magang setiap hari secara digital.</p>
+
+                    <div class="step-icon-wrap">
+                        <i class="fas fa-chart-pie"></i>
                     </div>
+
+                    <h3 class="step-title">
+                        Meningkatkan Literasi Data Digital
+                    </h3>
+
+                    <p class="step-desc">
+                        Sharing session ini diharapkan dapat membantu peserta memahami pentingnya visualisasi data di era digital. Dengan memanfaatkan Looker Studio, peserta dapat menyajikan data secara lebih profesional, informatif, dan menarik untuk berbagai kebutuhan laporan maupun presentasi.
+                    </p>
+
+                    <ul class="step-list">
+                        <li>Belajar menyampaikan data secara visual</li>
+                        <li>Meningkatkan keterampilan digital</li>
+                        <li>Membantu analisis data lebih efektif</li>
+                        <li>Mendorong kreativitas dalam penyajian informasi</li>
+                    </ul>
                 </div>
-                <div class="carousel-item">
-                    <div class="process-card">
-                        <div class="process-num">03</div>
-                        <div class="process-icon"><i class="fas fa-award"></i></div>
-                        <h3 class="process-title">Laporan & Sertifikat</h3>
-                        <p class="process-desc">Upload laporan akhir dan dapatkan sertifikat digital resmi.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-nav">
-                <button class="carousel-btn" id="process-prev"><i class="fas fa-chevron-left"></i></button>
-                <div class="dot-wrap" id="process-dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                <button class="carousel-btn" id="process-next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- ===== FITUR / PENGGUNAAN ===== -->
-<section id="usage" class="section-usage">
-    <div class="container">
-        <div class="section-header reveal">
-            <span class="section-eyebrow-alt">Tutorial</span>
-            <h2 class="section-title">
-                Cara Menggunakan
-                <span class="font-etna" style="color:#9d272a">SI</span><span class="font-etna" style="color:#086bb0">MA</span><span class="font-etna" style="color:#2dabe2">GA</span><span class="font-etna" style="color:#efc400">NG</span>
-            </h2>
-            <p class="section-desc">Ikuti langkah-langkah berikut untuk memahami alur penggunaan aplikasi secara cepat dan mudah.</p>
-        </div>
-
-        <!-- Step 1 -->
-        <div class="step-block reveal">
-            <div class="step-image-wrap" style="display:flex;justify-content:center">
-                <img src="{{ asset('storage/tutorial/dashboardLP.png') }}" alt="Dashboard" class="step-image" style="width:50%">
-            </div>
-            <div>
-                <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 1</div>
-                <div class="step-icon-wrap"><i class="fas fa-home"></i></div>
-                <h3 class="step-title">Lihat Ringkasan Dashboard</h3>
-                <p class="step-desc">Setelah login, Anda akan melihat ringkasan aktivitas magang, status absensi, dan akses cepat untuk laporan serta mikro skill.</p>
-                <ul class="step-list">
-                    <li>Informasi hadir, izin, dan sakit secara real time</li>
-                    <li>Status laporan dan mikroskill langsung terlihat</li>
-                    <li>Tombol pintas untuk akses absensi dan logbook</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="step-block reveal">
-            <div class="order-swap">
-                <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 2</div>
-                <div class="step-icon-wrap"><i class="fas fa-calendar-check"></i></div>
-                <h3 class="step-title">Kelola Absensi</h3>
-                <p class="step-desc">Lakukan absensi harian sebagai bukti kehadiran selama kegiatan magang berlangsung secara akurat dan real-time.</p>
-                <ul class="step-list">
-                    <li>Check-in dan check-out harian secara digital</li>
-                    <li>Verifikasi lokasi untuk memastikan kehadiran valid</li>
-                    <li>Riwayat absensi tersimpan otomatis</li>
-                </ul>
-            </div>
-            <div class="step-image-wrap">
-                <img src="{{ asset('storage/tutorial/absen.jpeg') }}" alt="Absensi" class="step-image">
-            </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="step-block reveal">
-            <div class="step-image-wrap">
-                <img src="{{ asset('storage/tutorial/logbook.png') }}" alt="Logbook" class="step-image">
-            </div>
-            <div>
-                <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 3</div>
-                <div class="step-icon-wrap"><i class="fas fa-book"></i></div>
-                <h3 class="step-title">Kelola Logbook</h3>
-                <p class="step-desc">Catat aktivitas pekerjaan harian untuk mendokumentasikan progres dan hasil kerja selama magang.</p>
-                <ul class="step-list">
-                    <li>Mencatat aktivitas kerja setiap hari</li>
-                    <li>Riwayat kegiatan tersimpan rapi dan terstruktur</li>
-                    <li>Dapat dipantau dan direview oleh mentor</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="step-block reveal">
-            <div class="order-swap">
-                <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 4</div>
-                <div class="step-icon-wrap"><i class="fas fa-file-upload"></i></div>
-                <h3 class="step-title">Upload Laporan</h3>
-                <p class="step-desc">Kirim laporan akhir magang sebagai bentuk hasil evaluasi dan dokumentasi kegiatan yang telah dilakukan.</p>
-                <ul class="step-list">
-                    <li>Upload laporan dalam berbagai format file</li>
-                    <li>Status laporan dapat dipantau secara langsung</li>
-                    <li>Mendapatkan feedback dan revisi dari mentor</li>
-                </ul>
-            </div>
-            <div class="step-image-wrap">
-                <img src="{{ asset('storage/tutorial/laporan.png') }}" alt="Laporan" class="step-image">
-            </div>
-        </div>
-
-        <!-- Step 5 -->
-        <div class="step-block reveal">
-            <div class="step-image-wrap" style="display:flex;justify-content:center">
-                <img src="{{ asset('storage/tutorial/mikroskill.png') }}" alt="Mikroskill" class="step-image" style="width:50%">
-            </div>
-            <div>
-                <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Langkah 5</div>
-                <div class="step-icon-wrap"><i class="fas fa-award"></i></div>
-                <h3 class="step-title">Mikroskill & Sertifikat</h3>
-                <p class="step-desc">Lengkapi penilaian mikroskill untuk mengukur kompetensi yang diperoleh selama magang dan dapatkan sertifikat resmi.</p>
-                <ul class="step-list">
-                    <li>Penilaian kompetensi berdasarkan aktivitas</li>
-                    <li>Validasi oleh mentor atau pembimbing</li>
-                    <li>Sertifikat digital otomatis setelah selesai</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== TESTIMONI ===== -->
-<section id="testimonials" class="section-testimonials">
-    <div class="container">
-        <div class="section-header reveal">
-            <span class="section-eyebrow">Testimoni</span>
-            <h2 class="section-title">Dipercaya oleh Banyak Institusi</h2>
-            <p class="section-desc">Berbagai kampus dan sekolah sudah menggunakan Simagang untuk mengelola program magang mereka.</p>
-        </div>
-
-        <!-- Desktop Grid -->
-        <div class="testi-grid">
-            @php $testimonials = $testimonials ?? []; @endphp
-            @forelse($testimonials as $testimony)
-                <div class="testi-card reveal">
-                    <div class="testi-quote-icon">"</div>
-                    <div class="testi-stars">★★★★★</div>
-                    <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
-                    <div class="testi-author">
-                        <div class="testi-avatar">
-                            <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
-                        </div>
-                        <div>
-                            <div class="testi-name">{{ $testimony->intern->name }}</div>
-                            <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div style="grid-column:1/-1;text-align:center;padding:2rem">
-                    <p style="color:#4b6580;font-size:1.05rem;margin:0">Belum ada testimoni. Jadilah yang pertama berbagi pengalaman Anda!</p>
-                </div>
-            @endforelse
-        </div>
-
-        <!-- Mobile Carousel -->
-        @if(count($testimonials ?? []) > 0)
-        <div class="testi-carousel" id="testi-carousel">
-            <div class="carousel-wrapper" id="testi-wrapper">
-                @foreach($testimonials as $testimony)
-                <div class="carousel-item">
-                    <div class="testi-card">
-                        <div class="testi-quote-icon">"</div>
-                        <div class="testi-stars">★★★★★</div>
-                        <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
-                        <div class="testi-author">
-                            <div class="testi-avatar">
-                                <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
-                            </div>
-                            <div>
-                                <div class="testi-name">{{ $testimony->intern->name }}</div>
-                                <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <div class="carousel-nav">
-                <button class="carousel-btn" id="testi-prev"><i class="fas fa-chevron-left"></i></button>
-                <div class="dot-wrap" id="testi-dots">
-                    @foreach($testimonials as $i => $t)
-                    <div class="dot{{ $i === 0 ? ' active' : '' }}"></div>
-                    @endforeach
-                </div>
-                <button class="carousel-btn" id="testi-next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-        @endif
-    </div>
-</section>
-
-<!-- ===== PARTNERS ===== -->
-<section id="partners" class="section-partners">
-    <div class="container">
-        <div class="section-header reveal">
-            <span class="section-eyebrow-alt">Partner</span>
-            <h2 class="section-title">Institusi yang Telah Bergabung</h2>
-            <p class="section-desc">Bergabunglah bersama institusi terkemuka yang sudah mempercayakan manajemen magang kepada Simagang.</p>
-        </div>
-        <div class="partners-grid">
-            @php $partners = $partners ?? []; @endphp
-            @forelse($partners as $partner)
-                <div class="partner-card reveal">
-                    <img src="{{ $partner }}" alt="Logo partner">
-                </div>
-            @empty
-                <div class="partner-empty reveal">
-                    <i class="fas fa-building" style="font-size:2rem;color:#bfdbfe;margin-bottom:0.75rem;display:block"></i>
-                    <p style="margin:0;font-size:15px">Belum ada logo partner yang ditambahkan.</p>
-                </div>
-            @endforelse
-        </div>
-    </div>
-</section>
-
-<!-- ===== FOTO/MICRO SKILL ===== -->
-<section id="news" class="py-24 bg-[#f8faff]">
-    <div class="container mx-auto px-6">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <h2 class="text-3xl font-bold text-[#020b1a]">Aktivitas Terbaru</h2>
-                <div class="h-1 w-20 bg-[#00f2ff] mt-2"></div>
-            </div>
-        </div>
-
-        <div class="news-container">
-    <div class="news-main-card relative group overflow-hidden rounded-[24px] h-[500px]">
-        <div id="newsSlider" class="flex transition-transform duration-700 ease-in-out h-full">
-            
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession01.jpeg') }}" class="w-full h-full object-cover" alt="Berita 1">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Terbaru</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Knowledge Management</h3>
-                    <p class="text-gray-300 text-sm">5 Mei 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/senampagi.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Kamis Bersih & Senam</h3>
-                    <p class="text-gray-300 text-sm">16 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession02.jpg') }}" class="w-full h-full object-cover" alt="Berita 3">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Update</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Bijak Berkomentar di Era Digital</h3>
-                    <p class="text-gray-300 text-sm">7 Mei 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/diskusi02.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Diskusi Bersama Mentor</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession03.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : </h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/kerjaproject.webp') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Mengerjakan Project</h3>
-                    <p class="text-gray-300 text-sm">12 Februari 2026</p>
-                </div>
-            </div>
-
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/diskusi.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Diskusi Kelas</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession04.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Data Visualization</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
+                <div class="step-image-wrap">
+                    <img src="{{ asset('storage/artikel/artikel_1_2.jpeg') }} " 
+                        alt="Peserta Sharing Session" 
+                        class="step-image">
                 </div>
             </div>
         </div>
-
-        <div class="absolute bottom-5 right-10 flex gap-2">
-            <div class="w-2 h-2 rounded-full bg-[#00f2ff] opacity-50"></div>
-            <div class="w-2 h-2 rounded-full bg-white opacity-30"></div>
-            <div class="w-2 h-2 rounded-full bg-white opacity-30"></div>
-        </div>
-    </div>
-
-            <div class="news-side-list">
-                <a href="{{route('artikel_1')}}" target="_blank" class="news-side-item">
-                    <img src="{{ asset('storage/artikel/artikel_1.jpeg') }} " class="news-side-img">
-                    <div class="news-side-content">
-                        <span class="text-[11px] text-[#00f2ff] font-semibold mb-1">Artikel 1</span>
-                        <h4 class="news-side-title">Sharing Session</h4>
-                        <span class="text-[12px] text-gray-400">07 Mei 2026</span>
-                    </div>
-                </a>
-
-                <a href="{{route('artikel_2')}}" target="_blank" class="news-side-item">
-                    <img src="#" class="news-side-img">
-                    <div class="news-side-content">
-                        <span class="text-[11px] text-[#00f2ff] font-semibold mb-1">Artikel 2</span>
-                        <h4 class="news-side-title">Podcast</h4>
-                        <span class="text-[12px] text-gray-400">06 Mei 2026</span>
-                    </div>
-                </a>
-
-                <a href="{{route('artikel_2')}}" target="_blank" class="news-side-item">
-                    <img src="#" class="news-side-img">
-                    <div class="news-side-content">
-                        <span class="text-[11px] text-[#00f2ff] font-semibold mb-1">Artikel 3</span>
-                        <h4 class="news-side-title">Senam Sehat</h4>
-                        <span class="text-[12px] text-gray-400">05 Mei 2026</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== CTA / PENDAFTARAN ===== -->
-<section class="section-cta">
-    <div id="daftar" class="container">
-        <div class="cta-inner">
-            <div class="reveal">
-                <div class="cta-tag">Pendaftaran Institusi</div>
-                <h2 class="cta-title">Khusus untuk Sekolah & Kampus</h2>
-                <p class="cta-desc">Bergabunglah sekarang dan mulai kelola program magang institusi Anda dengan lebih efisien dan profesional bersama Simagang.</p>
-                <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
-                    <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px">
-                        <i class="fas fa-check-circle" style="color:#22d3ee;font-size:16px"></i>
-                        Gratis untuk institusi pendidikan
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px">
-                        <i class="fas fa-check-circle" style="color:#22d3ee;font-size:16px"></i>
-                        Dukungan teknis 24/7
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px">
-                        <i class="fas fa-check-circle" style="color:#22d3ee;font-size:16px"></i>
-                        Setup dalam hitungan menit
-                    </div>
-                </div>
-            </div>
-            <div class="cta-cards reveal">
-                <a href="{{ route('institusi.create') }}" class="cta-card">
-                    <div class="cta-card-left">
-                        <div class="cta-card-icon" style="background:linear-gradient(135deg,#0ea5e9,#22d3ee)">
-                            <i class="fas fa-school"></i>
-                        </div>
-                        <div>
-                            <div class="cta-card-name">Sekolah / SMK</div>
-                            <div class="cta-card-sub">Daftar melalui Tata Usaha (TU)</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-arrow-right cta-arrow"></i>
-                </a>
-                <a href="{{ route('institusi.create') }}" class="cta-card">
-                    <div class="cta-card-left">
-                        <div class="cta-card-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div>
-                            <div class="cta-card-name">Universitas / Kampus</div>
-                            <div class="cta-card-sub">Wajib melalui Departemen terkait</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-arrow-right cta-arrow"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
 </main>
 

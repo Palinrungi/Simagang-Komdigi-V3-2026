@@ -66,7 +66,7 @@ Route::get('/', function () {
         ->values();
 
     $testimonials = Testimonial::with(['intern', 'finalReport'])->orderBy('created_at', 'desc')->limit(3)->get();
-    $totalPesertaAktif = \App\Models\Intern::where('is_active', 1)->count();
+    $totalPesertaAktif = \App\Models\Intern::count();
 
     return view('landingpage', compact('partners', 'testimonials', 'totalPesertaAktif'));
 })->name('landing');
@@ -83,6 +83,19 @@ Route::get('/convert-font', function () {
 
     return 'Poppins Reguler berhasil di-convert';
 });
+
+// Artikel
+Route::get('/artikel1', function () {
+    return view('artikel.artikel_1');
+})->name('artikel_1');
+
+Route::get('/artikel2', function () {
+    return view('artikel.artikel_2');
+})->name('artikel_2');
+
+Route::get('/artikel3', function () {
+    return view('artikel.artikel_3');
+})->name('artikel_3');
 
 // API Routes for Institution Search
 Route::get('/api/institutions/search', [InstitutionController::class, 'searchUniversities'])->name('api.institutions.search');

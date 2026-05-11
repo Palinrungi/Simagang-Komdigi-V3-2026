@@ -237,7 +237,7 @@
                                 @can('manage_teams')
                                 <a href="{{ route('admin.team.index') }}" class="{{ request()->routeIs('admin.team.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                     <i class="fas fa-users w-4 mr-3 text-xs"></i>
-                                    Tim
+                                    Tim Kerja/Bagian
                                 </a>
                                 @endcan
                             </div>
@@ -551,7 +551,7 @@
                                         @can('manage_teams')
                                         <a href="{{ route('admin.team.index') }}" class="{{ request()->routeIs('admin.team.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                             <i class="fas fa-users w-4 mr-3 text-xs"></i>
-                                            Tim
+                                            Tim Kerja/Bagian
                                         </a>
                                         @endcan
                                     </div>
