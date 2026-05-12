@@ -903,7 +903,7 @@
             <div class="hero-stats">
                 <div>
                     <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
-                    <div class="hero-stat-label">Siswa/Mahasiswa</div>
+                    <div class="hero-stat-label">Peserta Magang</div>
                 </div>
                 <div class="hero-stat-divider"></div>
                 <div>
