@@ -146,7 +146,7 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
                             <h1 class="text-3xl font-bold leading-tight text-white mb-1">Riwayat Absensi</h1>
-                            <p class="text-blue-200">Pantau dan kelola absensi harian Anda</p>
+                            <p class="text-blue-200">Pantau dan kelola absensi harianmu</p>
                         </div>
                         @if ($cekaktif)
                             <a href="{{ route('intern.attendance.create') }}" class="cta-btn">
@@ -164,7 +164,7 @@
                     <div class="stat-tile" style="--stat-color:#22c55e;">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="text-xs font-bold text-gray-500 uppercase">Total Hadir</p>
+                                <p class="text-xs font-bold text-gray-500 uppercase">Kehadiran</p>
                                 <p class="text-2xl font-extrabold mt-2">{{ $totalHadir }}</p>
                             </div>
                             <div class="stat-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a);">
@@ -177,7 +177,7 @@
                     <div class="stat-tile" style="--stat-color:#f59e0b;">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="text-xs font-bold text-gray-500 uppercase">Total Izin</p>
+                                <p class="text-xs font-bold text-gray-500 uppercase">Izin</p>
                                 <p class="text-2xl font-extrabold mt-2">{{ $totalIzin }}</p>
                             </div>
                             <div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
@@ -190,7 +190,7 @@
                     <div class="stat-tile" style="--stat-color:#ef5350;">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="text-xs font-bold text-gray-500 uppercase">Total Sakit</p>
+                                <p class="text-xs font-bold text-gray-500 uppercase">Sakit</p>
                                 <p class="text-2xl font-extrabold mt-2">{{ $totalSakit }}</p>
                             </div>
                             <div class="stat-icon" style="background:linear-gradient(135deg,#ef5350,#e53935);">

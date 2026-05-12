@@ -365,7 +365,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 class="text-3xl font-bold leading-tight">Mikro Skill Saya</h1>
-                        <p class="text-blue-200">Kelola pengumpulan mikro skill Anda</p>
+                        <p class="text-blue-200">Kelola aktifitas mikro skillmu</p>
                     </div>
 
                     <div></div>
@@ -435,7 +435,7 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold text-white flex items-center">
                         <i class="fas fa-star mr-3"></i>
-                        Data Mikro Skill
+                        Mikro Skill Selesai
                     </h2>
                     <div class="flex items-center gap-3">
                         <form method="GET" action="{{ route('intern.microskill.index') }}" class="ms-search-wrap">

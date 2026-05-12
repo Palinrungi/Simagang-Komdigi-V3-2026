@@ -52,7 +52,7 @@
             <div class="relative z-10 px-6 py-6 flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold text-white mb-1">Edit Profile</h1>
-                    <p class="text-blue-200 text-sm">Perbarui informasi profil Anda</p>
+                    <p class="text-blue-200 text-sm">Perbarui informasi profilmu</p>
                 </div>
                 <a href="{{ route('intern.profile.show') }}" class="btn-back">
                     <i class="fas fa-arrow-left"></i> Kembali

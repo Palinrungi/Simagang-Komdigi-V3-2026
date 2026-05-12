@@ -309,7 +309,7 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
                             <h1 class="text-3xl font-bold leading-tight text-white mb-1">Logbook Harian</h1>
-                            <p class="text-blue-200">Catat dan kelola aktivitas harian Anda</p>
+                            <p class="text-blue-200">Catat dan kelola aktivitas harianmu</p>
                         </div>
                         @if ($cekaktif)
                             <a href="{{ route('intern.logbook.create') }}" class="cta-btn">
@@ -457,7 +457,7 @@
                                             <div class="flex flex-col items-center justify-center text-gray-500">
                                                 <i class="fas fa-book text-5xl mb-3 text-gray-300"></i>
                                                 <p class="text-lg font-medium">Belum ada logbook.</p>
-                                                <p class="text-sm mt-2">Mulai dengan membuat logbook pertama Anda.</p>
+                                                <p class="text-sm mt-2">Mulai dengan membuat logbook pertama.</p>
                                                 @if ($cekaktif)
                                                     <a href="{{ route('intern.logbook.create') }}"
                                                         class="mt-4 inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300">
