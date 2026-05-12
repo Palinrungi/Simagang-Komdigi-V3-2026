@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Micro Skill Intern - Sistem Manajemen Magang')
+@section('title', 'Mikro Skill Intern - Sistem Manajemen Magang')
 
 @push('styles')
     <style>
@@ -293,13 +293,13 @@
             <div class="hero-strip mb-6">
                 <div class="relative z-10 px-6 py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 class="hero-title text-4xl font-bold mb-1">Micro Skill Intern</h1>
-                        <p class="text-blue-100">Monitoring micro skill anak magang</p>
+                        <h1 class="hero-title text-4xl font-bold mb-1">Mikro Skill Intern</h1>
+                        <p class="text-blue-100">Monitoring mikro skill anak magang</p>
                     </div>
                     <div class="flex-shrink-0">
                         <a href="{{ route('admin.microskill.create') }}" class="btn-add">
                             <i class="fas fa-plus text-sm"></i>
-                            Tambah Microskill
+                            Tambah Mikroskill
                         </a>
                     </div>
                 </div>
@@ -314,9 +314,9 @@
                 </div>
                 <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 p-6">
                     <div class="md:col-span-3">
-                        <label class="block text-sm font-medium text-gray-600 mb-2">Cari (judul/link)</label>
+                        <label class="block text-sm font-medium text-gray-600 mb-2">Cari judul</label>
                         <input type="text" name="q" value="{{ request('q') }}" class="input-main"
-                               placeholder="Ketik untuk mencari..." />
+                            placeholder="Ketik untuk mencari..." />
                     </div>
                     <div class="flex items-end gap-2">
                         <button type="submit" class="action-mobile flex-1 btn-filter">
@@ -335,9 +335,9 @@
             <div class="panel overflow-hidden">
                 <div class="bg-blue-600 px-6 py-4 flex items-center justify-between">
                     <h2 class="text-xl font-bold text-white flex items-center">
-                        <i class="fas fa-star mr-3"></i>Data Micro Skill
+                        <i class="fas fa-star mr-3"></i>Data Mikro Skill
                     </h2>
-                    <span class="count-badge">{{ $microskills->total() }} microskill</span>
+                    <span class="count-badge">{{ $microskills->total() }} mikro skill</span>
                 </div>
                 <div class="p-6">
                     <div class="overflow-x-auto" style="max-height:560px;overflow-y:auto;">
@@ -378,7 +378,7 @@
                                                 </a>
                                                 <form action="{{ route('admin.microskill.destroy', ['id' => $m->id]) }}"
                                                       method="POST" class="inline"
-                                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus microskill ini?')">
+                                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus mikro skill ini?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="action-btn action-delete">
@@ -393,7 +393,7 @@
                                         <td colspan="4">
                                             <div class="empty-state">
                                                 <i class="fas fa-inbox"></i>
-                                                <p>Tidak ada data micro skill.</p>
+                                                <p>Tidak ada data mikro skill.</p>
                                             </div>
                                         </td>
                                     </tr>

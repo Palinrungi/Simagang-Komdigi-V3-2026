@@ -276,7 +276,7 @@
 
                                 <a href="{{ route('admin.microskill.index') }}" class="{{ request()->routeIs('admin.microskill.index', 'admin.microskill.create', 'admin.microskill.edit', 'admin.microskill.show') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                     <i class="fas fa-star w-4 mr-3 text-xs"></i>
-                                    Micro Skill
+                                    Mikro Skill
                                 </a>
                             </div>
                         </div>
@@ -326,7 +326,7 @@
                         </a>
                         <a href="{{ route('mentor.microskill.index') }}" class="{{ request()->routeIs('mentor.microskill.index', 'mentor.microskill.create', 'mentor.microskill.edit', 'mentor.microskill.show') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                             <i class="fas fa-star w-5 mr-3"></i>
-                            Micro Skill
+                            Mikro Skill
                         </a>
                     @elseif(auth()->user()->isInstitusi())
                         <a href="{{ route('institusi.dashboard') }}" class="{{ request()->routeIs('institusi.dashboard') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
@@ -369,7 +369,7 @@
                                 <a href="{{ route('institusi.microskill.index') }}"
                                     class="{{ request()->routeIs('institusi.microskill.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                     <i class="fas fa-graduation-cap w-4 mr-3 text-xs"></i>
-                                    Micro Skill
+                                    Mikro Skill
                                 </a>
                                 <a href="{{ route('institusi.certificate.index') }}"
                                     class="{{ request()->routeIs('institusi.certificate.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
@@ -397,7 +397,7 @@
                         </a>
                         <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.index', 'intern.microskill.create', 'intern.microskill.edit', 'intern.microskill.show') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                             <i class="fas fa-star w-5 mr-3"></i>
-                            Micro Skill
+                            Mikro Skill
                         </a>
                     @endif
                 @endauth
@@ -587,7 +587,7 @@
                                         @endcan
                                         <a href="{{ route('admin.microskill.index') }}" class="{{ request()->routeIs('admin.microskill.index', 'admin.microskill.create', 'admin.microskill.edit', 'admin.microskill.show') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                             <i class="fas fa-star w-4 mr-3 text-xs"></i>
-                                            Micro Skill
+                                            Mikro Skill
                                         </a>
                                     </div>
                                 </div>
@@ -637,7 +637,7 @@
                                 </a>
                                 <a href="{{ route('mentor.microskill.index') }}" class="{{ request()->routeIs('mentor.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-star w-5 mr-3"></i>
-                                    Micro Skill
+                                    Mikro Skill
                                 </a>
                             @elseif(auth()->user()->isInstitusi())
                                 <a href="{{ route('institusi.dashboard') }}" class="{{ request()->routeIs('institusi.dashboard') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
@@ -680,7 +680,7 @@
                                         <a href="{{ route('institusi.microskill.index') }}"
                                             class="{{ request()->routeIs('institusi.microskill.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                             <i class="fas fa-graduation-cap w-4 mr-3 text-xs"></i>
-                                            Micro Skill
+                                            Mikro Skill
                                         </a>
                                         <a href="{{ route('institusi.certificate.index') }}"
                                             class="{{ request()->routeIs('institusi.certificate.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
@@ -708,7 +708,7 @@
                                 </a>
                                 <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-star w-5 mr-3"></i>
-                                    Micro Skill
+                                    Mikro Skill
                                 </a>
                             @endif
                         @endauth

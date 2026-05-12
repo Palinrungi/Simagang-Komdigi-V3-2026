@@ -76,11 +76,11 @@
         .stat-card {
             background: #fff;
             border-radius: 1rem;
-            padding: 1.5rem;
             box-shadow: 0 1px 3px rgba(30, 58, 138, 0.06), 0 4px 20px rgba(30, 58, 138, 0.06);
-            position: relative;
-            overflow: hidden;
+            overflow: hidden;          /* ← garis ikut terbawa */
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .stat-card:hover {
@@ -133,39 +133,6 @@
     <div class="dash-bg py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            {{-- <!-- Alert Messages -->
-        @if ($errors->any())
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-6 shadow-sm">
-                <div class="flex items-center mb-2">
-                    <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
-                    <span class="font-semibold text-red-800">Terdapat kesalahan:</span>
-                </div>
-                <ul class="ml-6 list-disc text-red-700">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        @if (session('success'))
-            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-6 shadow-sm alert alert-success">
-                <div class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                    <span class="text-green-800">{{ session('success') }}</span>
-                </div>
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-6 shadow-sm alert alert-error">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
-                    <span class="text-red-800">{{ session('error') }}</span>
-                </div>
-            </div>
-        @endif --}}
-
             <div class="hero-strip mb-6">
                 <div class="relative z-10 px-6 py-7">
                     <h1 class="hero-title text-3xl sm:text-4xl font-bold leading-tight mb-2">Monitoring Bulanan</h1>
@@ -188,42 +155,31 @@
 
                             <!-- Bulan -->
                             <div>
-                                <label for="month" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i></i> Pilih Bulan
-                                </label>
+                                <label for="month" class="block text-sm font-semibold text-gray-700 mb-2">Pilih Bulan</label>
                                 <input type="month" name="month" id="month" value="{{ $selectedMonthYm }}"
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
                             </div>
 
                             <!-- Status -->
                             <div>
-                                <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i></i> Status Anak Magang
-                                </label>
+                                <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">Status Anak Magang</label>
                                 <select name="status" id="status"
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
                                     <option value="all">Semua</option>
-                                    <option value="masuk" {{ $selectedStatus === 'masuk' ? 'selected' : '' }}>Masuk
-                                    </option>
-                                    <option value="aktif" {{ $selectedStatus === 'aktif' ? 'selected' : '' }}>Aktif
-                                    </option>
-                                    <option value="akan_pelepasan"
-                                        {{ $selectedStatus === 'akan_pelepasan' ? 'selected' : '' }}>Akan Pelepasan</option>
-                                    {{-- <option value="pelepasan" {{ $selectedStatus === 'pelepasan' ? 'selected' : '' }}>Pelepasan</option> --}}
+                                    <option value="masuk"          {{ $selectedStatus === 'masuk'          ? 'selected' : '' }}>Masuk</option>
+                                    <option value="aktif"          {{ $selectedStatus === 'aktif'          ? 'selected' : '' }}>Aktif</option>
+                                    <option value="akan_pelepasan" {{ $selectedStatus === 'akan_pelepasan' ? 'selected' : '' }}>Akan Pelepasan</option>
                                 </select>
                             </div>
 
                             <!-- Mentor -->
                             <div>
-                                <label for="mentor_id" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i></i> Mentor
-                                </label>
+                                <label for="mentor_id" class="block text-sm font-semibold text-gray-700 mb-2">Mentor</label>
                                 <select name="mentor_id" id="mentor_id"
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
                                     <option value="">Semua Mentor</option>
                                     @foreach ($mentors as $mentor)
-                                        <option value="{{ $mentor->id }}"
-                                            {{ $selectedMentor == $mentor->id ? 'selected' : '' }}>
+                                        <option value="{{ $mentor->id }}" {{ $selectedMentor == $mentor->id ? 'selected' : '' }}>
                                             {{ $mentor->name }}
                                         </option>
                                     @endforeach
@@ -232,15 +188,12 @@
 
                             <!-- Kampus -->
                             <div>
-                                <label for="institution" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    <i></i> Kampus
-                                </label>
+                                <label for="institution" class="block text-sm font-semibold text-gray-700 mb-2">Kampus</label>
                                 <select name="institution" id="institution"
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
                                     <option value="">Semua Kampus</option>
                                     @foreach ($institutions as $inst)
-                                        <option value="{{ $inst }}"
-                                            {{ request('institution') === $inst ? 'selected' : '' }}>
+                                        <option value="{{ $inst }}" {{ request('institution') === $inst ? 'selected' : '' }}>
                                             {{ $inst }}
                                         </option>
                                     @endforeach
@@ -253,7 +206,6 @@
                                     class="flex-1 h-[42px] bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                                     <i class="fas fa-filter mr-1"></i> Filter
                                 </button>
-
                                 @if (request()->anyFilled(['month', 'status', 'mentor_id', 'institution']))
                                     <a href="{{ route('admin.monitoring.index') }}"
                                         class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 px-4 rounded-lg transition duration-200">
@@ -269,17 +221,18 @@
 
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
                 <!-- Card 1: Masuk -->
                 <div class="stat-card group">
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-600 mb-1">Masuk
-                                    {{ Carbon\Carbon::parse($selectedMonth)->format('F Y') }}</p>
+                                <p class="text-sm font-medium text-gray-600 mb-1">
+                                    Masuk {{ \Carbon\Carbon::parse($selectedMonth)->locale('id')->translatedFormat('F Y') }}
+                                </p>
                                 <h3 class="text-3xl font-bold text-gray-900">{{ $masukCount }}</h3>
                             </div>
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-user-plus text-white text-2xl"></i>
                             </div>
                         </div>
@@ -292,12 +245,12 @@
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-600 mb-1">Keluar
-                                    {{ Carbon\Carbon::parse($selectedMonth)->format('F Y') }}</p>
+                                <p class="text-sm font-medium text-gray-600 mb-1">
+                                    Keluar {{ \Carbon\Carbon::parse($selectedMonth)->locale('id')->translatedFormat('F Y') }}
+                                </p>
                                 <h3 class="text-3xl font-bold text-gray-900">{{ $keluarCount }}</h3>
                             </div>
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-user-minus text-white text-2xl"></i>
                             </div>
                         </div>
@@ -310,12 +263,12 @@
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-600 mb-1">Total Aktif
-                                    {{ Carbon\Carbon::parse($selectedMonth)->format('F Y') }}</p>
+                                <p class="text-sm font-medium text-gray-600 mb-1">
+                                    Total Aktif {{ \Carbon\Carbon::parse($selectedMonth)->locale('id')->translatedFormat('F Y') }}
+                                </p>
                                 <h3 class="text-3xl font-bold text-gray-900">{{ $aktifCount }}</h3>
                             </div>
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-users text-white text-2xl"></i>
                             </div>
                         </div>
@@ -328,18 +281,19 @@
                     <div class="p-6">
                         <div class="flex items-center justify-between">
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-600 mb-1">Pelepasan
-                                    {{ Carbon\Carbon::parse($selectedMonth)->format('F Y') }}</p>
+                                <p class="text-sm font-medium text-gray-600 mb-1">
+                                    Pelepasan {{ \Carbon\Carbon::parse($selectedMonth)->locale('id')->translatedFormat('F Y') }}
+                                </p>
                                 <h3 class="text-3xl font-bold text-gray-900">{{ $internsPelepasan->count() }}</h3>
                             </div>
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-graduation-cap text-white text-2xl"></i>
                             </div>
                         </div>
                     </div>
                     <div class="h-1 bg-gradient-to-r from-orange-500 to-orange-600"></div>
                 </div>
+
             </div>
 
             <!-- Filtered Results Table -->
@@ -362,14 +316,10 @@
                             @if ($selectedStatus !== 'all')
                                 <span class="ml-2 text-sm font-normal text-blue-100">
                                     (Status:
-                                    @if ($selectedStatus === 'masuk')
-                                        Masuk
-                                    @elseif($selectedStatus === 'aktif')
-                                        Aktif
-                                    @elseif($selectedStatus === 'akan_pelepasan')
-                                        Akan Pelepasan
-                                    @elseif($selectedStatus === 'pelepasan')
-                                        Pelepasan
+                                    @if ($selectedStatus === 'masuk') Masuk
+                                    @elseif($selectedStatus === 'aktif') Aktif
+                                    @elseif($selectedStatus === 'akan_pelepasan') Akan Pelepasan
+                                    @elseif($selectedStatus === 'pelepasan') Pelepasan
                                     @endif
                                     )
                                 </span>
@@ -380,12 +330,11 @@
                         </h2>
 
                         <form method="GET" action="{{ route('admin.monitoring.export') }}">
-                            <input type="hidden" name="month" value="{{ request('month') }}">
-                            <input type="hidden" name="status" value="{{ request('status') }}">
-                            <input type="hidden" name="mentor_id" value="{{ request('mentor_id') }}">
-                            <input type="hidden" name="institution" value="{{ request('institution') }}">
+                            <input type="hidden" name="month"        value="{{ request('month') }}">
+                            <input type="hidden" name="status"       value="{{ request('status') }}">
+                            <input type="hidden" name="mentor_id"    value="{{ request('mentor_id') }}">
+                            <input type="hidden" name="institution"  value="{{ request('institution') }}">
                             <input type="hidden" name="final_project" value="{{ request('final_project') }}">
-
                             <button type="submit"
                                 class="bg-white text-blue-600 hover:bg-blue-50 font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 whitespace-nowrap">
                                 <i class="fas fa-download mr-2"></i>Export Excel
@@ -398,30 +347,14 @@
                         <table class="table-main min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr class="bg-blue-50">
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">
-                                        No</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Nama</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Status</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Kampus</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Mentor</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Tgl Mulai</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Tgl Rencana Pelepasan</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
-                                        Aksi</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">No</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">Nama</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">Kampus</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">Mentor</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">Tgl Mulai</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">Tgl Rencana Pelepasan</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
@@ -429,28 +362,25 @@
                                     @foreach ($activeInterns as $index => $intern)
                                         <tr class="hover:bg-blue-50 transition-colors duration-150">
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {{ $activeInterns->firstItem() + $index }}</td>
+                                                {{ $activeInterns->firstItem() + $index }}
+                                            </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm font-medium text-gray-900">{{ $intern->name }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($intern->is_active)
-                                                    @if (
-                                                        \Carbon\Carbon::now()->toDateString() <= $intern->end_date &&
-                                                            $intern->end_date <= \Carbon\Carbon::now()->addDays(30)->toDateString())
-                                                        <span
-                                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    @if (\Carbon\Carbon::now()->toDateString() <= $intern->end_date &&
+                                                         $intern->end_date <= \Carbon\Carbon::now()->addDays(30)->toDateString())
+                                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                                             Akan Pelepasan
                                                         </span>
                                                     @else
-                                                        <span
-                                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                             Aktif
                                                         </span>
                                                     @endif
                                                 @else
-                                                    <span
-                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                                                         Pelepasan
                                                     </span>
                                                 @endif
@@ -460,22 +390,19 @@
                                                 {{ $intern->mentor ? $intern->mentor->name : '-' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                                {{ $intern->start_date->format('d/m/Y') }}
+                                                {{ \Carbon\Carbon::parse($intern->start_date)->locale('id')->translatedFormat('d F Y') }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                                {{ $intern->end_date ? \Carbon\Carbon::parse($intern->end_date)->format('d/m/Y') : '-' }}
+                                                {{ $intern->end_date ? \Carbon\Carbon::parse($intern->end_date)->locale('id')->translatedFormat('d F Y') : '-' }}
                                             </td>
-                                            <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 flex gap-2">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 flex gap-2">
                                                 <a href="{{ route('admin.intern.show', $intern->id) }}"
                                                     class="text-blue-600 hover:text-blue-900 inline-block transition-colors"
                                                     title="Lihat detail">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-
                                                 @if ($intern->is_active)
-                                                    <button
-                                                        onclick="confirmRelease({{ $intern->id }}, '{{ $intern->name }}')"
+                                                    <button onclick="confirmRelease({{ $intern->id }}, '{{ $intern->name }}')"
                                                         class="text-orange-600 hover:text-orange-900 inline-block transition-colors"
                                                         title="Tandai sebagai pelepasan">
                                                         <i class="fas fa-graduation-cap"></i>
@@ -486,8 +413,7 @@
                                                         @csrf
                                                     </form>
                                                 @else
-                                                    <button
-                                                        onclick="confirmActive({{ $intern->id }}, '{{ $intern->name }}')"
+                                                    <button onclick="confirmActive({{ $intern->id }}, '{{ $intern->name }}')"
                                                         class="text-green-600 hover:text-green-900 inline-block transition-colors"
                                                         title="Kembalikan menjadi aktif">
                                                         <i class="fas fa-undo"></i>
@@ -514,17 +440,13 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Pagination for Active Interns -->
                     @if ($activeInterns->count() > 0)
-                        <div class="mt-6">
-                            {{ $activeInterns->links() }}
-                        </div>
+                        <div class="mt-6">{{ $activeInterns->links() }}</div>
                     @endif
                 </div>
             </div>
 
-            <!-- Data Alumni (tabel terpisah untuk yang sudah pelepasan) -->
+            <!-- Data Alumni -->
             <div class="panel mb-8">
                 <div class="bg-gradient-to-r from-gray-600 to-gray-800 px-6 py-4">
                     <div class="flex items-center justify-between">
@@ -532,11 +454,10 @@
                             <i class="fas fa-user-graduate mr-3"></i>
                             Data Alumni
                         </h2>
-
                         <form method="GET" action="{{ route('admin.monitoring.export') }}">
-                            <input type="hidden" name="month" value="{{ request('month') }}">
-                            <input type="hidden" name="status" value="pelepasan">
-                            <input type="hidden" name="mentor_id" value="{{ request('mentor_id') }}">
+                            <input type="hidden" name="month"       value="{{ request('month') }}">
+                            <input type="hidden" name="status"      value="pelepasan">
+                            <input type="hidden" name="mentor_id"   value="{{ request('mentor_id') }}">
                             <input type="hidden" name="institution" value="{{ request('institution') }}">
                             <button type="submit"
                                 class="bg-white text-gray-800 hover:bg-gray-100 font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 whitespace-nowrap">
@@ -550,27 +471,13 @@
                         <table class="table-main min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr class="bg-gray-50">
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider rounded-tl-lg">
-                                        No</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
-                                        Nama</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
-                                        Kampus</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
-                                        Mentor</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
-                                        Tgl Mulai</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">
-                                        Tgl Rencana Pelepasan</th>
-                                    <th
-                                        class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider rounded-tr-lg">
-                                        Aksi</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider rounded-tl-lg">No</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Nama</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Kampus</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Mentor</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Tgl Mulai</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Tgl Rencana Pelepasan</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-900 uppercase tracking-wider rounded-tr-lg">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
@@ -578,30 +485,37 @@
                                     @foreach ($alumniInterns as $index => $intern)
                                         <tr class="hover:bg-gray-50 transition-colors duration-150">
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {{ $alumniInterns->firstItem() + $index }}</td>
+                                                {{ $alumniInterns->firstItem() + $index }}
+                                            </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm font-medium text-gray-900">{{ $intern->name }}</div>
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-600">{{ $intern->institution }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-600">
-                                                {{ $intern->mentor ? $intern->mentor->name : '-' }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                                {{ $intern->start_date->format('d/m/Y') }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                                {{ $intern->end_date ? \Carbon\Carbon::parse($intern->end_date)->format('d/m/Y') : '-' }}
+                                                {{ $intern->mentor ? $intern->mentor->name : '-' }}
                                             </td>
-                                            <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 flex gap-2">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                                {{ \Carbon\Carbon::parse($intern->start_date)->locale('id')->translatedFormat('d F Y') }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                                {{ $intern->end_date ? \Carbon\Carbon::parse($intern->end_date)->locale('id')->translatedFormat('d F Y') : '-' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 flex gap-2">
                                                 <a href="{{ route('admin.intern.show', $intern->id) }}"
                                                     class="text-blue-600 hover:text-blue-900 inline-block transition-colors"
-                                                    title="Lihat detail"><i class="fas fa-eye"></i></a>
-                                                <button
-                                                    onclick="confirmActive({{ $intern->id }}, '{{ $intern->name }}')"
+                                                    title="Lihat detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button onclick="confirmActive({{ $intern->id }}, '{{ $intern->name }}')"
                                                     class="text-green-600 hover:text-green-900 inline-block transition-colors"
-                                                    title="Kembalikan menjadi aktif"><i class="fas fa-undo"></i></button>
+                                                    title="Kembalikan menjadi aktif">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
                                                 <form id="form-active-{{ $intern->id }}"
                                                     action="{{ route('admin.monitoring.mark-active', $intern->id) }}"
-                                                    method="POST" class="hidden">@csrf</form>
+                                                    method="POST" class="hidden">
+                                                    @csrf
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -618,12 +532,8 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Pagination for Alumni -->
                     @if ($alumniInterns->count() > 0)
-                        <div class="mt-6">
-                            {{ $alumniInterns->links() }}
-                        </div>
+                        <div class="mt-6">{{ $alumniInterns->links() }}</div>
                     @endif
                 </div>
             </div>
@@ -643,9 +553,9 @@
                 </div>
             </div>
 
-
             <!-- Top Institutions Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
                 <!-- Top Institutions All Time -->
                 <div class="panel">
                     <div class="bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-4">
@@ -658,28 +568,24 @@
                         @if ($topInstitutions->count() > 0)
                             <div class="space-y-3">
                                 @foreach ($topInstitutions as $index => $inst)
-                                    <div
-                                        class="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl hover:shadow-md transition-all duration-300 border-2 border-yellow-100">
+                                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl hover:shadow-md transition-all duration-300 border-2 border-yellow-100">
                                         <div class="flex items-center">
                                             <div class="relative">
-                                                <span
-                                                    class="w-10 h-10 rounded-full bg-gradient-to-br 
-                                                @if ($index == 0) from-yellow-400 to-yellow-600
-                                                @elseif($index == 1) from-gray-300 to-gray-500
-                                                @elseif($index == 2) from-orange-400 to-orange-600
-                                                @else from-orange-100 to-orange-500 @endif
-                                                text-white flex items-center justify-center font-bold text-lg shadow-lg mr-4">
+                                                <span class="w-10 h-10 rounded-full bg-gradient-to-br
+                                                    @if ($index == 0) from-yellow-400 to-yellow-600
+                                                    @elseif($index == 1) from-gray-300 to-gray-500
+                                                    @elseif($index == 2) from-orange-400 to-orange-600
+                                                    @else from-orange-100 to-orange-500 @endif
+                                                    text-white flex items-center justify-center font-bold text-lg shadow-lg mr-4">
                                                     {{ $index + 1 }}
                                                 </span>
                                                 @if ($index < 3)
-                                                    <i
-                                                        class="fas fa-crown absolute -top-2 -right-1 text-yellow-500 text-xs"></i>
+                                                    <i class="fas fa-crown absolute -top-2 -right-1 text-yellow-500 text-xs"></i>
                                                 @endif
                                             </div>
                                             <span class="font-semibold text-gray-900">{{ $inst->institution }}</span>
                                         </div>
-                                        <span
-                                            class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
                                             <i class="fas fa-users mr-1"></i>{{ $inst->total }} orang
                                         </span>
                                     </div>
@@ -699,24 +605,22 @@
                     <div class="panel-header px-6 py-4">
                         <h2 class="text-xl font-bold text-white flex items-center">
                             <i class="fas fa-star mr-3"></i>
-                            Top Institusi Bulan Ini
+                            Top Institusi
+                            {{ \Carbon\Carbon::parse($selectedMonth)->locale('id')->translatedFormat('F Y') }}
                         </h2>
                     </div>
                     <div class="p-6">
                         @if ($topInstitutionsThisMonth->count() > 0)
                             <div class="space-y-3">
                                 @foreach ($topInstitutionsThisMonth as $index => $inst)
-                                    <div
-                                        class="flex items-center justify-between p-3 bg-blue-50 rounded-xl hover:shadow-md transition-all duration-300 border-2 border-blue-100">
+                                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-xl hover:shadow-md transition-all duration-300 border-2 border-blue-100">
                                         <div class="flex items-center">
-                                            <span
-                                                class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-lg mr-4">
+                                            <span class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-lg mr-4">
                                                 {{ $index + 1 }}
                                             </span>
                                             <span class="font-semibold text-gray-900">{{ $inst->institution }}</span>
                                         </div>
-                                        <span
-                                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
                                             <i class="fas fa-users mr-1"></i>{{ $inst->total }} orang
                                         </span>
                                     </div>
@@ -730,6 +634,7 @@
                         @endif
                     </div>
                 </div>
+
             </div>
 
         </div>
@@ -775,9 +680,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'top',
-                        },
+                        legend: { position: 'top' },
                         title: {
                             display: true,
                             text: 'Tren Masuk, Keluar, dan Aktif Per Bulan'
@@ -786,36 +689,29 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
+                            ticks: { stepSize: 1 }
                         }
                     }
                 }
             });
 
-            // Confirmation function for releasing intern
             function confirmRelease(internId, internName) {
                 if (confirm(`Yakin ingin menandai "${internName}" sebagai pelepasan?`)) {
                     document.getElementById(`form-release-${internId}`).submit();
                 }
             }
 
-            // Confirmation function for marking active
             function confirmActive(internId, internName) {
                 if (confirm(`Yakin ingin mengembalikan "${internName}" menjadi aktif?`)) {
                     document.getElementById(`form-active-${internId}`).submit();
                 }
             }
 
-            // Auto-hide alerts after 5 seconds
             document.querySelectorAll('.alert').forEach(alert => {
                 setTimeout(() => {
                     alert.style.transition = 'opacity 0.5s ease';
                     alert.style.opacity = '0';
-                    setTimeout(() => {
-                        alert.style.display = 'none';
-                    }, 500);
+                    setTimeout(() => { alert.style.display = 'none'; }, 500);
                 }, 5000);
             });
         </script>
