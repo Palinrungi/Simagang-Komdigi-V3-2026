@@ -136,7 +136,7 @@
             <div class="hero-strip mb-6">
                 <div class="relative z-10 px-6 py-7">
                     <h1 class="hero-title text-3xl sm:text-4xl font-bold leading-tight mb-2">Monitoring Bulanan</h1>
-                    <p class="text-blue-100">Pantau dan kelola data anak magang secara bulanan</p>
+                    <p class="text-blue-100">Pantau dan kelola data peserta magang secara bulanan</p>
                 </div>
             </div>
 
@@ -162,7 +162,7 @@
 
                             <!-- Status -->
                             <div>
-                                <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">Status Anak Magang</label>
+                                <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">Status Peserta Magang</label>
                                 <select name="status" id="status"
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
                                     <option value="all">Semua</option>
@@ -312,7 +312,7 @@
                             @else
                                 <i class="fas fa-search mr-3"></i>
                             @endif
-                            Anak Magang
+                            Peserta Magang
                             @if ($selectedStatus !== 'all')
                                 <span class="ml-2 text-sm font-normal text-blue-100">
                                     (Status:

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Anak Magang - Sistem Magang')
+@section('title', 'Kelola Peserta Magang - Sistem Magang')
 
 @push('styles')
     <style>
@@ -309,7 +309,7 @@
             <div class="hero-strip mb-6">
                 <div class="relative z-10 px-6 py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 class="hero-title text-4xl font-bold mb-1">Kelola Anak Magang</h1>
+                        <h1 class="hero-title text-4xl font-bold mb-1">Kelola Peserta Magang</h1>
                         <p class="text-blue-100">Manajemen data peserta magang aktif dan alumni</p>
                     </div>
                     <div class="flex flex-col sm:items-end gap-3 flex-shrink-0">

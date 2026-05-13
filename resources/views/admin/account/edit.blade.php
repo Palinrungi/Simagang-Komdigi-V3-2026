@@ -246,15 +246,15 @@
 
                     <div>
                         <label class="field-label">
-                            <i class="fas fa-id-badge"></i> Role Admin
+                            <i class="fas fa-id-badge"></i> Akses Admin
                         </label>
                         @if ($user->isSuperAdmin())
                             <input type="text" value="Super Admin" class="input-main" disabled>
                             <input type="hidden" name="role" value="super_admin">
-                            <p class="field-hint"><i class="fas fa-lock mr-1"></i>Role Super Admin tidak dapat diubah.</p>
+                            <p class="field-hint"><i class="fas fa-lock mr-1"></i>Akses Super Admin tidak dapat diubah.</p>
                         @else
                             <select name="role" class="input-main" required>
-                                <option value="">Pilih role...</option>
+                                <option value="">Pilih Akses...</option>
                                 @foreach ($roleOptions as $value => $label)
                                     <option value="{{ $value }}"
                                         {{ old('role', $user->role ?? $user->getRoleNames()->first()) === $value ? 'selected' : '' }}>

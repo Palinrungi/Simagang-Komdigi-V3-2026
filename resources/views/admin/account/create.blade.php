@@ -213,10 +213,10 @@
 
                     <div>
                         <label class="field-label">
-                            <i class="fas fa-id-badge"></i> Role Admin
+                            <i class="fas fa-id-badge"></i> Akses Admin
                         </label>
                         <select name="role" class="input-main" required>
-                            <option value="">Pilih role...</option>
+                            <option value="">Pilih Akses...</option>
                             @foreach ($roleOptions as $value => $label)
                                 <option value="{{ $value }}" {{ old('role') === $value ? 'selected' : '' }}>
                                     {{ $label }}

@@ -167,7 +167,7 @@
                             <div class="flex-1">
                                 <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Tanggal Upload</p>
                                 <p class="text-sm font-semibold text-gray-900">
-                                    {{ $report->submitted_at->format('d F Y H:i') }}
+                                    {{ $report->submitted_at->locale('id')->translatedFormat('d F Y H:i') }}
                                 </p>
                             </div>
                         </div>

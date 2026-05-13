@@ -68,7 +68,48 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
         }
 
-        @media (max-width:768px) {
+        /* FIX: wrapper harus overflow-x: auto agar tabel bisa scroll horizontal */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 560px;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* FIX: tabel tidak boleh wrap, biarkan scroll */
+        .table-wrapper table {
+            width: 100%;
+            min-width: 860px;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        /* Lebar kolom agar proporsional */
+        .col-nama       { width: 200px; }
+        .col-institusi  { width: 180px; }
+        .col-tanggal    { width: 110px; }
+        .col-aktivitas  { width: auto;  }   /* kolom ini yang fleksibel */
+        .col-foto       { width: 90px;  }
+
+        /* Header sticky saat scroll vertikal */
+        .table-wrapper thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: #eff6ff;
+        }
+
+        /* Aktivitas: bisa wrap biar tidak terlalu panjang */
+        .cell-aktivitas {
+            white-space: normal;
+            word-break: break-word;
+            min-width: 200px;
+        }
+
+        @media (max-width: 768px) {
             .hero-title {
                 font-size: 1.6rem;
             }
@@ -77,14 +118,6 @@
                 width: 100%;
                 justify-content: center;
             }
-
-            .table-responsive {
-                overflow: auto;
-            }
-        }
-
-        .table-min-w {
-            min-width: 900px;
         }
     </style>
 @endpush
@@ -93,17 +126,19 @@
     <div class="dash-bg py-8 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
 
+            <!-- Hero -->
             <div class="hero-strip mb-6">
                 <div class="relative z-10 px-6 py-7">
-                    <h1 class="hero-title text-4xl font-bold mb-1">Pantau Logbook Anak Magang</h1>
-                    <p class="text-blue-100">Monitoring aktivitas harian anak magang</p>
+                    <h1 class="hero-title text-4xl font-bold mb-1">Pantau Logbook Peserta Magang</h1>
+                    <p class="text-blue-100">Monitoring aktivitas harian peserta magang</p>
                 </div>
             </div>
 
             <!-- Filter Form -->
             <div class="panel mb-6">
                 <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
-                    <h2 class="text-xl font-bold text-white flex items-center"><i class="fas fa-filter mr-3"></i>Filter Data
+                    <h2 class="text-xl font-bold text-white flex items-center">
+                        <i class="fas fa-filter mr-3"></i>Filter Data
                     </h2>
                 </div>
                 <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 p-6">
@@ -138,81 +173,108 @@
             <!-- Logbook Table -->
             <div class="panel overflow-hidden">
                 <div class="bg-blue-600 px-6 py-4">
-                    <h2 class="text-xl font-bold text-white flex items-center"><i class="fas fa-book mr-3"></i>Data Logbook
+                    <h2 class="text-xl font-bold text-white flex items-center">
+                        <i class="fas fa-book mr-3"></i>Data Logbook
                     </h2>
                 </div>
                 <div class="p-6">
-                    <div class="table-responsive max-h-[560px]">
-                        <table class="min-w-full table-min-w divide-y divide-gray-200">
+
+                    {{-- FIX: gunakan .table-wrapper dengan overflow-x:auto dan overflow-y:auto --}}
+                    <div class="table-wrapper">
+                        <table>
+                            <colgroup>
+                                <col class="col-nama">
+                                <col class="col-institusi">
+                                <col class="col-tanggal">
+                                <col class="col-aktivitas">
+                                <col class="col-foto">
+                            </colgroup>
                             <thead>
-                                <tr class="bg-blue-50">
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">
+                                <tr>
+                                    <th class="px-5 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Nama</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
+                                    <th class="px-5 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Institusi</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
+                                    <th class="px-5 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Tanggal</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
+                                    <th class="px-5 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Aktivitas</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
+                                    <th class="px-5 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Foto</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-100">
+                            <tbody class="divide-y divide-gray-100 bg-white">
                                 @forelse($logbooks as $l)
                                     <tr class="hover:bg-blue-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
+
+                                        {{-- Nama --}}
+                                        <td class="px-5 py-4 whitespace-nowrap">
+                                            <div class="flex items-center gap-3">
                                                 @if ($l->intern->photo_path)
                                                     <img src="{{ url('storage/' . $l->intern->photo_path) }}"
-                                                        class="w-10 h-10 rounded-full object-cover border-2 border-blue-200 mr-3"
+                                                        class="w-9 h-9 rounded-full object-cover border-2 border-blue-200 shrink-0"
                                                         alt="{{ $l->intern->name }}">
                                                 @else
-                                                    <div
-                                                        class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 border-2 border-blue-200">
-                                                        <i class="fas fa-user text-blue-600"></i>
+                                                    <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center border-2 border-blue-200 shrink-0">
+                                                        <i class="fas fa-user text-blue-600 text-xs"></i>
                                                     </div>
                                                 @endif
-                                                <span
-                                                    class="text-sm font-medium text-gray-900">{{ $l->intern->name }}</span>
+                                                <span class="text-sm font-medium text-gray-900 truncate max-w-[130px]"
+                                                    title="{{ $l->intern->name }}">
+                                                    {{ $l->intern->name }}
+                                                </span>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-600">{{ $l->intern->institution }}</div>
+
+                                        {{-- Institusi --}}
+                                        <td class="px-5 py-4 whitespace-nowrap">
+                                            <span class="text-sm text-gray-600 truncate block max-w-[160px]"
+                                                title="{{ $l->intern->institution }}">
+                                                {{ $l->intern->institution }}
+                                            </span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-600">
-                                                {{ \Carbon\Carbon::parse($l->date)->format('d/m/y') }}</div>
+
+                                        {{-- Tanggal --}}
+                                        <td class="px-5 py-4 whitespace-nowrap">
+                                            <span class="text-sm text-gray-600">
+                                                {{ \Carbon\Carbon::parse($l->date)->format('d/m/Y') }}
+                                            </span>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">{{ $l->activity }}</div>
+
+                                        {{-- Aktivitas --}}
+                                        <td class="px-5 py-4 cell-aktivitas">
+                                            <p class="text-sm text-gray-900 leading-relaxed">{{ $l->activity }}</p>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+
+                                        {{-- Foto --}}
+                                        <td class="px-5 py-4 text-center whitespace-nowrap">
                                             @if ($l->photo_path)
-                                                @php $logbookFilename = basename($l->photo_path); @endphp
-                                                @php $logbookUrl = URL::temporarySignedRoute('admin.logbook.photo', now()->addSeconds(30), ['filename' => $logbookFilename]); @endphp
+                                                @php
+                                                    $logbookFilename = basename($l->photo_path);
+                                                    $logbookUrl = URL::temporarySignedRoute(
+                                                        'admin.logbook.photo',
+                                                        now()->addSeconds(30),
+                                                        ['filename' => $logbookFilename]
+                                                    );
+                                                @endphp
                                                 @can('view', $l)
                                                     <img src="{{ $logbookUrl }}" alt="Logbook"
-                                                        class="w-12 h-12 object-cover rounded-lg border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-all"
+                                                        class="w-12 h-12 object-cover rounded-lg border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-all mx-auto"
                                                         onclick="window.open('{{ $logbookUrl }}', '_blank')"
                                                         title="Klik untuk melihat full size">
                                                 @else
-                                                    <span class="text-gray-400">Tidak ada akses</span>
+                                                    <span class="text-xs text-gray-400">Tidak ada akses</span>
                                                 @endcan
                                             @else
-                                                <span class="text-gray-400">-</span>
+                                                <span class="text-gray-400">—</span>
                                             @endif
                                         </td>
+
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="px-6 py-8 text-center">
-                                            <div class="flex flex-col items-center justify-center text-gray-500">
+                                        <td colspan="5" class="px-6 py-12 text-center">
+                                            <div class="flex flex-col items-center justify-center text-gray-400">
                                                 <i class="fas fa-inbox text-4xl mb-3 text-gray-300"></i>
                                                 <p class="text-sm">Tidak ada data logbook.</p>
                                             </div>
@@ -222,9 +284,11 @@
                             </tbody>
                         </table>
                     </div>
+
                     <div class="mt-6">{{ $logbooks->links() }}</div>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection

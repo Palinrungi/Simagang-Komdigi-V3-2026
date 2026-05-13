@@ -15,6 +15,7 @@
             background: linear-gradient(135deg, #e8eeff 0%, #f0f4ff 40%, #e4ecff 100%);
         }
 
+        /* ── Hero Strip ── */
         .hero-strip {
             background: linear-gradient(100deg, #1e3a8a 0%, #3b4fd8 50%, #4f46e5 100%);
             border-radius: 20px;
@@ -46,6 +47,7 @@
             border-radius: 50%;
         }
 
+        /* ── Panel ── */
         .panel {
             background: #fff;
             border-radius: 20px;
@@ -53,213 +55,374 @@
             overflow: hidden;
         }
 
+        /* ── Panel header bar ── */
+        .panel-header-blue {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            padding: 1rem 1.5rem;
+        }
+
+        /* ── Input ── */
         .input-main {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #bfdbfe;
-            border-radius: 0.75rem;
+            padding: 0.6rem 0.9rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.6rem;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-            transition: all 0.2s ease;
+            transition: all .15s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: #1f2937;
+            background: #fff;
         }
 
         .input-main:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
         }
 
-        @media (max-width: 640px) {
-            .hero-title {
-                font-size: 1.55rem;
-            }
+        select.input-main {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 34px;
+        }
 
-            .form-section,
-            .form-actions {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
+        /* ── Tombol ── */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.55rem 1.25rem;
+            border-radius: 0.6rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all .2s ease;
+            white-space: nowrap;
+        }
 
-            .action-mobile {
-                width: 100%;
-                justify-content: center;
-            }
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        .btn-submit {
+            background: linear-gradient(to right, #2563eb, #4338ca);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 0.6rem 1.75rem;
+            border-radius: 0.6rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all .15s ease;
+            white-space: nowrap;
+        }
+
+        .btn-submit:hover {
+            box-shadow: 0 4px 14px rgba(59, 79, 216, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-cancel {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #2563eb;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.6rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all .15s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #dbeafe;
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        /* ── Section divider ── */
+        .form-section-inner {
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .form-section-inner:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ── Error & hint ── */
+        .field-error {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .field-hint {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* ── Checkbox toggle row ── */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            height: 42px;
+            background: #eff6ff;
+            border-radius: 0.6rem;
+            padding: 0 1rem;
+            border: 1px solid #bfdbfe;
+            cursor: pointer;
+            gap: 10px;
+        }
+
+        .toggle-row input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color: #2563eb;
+            cursor: pointer;
+        }
+
+        .toggle-row span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        /* ── Form footer ── */
+        .form-footer {
+            background: #f8fafc;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.5rem; }
+            .form-section-inner { padding: 1.25rem 1rem; }
+            .form-footer { flex-direction: column-reverse; }
+            .form-footer a,
+            .form-footer button { width: 100%; justify-content: center; }
         }
     </style>
 @endpush
 
 @section('content')
     <div class="dash-bg py-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="hero-strip mb-6 mt-6">
-                <div class="relative z-10 p-6">
-                    <h1 class="hero-title text-3xl font-bold mb-1">Edit Mentor</h1>
-                    <p class="text-blue-100 text-sm">Perbarui informasi mentor di sini.</p>
+        <div class="max-w-4xl mx-auto space-y-6">
+
+            {{-- ── HERO STRIP ── --}}
+            <div class="hero-strip mb-6">
+                <div class="relative z-10 px-6 py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h1 class="hero-title text-4xl font-bold mb-1">Edit Mentor</h1>
+                        <p class="text-blue-100">Perbarui informasi mentor di sini</p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a href="{{ route('admin.mentor.index') }}" class="btn-back">
+                            <i class="fas fa-arrow-left text-sm"></i>
+                            Kembali
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="panel border-t-4 border-blue-500">
-            <form method="POST" action="{{ route('admin.mentor.update', $mentor) }}">
-                @csrf
-                @method('PUT')
-
-                <div class="form-section p-8 border-b border-gray-200">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-blue-100 rounded-full p-3 mr-4">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-bold text-blue-900">Informasi Pribadi</h2>
-                            <p class="text-sm text-gray-600">Data diri dan kontak mentor</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="name" class="block text-sm font-bold text-blue-900 mb-2">
-                                Nama Lengkap <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="name" id="name" value="{{ old('name', $mentor->name) }}"
-                                required class="input-main" placeholder="Masukkan nama lengkap">
-                            @error('name')
-                                <p class="mt-2 text-sm text-red-600 flex items-center"><i
-                                        class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="email" class="block text-sm font-bold text-blue-900 mb-2">
-                                Email <span class="text-red-500">*</span>
-                            </label>
-                            <input type="email" name="email" id="email" value="{{ old('email', $mentor->email) }}"
-                                class="input-main" placeholder="contoh@email.com">
-                            @error('email')
-                                <p class="mt-2 text-sm text-red-600 flex items-center"><i
-                                        class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="position" class="block text-sm font-bold text-blue-900 mb-2">
-                                Jabatan
-                            </label>
-                            <input type="text" name="position" id="position"
-                                value="{{ old('position', $mentor->position) }}" class="input-main">
-                        </div>
-
-                        <div>
-                            <label for="phone" class="block text-sm font-bold text-blue-900 mb-2">
-                                Telepon
-                            </label>
-                            <input type="text" name="phone" id="phone" value="{{ old('phone', $mentor->phone) }}"
-                                class="input-main">
-                        </div>
-                    </div>
+            {{-- ── FORM PANEL ── --}}
+            <div class="panel">
+                <div class="panel-header-blue flex items-center gap-3">
+                    <i class="fas fa-user-edit text-white text-lg"></i>
+                    <h2 class="text-xl font-bold text-white">Formulir Edit Mentor</h2>
                 </div>
 
-                <!-- Penempatan -->
-                <div class="form-section p-8 border-b">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
-                            <i class="fas fa-users text-blue-600"></i>
+                <form method="POST" action="{{ route('admin.mentor.update', $mentor) }}">
+                    @csrf
+                    @method('PUT')
+
+                    {{-- ── SEKSI 1: Informasi Pribadi ── --}}
+                    <div class="form-section-inner">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="section-icon">
+                                <i class="fas fa-user text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-blue-900">Informasi Pribadi</h3>
+                                <p class="text-xs text-gray-500">Data diri dan kontak mentor</p>
+                            </div>
                         </div>
-                        <div>
-                            <h2 class="text-lg font-bold text-blue-900">Penempatan</h2>
-                            <p class="text-sm text-gray-600">Tim yang ditugaskan</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Nama Lengkap <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="name" id="name"
+                                    value="{{ old('name', $mentor->name) }}"
+                                    required class="input-main"
+                                    placeholder="Masukkan nama lengkap">
+                                @error('name')
+                                    <p class="field-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="email" id="email"
+                                    value="{{ old('email', $mentor->email) }}"
+                                    class="input-main"
+                                    placeholder="contoh@email.com">
+                                @error('email')
+                                    <p class="field-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="position" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Jabatan
+                                </label>
+                                <input type="text" name="position" id="position"
+                                    value="{{ old('position', $mentor->position) }}"
+                                    class="input-main"
+                                    placeholder="Masukkan jabatan">
+                                @error('position')
+                                    <p class="field-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Telepon
+                                </label>
+                                <input type="text" name="phone" id="phone"
+                                    value="{{ old('phone', $mentor->phone) }}"
+                                    class="input-main"
+                                    placeholder="08xxxxxxxxxx">
+                                @error('phone')
+                                    <p class="field-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
-                    <div>
+                    {{-- ── SEKSI 2: Penempatan ── --}}
+                    <div class="form-section-inner">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="section-icon">
+                                <i class="fas fa-users text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-blue-900">Penempatan</h3>
+                                <p class="text-xs text-gray-500">Tim yang ditugaskan</p>
+                            </div>
+                        </div>
 
-                        {{-- Tim Dropdown --}}
                         <div>
-                            <label class="text-sm font-medium text-blue-900 mb-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Pilih Tim <span class="text-red-500">*</span>
                             </label>
-
                             <select name="team_id" id="mentorSelect" required class="input-main">
-
                                 <option value="">Pilih Tim</option>
-
                                 @foreach ($teams as $team)
-                                    <option value="{{ $team->id }}" data-team="{{ $team->name }}"
+                                    <option value="{{ $team->id }}"
+                                        data-team="{{ $team->name }}"
                                         {{ old('team_id', $mentor->team_id) == $team->id ? 'selected' : '' }}>
                                         {{ $team->name }}
                                     </option>
                                 @endforeach
                             </select>
-
                             @error('team_id')
-                                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                                <p class="field-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
-                </div>
 
-
-                <div class="form-section p-8">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-blue-100 rounded-full p-3 mr-4">
-                            <i class="fas fa-shield-alt text-2xl text-blue-600"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-bold text-blue-900">Keamanan & Status</h2>
-                            <p class="text-sm text-gray-600">Pengaturan password dan status aktif</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="password" class="block text-sm font-bold text-blue-900 mb-2">
-                                Password Baru
-                            </label>
-                            <input type="password" name="password" id="password" class="input-main"
-                                placeholder="Kosongkan jika tidak ingin mengubah">
-                            <p class="mt-2 text-xs text-gray-500">Minimal 8 karakter</p>
-                            @error('password')
-                                <p class="mt-2 text-sm text-red-600 flex items-center"><i
-                                        class="fas fa-exclamation-circle mr-1"></i>{{ $message }}</p>
-                            @enderror
+                    {{-- ── SEKSI 3: Keamanan & Status ── --}}
+                    <div class="form-section-inner">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="section-icon">
+                                <i class="fas fa-shield-alt text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-blue-900">Keamanan & Status</h3>
+                                <p class="text-xs text-gray-500">Pengaturan password dan status aktif</p>
+                            </div>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-bold text-blue-900 mb-2">Status Aktif</label>
-                            <div class="flex items-center h-12 bg-blue-50 rounded-lg px-4 border-2 border-blue-200">
-                                <label for="is_active" class="flex items-center cursor-pointer">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Password Baru
+                                </label>
+                                <input type="password" name="password" id="password"
+                                    class="input-main"
+                                    placeholder="Kosongkan jika tidak ingin mengubah">
+                                <p class="field-hint">Minimal 8 karakter</p>
+                                @error('password')
+                                    <p class="field-error"><i class="fas fa-exclamation-circle"></i>{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Status Aktif</label>
+                                <label for="is_active" class="toggle-row">
                                     <input type="checkbox" name="is_active" id="is_active" value="1"
-                                        {{ old('is_active', $mentor->is_active) ? 'checked' : '' }}
-                                        class="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <span class="ml-3 text-sm font-semibold text-gray-700">Tandai sebagai aktif</span>
+                                        {{ old('is_active', $mentor->is_active) ? 'checked' : '' }}>
+                                    <span>Tandai sebagai aktif</span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {{-- <div class="flex items-center">
-                <input id="is_active" name="is_active" type="checkbox" value="1" class="h-4 w-4 text-blue-600 border-gray-300 rounded" {{ old('is_active', $mentor->is_active) ? 'checked' : '' }}>
-                <label for="is_active" class="ml-2 block text-sm text-gray-700">Aktif</label>
-            </div> --}}
+                    {{-- ── FOOTER AKSI ── --}}
+                    <div class="form-footer">
+                        <a href="{{ route('admin.mentor.index') }}" class="btn-cancel">
+                            <i class="fas fa-times"></i>
+                            Batal
+                        </a>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i>
+                            Update Data
+                        </button>
+                    </div>
 
-                {{-- <div class="flex justify-end space-x-3">
-                <a href="{{ route('admin.mentor.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded">Batal</a>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">Simpan</button>
-            </div> --}}
-                <div
-                    class="form-actions px-8 py-6 bg-gray-50 flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-4">
-                    <a href="{{ route('admin.mentor.index') }}"
-                        class="action-mobile inline-flex justify-center md:justify-start items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold transition">
-                        <i class="fas fa-arrow-left mr-2"></i>
-                        Kembali
-                    </a>
-                    <button type="submit"
-                        class="action-mobile inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition transform hover:scale-105">
-                        <i class="fas fa-save mr-2"></i>
-                        Update Data
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
+
         </div>
-    </div>
     </div>
 @endsection

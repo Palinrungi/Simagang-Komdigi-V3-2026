@@ -350,8 +350,8 @@
             @if($intern->photo_path)
                 <div style="background:linear-gradient(135deg,#60a5fa,#818cf8);padding:3px;border-radius:9999px;display:inline-flex;flex-shrink:0;">
                     <img src="{{ url('storage/'.$intern->photo_path) }}"
-                         alt="{{ $intern->name }}"
-                         style="width:80px;height:80px;border-radius:9999px;object-fit:cover;">
+                        alt="{{ $intern->name }}"
+                        style="width:80px;height:80px;border-radius:9999px;object-fit:cover;">
                 </div>
             @else
                 <div style="background:linear-gradient(135deg,#60a5fa,#818cf8);padding:3px;border-radius:9999px;display:inline-flex;flex-shrink:0;">
@@ -382,7 +382,7 @@
                     <i class="fas fa-graduation-cap mr-1"></i>{{ $intern->education_level }} · {{ $intern->major ?? 'Jurusan tidak diisi' }}
                     &nbsp;·&nbsp;
                     <i class="fas fa-calendar-alt mr-1"></i>
-                    {{ $intern->start_date->format('d M Y') }} – {{ $intern->end_date->format('d M Y') }}
+                    {{ $intern->start_date->locale('id')->translatedFormat('d F Y') }} – {{ $intern->end_date->locale('id')->translatedFormat('d F Y') }}
                 </p>
                 @if($intern->team)
                     <p class="text-blue-300 text-xs mt-1">
@@ -527,9 +527,9 @@
                 <div class="info-item">
                     <p class="info-label">Periode Magang</p>
                     <p class="info-value mono" style="font-size:12px;">
-                        {{ $intern->start_date->format('d M Y') }}<br>
+                        {{ $intern->start_date->locale('id')->translatedFormat('d F Y') }}<br>
                         <span style="color:#94a3b8;font-size:10px;">s/d</span><br>
-                        {{ $intern->end_date->format('d M Y') }}
+                        {{ $intern->end_date->locale('id')->translatedFormat('d F Y') }}
                     </p>
                 </div>
                 <div class="info-item">
@@ -638,7 +638,7 @@
                         <div class="logbook-item">
                             <p class="logbook-date">
                                 <i class="fas fa-calendar-day mr-1"></i>
-                                {{ $logbook->date->format('d M Y') }}
+                                {{ $logbook->date->locale('id')->translatedFormat('d F Y') }}
                             </p>
                             <p class="logbook-text">{{ $logbook->activity }}</p>
                         </div>

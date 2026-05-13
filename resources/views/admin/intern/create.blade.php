@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Anak Magang - Sistem Magang')
+@section('title', 'Tambah Peserta Magang - Sistem Magang')
 
 @push('styles')
 <style>
@@ -347,8 +347,7 @@
             </div>
             {{-- Identity --}}
             <div class="flex-1 text-center sm:text-left">
-                <h1 class="text-xl font-bold text-white mb-1">Tambah Anak Magang</h1>
-                <p class="text-blue-200 font-semibold text-base">BBLSDM Komdigi Makassar</p>
+                <h1 class="text-xl font-bold text-white mb-1">Tambah Peserta Magang</h1>
                 <p class="text-blue-300 text-sm mt-1">
                     <i class="fas fa-info-circle mr-1"></i>
                     Isi seluruh data berikut untuk mendaftarkan peserta magang baru
@@ -376,17 +375,17 @@
             <div class="section-header">
                 <div class="section-icon blue"><i class="fas fa-search"></i></div>
                 <div class="section-header-text">
-                    <h3>Pilih Calon Magang</h3>
+                    <h3>Pilih Calon Peserta Magang</h3>
                     <p>Pilih dari daftar calon yang sudah mengajukan permohonan</p>
                 </div>
             </div>
 
             <div>
                 <label class="form-label" for="calonSelect">
-                    Nama Calon Magang <span class="req">*</span>
+                    Nama Calon Peserta Magang <span class="req">*</span>
                 </label>
                 <select id="calonSelect" name="name" class="form-control">
-                    <option value="">— Pilih Calon Anak Magang —</option>
+                    <option value="">— Pilih Calon Peserta Magang —</option>
                     @foreach($calonMagang as $c)
                         <option value="{{ $c->nama }}"
                             data-id="{{ $c->id }}"
@@ -426,7 +425,7 @@
                 <div class="section-icon indigo"><i class="fas fa-user"></i></div>
                 <div class="section-header-text">
                     <h3>Informasi Pribadi</h3>
-                    <p>Data diri dan kontak anak magang</p>
+                    <p>Data diri dan kontak Peserta Magang</p>
                 </div>
             </div>
 

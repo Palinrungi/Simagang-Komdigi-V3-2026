@@ -209,7 +209,7 @@
                                     <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Email</th>
                                     <th class="px-6 py-4 text-left text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Role</th>
+                                        Akses</th>
                                     <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
                                         Aksi</th>
                                 </tr>
@@ -225,17 +225,17 @@
                                                 'dot'     => '#ef4444',
                                             ],
                                             'admin_full' => [
-                                                'label'   => 'Admin Full',
+                                                'label'   => 'Admin Akses Penuh',
                                                 'classes' => 'background:#eff6ff;color:#1d4ed8;',
                                                 'dot'     => '#3b82f6',
                                             ],
                                             'admin_user_manager' => [
-                                                'label'   => 'Admin User Manager',
+                                                'label'   => 'Admin Pengelola Pengguna',
                                                 'classes' => 'background:#f0fdf4;color:#15803d;',
                                                 'dot'     => '#22c55e',
                                             ],
                                             'admin_data_manager' => [
-                                                'label'   => 'Admin Data Manager',
+                                                'label'   => 'Admin Pengelola Data',
                                                 'classes' => 'background:#fefce8;color:#a16207;',
                                                 'dot'     => '#f59e0b',
                                             ],

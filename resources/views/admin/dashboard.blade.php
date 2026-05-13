@@ -396,7 +396,7 @@
                         <p class="text-blue-200 font-semibold text-base">BBLSDM Komdigi Makassar</p>
                         <p class="text-blue-300 text-sm mt-1">
                             <i class="fas fa-calendar-day mr-1"></i>
-                            {{ \Carbon\Carbon::parse($today)->translatedFormat('l, d F Y') }}
+                            {{ \Carbon\Carbon::parse($today)->locale('id')->translatedFormat('l, d F Y') }}
                         </p>
                     </div>
 
@@ -494,10 +494,10 @@
                                     <tr>
                                         <th class="rounded-tl-xl">Nama</th>
                                         <th>Status</th>
-                                        <th>Check In</th>
-                                        <th>Foto In</th>
-                                        <th>Check Out</th>
-                                        <th class="rounded-tr-xl">Foto Out</th>
+                                        <th>Masuk</th>
+                                        <th>Foto</th>
+                                        <th>Keluar</th>
+                                        <th class="rounded-tr-xl">Foto</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-50">

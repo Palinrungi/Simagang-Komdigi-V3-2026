@@ -293,8 +293,8 @@
             <div class="hero-strip mb-6">
                 <div class="relative z-10 px-6 py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 class="hero-title text-4xl font-bold mb-1">Mikro Skill Intern</h1>
-                        <p class="text-blue-100">Monitoring mikro skill anak magang</p>
+                        <h1 class="hero-title text-4xl font-bold mb-1">Mikro Skill Peserta Magang</h1>
+                        <p class="text-blue-100">Monitoring mikro skill peserta magang</p>
                     </div>
                     <div class="flex-shrink-0">
                         <a href="{{ route('admin.microskill.create') }}" class="btn-add">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Anak Magang - Sistem Magang')
+@section('title', 'Edit Peserta Magang - Sistem Magang')
 
 @push('styles')
 <style>
@@ -360,8 +360,8 @@
             @if($intern->photo_path)
                 <div class="avatar-ring flex-shrink-0">
                     <img src="{{ url('storage/' . $intern->photo_path) }}"
-                         alt="{{ $intern->name }}"
-                         class="avatar-photo">
+                        alt="{{ $intern->name }}"
+                        class="avatar-photo">
                 </div>
             @else
                 <div class="avatar-ring flex-shrink-0">
@@ -379,9 +379,9 @@
                     <i class="fas fa-university mr-1"></i>{{ $intern->institution }}
                     &nbsp;·&nbsp;
                     <i class="fas fa-calendar-alt mr-1"></i>
-                    {{ \Carbon\Carbon::parse($intern->start_date)->format('d M Y') }}
+                    {{ \Carbon\Carbon::parse($intern->start_date)->locale('id')->translatedFormat('d F Y') }}
                     –
-                    {{ \Carbon\Carbon::parse($intern->end_date)->format('d M Y') }}
+                    {{ \Carbon\Carbon::parse($intern->end_date)->locale('id')->translatedFormat('d F Y') }}
                 </p>
             </div>
 
@@ -418,7 +418,7 @@
                 <div class="section-icon blue"><i class="fas fa-user"></i></div>
                 <div class="section-header-text">
                     <h3>Informasi Pribadi</h3>
-                    <p>Data diri dan kontak anak magang</p>
+                    <p>Data diri dan kontak Peserta Magang</p>
                 </div>
             </div>
 
