@@ -1192,7 +1192,7 @@
         <div class="section-header reveal">
             <span class="section-eyebrow-alt">Mitra</span>
             <h2 class="section-title">Institusi Pendidikan dan Industri yang Telah Bergabung</h2>
-            <p class="section-desc">Sudah banyak Mitra pendidikan dan industri yang telah ambil bagian sebagai mitra terbaik kami. Inilah saatnya bersama menciptakan pengalaman magang yang luar biasa.</p>
+            <p class="section-desc">Dengan simagang, bersama kita menciptakan sistem magang yang mudah, transparan dan terkendali guna menciptakan pengalaman kerja yang seru, dinamis dan menyenangkan bagi para talenta muda.</p>
         </div>
         <div class="partners-grid">
             @php $partners = $partners ?? []; @endphp
@@ -1326,7 +1326,7 @@
                 </a>
 
                 <a href="{{route('artikel_3')}}" target="_blank" class="news-side-item">
-                    <img src="{{ asset('storage/artikel/artikel_3.png') }}" class="news-side-img">
+                    <img src="{{ asset('storage/artikel/artikel_3_1.png') }}" class="news-side-img">
                     <div class="news-side-content">
                         <h4 class="news-side-title">Senam Sehat & Bersih</h4>
                         <p class="text-gray-300 text-sm">Mari kita bahas tentang pentingnya berbagi pengetahuan dan pengalaman dalam dunia digital.</p>
