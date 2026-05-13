@@ -264,7 +264,7 @@
                             </div>
                             <div>
                                 <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Peserta</p>
-                                <h2 class="text-base sm:text-lg font-bold text-slate-900">Daftar Calon Anak Magang</h2>
+                                <h2 class="text-base sm:text-lg font-bold text-slate-900">Daftar Calon Peserta Magang</h2>
                             </div>
                         </div>
 
@@ -272,7 +272,7 @@
                             @foreach ($pengajuan->details as $i => $peserta)
                                 <div class="info-card p-5 sm:p-6">
                                     <div class="flex items-center justify-between gap-4 mb-4">
-                                        <h3 class="text-md font-semibold text-blue-700">Calon Anak Magang
+                                        <h3 class="text-md font-semibold text-blue-700">Calon Peserta Magang
                                             {{ $i + 1 }}</h3>
                                     </div>
 

@@ -91,7 +91,7 @@
                     <div class="max-w-3xl text-white">
                         <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-blue-100/80">Institusi Dashboard</p>
                         <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Detail Logbook</h1>
-                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Informasi lengkap catatan harian anak magang.
+                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Informasi lengkap catatan harian peserta magang.
                         </p>
                     </div>
 
@@ -115,7 +115,7 @@
             <div class="panel">
                 <div class="panel-header">
                     <i class="fas fa-user text-blue-200 text-base"></i>
-                    <h2>Identitas Anak Magang</h2>
+                    <h2>Identitas Peserta Magang</h2>
                 </div>
                 <div class="panel-body">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">

@@ -68,6 +68,10 @@ Route::get('/', function () {
     $testimonials = Testimonial::with(['intern', 'finalReport'])->orderBy('created_at', 'desc')->limit(3)->get();
     $totalPesertaAktif = \App\Models\Intern::count();
 
+    if ($totalPesertaAktif > 10) {
+        $totalPesertaAktif = ($totalPesertaAktif -  10) . '+';
+    } 
+
     return view('landingpage', compact('partners', 'testimonials', 'totalPesertaAktif'));
 })->name('landing');
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Anak Magang - Sistem Magang')
+@section('title', 'Peserta Magang - Sistem Magang')
 
 @push('styles')
     <style>
@@ -187,8 +187,8 @@
                 <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                     <div class="max-w-3xl text-white">
                         <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-blue-100/80">Institusi Dashboard</p>
-                        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Monitoring Anak Magang</h1>
-                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Kelola dan pantau perkembangan anak magang.</p>
+                        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Monitoring Peserta Magang</h1>
+                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Kelola dan pantau perkembangan peserta magang.</p>
                     </div>
 
                     <div class="bg-white/10 border border-white/10 rounded-2xl px-4 py-4 text-white shadow-sm backdrop-blur-sm">
@@ -198,7 +198,7 @@
                             </div>
                             <div>
                                 <p class="text-xs uppercase tracking-[0.25em] text-blue-100/80">Data</p>
-                                <p class="text-base font-bold">{{ $interns->count() }} Anak Magang</p>
+                                <p class="text-base font-bold">{{ $interns->count() }} Peserta Magang</p>
                             </div>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                             <i class="fas fa-clipboard-check"></i>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-500">Lihat dan kelola data kehadiran anak magang.</p>
+                    <p class="text-sm text-slate-500">Lihat dan kelola data kehadiran peserta magang.</p>
                 </a>
 
                 <a href="{{ route('institusi.logbook.index') }}" class="stat-tile tile-green group">
@@ -242,21 +242,21 @@
                             <i class="fas fa-certificate"></i>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-500">Lihat nilai laporan dan sertifikat anak magang.</p>
+                    <p class="text-sm text-slate-500">Lihat nilai laporan dan sertifikat peserta magang.</p>
                 </a>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
                     <i class="fas fa-search text-blue-200 text-base"></i>
-                    <h2>Cari Anak Magang</h2>
+                    <h2>Cari Peserta Magang</h2>
                 </div>
                 <div class="panel-body">
                     <form method="GET" action="{{ route('institusi.intern.index') }}">
                         <div class="flex flex-col lg:flex-row gap-3 lg:items-end">
                             <div class="flex-1">
-                                <label for="search" class="field-label">Nama Anak Magang</label>
-                                <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Cari nama anak magang..." class="field-input">
+                                <label for="search" class="field-label">Nama Peserta Magang</label>
+                                <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Cari nama peserta magang..." class="field-input">
                             </div>
 
                             <div class="w-full lg:w-56">
@@ -286,7 +286,7 @@
             <div class="panel">
                 <div class="panel-header">
                     <i class="fas fa-table text-blue-200 text-base"></i>
-                    <h2>Data Anak Magang</h2>
+                    <h2>Data Peserta Magang</h2>
                 </div>
                 <div class="panel-body">
                     <div class="table-wrap">
@@ -352,8 +352,8 @@
                                                 <div class="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mb-4 shadow-md">
                                                     <i class="fas fa-user-slash text-5xl text-gray-300"></i>
                                                 </div>
-                                                <p class="text-lg font-bold text-gray-700 mb-2">Belum ada anak magang</p>
-                                                <p class="text-sm text-gray-400">Data anak magang akan muncul di sini</p>
+                                                <p class="text-lg font-bold text-gray-700 mb-2">Belum ada peserta magang</p>
+                                                <p class="text-sm text-gray-400">Data peserta magang akan muncul di sini</p>
                                             </div>
                                         </td>
                                     </tr>

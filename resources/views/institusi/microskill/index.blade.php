@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Mikro Skill Anak Bimbingan - Sistem Magang')
+@section('title', 'Mikro Skill Peserta Magang - Sistem Magang')
 
 @push('styles')
     <style>
@@ -180,9 +180,9 @@
                 <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                     <div class="max-w-3xl text-white">
                         <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-blue-100/80">Institusi Dashboard</p>
-                        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Mikro Skill Anak Magang</h1>
+                        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Mikro Skill Peserta Magang</h1>
                         <p class="mt-3 text-sm sm:text-base text-blue-100/90">Pantau pencapaian dan pengembangan keterampilan
-                            anak magang.</p>
+                            peserta magang.</p>
                     </div>
 
                     <div
@@ -226,7 +226,7 @@
                             <i class="fas fa-users"></i>
                         </div>
                     </div>
-                    <p class="text-sm text-slate-500">Jumlah anak magang.</p>
+                    <p class="text-sm text-slate-500">Jumlah peserta magang.</p>
                 </div>
             </div>
 
@@ -239,9 +239,9 @@
                     <form method="GET" action="{{ route('institusi.microskill.index') }}">
                         <div class="flex flex-col lg:flex-row lg:items-end gap-4">
                             <div class="flex-1">
-                                <label class="field-label">Anak Magang</label>
+                                <label class="field-label">Peserta Magang</label>
                                 <select name="intern_id" class="field-select">
-                                    <option value="">-- Semua Anak Magang --</option>
+                                    <option value="">-- Semua Peserta Magang --</option>
                                     @foreach ($interns as $intern)
                                         <option value="{{ $intern->id }}" @selected(request('intern_id') == $intern->id)>
                                             {{ $intern->name }}
@@ -357,8 +357,8 @@
                                                 </div>
                                                 <p class="text-base sm:text-lg font-bold text-gray-700 mb-1 sm:mb-2">Tidak
                                                     ada data mikro skill</p>
-                                                <p class="text-xs sm:text-sm text-gray-500">Data akan muncul ketika anak
-                                                    magang mensubmit course</p>
+                                                <p class="text-xs sm:text-sm text-gray-500">Data akan muncul ketika peserta
+                                                    magang telah mengerjakan mikro skill</p>
                                             </div>
                                         </td>
                                     </tr>

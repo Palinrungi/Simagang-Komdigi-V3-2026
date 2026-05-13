@@ -294,9 +294,9 @@
                                     <i class="fas fa-user text-lg"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-base sm:text-lg font-bold text-slate-900">Informasi Calon Anak Magang
+                                    <h3 class="text-base sm:text-lg font-bold text-slate-900">Informasi Calon Peserta Magang
                                     </h3>
-                                    <p class="text-xs sm:text-sm text-slate-500">Isi data dan kontak calon anak magang.</p>
+                                    <p class="text-xs sm:text-sm text-slate-500">Isi data dan kontak calon peserta magang.</p>
                                 </div>
                             </div>
 
@@ -306,7 +306,7 @@
                                     <div class="intern-card mb-6">
                                         <div class="flex items-center justify-between mb-4">
                                             <h3 class="text-md font-semibold text-blue-700 peserta-title">
-                                                Calon Anak Magang {{ $loop->iteration }}
+                                                Calon Peserta Magang {{ $loop->iteration }}
                                             </h3>
                                             <button type="button" onclick="removeIntern(this)"
                                                 class="delete-btn text-red-500 hover:text-red-700 font-semibold transition-colors {{ $pengajuan->details->count() == 1 ? 'hidden' : '' }}">
@@ -370,7 +370,7 @@
                                 @empty
                                     <div class="intern-card mb-6">
                                         <div class="flex items-center justify-between mb-4">
-                                            <h3 class="text-md font-semibold text-blue-700 peserta-title">Calon Anak Magang
+                                            <h3 class="text-md font-semibold text-blue-700 peserta-title">Calon Peserta Magang
                                                 1</h3>
                                             <button type="button" onclick="removeIntern(this)"
                                                 class="delete-btn text-red-500 hover:text-red-700 font-semibold transition-colors hidden">
@@ -426,7 +426,7 @@
 
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                             <span class="text-sm text-slate-500" id="count-info">{{ $pengajuan->details->count() }} calon
-                                anak magang ditambahkan</span>
+                                peserta magang ditambahkan</span>
                             <button type="button" onclick="addIntern()"
                                 class="inline-flex items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100">
                                 <i class="fas fa-plus mr-2"></i> Tambah Peserta
@@ -457,7 +457,7 @@
         function updateTitles() {
             const cards = document.querySelectorAll('.intern-card');
             cards.forEach((card, index) => {
-                card.querySelector('.peserta-title').innerText = 'Calon Anak Magang ' + (index + 1);
+                card.querySelector('.peserta-title').innerText = 'Calon Peserta Magang ' + (index + 1);
 
                 // Tampilkan tombol hapus hanya jika ada lebih dari 1 kartu
                 const deleteBtn = card.querySelector('.delete-btn');
@@ -467,7 +467,7 @@
                     deleteBtn.classList.add('hidden');
                 }
             });
-            document.getElementById('count-info').innerText = cards.length + ' calon anak magang ditambahkan';
+            document.getElementById('count-info').innerText = cards.length + ' calon peserta magang ditambahkan';
         }
 
         function addIntern() {

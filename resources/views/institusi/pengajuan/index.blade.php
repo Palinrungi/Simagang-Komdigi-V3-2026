@@ -182,7 +182,7 @@
                     <div class="max-w-3xl text-white">
                         <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-blue-100/80">Institusi Dashboard</p>
                         <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Pengajuan Magang</h1>
-                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Catat dan kelola pengajuan magang Anda.</p>
+                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Catat dan kelola pengajuan magangmu.</p>
                     </div>
 
                     <a href="{{ route('institusi.pengajuan.create') }}"

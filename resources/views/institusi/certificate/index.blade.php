@@ -167,9 +167,9 @@
                 <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                     <div class="max-w-3xl text-white">
                         <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-blue-100/80">Institusi Dashboard</p>
-                        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Nilai Sertifikat Anak Magang</h1>
-                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Lihat dan cek nilai sertifikat untuk anak
-                            magang yang terdaftar di institusi Anda.</p>
+                        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Nilai Sertifikat Peserta Magang</h1>
+                        <p class="mt-3 text-sm sm:text-base text-blue-100/90">Lihat dan cek nilai sertifikat untuk peserta
+                            magang yang terdaftar di institusimu.</p>
                     </div>
 
                     <div
@@ -230,7 +230,7 @@
                                 <tr
                                     class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-left text-xs uppercase tracking-wider">
                                     <th class="px-4 py-3">No</th>
-                                    <th class="px-4 py-3">Nama Anak Magang</th>
+                                    <th class="px-4 py-3">Nama Peserta Magang</th>
                                     <th class="px-4 py-3">No. Sertifikat</th>
                                     <th class="px-4 py-3">Terbit</th>
                                     <th class="px-4 py-3">Nilai Sertifikat</th>
@@ -282,7 +282,7 @@
                                                 <p class="text-lg font-bold text-gray-700 mb-2">Belum ada sertifikat
                                                     tersedia</p>
                                                 <p class="text-sm text-gray-400">Sertifikat akan muncul ketika data tersedia
-                                                    untuk institusi Anda.</p>
+                                                    untuk institusimu.</p>
                                             </div>
                                         </td>
                                     </tr>
