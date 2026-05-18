@@ -43,6 +43,24 @@
     .a1 { animation: fadeUp .5s ease both; }
     .a3 { animation: fadeUp .5s .16s ease both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Actions container for hero buttons */
+    .hero-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    /* Responsive tweaks for small screens */
+    @media (max-width: 640px) {
+        .hero-strip .relative { flex-direction: column; align-items: flex-start; gap: 12px; }
+        .hero-actions { width: 100%; justify-content: flex-end; }
+        .hero-actions .btn-nav { padding: 8px 12px; font-size: 13px; border-radius: 8px; }
+        .hero-actions .btn-edit { min-width: 110px; }
+        .hero-actions .btn-back { min-width: 80px; }
+    }
+
+    @media (max-width: 420px) {
+        .hero-actions { justify-content: flex-end; gap: 6px; }
+        .hero-actions .btn-nav { padding: 6px 10px; font-size: 12px; }
+        .hero-actions .btn-nav i { margin-right: 6px; }
+    }
 </style>
 @endpush
 
@@ -56,7 +74,7 @@
                     <h1 class="text-2xl font-bold text-white mb-1">Profile</h1>
                     {{-- <p class="text-blue-200 text-sm">Informasi profil Anda</p> --}}
                 </div>
-                <div style="display: flex; gap: 8px;">
+                <div class="hero-actions">
                     <a href="{{ route('intern.dashboard') }}" class="btn-nav btn-back">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </a>
