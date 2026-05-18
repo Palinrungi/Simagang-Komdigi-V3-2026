@@ -323,7 +323,7 @@
 
             <!-- Statistics Cards (kept original logic, restyled) -->
             @if ($logbooks->count() > 0)
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mt-6">
                     <div class="stat-tile" style="--stat-color:#3b82f6;">
                         <div class="flex items-start justify-between">
                             <div>
@@ -350,7 +350,7 @@
                         </div>
                     </div>
 
-                    <div class="stat-tile" style="--stat-color:#ef4444;">
+                    <div class="stat-tile col-span-2 lg:col-span-1" style="--stat-color:#ef4444;">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="text-xs font-bold text-gray-500 uppercase">Logbook yang harus diselesaikan</p>
@@ -433,21 +433,15 @@
                                                             d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                                                     </svg>
                                                 </a>
-                                                <form action="{{ route('intern.logbook.destroy', $logbook) }}"
-                                                    method="POST" class="inline"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus logbook ini?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="inline-flex items-center justify-center w-10 h-10 bg-red-100 hover:bg-red-200 rounded-lg transition-all duration-200 group"
-                                                        title="Hapus">
-                                                        <svg class="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform"
-                                                            fill="currentColor" viewBox="0 0 24 24">
-                                                            <path
-                                                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
+                                                <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-delete-modal', { detail: { url: '{{ route('intern.logbook.destroy', $logbook) }}' } }))"
+                                                    class="inline-flex items-center justify-center w-10 h-10 bg-red-100 hover:bg-red-200 rounded-lg transition-all duration-200 group"
+                                                    title="Hapus">
+                                                    <svg class="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform"
+                                                        fill="currentColor" viewBox="0 0 24 24">
+                                                        <path
+                                                            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -476,6 +470,33 @@
                     @if ($logbooks->count() > 0)
                         <div class="mt-6">{{ $logbooks->links() }}</div>
                     @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div x-data="{ showDeleteModal: false, deleteUrl: '' }" @open-delete-modal.window="showDeleteModal = true; deleteUrl = $event.detail.url">
+        <!-- Modal Backdrop -->
+        <div x-show="showDeleteModal" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900 bg-opacity-50 backdrop-blur-sm" x-transition.opacity>
+            <!-- Modal Content -->
+            <div @click.away="showDeleteModal = false" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all" x-show="showDeleteModal" x-transition.scale.origin.bottom>
+                <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Hapus</h3>
+                <p class="text-center text-gray-600 mb-6">Apakah Anda yakin ingin menghapus logbook ini? Tindakan ini tidak dapat dibatalkan.</p>
+                <div class="flex justify-center gap-3">
+                    <button type="button" @click="showDeleteModal = false" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+                        Batal
+                    </button>
+                    <form :action="deleteUrl" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors flex items-center gap-2">
+                            <i class="fas fa-trash"></i> Ya, Hapus
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

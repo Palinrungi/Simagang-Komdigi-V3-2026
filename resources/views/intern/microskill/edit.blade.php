@@ -46,7 +46,7 @@
                     </h2>
                 </div>
 
-                <form method="POST" action="{{ route('intern.microskill.update', $submission->id) }}"
+                <form id="updateForm" method="POST" action="{{ route('intern.microskill.update', $submission->id) }}"
                     enctype="multipart/form-data" class="p-8 space-y-6">
                     @csrf
                     @method('PUT')
@@ -129,7 +129,7 @@
                             class="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-colors">
                             <i class="fas fa-arrow-left mr-2"></i>Kembali ke Daftar
                         </a>
-                        <button type="submit"
+                        <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-update-modal'))"
                             class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
                             <i class="fas fa-save mr-2"></i>Simpan Perubahan
                         </button>
@@ -137,6 +137,29 @@
                 </form>
             </div>
         </div>
+        </div>
+    </div>
+
+    <!-- Update Confirmation Modal -->
+    <div x-data="{ showUpdateModal: false }" @open-update-modal.window="showUpdateModal = true">
+        <!-- Modal Backdrop -->
+        <div x-show="showUpdateModal" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900 bg-opacity-50 backdrop-blur-sm" x-transition.opacity>
+            <!-- Modal Content -->
+            <div @click.away="showUpdateModal = false" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all" x-show="showUpdateModal" x-transition.scale.origin.bottom>
+                <div class="flex items-center justify-center w-12 h-12 mx-auto bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-question text-blue-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Perubahan</h3>
+                <p class="text-center text-gray-600 mb-6">Apakah Anda yakin ingin menyimpan perubahan mikro skill ini?</p>
+                <div class="flex justify-center gap-3">
+                    <button type="button" @click="showUpdateModal = false" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+                        Batal
+                    </button>
+                    <button type="button" onclick="document.getElementById('updateForm').submit()" class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors flex items-center gap-2">
+                        <i class="fas fa-save"></i> Ya, Simpan
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

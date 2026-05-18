@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
@@ -1025,8 +1025,13 @@
 
         <!-- Step 1 -->
         <div class="step-block reveal">
-            <div class="step-image-wrap" style="display:flex;justify-content:center">
-                <img src="{{ asset('storage/tutorial/dashboardLP.png') }}" alt="Dashboard" class="step-image" style="width:50%">
+            <div class="step-image-wrap flex justify-center w-full">
+                <div class="relative w-full max-w-[260px] sm:max-w-[300px] mx-auto group">
+                    <img src="{{ asset('storage/tutorial/frame.png') }}" alt="Phone Frame" class="relative z-10 w-full h-auto drop-shadow-2xl pointer-events-none">
+                    <div class="absolute top-[2.5%] bottom-[2.5%] left-[5%] right-[5%] z-0 overflow-hidden rounded-[1.8rem] sm:rounded-[2.2rem] bg-white bg-no-repeat bg-top group-hover:bg-bottom" 
+                         style="background-image: url('{{ asset('storage/tutorial/dashboard.png') }}'); background-size: 100% auto; transition: background-position 6s ease-in-out;">
+                    </div>
+                </div>
             </div>
             <div>
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Fitur 1</div>
@@ -1054,15 +1059,25 @@
                     <li>Riwayat absensi tersimpan otomatis</li>
                 </ul>
             </div>
-            <div class="step-image-wrap">
-                <img src="{{ asset('storage/tutorial/absen.jpeg') }}" alt="Absensi" class="step-image">
+            <div class="step-image-wrap flex justify-center w-full">
+                <div class="relative w-full max-w-[260px] sm:max-w-[300px] mx-auto group">
+                    <img src="{{ asset('storage/tutorial/frame.png') }}" alt="Phone Frame" class="relative z-10 w-full h-auto drop-shadow-2xl pointer-events-none">
+                    <div class="absolute top-[2.5%] bottom-[2.5%] left-[5%] right-[5%] z-0 overflow-hidden rounded-[1.8rem] sm:rounded-[2.2rem] bg-white bg-no-repeat bg-top group-hover:bg-bottom" 
+                         style="background-image: url('{{ asset('storage/tutorial/absen.jpeg') }}'); background-size: 100% auto; transition: background-position 6s ease-in-out;">
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Step 3 -->
         <div class="step-block reveal">
-            <div class="step-image-wrap">
-                <img src="{{ asset('storage/tutorial/logbook.png') }}" alt="Logbook" class="step-image">
+            <div class="step-image-wrap flex justify-center w-full">
+                <div class="relative w-full max-w-[260px] sm:max-w-[300px] mx-auto group">
+                    <img src="{{ asset('storage/tutorial/frame.png') }}" alt="Phone Frame" class="relative z-10 w-full h-auto drop-shadow-2xl pointer-events-none">
+                    <div class="absolute top-[2.5%] bottom-[2.5%] left-[5%] right-[5%] z-0 overflow-hidden rounded-[1.8rem] sm:rounded-[2.2rem] bg-white bg-no-repeat bg-top group-hover:bg-bottom" 
+                         style="background-image: url('{{ asset('storage/tutorial/logbook.png') }}'); background-size: 100% auto; transition: background-position 6s ease-in-out;">
+                    </div>
+                </div>
             </div>
             <div>
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Fitur 3</div>
@@ -1090,15 +1105,25 @@
                     <li>Mendapatkan feedback dan revisi dari mentor</li>
                 </ul>
             </div>
-            <div class="step-image-wrap">
-                <img src="{{ asset('storage/tutorial/laporan.png') }}" alt="Laporan" class="step-image">
+            <div class="step-image-wrap flex justify-center w-full">
+                <div class="relative w-full max-w-[260px] sm:max-w-[300px] mx-auto group">
+                    <img src="{{ asset('storage/tutorial/frame.png') }}" alt="Phone Frame" class="relative z-10 w-full h-auto drop-shadow-2xl pointer-events-none">
+                    <div class="absolute top-[2.5%] bottom-[2.5%] left-[5%] right-[5%] z-0 overflow-hidden rounded-[1.8rem] sm:rounded-[2.2rem] bg-white bg-no-repeat bg-top group-hover:bg-bottom" 
+                         style="background-image: url('{{ asset('storage/tutorial/laporan.png') }}'); background-size: 100% auto; transition: background-position 6s ease-in-out;">
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Step 5 -->
         <div class="step-block reveal">
-            <div class="step-image-wrap" style="display:flex;justify-content:center">
-                <img src="{{ asset('storage/tutorial/mikroskill.png') }}" alt="Mikroskill" class="step-image" style="width:50%">
+            <div class="step-image-wrap flex justify-center w-full">
+                <div class="relative w-full max-w-[260px] sm:max-w-[300px] mx-auto group">
+                    <img src="{{ asset('storage/tutorial/frame.png') }}" alt="Phone Frame" class="relative z-10 w-full h-auto drop-shadow-2xl pointer-events-none">
+                    <div class="absolute top-[2.5%] bottom-[2.5%] left-[5%] right-[5%] z-0 overflow-hidden rounded-[1.8rem] sm:rounded-[2.2rem] bg-white bg-no-repeat bg-top group-hover:bg-bottom" 
+                         style="background-image: url('{{ asset('storage/tutorial/mikroskill.png') }}'); background-size: 100% auto; transition: background-position 6s ease-in-out;">
+                    </div>
+                </div>
             </div>
             <div>
                 <div class="step-badge"><i class="fas fa-flag" style="font-size:10px"></i> Fitur 5</div>
