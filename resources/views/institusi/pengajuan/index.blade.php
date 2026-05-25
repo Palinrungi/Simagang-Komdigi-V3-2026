@@ -76,25 +76,11 @@
             box-shadow: 0 8px 28px rgba(20, 40, 120, 0.12);
         }
 
-        .tile-blue::after {
-            background: linear-gradient(90deg, #3b82f6, #6366f1);
-        }
-
-        .tile-green::after {
-            background: linear-gradient(90deg, #22c55e, #10b981);
-        }
-
-        .tile-yellow::after {
-            background: linear-gradient(90deg, #f59e0b, #f97316);
-        }
-
-        .tile-orange::after {
-            background: linear-gradient(90deg, #fb923c, #f97316);
-        }
-
-        .tile-red::after {
-            background: linear-gradient(90deg, #f43f5e, #e11d48);
-        }
+        .tile-blue::after { background: linear-gradient(90deg, #3b82f6, #6366f1); }
+        .tile-green::after { background: linear-gradient(90deg, #22c55e, #10b981); }
+        .tile-yellow::after { background: linear-gradient(90deg, #f59e0b, #f97316); }
+        .tile-orange::after { background: linear-gradient(90deg, #fb923c, #f97316); }
+        .tile-red::after { background: linear-gradient(90deg, #f43f5e, #e11d48); }
 
         .tile-icon {
             width: 44px;
@@ -131,9 +117,7 @@
             margin: 0;
         }
 
-        .panel-body {
-            padding: 20px 22px;
-        }
+        .panel-body { padding: 20px 22px; }
 
         .action-btn {
             display: inline-flex;
@@ -217,9 +201,7 @@
             font-size: 14px;
         }
 
-        .filter-input-icon {
-            padding-left: 44px;
-        }
+        .filter-input-icon { padding-left: 44px; }
 
         .filter-btn {
             height: 52px;
@@ -234,7 +216,6 @@
             <div class="hero-strip px-5 sm:px-8 py-6 sm:py-8">
                 <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                     <div class="max-w-3xl text-white">
-                        {{-- <p class="text-xs sm:text-sm uppercase tracking-[0.3em] text-blue-100/80">Institusi Dashboard</p> --}}
                         <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight">Pengajuan Magang</h1>
                         <p class="mt-3 text-sm sm:text-base text-blue-100/90">Semua pengajuan magang bisa dipantau dan dikelola dengan lebih mudah.</p>
                     </div>
@@ -307,17 +288,10 @@
                             <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
 
                                 <div class="xl:col-span-5">
-                                    <label for="search" class="field-label">
-                                        Nomor Pengajuan
-                                    </label>
-
+                                    <label for="search" class="field-label">Nomor Pengajuan</label>
                                     <div class="relative">
                                         <i class="fas fa-search filter-search-icon"></i>
-
-                                        <input
-                                            type="text"
-                                            name="search"
-                                            id="search"
+                                        <input type="text" name="search" id="search"
                                             value="{{ request('search') }}"
                                             placeholder="Cari nomor pengajuan..."
                                             class="field-input filter-input-icon">
@@ -325,51 +299,31 @@
                                 </div>
 
                                 <div class="xl:col-span-3">
-                                    <label for="status" class="field-label">
-                                        Status
-                                    </label>
-
+                                    <label for="status" class="field-label">Status</label>
                                     <select name="status" id="status" class="field-select">
                                         <option value="">Semua Status</option>
-                                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
-                                            pending
-                                        </option>
-                                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>
-                                            Disetujui
-                                        </option>
-                                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>
-                                            Ditolak
-                                        </option>
-                                        <option value="revised" {{ request('status') == 'revised' ? 'selected' : '' }}>
-                                            Revisi
-                                        </option>
+                                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>pending</option>
+                                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                                        <option value="revised" {{ request('status') == 'revised' ? 'selected' : '' }}>Revisi</option>
                                     </select>
                                 </div>
 
                                 <div class="xl:col-span-2">
-                                    <label for="date" class="field-label">
-                                        Tanggal
-                                    </label>
-
-                                    <input
-                                        type="date"
-                                        name="date"
-                                        id="date"
+                                    <label for="date" class="field-label">Tanggal</label>
+                                    <input type="date" name="date" id="date"
                                         value="{{ request('date') }}"
                                         class="field-input">
                                 </div>
 
                                 <div class="xl:col-span-2 flex items-end gap-2">
-                                    <button
-                                        type="submit"
+                                    <button type="submit"
                                         class="filter-btn flex-1 inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 px-5 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">
-                                        <i class="fas fa-search mr-2"></i>
-                                        Cari
+                                        <i class="fas fa-search mr-2"></i>Cari
                                     </button>
 
                                     @if (request()->filled('search') || request()->filled('status') || request()->filled('date'))
-                                        <a
-                                            href="{{ route('institusi.pengajuan.index') }}"
+                                        <a href="{{ route('institusi.pengajuan.index') }}"
                                             class="filter-btn inline-flex w-[52px] items-center justify-center border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50">
                                             <i class="fas fa-rotate-left"></i>
                                         </a>
@@ -382,14 +336,13 @@
                 </div>
             </div>
 
-
             <div class="panel">
                 <div class="panel-header">
                     <i class="fas fa-list text-blue-200 text-base"></i>
                     <h2>Data Pengajuan Magang</h2>
-                    <span
-                        class="ml-auto rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">{{ $totalPengajuanFilter }}
-                        data</span>
+                    <span class="ml-auto rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+                        {{ $totalPengajuanFilter }} data
+                    </span>
                 </div>
 
                 <div class="panel-body">
@@ -397,18 +350,10 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr class="bg-blue-50">
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">
-                                        Nomor Surat</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Tanggal Pengajuan</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Status</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
-                                        Aksi</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">Nomor Surat</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Tanggal Pengajuan</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
@@ -417,27 +362,19 @@
                                         $statusClass = match ($pengajuan->status) {
                                             'approved' => 'bg-green-100 text-green-800',
                                             'rejected' => 'bg-red-100 text-red-800',
-                                            'revised' => 'bg-orange-100 text-orange-800',
-                                            default => 'bg-yellow-100 text-yellow-800',
+                                            'revised'  => 'bg-orange-100 text-orange-800',
+                                            default    => 'bg-yellow-100 text-yellow-800',
                                         };
-                                        // $statusLabel = match ($pengajuan->status) {
-                                        //     'approved' => 'Disetujui',
-                                        //     'rejected' => 'Ditolak',
-                                        //     'revised' => 'Revisi',
-                                        //     default => 'Diproses',
-                                        // };
                                     @endphp
                                     <tr class="hover:bg-blue-50 transition-colors duration-150">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <p class="text-sm font-medium text-slate-700">{{ $pengajuan->no_surat }}</p>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                                            <p class="text-sm text-slate-600">{{ $pengajuan->created_at->format('d/m/y') }}
-                                            </p>
+                                            <p class="text-sm text-slate-600">{{ $pengajuan->created_at->format('d/m/y') }}</p>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                                            <span
-                                                class="status-pill {{ $statusClass }}">{{ ucfirst($pengajuan->status) }}</span>
+                                            <span class="status-pill {{ $statusClass }}">{{ ucfirst($pengajuan->status) }}</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
                                             <div class="flex gap-2 justify-center">
@@ -446,14 +383,13 @@
                                                     title="Lihat">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+
                                                 @if ($pengajuan->status === 'revised')
                                                     <a href="{{ route('institusi.pengajuan.edit', $pengajuan->id) }}"
                                                         class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 transition-all duration-200 hover:bg-blue-200"
                                                         title="Edit">
-                                                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform"
-                                                            fill="currentColor" viewBox="0 0 24 24">
-                                                            <path
-                                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                                                         </svg>
                                                     </a>
                                                 @else
@@ -462,25 +398,27 @@
                                                         class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-slate-100 text-slate-400 cursor-not-allowed"
                                                         title="Edit tidak tersedia untuk status ini">
                                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path
-                                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                                                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                                                         </svg>
                                                     </button>
                                                 @endif
-                                                <form action="{{ route('institusi.pengajuan.destroy', $pengajuan->id) }}"
-                                                    method="POST" class="inline"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengajuan ini?');">
+
+                                                {{-- Tombol hapus — membuka modal, bukan langsung submit --}}
+                                                <button type="button"
+                                                    onclick="openDeleteModal('{{ $pengajuan->id }}')"
+                                                    class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600 transition-all duration-200 hover:bg-red-200"
+                                                    title="Hapus">
+                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                                    </svg>
+                                                </button>
+
+                                                {{-- Hidden form untuk delete --}}
+                                                <form id="delete-form-{{ $pengajuan->id }}"
+                                                    action="{{ route('institusi.pengajuan.destroy', $pengajuan->id) }}"
+                                                    method="POST" class="hidden">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit"
-                                                        class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600 transition-all duration-200 hover:bg-red-200"
-                                                        title="Hapus">
-                                                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform"
-                                                            fill="currentColor" viewBox="0 0 24 24">
-                                                            <path
-                                                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                                        </svg>
-                                                    </button>
                                                 </form>
                                             </div>
                                         </td>
@@ -507,4 +445,69 @@
             </div>
         </div>
     </div>
+
+    {{-- ── DELETE CONFIRMATION MODAL ── --}}
+    <div id="delete-confirm-modal"
+        style="display:none;"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900 bg-opacity-50 backdrop-blur-sm">
+
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+
+            <div class="flex items-center justify-center w-14 h-14 mx-auto bg-red-100 rounded-full mb-4">
+                <i class="fas fa-trash text-red-600 text-2xl"></i>
+            </div>
+
+            <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Hapus Pengajuan</h3>
+
+            <p class="text-center text-gray-600 text-sm mb-6">
+                Apakah Anda yakin ingin menghapus pengajuan ini? Data yang sudah dihapus <span class="font-semibold text-red-500">tidak dapat dikembalikan</span>.
+            </p>
+
+            <div class="flex gap-3">
+                <button type="button" id="btn-delete-cancel"
+                    class="flex-1 px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+                    <i class="fas fa-times mr-1"></i> Batal
+                </button>
+                <button type="button" id="btn-delete-confirm"
+                    class="flex-1 px-5 py-2.5 text-sm font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-trash"></i> Ya, Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const deleteModal = document.getElementById('delete-confirm-modal');
+        let activeDeleteFormId = null;
+
+        function openDeleteModal(id) {
+            activeDeleteFormId = id;
+            deleteModal.style.display = 'flex';
+        }
+
+        document.getElementById('btn-delete-cancel').addEventListener('click', function () {
+            deleteModal.style.display = 'none';
+            activeDeleteFormId = null;
+        });
+
+        document.getElementById('btn-delete-confirm').addEventListener('click', function () {
+            if (activeDeleteFormId) {
+                document.getElementById('delete-form-' + activeDeleteFormId).submit();
+            }
+        });
+
+        deleteModal.addEventListener('click', function (e) {
+            if (e.target === deleteModal) {
+                deleteModal.style.display = 'none';
+                activeDeleteFormId = null;
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && deleteModal.style.display === 'flex') {
+                deleteModal.style.display = 'none';
+                activeDeleteFormId = null;
+            }
+        });
+    </script>
 @endsection

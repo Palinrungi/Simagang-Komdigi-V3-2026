@@ -181,7 +181,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form method="POST" action="{{ route('institusi.pengajuan.update', $pengajuan->id) }}"
+                    <form id="edit-pengajuan-form" method="POST" action="{{ route('institusi.pengajuan.update', $pengajuan->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -452,7 +452,7 @@
                             <a href="{{ route('institusi.pengajuan.index') }}" class="action-link">
                                 <i class="fas fa-arrow-left"></i>Kembali
                             </a>
-                            <button type="submit"
+                            <button type="button" id="btn-open-edit-modal"
                                 class="primary-btn inline-flex w-full sm:w-auto items-center justify-center rounded-2xl px-8 py-3 text-sm sm:text-base font-semibold text-white shadow-lg transition hover:shadow-xl">
                                 <i class="fas fa-save mr-2"></i>Simpan Perubahan
                             </button>
@@ -464,8 +464,38 @@
         </div>
     </div>
 
+    {{-- ── CONFIRMATION MODAL ── --}}
+    <div id="edit-confirm-modal"
+        style="display:none;"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900 bg-opacity-50 backdrop-blur-sm">
+
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+
+            <div class="flex items-center justify-center w-14 h-14 mx-auto bg-blue-100 rounded-full mb-4">
+                <i class="fas fa-save text-blue-600 text-2xl"></i>
+            </div>
+
+            <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Simpan Perubahan</h3>
+
+            <p class="text-center text-gray-600 text-sm mb-6">
+                Apakah Anda yakin ingin menyimpan perubahan pada pengajuan magang ini?
+            </p>
+
+            <div class="flex gap-3">
+                <button type="button" id="btn-edit-cancel"
+                    class="flex-1 px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+                    <i class="fas fa-times mr-1"></i> Batal
+                </button>
+                <button type="button" id="btn-edit-confirm"
+                    class="flex-1 px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-save"></i> Ya, Simpan
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // ── Intern cards ──
         let count = 1;
 
         function updateTitles() {
@@ -473,7 +503,6 @@
             cards.forEach((card, index) => {
                 card.querySelector('.peserta-title').innerText = 'Calon Peserta Magang ' + (index + 1);
 
-                // Tampilkan tombol hapus hanya jika ada lebih dari 1 kartu
                 const deleteBtn = card.querySelector('.delete-btn');
                 if (cards.length > 1) {
                     deleteBtn.classList.remove('hidden');
@@ -489,13 +518,10 @@
             const firstCard = container.querySelector('.intern-card');
 
             const newCard = firstCard.cloneNode(true);
-
-            // reset semua input
             newCard.querySelectorAll('input').forEach(input => input.value = '');
             newCard.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
 
             container.appendChild(newCard);
-
             count++;
             updateTitles();
         }
@@ -504,7 +530,6 @@
             const card = button.closest('.intern-card');
             const container = document.getElementById('intern-container');
 
-            // Pastikan minimal ada 1 kartu
             if (container.querySelectorAll('.intern-card').length > 1) {
                 card.remove();
                 updateTitles();
@@ -512,5 +537,33 @@
                 alert('Minimal harus ada 1 peserta');
             }
         }
+
+        // ── Confirmation modal ──
+        const editModal = document.getElementById('edit-confirm-modal');
+        const editForm  = document.getElementById('edit-pengajuan-form');
+
+        document.getElementById('btn-open-edit-modal').addEventListener('click', function () {
+            if (!editForm.reportValidity()) return;
+            editModal.style.display = 'flex';
+        });
+
+        document.getElementById('btn-edit-cancel').addEventListener('click', function () {
+            editModal.style.display = 'none';
+        });
+
+        document.getElementById('btn-edit-confirm').addEventListener('click', function () {
+            editModal.style.display = 'none';
+            editForm.submit();
+        });
+
+        editModal.addEventListener('click', function (e) {
+            if (e.target === editModal) editModal.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && editModal.style.display === 'flex') {
+                editModal.style.display = 'none';
+            }
+        });
     </script>
 @endsection
