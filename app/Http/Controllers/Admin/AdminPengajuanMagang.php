@@ -62,7 +62,7 @@ class AdminPengajuanMagang extends Controller
 
     public function show(int $id, PengajuanWhatsappService $whatsappService)
     {
-        $pengajuan = Pengajuan::with(['details', 'institusi'])
+        $pengajuan = Pengajuan::with(['details', 'institusi', 'lowongan', 'lowongan.industri'])
             ->findOrFail($id);
 
         $whatsapp = $whatsappService->payloadFor($pengajuan);
