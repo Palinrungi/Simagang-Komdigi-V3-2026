@@ -10,6 +10,20 @@ use App\Models\Team;
 
 class AdminLowonganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view_lowongan')->only(['index', 'show']);
+        $this->middleware('permission:manage_lowongan')->only([
+            'create',
+            'edit',
+            'store',
+            'update',
+            'destroy',
+            'approve',
+            'reject',
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -174,9 +188,9 @@ class AdminLowonganController extends Controller
     public function edit(string $id)
     {
         $lowongan = Lowongan::findOrFail($id);
-        if (!$this->canEditLowongan($lowongan)) {
-            abort(403, 'Anda tidak memiliki akses untuk mengedit lowongan ini.');
-        }
+        // if (!$this->canEditLowongan($lowongan)) {
+        //     abort(403, 'Anda tidak memiliki akses untuk mengedit lowongan ini.');
+        // }
         $teams = Team::orderBy('name')->get();
         return view('admin.lowongan.edit', compact('lowongan', 'teams'));
     }
@@ -187,9 +201,9 @@ class AdminLowonganController extends Controller
     public function update(Request $request, string $id)
     {
         $lowongan = Lowongan::findOrFail($id);
-        if (!$this->canEditLowongan($lowongan)) {
-            abort(403, 'Anda tidak memiliki akses untuk mengedit lowongan ini.');
-        }
+        // if (!$this->canEditLowongan($lowongan)) {
+        //     abort(403, 'Anda tidak memiliki akses untuk mengedit lowongan ini.');
+        // }
         $request->validate([
             'judul_lowongan'      => 'required|string|max:255',
             'posisi_magang'       => 'required|string|max:255',

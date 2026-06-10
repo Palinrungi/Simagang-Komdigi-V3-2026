@@ -387,6 +387,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     ->where('filename', '[^/]+');
     Route::get('/attendance', [AdminAttendanceController::class, 'index'])->name('attendance.index');
     Route::get('/attendance/{attendance}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
+    Route::get('/attendance/document/{filename}', [AdminAttendanceController::class, 'serveDocument'])->name('attendance.document');
     Route::put('/attendance/{attendance}/document-status', [AdminAttendanceController::class, 'updateDocumentStatus'])->name('attendance.update-document-status');
     // Logbook Monitoring Routes
     Route::get('/logbook/photo/{filename}', [AdminLogbookController::class, 'servePhoto'])
@@ -453,9 +454,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/lowongan/create', [AdminLowonganController::class, 'create'])->name('lowongan.create');
     Route::post('/lowongan', [AdminLowonganController::class, 'store'])->name('lowongan.store');
     Route::get('/lowongan/{id}', [AdminLowonganController::class, 'show'])->name('lowongan.show');
+    Route::get('/lowongan/{id}/edit', [AdminLowonganController::class, 'edit'])->name('lowongan.edit');
+    Route::put('/lowongan/{id}', [AdminLowonganController::class, 'update'])->name('lowongan.update');
+    Route::delete('/lowongan/{id}', [AdminLowonganController::class, 'destroy'])->name('lowongan.destroy');
     Route::patch('/lowongan/{id}/approve', [AdminLowonganController::class, 'approve'])->name('lowongan.approve');
     Route::patch('/lowongan/{id}/reject', [AdminLowonganController::class, 'reject'])->name('lowongan.reject');
-    Route::delete('/lowongan/{id}', [AdminLowonganController::class, 'destroy'])->name('lowongan.destroy');
 
     //Verifikasi Lowongan Routes
     Route::get('/verifikasi-lowongan', [AdminVerifikasiLowonganController::class, 'index'])->name('verifikasi.index');

@@ -26,29 +26,30 @@ class AttendanceSeeder extends Seeder
                 $date = Carbon::now()->subDays($i);
                 $status = $statuses[array_rand($statuses)];
                 
-                $data = [
-                    'intern_id' => $intern->id,
-                    'date' => $date->format('Y-m-d'),
+                $attributes = [
                     'status' => $status,
                 ];
 
                 // Jika hadir, tambahkan check in/out dan foto
                 if ($status === 'hadir') {
-                    $data['check_in'] = $date->copy()->setTime(8, rand(0, 30), 0);
-                    $data['check_out'] = $date->copy()->setTime(16, rand(0, 59), 0);
-                    $data['photo_path'] = 'dummy/attendance_' . uniqid() . '.jpg';
-                    $data['photo_checkout'] = 'dummy/checkout_' . uniqid() . '.jpg';
+                    $attributes['check_in'] = $date->copy()->setTime(8, rand(0, 30), 0);
+                    $attributes['check_out'] = $date->copy()->setTime(16, rand(0, 59), 0);
+                    $attributes['photo_path'] = 'dummy/attendance_' . uniqid() . '.jpg';
+                    $attributes['photo_checkout'] = 'dummy/checkout_' . uniqid() . '.jpg';
                 }
 
                 // Jika izin atau sakit, tambahkan note dan dokumen
                 if (in_array($status, ['izin', 'sakit'])) {
-                    $data['note'] = 'Alasan ' . $status . ' - ' . fake()->sentence();
-                    $data['document_path'] = 'dummy/document_' . uniqid() . '.pdf';
-                    $data['document_status'] = ['pending', 'approved', 'rejected'][rand(0, 2)];
-                    $data['admin_note'] = rand(0, 1) ? fake()->sentence() : null;
+                    $attributes['note'] = 'Alasan ' . $status . ' - ' . fake()->sentence();
+                    $attributes['document_path'] = 'dummy/document_' . uniqid() . '.pdf';
+                    $attributes['document_status'] = ['pending', 'approved', 'rejected'][rand(0, 2)];
+                    $attributes['admin_note'] = rand(0, 1) ? fake()->sentence() : null;
                 }
 
-                Attendance::create($data);
+                Attendance::updateOrCreate(
+                    ['intern_id' => $intern->id, 'date' => $date->format('Y-m-d')],
+                    $attributes
+                );
             }
         }
 

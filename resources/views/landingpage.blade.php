@@ -1891,7 +1891,7 @@
     </div>
 
             <div class="news-side-list">
-                <a href="{{route('artikel_1')}}" target="_blank" class="news-side-item">
+                <a href="{{route('artikel_1')}}" target="_self" class="news-side-item">
                     <img src="{{ asset('storage/artikel/artikel_1.jpeg') }} " class="news-side-img">
                     <div class="news-side-content">
                         <h4 class="news-side-title">Sharing Session</h4>
@@ -1900,7 +1900,7 @@
                     </div>
                 </a>
 
-                <a href="{{route('artikel_2')}}" target="_blank" class="news-side-item">
+                <a href="{{route('artikel_2')}}" target="_self" class="news-side-item">
                     <img src="{{ asset('storage/artikel/artikel_2.png') }}" class="news-side-img">
                     <div class="news-side-content">
                         <h4 class="news-side-title">Emang Gen Z lebih jago soal keamanan digital? - Podcast Capila 2026 Episode 1</h4>
@@ -1909,7 +1909,7 @@
                     </div>
                 </a>
 
-                <a href="{{route('artikel_3')}}" target="_blank" class="news-side-item">
+                <a href="{{route('artikel_3')}}" target="_self" class="news-side-item">
                     <img src="{{ asset('storage/artikel/artikel_3_1.png') }}" class="news-side-img">
                     <div class="news-side-content">
                         <h4 class="news-side-title">Senam Sehat & Bersih</h4>

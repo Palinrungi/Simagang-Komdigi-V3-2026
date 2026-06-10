@@ -308,8 +308,8 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Nama Industri</th>
-                                    <th>Alamat</th>
+                                    <th style="text-align:center" >Nama Industri</th>
+                                    <th style="text-align:center">Alamat</th>
                                     <th style="text-align:center;">Total</th>
                                     <th style="text-align:center;">Aktif</th>
                                     <th style="text-align:center;">Alumni</th>
@@ -340,7 +340,7 @@
                                         </td>
                                         <td class="text-gray-500"
                                             style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                                            {{ $industri->alamat ?? '—' }}
+                                            {{ $industri->alamat_industri ?? '—' }}
                                         </td>
                                         <td style="text-align:center;">
                                             <span class="pill pill-blue">{{ $industri->total_intern }}</span>

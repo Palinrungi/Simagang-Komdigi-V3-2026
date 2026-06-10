@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Controllers\Controller;
 use App\Models\Intern;
 use App\Models\Mentor;
@@ -137,8 +139,21 @@ class AdminInternController extends Controller
         $photo = $request->file('photo');
         if ($photo->isValid() && $photo->getError() === UPLOAD_ERR_OK) {
             try {
-                $extension = $photo->getClientOriginalExtension() ?: ($photo->guessExtension() ?: 'jpg');
-                $filename = 'photo_' . time() . '_' . uniqid() . '.' . $extension;
+                // $extension = $photo->getClientOriginalExtension() ?: ($photo->guessExtension() ?: 'jpg');
+                // $filename = 'photo_' . time() . '_' . uniqid() . '.' . $extension;
+                // $destinationPath = storage_path('app/public/photos');
+
+                // if (!file_exists($destinationPath)) {
+                //     mkdir($destinationPath, 0755, true);
+                // }
+
+                // $fullPath = $destinationPath . DIRECTORY_SEPARATOR . $filename;
+                // if ($photo->move($destinationPath, $filename) && file_exists($fullPath)) {
+                //     $photoPath = 'photos/' . $filename;
+                // } else {
+                //     return back()->withErrors(['photo' => 'Gagal menyimpan foto.'])->withInput();
+                // }
+                $filename = 'photo_' . time() . '_' . uniqid() . '.jpg';
                 $destinationPath = storage_path('app/public/photos');
 
                 if (!file_exists($destinationPath)) {
@@ -146,10 +161,23 @@ class AdminInternController extends Controller
                 }
 
                 $fullPath = $destinationPath . DIRECTORY_SEPARATOR . $filename;
-                if ($photo->move($destinationPath, $filename) && file_exists($fullPath)) {
+
+                try {
+                    // 1. Panggil alat pengolah gambar
+                    $manager = new ImageManager(new Driver());
+                    
+                    // 2. Baca file yang diunggah
+                    $image = $manager->read($photo->getPathname());
+                    
+                    // 3. Perkecil dimensi gambar (maksimal lebar 800px, proporsi tinggi otomatis menyesuaikan)
+                    $image->scaleDown(width: 800);
+                    
+                    // 4. Konversi ke JPG dengan kualitas 75% lalu simpan
+                    $image->toJpeg(quality: 75)->save($fullPath);
+                    
                     $photoPath = 'photos/' . $filename;
-                } else {
-                    return back()->withErrors(['photo' => 'Gagal menyimpan foto.'])->withInput();
+                } catch (\Exception $e) {
+                    return back()->withErrors(['photo' => 'Gagal memproses/mengompresi foto: ' . $e->getMessage()])->withInput();
                 }
             } catch (\Exception $e) {
                 return back()->withErrors(['photo' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
@@ -318,6 +346,7 @@ class AdminInternController extends Controller
             $photo = $request->file('photo');
             if ($photo->isValid() && $photo->getError() === UPLOAD_ERR_OK) {
                 try {
+                    // Hapus foto lama jika ada
                     if ($intern->photo_path) {
                         $oldPath = storage_path('app/public/' . $intern->photo_path);
                         if (file_exists($oldPath)) {
@@ -325,23 +354,35 @@ class AdminInternController extends Controller
                         }
                     }
 
-                    $extension = $photo->getClientOriginalExtension() ?: ($photo->guessExtension() ?: 'jpg');
-                    $filename = 'photo_' . time() . '_' . uniqid() . '.' . $extension;
+
+                    $filename = 'photo_' . time() . '_' . uniqid() . '.jpg';
                     $destinationPath = storage_path('app/public/photos');
+
 
                     if (!file_exists($destinationPath)) {
                         mkdir($destinationPath, 0755, true);
                     }
 
+
                     $fullPath = $destinationPath . DIRECTORY_SEPARATOR . $filename;
-                    if ($photo->move($destinationPath, $filename) && file_exists($fullPath)) {
-                        $data['photo_path'] = 'photos/' . $filename;
-                    }
+
+
+                    // Proses Kompresi
+                    $manager = new ImageManager(new Driver());
+                    $image = $manager->read($photo->getPathname());
+                    
+                    // Resize maksimal lebar 800px & kualitas 75%
+                    $image->scaleDown(width: 800);
+                    $image->toJpeg(quality: 75)->save($fullPath);
+                    
+                    $data['photo_path'] = 'photos/' . $filename;
+                    
                 } catch (\Exception $e) {
-                    return back()->withErrors(['photo' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
+                    return back()->withErrors(['photo' => 'Gagal memproses/mengompresi foto: ' . $e->getMessage()])->withInput();
                 }
             }
         }
+
 
         $intern->update($data);
 

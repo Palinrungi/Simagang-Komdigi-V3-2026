@@ -10,6 +10,15 @@ use App\Models\Team;
 
 class AdminVerifikasiLowonganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view_verifikasi_lowongan')->only(['index', 'show']);
+        $this->middleware('permission:manage_lowongan')->only([
+            'approve',
+            'reject',
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

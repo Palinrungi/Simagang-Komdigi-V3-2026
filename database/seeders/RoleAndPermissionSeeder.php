@@ -109,6 +109,7 @@ class RoleAndPermissionSeeder extends Seeder
             'access_admin_dashboard',
             'view_lowongan',
             'manage_lowongan',
+            'view_verifikasi_lowongan',
         ]);
 
         // ADMIN USER MANAGER - Khusus kelola user

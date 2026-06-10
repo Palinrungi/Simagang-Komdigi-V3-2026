@@ -146,9 +146,12 @@
                             @if ($attendance->document_path)
                                 <div>
                                     <p class="text-xs text-gray-500 mb-1">Dokumen Pendukung</p>
-                                    <a href="{{ url('storage/' . $attendance->document_path) }}" target="_blank"
-                                        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold"><i
-                                            class="fas fa-file-download"></i> Download Dokumen</a>
+                                    <a href="{{ route('admin.attendance.document', ['filename' => basename($attendance->document_path)]) }}"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold">
+                                        <i class="fas fa-file-download"></i>
+                                        Download Dokumen
+                                    </a>
                                 </div>
                             @endif
 
