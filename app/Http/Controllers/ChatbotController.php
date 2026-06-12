@@ -15,6 +15,8 @@ class ChatbotController extends Controller
 
         $role = auth()->check() ? auth()->user()->role : 'guest';
 
+        \Illuminate\Support\Facades\Log::info('Chatbot query', ['msg' => $request->input('message'), 'role' => $role]);
+
         $response = Http::withToken(config('services.rag.api_key'))
             ->timeout(30)
             ->post(config('services.rag.url') . '/query', [
