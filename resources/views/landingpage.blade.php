@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
@@ -2914,5 +2914,7 @@ initCarousel({ wrapperId:'process-wrapper', dotsId:'process-dots', prevId:'proce
 initCarousel({ wrapperId:'testi-wrapper',   dotsId:'testi-dots',   prevId:'testi-prev',   nextId:'testi-next' });
 </script>
 
+<!-- Memanggil komponen chatbot -->
+@include('chatbot')
 </body>
 </html>
