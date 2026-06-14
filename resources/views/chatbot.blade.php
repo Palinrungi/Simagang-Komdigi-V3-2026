@@ -1,4 +1,4 @@
-<div id="chatbot-widget" class="fixed bottom-24 right-6 z-50">
+<div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 right-6 z-50">
     <!-- Tombol buka -->
     <button id="chatbot-toggle"
         class="bg-blue-600 text-white rounded-full w-16 h-16 sm:w-20 sm:h-20 shadow-[0_10px_25px_-5px_rgba(37,99,235,0.6)] flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300">
@@ -37,7 +37,7 @@
             <!-- Bottom Content Area (White Card) -->
             <div class="bg-white rounded-t-[2rem] pt-8 pb-6 px-6 relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
                 <h3 class="text-2xl font-bold text-gray-800 mb-2">Hai! 👋</h3>
-                <p class="text-gray-600 text-[15px] mb-6 leading-relaxed">Ketika memiliki pertanyaan, ayo tanya <strong>SIMA</strong>!</p>
+                <p class="text-gray-600 text-[15px] mb-6 leading-relaxed">Selamat datang di web SIMAGANG BBLSDM Komdigi Makassar. Perkenalkan, aku adalah <strong>SIMA</strong>, bot asisten yang akan membantumu menjawab pertanyaan seputar SIMAGANG.</p>
                 
                 <button id="open-chatbot-btn" class="w-full bg-blue-600 text-white font-bold py-3.5 px-6 rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 hover:scale-[1.02]">
                     <span>Mulai Tanya SIMA</span>
@@ -138,11 +138,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (closeTooltipBtn) closeTooltipBtn.addEventListener('click', hideTooltip);
 
+    let isFirstTimeOpen = true;
+
+    function handleChatbotOpen() {
+        if (isFirstTimeOpen) {
+            isFirstTimeOpen = false;
+            setTimeout(() => {
+                appendMessage('bot', 'Hai aku SIMA chatbot asisten yang akan membantumu. Apa yang bisa saya bantu?');
+            }, 300);
+        }
+    }
+
     if (openChatbotBtn) {
         openChatbotBtn.addEventListener('click', () => {
             hideTooltip();
             if (chatPanel.classList.contains('hidden')) {
                 chatPanel.classList.remove('hidden');
+                handleChatbotOpen();
             }
         });
     }
@@ -156,7 +168,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     chatToggle.addEventListener('click', () => {
         hideTooltip(); // Sembunyikan pop-up saat toggle diklik
-        chatPanel.classList.toggle('hidden');
+        if (chatPanel.classList.contains('hidden')) {
+            chatPanel.classList.remove('hidden');
+            handleChatbotOpen();
+        } else {
+            chatPanel.classList.add('hidden');
+        }
     });
 
     function appendMessage(role, text) {
