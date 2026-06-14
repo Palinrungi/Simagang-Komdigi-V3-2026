@@ -1,47 +1,58 @@
+<style>
+    @keyframes float-bot {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+    }
+    .animate-float-bot {
+        animation: float-bot 3.5s ease-in-out infinite;
+    }
+</style>
+
 <div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 right-6 z-50">
+    <!-- Bubble Tanya SIMA Permanen -->
+    <!-- <div id="chatbot-bubble-hint" class="absolute bottom-[90%] sm:bottom-full mb-2 right-1/2 translate-x-1/2 bg-white text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] border border-blue-100 flex items-center justify-center animate-bounce z-40 whitespace-nowrap cursor-pointer hover:bg-blue-50 hover:scale-105 transition-all">
+        Tanya SIMA -->
+        <!-- Segitiga penunjuk ke bawah -->
+        <!-- <div class="absolute -bottom-1.5 w-3 h-3 bg-white transform rotate-45 border-b border-r border-blue-100 rounded-sm"></div>
+    </div> -->
+
     <!-- Tombol buka -->
     <button id="chatbot-toggle"
-        class="bg-blue-600 text-white rounded-full w-16 h-16 sm:w-20 sm:h-20 shadow-[0_10px_25px_-5px_rgba(37,99,235,0.6)] flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 overflow-hidden border-2 border-white">
-        <img src="{{ asset('storage/chatbot_icon/SIMA%20icon.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
+        class="w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center hover:scale-125 transition-transform duration-300 focus:outline-none drop-shadow-2xl filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
+        <img src="{{ asset('storage/chatbot_icon/SIMA nobg3.png') }}" class="w-full h-full object-contain animate-float-bot" alt="SIMA Bot">
     </button>
 
-    <!-- Pop up SIMA Besar di Tengah Layar -->
-    <div id="chatbot-tooltip" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-500 opacity-0 pointer-events-none">
+    <!-- Pop up SIMA Mengarahkan ke Toggle -->
+    <div id="chatbot-tooltip" class="absolute bottom-full right-0 mb-4 z-[60] flex flex-col items-end transition-all duration-500 opacity-0 pointer-events-none origin-bottom-right">
         <!-- Modal Content -->
-        <div id="chatbot-tooltip-box" class="bg-[#f0f7ff] rounded-3xl shadow-2xl max-w-sm w-[90%] text-center relative overflow-hidden transform scale-95 transition-transform duration-500 border border-white">
+        <div id="chatbot-tooltip-box" class="bg-[#f0f7ff] rounded-3xl shadow-2xl w-[95vw] sm:w-[650px] max-w-[800px] text-center relative overflow-hidden transform scale-95 transition-transform duration-500 border border-white">
             
             <!-- Close Button -->
             <button id="close-tooltip" class="absolute top-4 right-4 text-blue-400 hover:text-blue-600 bg-white/50 hover:bg-white rounded-full p-2 transition-colors focus:outline-none z-20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
-            <!-- Top Graphic Area -->
-            <div class="pt-12 pb-8 flex items-center justify-center relative">
-                <!-- Decorative background circle -->
-                <div class="absolute inset-0 flex items-center justify-center opacity-50">
-                    <div class="w-48 h-48 bg-white rounded-full"></div>
-                </div>
-                
-                <!-- Robot Icon with AI Badge -->
-                <div class="w-24 h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm flex flex-col items-center justify-center relative z-10">
-                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-white shadow-md border-2 border-blue-100 overflow-hidden">
-                        <img src="{{ asset('storage/chatbot_icon/SIMA%20menyapa.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
-                    </div>
-                    <div class="absolute -bottom-2 -right-2 bg-blue-400 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">AI</div>
+            <!-- Top Graphic Area (Background Image) -->
+            <div class="h-80 w-full flex items-center justify-center relative">
+                <!-- Background Image -->
+                <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+                    <img src="{{ asset('storage/chatbot_icon/SIMA menyapa nobg.png') }}" class="w-full h-full object-contain" alt="Background">
                 </div>
             </div>
 
             <!-- Bottom Content Area (White Card) -->
-            <div class="bg-white rounded-t-[2rem] pt-8 pb-6 px-6 relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
-                <h3 class="text-2xl font-bold text-gray-800 mb-2">Hai! 👋</h3>
-                <p class="text-gray-600 text-[15px] mb-6 leading-relaxed">Selamat datang di web SIMAGANG BBLSDM Komdigi Makassar. Perkenalkan, aku adalah <strong>SIMA</strong>, bot asisten yang akan membantumu menjawab pertanyaan seputar SIMAGANG.</p>
+            <div class="bg-white rounded-t-[2.5rem] pt-10 pb-8 px-8 relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">Hai!</h3>
+                <p class="text-gray-600 text-lg mb-8 leading-relaxed">Selamat datang di web SIMAGANG BBLSDM Komdigi Makassar. Perkenalkan, aku adalah <strong>SIMA</strong>, bot asisten yang akan membantumu menjawab pertanyaan seputar SIMAGANG.</p>
                 
-                <button id="open-chatbot-btn" class="w-full bg-blue-600 text-white font-bold py-3.5 px-6 rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 hover:scale-[1.02]">
+                <button id="open-chatbot-btn" class="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 hover:scale-[1.02]">
                     <span>Mulai Tanya SIMA</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
             </div>
         </div>
+        <!-- Segitiga penunjuk ke toggle -->
+        <div class="w-10 h-10 bg-white transform rotate-45 mr-8 -mt-5 shadow-[4px_4px_10px_rgba(0,0,0,0.1)] rounded-sm pointer-events-none"></div>
     </div>
 
     <!-- Panel chat -->
@@ -51,7 +62,7 @@
         <div class="bg-white px-5 py-4 flex items-center justify-between z-10 relative">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
-                    <img src="{{ asset('storage/chatbot_icon/SIMA%20icon.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
+                    <img src="{{ asset('storage/chatbot_icon/SIMA head.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
                 </div>
                 <span class="font-bold text-gray-800 text-lg">SIMA Bot</span>
             </div>
@@ -62,14 +73,19 @@
 
         <!-- Messages Area -->
         <div class="flex-1 relative">
+            <!-- Background Image Samar -->
+            <div class="absolute inset-0 z-0 flex items-center justify-center opacity-[0.05] pointer-events-none">
+                <img src="{{ asset('storage/chatbot_icon/SIMA nobg2.png') }}" class="w-3/4 max-h-[80%] object-contain" alt="Background">
+            </div>
+
             <!-- Placeholder Tengah -->
             <div id="chatbot-placeholder" class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
-                <div class="w-64 h-64 bg-white/30 rounded-full flex items-center justify-center">
-                    <div class="w-40 h-40 bg-white/70 backdrop-blur-md rounded-2xl shadow-sm flex flex-col items-center justify-center relative">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-blue-50 overflow-hidden">
-                            <img src="{{ asset('storage/chatbot_icon/SIMA%20icon.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
+                <div class="w-72 h-72 bg-white/30 rounded-full flex items-center justify-center">
+                    <div class="w-56 h-56 bg-white/70 backdrop-blur-md rounded-2xl shadow-sm flex flex-col items-center justify-center relative">
+                        <div class="w-36 h-36 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-blue-50 overflow-hidden">
+                            <img src="{{ asset('storage/chatbot_icon/SIMA nobg2.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
                         </div>
-                        <div class="absolute bottom-4 right-6 bg-blue-400 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">AI</div>
+                        <div class="absolute bottom-6 right-8 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full border-2 border-white shadow-md z-10">AI</div>
                     </div>
                 </div>
             </div>
@@ -102,8 +118,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const tooltipBox = document.getElementById('chatbot-tooltip-box');
     const closeTooltipBtn = document.getElementById('close-tooltip');
     const openChatbotBtn = document.getElementById('open-chatbot-btn');
+    const bubbleHint = document.getElementById('chatbot-bubble-hint');
 
     if (!chatToggle || !chatPanel) return;
+
+    if (bubbleHint) {
+        bubbleHint.addEventListener('click', () => {
+            chatToggle.click();
+        });
+    }
 
     // Tampilkan pop-up setelah 1 detik jika panel chat belum dibuka
     // Hanya tampilkan pop-up otomatis jika berada di halaman landing page (bukan dashboard)
@@ -151,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hideTooltip();
             if (chatPanel.classList.contains('hidden')) {
                 chatPanel.classList.remove('hidden');
+                if (bubbleHint) bubbleHint.style.display = 'none';
                 handleChatbotOpen();
             }
         });
@@ -160,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closePanelBtn) {
         closePanelBtn.addEventListener('click', () => {
             chatPanel.classList.add('hidden');
+            if (bubbleHint) bubbleHint.style.display = 'flex';
         });
     }
 
@@ -167,9 +192,11 @@ document.addEventListener('DOMContentLoaded', function() {
         hideTooltip(); // Sembunyikan pop-up saat toggle diklik
         if (chatPanel.classList.contains('hidden')) {
             chatPanel.classList.remove('hidden');
+            if (bubbleHint) bubbleHint.style.display = 'none';
             handleChatbotOpen();
         } else {
             chatPanel.classList.add('hidden');
+            if (bubbleHint) bubbleHint.style.display = 'flex';
         }
     });
 
