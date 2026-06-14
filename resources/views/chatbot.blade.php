@@ -178,16 +178,38 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    function appendTypingIndicator() {
+        const placeholder = document.getElementById('chatbot-placeholder');
+        if (placeholder) placeholder.style.opacity = '0';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'flex w-full justify-start';
+
+        const div = document.createElement('div');
+        div.className = 'bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-4 max-w-[80%] shadow-md flex items-center h-11';
+        
+        div.innerHTML = `
+            <div class="flex space-x-1.5 items-center">
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: -0.3s"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: -0.15s"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+            </div>
+        `;
+        
+        wrapper.appendChild(div);
+        chatMessages.appendChild(wrapper);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        return wrapper;
+    }
+
     async function sendMessage() {
         const msg = chatInput.value.trim();
         if (!msg) return;
         appendMessage('user', msg);
         chatInput.value = '';
 
-        appendMessage('bot', '...');
-        
-        // Dapatkan elemen bubble (div di dalam wrapper)
-        const botBubble = chatMessages.lastChild.firstChild;
+        const typingIndicator = appendTypingIndicator();
         
         try {
             const csrfMeta = document.querySelector('meta[name="csrf-token"]');
@@ -200,9 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ message: msg })
             });
             const data = await res.json();
-            botBubble.textContent = data.answer ?? 'Maaf, terjadi kesalahan.';
+            typingIndicator.remove();
+            appendMessage('bot', data.answer ?? 'Maaf, terjadi kesalahan.');
         } catch {
-            botBubble.textContent = 'Gagal menghubungi server. Coba lagi.';
+            typingIndicator.remove();
+            appendMessage('bot', 'Gagal menghubungi server. Coba lagi.');
         }
     }
 
