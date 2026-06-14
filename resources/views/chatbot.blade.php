@@ -1,11 +1,8 @@
 <div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 right-6 z-50">
     <!-- Tombol buka -->
     <button id="chatbot-toggle"
-        class="bg-blue-600 text-white rounded-full w-16 h-16 sm:w-20 sm:h-20 shadow-[0_10px_25px_-5px_rgba(37,99,235,0.6)] flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-10 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-        </svg>
+        class="bg-blue-600 text-white rounded-full w-16 h-16 sm:w-20 sm:h-20 shadow-[0_10px_25px_-5px_rgba(37,99,235,0.6)] flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all duration-300 overflow-hidden border-2 border-white">
+        <img src="{{ asset('storage/chatbot_icon/SIMA%20icon.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
     </button>
 
     <!-- Pop up SIMA Besar di Tengah Layar -->
@@ -27,8 +24,8 @@
                 
                 <!-- Robot Icon with AI Badge -->
                 <div class="w-24 h-24 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm flex flex-col items-center justify-center relative z-10">
-                    <div class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-md">
-                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a3 3 0 013 3v2h1a1 1 0 011 1v4a1 1 0 01-1 1h-1v2a3 3 0 01-3 3H9a3 3 0 01-3-3v-2H5a1 1 0 01-1-1v-4a1 1 0 011-1h1V10a3 3 0 013-3h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2zM9 10a1 1 0 00-1 1v8a1 1 0 001 1h6a1 1 0 001-1v-8a1 1 0 00-1-1H9zm1 2h4v2h-4v-2z"></path></svg>
+                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-white shadow-md border-2 border-blue-100 overflow-hidden">
+                        <img src="{{ asset('storage/chatbot_icon/SIMA%20menyapa.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
                     </div>
                     <div class="absolute -bottom-2 -right-2 bg-blue-400 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">AI</div>
                 </div>
@@ -53,8 +50,8 @@
         <!-- Header -->
         <div class="bg-white px-5 py-4 flex items-center justify-between z-10 relative">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a3 3 0 013 3v2h1a1 1 0 011 1v4a1 1 0 01-1 1h-1v2a3 3 0 01-3 3H9a3 3 0 01-3-3v-2H5a1 1 0 01-1-1v-4a1 1 0 011-1h1V10a3 3 0 013-3h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2zM9 10a1 1 0 00-1 1v8a1 1 0 001 1h6a1 1 0 001-1v-8a1 1 0 00-1-1H9zm1 2h4v2h-4v-2z"></path></svg>
+                <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
+                    <img src="{{ asset('storage/chatbot_icon/SIMA%20icon.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
                 </div>
                 <span class="font-bold text-gray-800 text-lg">SIMA Bot</span>
             </div>
@@ -69,8 +66,8 @@
             <div id="chatbot-placeholder" class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
                 <div class="w-64 h-64 bg-white/30 rounded-full flex items-center justify-center">
                     <div class="w-40 h-40 bg-white/70 backdrop-blur-md rounded-2xl shadow-sm flex flex-col items-center justify-center relative">
-                        <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-md">
-                            <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a3 3 0 013 3v2h1a1 1 0 011 1v4a1 1 0 01-1 1h-1v2a3 3 0 01-3 3H9a3 3 0 01-3-3v-2H5a1 1 0 01-1-1v-4a1 1 0 011-1h1V10a3 3 0 013-3h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2zM9 10a1 1 0 00-1 1v8a1 1 0 001 1h6a1 1 0 001-1v-8a1 1 0 00-1-1H9zm1 2h4v2h-4v-2z"></path></svg>
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-blue-50 overflow-hidden">
+                            <img src="{{ asset('storage/chatbot_icon/SIMA%20icon.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
                         </div>
                         <div class="absolute bottom-4 right-6 bg-blue-400 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">AI</div>
                     </div>
