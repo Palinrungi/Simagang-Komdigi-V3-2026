@@ -1,7 +1,0 @@
-*
-!.gitignore
-
-!certificates/
-!certificates/**
-!images/
-!images/**
