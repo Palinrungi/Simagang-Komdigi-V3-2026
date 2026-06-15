@@ -7,6 +7,9 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+
     <style>
         * { box-sizing: border-box; margin:0; padding:0; }
 
@@ -155,14 +158,55 @@
                 <label class="text-sm font-medium text-gray-700">
                     Password
                 </label>
-                <input type="password"
+                <div class="relative">
+
+                <div class="relative">
+                    <input type="password"
+                        id="login_password"
                         name="password"
                         placeholder="••••••••"
-                        required class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition" >
-                @error('password')
-                    <p class="text-xs text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
+                        required
+                        class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition">
+
+                    <button type="button"
+                            onclick="togglePasswordVisibility('login_password', 'login_eye_open', 'login_eye_closed')"
+                            class="absolute inset-y-0 right-0 px-4 flex items-center text-gray-500 hover:text-blue-600 focus:outline-none"
+                            title="Lihat password">
+
+                        {{-- Icon mata disilang: muncul saat password tertutup --}}
+                        <svg id="login_eye_closed"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M3 3l18 18"/>
+                            <path d="M10.58 10.58A2 2 0 0 0 13.42 13.42"/>
+                            <path d="M9.88 5.09A9.77 9.77 0 0 1 12 5c5 0 9 4.5 10 7a13.13 13.13 0 0 1-3.1 4.26"/>
+                            <path d="M6.61 6.61A13.53 13.53 0 0 0 2 12c1 2.5 5 7 10 7a9.74 9.74 0 0 0 4.39-1.04"/>
+                        </svg>
+
+                        {{-- Icon mata biasa: muncul saat password terlihat --}}
+                        <svg id="login_eye_open"
+                            class="hidden"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
 
             <div class="flex items-center justify-between">
     <label class="flex items-center gap-2 text-sm text-gray-600">
@@ -194,6 +238,28 @@
     </div>
 
 </div>
+<script>
+    function togglePasswordVisibility(inputId, openIconId, closedIconId) {
+        const input = document.getElementById(inputId);
+        const openIcon = document.getElementById(openIconId);
+        const closedIcon = document.getElementById(closedIconId);
 
+        if (!input || !openIcon || !closedIcon) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+
+            // Password terlihat = icon mata biasa
+            openIcon.classList.remove('hidden');
+            closedIcon.classList.add('hidden');
+        } else {
+            input.type = 'password';
+
+            // Password tertutup = icon mata disilang
+            openIcon.classList.add('hidden');
+            closedIcon.classList.remove('hidden');
+        }
+    }
+</script>
 </body>
 </html>
