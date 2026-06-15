@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'rag' => [
+        'url' => env('RAG_SERVICE_URL', 'http://127.0.0.1:8001'),
+        'api_key' => env('RAG_SERVICE_API_KEY'),
+    ],
+
 ];
