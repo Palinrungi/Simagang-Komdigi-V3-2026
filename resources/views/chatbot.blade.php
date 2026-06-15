@@ -8,7 +8,7 @@
     }
 </style>
 
-<div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 right-6 z-50">
+<div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 {{ request()->is('/') ? 'right-2 md:right-4' : 'right-6 md:right-8' }} z-50">
     <!-- Bubble Tanya SIMA Permanen -->
     <!-- <div id="chatbot-bubble-hint" class="absolute bottom-[90%] sm:bottom-full mb-2 right-1/2 translate-x-1/2 bg-white text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] border border-blue-100 flex items-center justify-center animate-bounce z-40 whitespace-nowrap cursor-pointer hover:bg-blue-50 hover:scale-105 transition-all">
         Tanya SIMA -->
@@ -18,14 +18,14 @@
 
     <!-- Tombol buka -->
     <button id="chatbot-toggle"
-        class="w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center hover:scale-125 transition-transform duration-300 focus:outline-none drop-shadow-2xl filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
+        class="w-28 h-28 sm:w-48 sm:h-48 flex items-center justify-center hover:scale-125 transition-transform duration-300 focus:outline-none drop-shadow-2xl filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
         <img src="{{ asset('storage/chatbot_icon/SIMA nobg3.png') }}" class="w-full h-full object-contain animate-float-bot" alt="SIMA Bot">
     </button>
 
     <!-- Pop up SIMA Mengarahkan ke Toggle -->
-    <div id="chatbot-tooltip" class="absolute bottom-full right-0 mb-4 z-[60] flex flex-col items-end transition-all duration-500 opacity-0 pointer-events-none origin-bottom-right">
+    <div id="chatbot-tooltip" class="absolute bottom-full right-0 mb-4 z-[60] flex flex-col items-end transition-all duration-500 opacity-0 pointer-events-none origin-bottom-right drop-shadow-2xl">
         <!-- Modal Content -->
-        <div id="chatbot-tooltip-box" class="bg-[#f0f7ff] rounded-3xl shadow-2xl w-[95vw] sm:w-[650px] max-w-[800px] text-center relative overflow-hidden transform scale-95 transition-transform duration-500 border border-white">
+        <div id="chatbot-tooltip-box" class="bg-[#f0f7ff] rounded-3xl w-[95vw] sm:w-[650px] max-w-[800px] text-center relative transform scale-95 transition-transform duration-500 border border-white">
             
             <!-- Close Button -->
             <button id="close-tooltip" class="absolute top-4 right-4 text-blue-400 hover:text-blue-600 bg-white/50 hover:bg-white rounded-full p-2 transition-colors focus:outline-none z-20">
@@ -33,7 +33,7 @@
             </button>
 
             <!-- Top Graphic Area (Background Image) -->
-            <div class="h-80 w-full flex items-center justify-center relative">
+            <div class="h-80 w-full flex items-center justify-center relative rounded-t-3xl overflow-hidden">
                 <!-- Background Image -->
                 <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
                     <img src="{{ asset('storage/chatbot_icon/SIMA menyapa nobg.png') }}" class="w-full h-full object-contain" alt="Background">
@@ -41,18 +41,19 @@
             </div>
 
             <!-- Bottom Content Area (White Card) -->
-            <div class="bg-white rounded-t-[2.5rem] pt-10 pb-8 px-8 relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
-                <h3 class="text-3xl font-bold text-gray-800 mb-3">Hai!</h3>
-                <p class="text-gray-600 text-lg mb-8 leading-relaxed">Selamat datang di web SIMAGANG BBLSDM Komdigi Makassar. Perkenalkan, aku adalah <strong>SIMA</strong>, bot asisten yang akan membantumu menjawab pertanyaan seputar SIMAGANG.</p>
+            <div class="bg-white rounded-t-[2.5rem] rounded-b-3xl pt-10 pb-8 px-8 relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">Hai, aku adalah <strong>SIMA</strong> </h3>
+                <p class="text-gray-600 text-lg mb-8 leading-relaxed">Bot asisten yang akan membantumu menjawab pertanyaan seputar SIMAGANG.</p>
                 
                 <button id="open-chatbot-btn" class="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 hover:scale-[1.02]">
                     <span>Mulai Tanya SIMA</span>
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
+
+                <!-- Segitiga penunjuk ke toggle -->
+                <div class="absolute -bottom-4 right-12 w-8 h-8 bg-white transform rotate-45 rounded-sm pointer-events-none"></div>
             </div>
         </div>
-        <!-- Segitiga penunjuk ke toggle -->
-        <div class="w-10 h-10 bg-white transform rotate-45 mr-8 -mt-5 shadow-[4px_4px_10px_rgba(0,0,0,0.1)] rounded-sm pointer-events-none"></div>
     </div>
 
     <!-- Panel chat -->
