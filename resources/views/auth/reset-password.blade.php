@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Simagang Admin - Login</title>
+    <title>Reset Password - SIMAGANG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -71,35 +71,6 @@
             position: relative;
             z-index: 1;
         }
-
-        .close-login-btn {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        width: 36px;
-        height: 36px;
-        color: #333333;
-        font-size: 32px;
-        line-height: 1;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: background 0.2s ease, box-shadow 0.2s ease;
-        z-index: 10;
-    }
-
-    .close-login-btn:hover {
-        color: #000000;
-        transform: scale(1.2);
-        text-decoration: none;
-    }
-
-        .close-login-btn:active {
-            transform: scale(0.95);
-        }
-
     </style>
 </head>
 
@@ -107,45 +78,48 @@
 <div class="bg-wrapper">
 
     <div class="login-container">
-        <a href="{{ url('/') }}" class="close-login-btn" title="Tutup">
-            &times;
-        </a>
-
-        <div class="text-center mb-3 space-y-3">
+        <div class="text-center mb-6 space-y-3">
             <div class="flex flex-col items-center p-4">
-                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" 
-                        alt="Logo" 
-                        class="object-contain" 
-                        style="width: 80px; height: 80px"/>
-                
+                <img src="{{ url('storage/vendor/logo_komdigi.png') }}"
+                     alt="Logo"
+                     class="object-contain"
+                     style="width: 80px; height: 80px"/>
+
                 <h1 class="text-3xl font-extrabold font-etna">
-                <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span> </h1>
+                    <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>
+                </h1>
 
                 <p class="font-etna" style="color: #626161; font-size:10px">
                     Sistem Manajemen Magang
                 </p>
             </div>
+
+            <div>
+                <h2 class="text-xl font-bold text-gray-800">Reset Password</h2>
+                <p class="text-sm text-gray-500 mt-1">
+                    Masukkan password baru untuk akun Anda.
+                </p>
+            </div>
         </div>
 
-        <!-- FORM -->
-         @if (session('status'))
-    <div class="mb-4 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
-        {{ session('status') }}
-    </div>
-@endif
-        <form action="{{ route('login') }}" method="POST" class="space-y-5">
+        <form action="{{ route('password.update') }}" method="POST" class="space-y-5">
             @csrf
+
+            <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="space-y-1">
                 <label class="text-sm font-medium text-gray-700">
                     Email
                 </label>
-                
+
                 <input type="email"
-                        name="email"
-                        value="{{ old('email') }}"
-                        placeholder="email@contoh.com"
-                        required class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition" >
+                       name="email"
+                       value="{{ old('email', $email) }}"
+                       placeholder="email@contoh.com"
+                       required
+                       readonly
+                       class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100 text-gray-600">
+
                 @error('email')
                     <p class="text-xs text-red-600">{{ $message }}</p>
                 @enderror
@@ -153,47 +127,52 @@
 
             <div class="space-y-1">
                 <label class="text-sm font-medium text-gray-700">
-                    Password
+                    Password Baru
                 </label>
+
                 <input type="password"
-                        name="password"
-                        placeholder="••••••••"
-                        required class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition" >
+                       name="password"
+                       placeholder="••••••••"
+                       required
+                       class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition">
+
                 @error('password')
                     <p class="text-xs text-red-600">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="flex items-center justify-between">
-    <label class="flex items-center gap-2 text-sm text-gray-600">
-        <input type="checkbox"
-                name="remember"
-                class="w-4 h-4 rounded border-gray-300 text-blue-600">
-        Ingat saya
-    </label>
+            <div class="space-y-1">
+                <label class="text-sm font-medium text-gray-700">
+                    Konfirmasi Password Baru
+                </label>
 
-    <a href="{{ route('password.request') }}"
-       class="text-sm text-blue-600 hover:text-blue-800 font-semibold">
-        Lupa Password?
-    </a>
-</div>
+                <input type="password"
+                       name="password_confirmation"
+                       placeholder="••••••••"
+                       required
+                       class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition">
+            </div>
 
             <button type="submit"
-                class="w-full py-3 rounded-xl font-semibold text-white
-                        bg-gradient-to-r from-blue-600 to-blue-700
-                        hover:from-blue-700 hover:to-blue-800
-                        shadow-lg shadow-blue-500/30 transition duration-200">
-                Masuk
+                    class="w-full py-3 rounded-xl font-semibold text-white
+                    bg-gradient-to-r from-blue-600 to-blue-700
+                    hover:from-blue-700 hover:to-blue-800
+                    shadow-lg shadow-blue-500/30 transition duration-200">
+                Simpan Password Baru
             </button>
         </form>
+
+        <div class="text-center mt-5">
+            <a href="{{ route('login') }}" class="text-sm text-blue-600 hover:text-blue-800 font-semibold">
+                Kembali ke Login
+            </a>
+        </div>
 
         <div class="text-center mt-6 text-xs text-gray-500">
             © 2026 Simagang. Sistem manajemen magang BBLSDM Komdigi Makassar.
         </div>
-
     </div>
 
 </div>
-
 </body>
 </html>

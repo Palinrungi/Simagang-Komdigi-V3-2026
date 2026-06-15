@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\AdminSanitizeAttendancePhotosController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
 use App\Http\Controllers\Admin\AdminAccountController;
@@ -160,10 +161,18 @@ Route::get('/pengajuan/{pengajuan}/surat', PengajuanFileController::class)
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])
+        ->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])
+        ->name('password.email');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])
+        ->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])
+        ->name('password.update');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
