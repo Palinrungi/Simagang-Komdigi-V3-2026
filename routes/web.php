@@ -525,3 +525,5 @@ Route::middleware(['auth', 'mentor'])->prefix('mentor')->name('mentor.')->group(
     Route::get('/profile/edit', [MentorProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [MentorProfileController::class, 'update'])->name('profile.update');
 });
+
+Route::post('/chatbot', [\App\Http\Controllers\ChatbotController::class, 'ask'])->name('chatbot.ask');

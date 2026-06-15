@@ -785,7 +785,7 @@
 </div>
 </div>
 
-
+@include('chatbot')
 
 @push('scripts')
 <script>
