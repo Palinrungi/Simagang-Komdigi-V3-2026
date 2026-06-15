@@ -8,26 +8,28 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
+{
+    if (!Schema::hasColumn('lowongans', 'team_id')) {
+
         Schema::table('lowongans', function (Blueprint $table) {
-            $table->foreignId('team_id')
+
+            $table->unsignedBigInteger('team_id')
                 ->nullable()
-                ->after('industri_id')
-                ->constrained()
-                ->nullOnDelete();
+                ->after('industri_id');
+
         });
 
-        DB::table('lowongans')
-            ->join('teams', 'teams.name', '=', 'lowongans.divisi')
-            ->whereNull('lowongans.team_id')
-            ->update(['lowongans.team_id' => DB::raw('teams.id')]);
     }
+}
 
-    public function down(): void
-    {
+   public function down(): void
+{
+    if (Schema::hasColumn('lowongans', 'team_id')) {
+
         Schema::table('lowongans', function (Blueprint $table) {
-            $table->dropForeign(['team_id']);
             $table->dropColumn('team_id');
         });
+
     }
+}
 };

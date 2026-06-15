@@ -30,6 +30,8 @@ use App\Http\Controllers\Intern\LogbookController;
 use App\Http\Controllers\Intern\ReportController;
 use App\Http\Controllers\Intern\MicroSkillLeaderboardController as InternMicroSkillLeaderboardController;
 use App\Http\Controllers\Intern\ProfileController;
+use App\Http\Controllers\Admin\AdminSharingSessionController;
+use App\Http\Controllers\Intern\SharingSessionController;
 use App\Http\Controllers\Mentor\ProfileController as MentorProfileController;
 use App\Http\Controllers\Mentor\CertificateController;
 use App\Http\Controllers\Admin\AdminCertificateController;
@@ -301,6 +303,17 @@ Route::get('/download/{path}', SecureDownloadController::class)
 // Intern Routes
 Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    Route::get('/sharing-session/{sharingSession}/edit-materi', [SharingSessionController::class, 'editMateri'])
+    ->name('sharing-session.edit-materi');
+
+    Route::put('/sharing-session/{sharingSession}/update-materi', [SharingSessionController::class, 'updateMateri'])
+    ->name('sharing-session.update-materi');
+
+    Route::get(
+    '/sharing-session',
+    [SharingSessionController::class, 'index']
+    )->name('sharing-session.index');
 
     Route::get(
             'certificates/{certificate}/print',
@@ -352,6 +365,11 @@ Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource(
+    'sharing-session',
+    AdminSharingSessionController::class
+    );
 
     Route::middleware('role:super_admin')->group(function () {
         Route::get('/accounts', [AdminAccountController::class, 'index'])->name('accounts.index');
