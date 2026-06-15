@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminSanitizeAttendancePhotosController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
 use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -352,7 +353,8 @@ Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
+Route::post('/attendance/sanitize-photos', AdminSanitizeAttendancePhotosController::class)
+    ->name('attendance.sanitize-photos');
     Route::middleware('role:super_admin')->group(function () {
         Route::get('/accounts', [AdminAccountController::class, 'index'])->name('accounts.index');
         Route::get('/accounts/create', [AdminAccountController::class, 'create'])->name('accounts.create');
