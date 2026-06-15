@@ -97,11 +97,14 @@ class AdminAttendanceController extends Controller
             $todayAbsentInterns = $absentQuery->get();
         }
 
+        $sanitizePhotoStatus = AdminSanitizeAttendancePhotosController::status();
+        
         return view('admin.attendance.index', compact(
             'attendances',
             'interns',
             'todayAbsentInterns',
-            'todayWita'
+            'todayWita',
+            'sanitizePhotoStatus'
         ));
     }
 
