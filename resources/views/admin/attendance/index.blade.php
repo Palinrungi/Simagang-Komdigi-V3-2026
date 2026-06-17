@@ -92,6 +92,86 @@
                 </div>
             </div>
 
+            {{-- ── SANITASI FOTO ABSENSI ── --}}
+<div class="panel mb-6">
+    <div class="px-6 py-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+            <h2 class="text-lg font-semibold text-blue-900 flex items-center">
+                <i class="fas fa-broom mr-2 text-blue-600"></i>
+                Sanitasi Foto Absensi
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1">
+                Hapus file foto check-in/check-out yang sudah lebih dari 3 bulan tanpa menghapus data absensi.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mt-3 text-xs">
+                <span class="px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-semibold">
+                    Kandidat: {{ $sanitizePhotoStatus['candidate_count'] ?? 0 }} file
+                </span>
+
+                <span class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 font-semibold">
+                    Batas data:
+                    sampai
+                    {{ \Carbon\Carbon::parse($sanitizePhotoStatus['cutoff_date'] ?? now()->subMonths(3))->format('d-m-Y') }}
+                </span>
+
+                @if (!empty($sanitizePhotoStatus['last_run_at']))
+                    <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold">
+                        Terakhir:
+                        {{ $sanitizePhotoStatus['last_run_at']->locale('id')->translatedFormat('d F Y H:i') }}
+                        WITA
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        @php
+            $sanitizeButtonDisabled = !($sanitizePhotoStatus['can_run'] ?? false)
+                || (($sanitizePhotoStatus['candidate_count'] ?? 0) < 1);
+
+            if (($sanitizePhotoStatus['candidate_count'] ?? 0) < 1) {
+                $sanitizeButtonTitle = 'Belum ada foto absensi yang berumur lebih dari 3 bulan.';
+                $sanitizeInfo = 'Belum ada foto absensi lama yang perlu disanitasi.';
+            } elseif (!($sanitizePhotoStatus['can_run'] ?? false)) {
+                $sanitizeButtonTitle = 'Tombol aktif kembali pada ' .
+                    optional($sanitizePhotoStatus['next_allowed_at'])->locale('id')->translatedFormat('d F Y H:i') .
+                    ' WITA.';
+
+                $sanitizeInfo = 'Tombol aktif kembali pada ' .
+                    $sanitizePhotoStatus['next_allowed_at']->locale('id')->translatedFormat('d F Y H:i') .
+                    ' WITA.';
+            } else {
+                $sanitizeButtonTitle = 'Hapus file foto absensi yang sudah lebih dari 3 bulan.';
+                $sanitizeInfo = 'Tombol aktif. Sanitasi hanya menghapus file foto lama, bukan data absensi.';
+            }
+        @endphp
+
+        <div class="lg:text-right">
+            <form method="POST"
+                action="{{ route('admin.attendance.sanitize-photos') }}"
+                onsubmit="return confirm('Yakin ingin menjalankan sanitasi foto absensi lama? File foto yang berumur lebih dari 3 bulan akan dihapus, tetapi data absensi tetap tersimpan.');">
+                @csrf
+
+                <button type="submit"
+                    title="{{ $sanitizeButtonTitle }}"
+                    {{ $sanitizeButtonDisabled ? 'disabled' : '' }}
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold shadow-md transition-all duration-300
+                        {{ $sanitizeButtonDisabled
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
+                            : 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white hover:shadow-lg' }}">
+                    <i class="fas fa-trash-alt"></i>
+                    Sanitasi Manual
+                </button>
+            </form>
+
+            <p class="text-xs text-gray-400 mt-2 max-w-sm">
+                {{ $sanitizeInfo }}
+            </p>
+        </div>
+    </div>
+</div>
+
             {{-- ── FILTER FORM ── --}}
             <div class="panel mb-6">
                 <div class="px-6 py-4 border-b">

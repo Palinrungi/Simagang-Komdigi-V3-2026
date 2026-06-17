@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Admin\AdminSanitizeAttendancePhotosController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
 use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -165,6 +167,18 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])
+        ->name('password.request');
+
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])
+        ->name('password.email');
+
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])
+        ->name('password.reset');
+
+    Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])
+        ->name('password.update');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -404,6 +418,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     ->name('attendance.photo')
     ->where('filename', '[^/]+');
     Route::get('/attendance', [AdminAttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance/sanitize-photos', AdminSanitizeAttendancePhotosController::class)
+        ->name('attendance.sanitize-photos');
     Route::get('/attendance/{attendance}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
     Route::get('/attendance/document/{filename}', [AdminAttendanceController::class, 'serveDocument'])->name('attendance.document');
     Route::put('/attendance/{attendance}/document-status', [AdminAttendanceController::class, 'updateDocumentStatus'])->name('attendance.update-document-status');
