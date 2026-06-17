@@ -260,6 +260,11 @@
                                     <i class="fas fa-star w-4 mr-3 text-xs"></i>
                                     Mikro Skill
                                 </a>
+                                <a href="{{ route('admin.sharing-session.index') }}"
+                                class="{{ request()->routeIs('admin.sharing-session.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+                                <i class="fas fa-comments w-4 mr-3 text-xs"></i>
+                                Sharing Session
+                                </a>
                             </div>
                         </div>
 
@@ -428,6 +433,11 @@
                         <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.index', 'intern.microskill.create', 'intern.microskill.edit', 'intern.microskill.show') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                             <i class="fas fa-star w-5 mr-3"></i>
                             Mikro Skill
+                        </a>
+                        <a href="{{ route('intern.sharing-session.index') }}"
+                        class="{{ request()->routeIs('intern.sharing-session.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
+                        <i class="fas fa-comments w-5 mr-3"></i>
+                        Sharing Session
                         </a>
                     @endif
                 @endauth
@@ -634,6 +644,11 @@
                                             <i class="fas fa-star w-4 mr-3 text-xs"></i>
                                             Mikro Skill
                                         </a>
+                                        <a href="{{ route('admin.sharing-session.index') }}"
+                                        class="{{ request()->routeIs('admin.sharing-session.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+                                        <i class="fas fa-comments w-4 mr-3 text-xs"></i>
+                                        Sharing Session
+                                        </a>
                                     </div>
                                 </div>
 
@@ -800,6 +815,11 @@
                                 <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-star w-5 mr-3"></i>
                                     Mikro Skill
+                                </a>
+                                <a href="{{ route('intern.sharing-session.index') }}"
+                                class="{{ request()->routeIs('intern.sharing-session.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <i class="fas fa-comments w-5 mr-3"></i>
+                                Sharing Session
                                 </a>
                             @endif
                         @endauth
