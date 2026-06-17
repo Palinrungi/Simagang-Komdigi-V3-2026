@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Logbook;
+use App\Models\SharingSession;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -100,6 +102,11 @@ class DashboardController extends Controller
 
         $cekaktif = $intern && $intern->is_active;
 
+        $todaySharingSessions = SharingSession::with(['speakerUser', 'moderatorUser'])
+        ->whereDate('session_date', today())
+        ->orderBy('start_time')
+        ->get();
+
         return view('intern.dashboard', compact(
             'intern',
             'todayAttendance',
@@ -113,7 +120,8 @@ class DashboardController extends Controller
             'microSkillApproved',
             'topMicroSkills',
             'cekaktif',
-            'latestApprovedLogbook'
+            'latestApprovedLogbook',
+            'todaySharingSessions'
         ));
     }
 }

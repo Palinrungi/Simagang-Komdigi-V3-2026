@@ -15,14 +15,43 @@ class AdminSharingSessionController extends Controller
         $filter = $request->get('filter', 'semua');
         $today = Carbon::today();
 
-        $sessions = SharingSession::with(['speaker', 'moderator', 'creator'])
-            ->when($filter === 'hari-ini', fn($q) => $q->whereDate('session_date', $today))
-            ->when($filter === 'akan-datang', fn($q) => $q->whereDate('session_date', '>', $today))
-            ->when($filter === 'selesai', fn($q) => $q->whereDate('session_date', '<', $today))
-            ->orderBy('session_date', 'desc')
-            ->get();
+        $totalJadwal = SharingSession::count();
 
-        return view('admin.sharing-session.index', compact('sessions', 'filter'));
+        $hariIni = SharingSession::whereDate('session_date', $today)
+            ->count();
+
+        $akanDatang = SharingSession::whereDate('session_date', '>', $today)
+            ->count();
+
+        $selesai = SharingSession::whereDate('session_date', '<', $today)
+            ->count();
+
+        $sessions = SharingSession::with([
+                'speakerUser',
+                'moderatorUser',
+                'creator'
+            ])
+            ->when($filter === 'hari-ini', function ($query) use ($today) {
+                $query->whereDate('session_date', $today);
+            })
+            ->when($filter === 'akan-datang', function ($query) use ($today) {
+                $query->whereDate('session_date', '>', $today);
+            })
+            ->when($filter === 'selesai', function ($query) use ($today) {
+                $query->whereDate('session_date', '<', $today);
+            })
+            ->orderBy('session_date', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.sharing-session.index', compact(
+            'sessions',
+            'filter',
+            'totalJadwal',
+            'hariIni',
+            'akanDatang',
+            'selesai'
+        ));
     }
 
     public function create()

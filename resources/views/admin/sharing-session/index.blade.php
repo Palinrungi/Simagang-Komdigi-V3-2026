@@ -3,12 +3,6 @@
 @section('title', 'Sharing Session')
 
 @section('content')
-@php
-    $totalJadwal = $sessions->count();
-    $hariIni = $sessions->filter(fn($s) => $s->session_date->isToday())->count();
-    $akanDatang = $sessions->filter(fn($s) => $s->session_date->isFuture())->count();
-    $selesai = $sessions->filter(fn($s) => $s->session_date->isPast() && !$s->session_date->isToday())->count();
-@endphp
 
 <div class="min-h-screen bg-[#F4F7FF] px-6 py-8">
     <div class="mb-8">
@@ -79,7 +73,8 @@
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Narasumber</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Moderator</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Lokasi</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Status</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Status Jadwal</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Status Materi</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Link</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Aksi</th>
                     </tr>
@@ -89,8 +84,12 @@
                     @forelse($sessions as $session)
                         <tr class="hover:bg-blue-50/40 transition">
                             <td class="px-6 py-5">
-                                <div class="font-bold text-gray-800">{{ $session->title }}</div>
-                                <div class="text-sm text-gray-400 mt-1">{{ $session->description ?? 'Tidak ada deskripsi' }}</div>
+                                <div class="font-bold text-gray-800">
+                                    {{ $session->title ?? 'Materi Belum Diisi' }}
+                                </div>
+                                <div class="text-sm text-gray-400 mt-1">
+                                    {{ $session->description ?? 'Tidak ada deskripsi' }}
+                                </div>
                             </td>
 
                             <td class="px-6 py-5 text-gray-600">
@@ -106,12 +105,12 @@
 
                             <td class="px-6 py-5 text-gray-600">
                                 <i class="fas fa-user-tie text-purple-500 mr-2"></i>
-                                {{ $session->speaker?->name ?? '-' }}
+                                {{ $session->speakerUser?->name ?? '-' }}
                             </td>
 
                             <td class="px-6 py-5 text-gray-600">
                                 <i class="fas fa-user-check text-indigo-500 mr-2"></i>
-                                {{ $session->moderator?->name ?? '-' }}
+                                {{ $session->moderatorUser?->name ?? '-' }}
                             </td>
 
                             <td class="px-6 py-5 text-gray-600">
@@ -121,11 +120,33 @@
 
                             <td class="px-6 py-5">
                                 @if($session->session_date->isToday())
-                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">Hari Ini</span>
-                                @elseif($session->session_date->isPast())
-                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-sm font-semibold">Selesai</span>
+                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+                                        Hari Ini
+                                    </span>
+                                @elseif($session->session_date->lt(today()))
+                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-sm font-semibold">
+                                        Selesai
+                                    </span>
                                 @else
-                                    <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">Akan Datang</span>
+                                    <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
+                                        Akan Datang
+                                    </span>
+                                @endif
+                            </td>
+
+                            <td class="px-6 py-5">
+                                @if(empty($session->title) && empty($session->evaluation_form_link))
+                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-bold">
+                                        Belum Diisi
+                                    </span>
+                                @elseif(!empty($session->title) && empty($session->evaluation_form_link))
+                                    <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold">
+                                        Materi Belum Lengkap
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                                        Sudah Diisi
+                                    </span>
                                 @endif
                             </td>
 
@@ -160,7 +181,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-16 text-center text-gray-500">
+                            <td colspan="9" class="px-6 py-16 text-center text-gray-500">
                                 Belum ada jadwal sharing session.
                             </td>
                         </tr>
@@ -168,6 +189,12 @@
                 </tbody>
             </table>
         </div>
+
+        @if($sessions->hasPages())
+            <div class="px-6 py-5 border-t border-gray-100 bg-white">
+                {{ $sessions->links() }}
+            </div>
+        @endif
     </div>
 </div>
 @endsection

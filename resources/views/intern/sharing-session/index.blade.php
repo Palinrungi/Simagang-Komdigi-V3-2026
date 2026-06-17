@@ -20,34 +20,55 @@
     </div>
 
     <div class="mb-6 flex justify-end">
-        <form method="GET">
-            <select name="filter"
-                    onchange="this.form.submit()"
-                    class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
+    <form method="GET" class="flex flex-col sm:flex-row gap-3">
 
-                <option value="semua"
-                    {{ ($filter ?? 'semua') == 'semua' ? 'selected' : '' }}>
-                    📋 Semua Jadwal
-                </option>
+        <select name="filter"
+                onchange="this.form.submit()"
+                class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
 
-                <option value="hari-ini"
-                    {{ ($filter ?? 'semua') == 'hari-ini' ? 'selected' : '' }}>
-                    🔥 Hari Ini
-                </option>
+            <option value="semua"
+                {{ ($filter ?? 'semua') == 'semua' ? 'selected' : '' }}>
+                Semua Jadwal
+            </option>
 
-                <option value="akan-datang"
-                    {{ ($filter ?? 'semua') == 'akan-datang' ? 'selected' : '' }}>
-                    📅 Akan Datang
-                </option>
+            <option value="hari-ini"
+                {{ ($filter ?? 'semua') == 'hari-ini' ? 'selected' : '' }}>
+                Hari Ini
+            </option>
 
-                <option value="selesai"
-                    {{ ($filter ?? 'semua') == 'selesai' ? 'selected' : '' }}>
-                    ✅ Selesai
-                </option>
+            <option value="akan-datang"
+                {{ ($filter ?? 'semua') == 'akan-datang' ? 'selected' : '' }}>
+                Akan Datang
+            </option>
 
-            </select>
-        </form>
-    </div>
+            <option value="selesai"
+                {{ ($filter ?? 'semua') == 'selesai' ? 'selected' : '' }}>
+                Selesai
+            </option>
+        </select>
+
+        <select name="role_filter"
+                onchange="this.form.submit()"
+                class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
+
+            <option value="semua"
+                {{ ($roleFilter ?? 'semua') == 'semua' ? 'selected' : '' }}>
+                Semua Peran
+            </option>
+
+            <option value="narasumber-saya"
+                {{ ($roleFilter ?? 'semua') == 'narasumber-saya' ? 'selected' : '' }}>
+                Saya Narasumber
+            </option>
+
+            <option value="moderator-saya"
+                {{ ($roleFilter ?? 'semua') == 'moderator-saya' ? 'selected' : '' }}>
+                Saya Moderator
+            </option>
+        </select>
+
+    </form>
+</div>
 
     <div class="grid gap-6">
 
@@ -114,12 +135,12 @@
 
                                 <p>
                                 <i class="fas fa-user-tie text-purple-500 mr-2"></i>
-                                Narasumber: {{ $session->speaker?->name ?? '-' }}
+                                Narasumber: {{ $session->speakerUser?->name ?? '-' }}
                                 </p>
 
                                 <p>
                                 <i class="fas fa-user-check text-indigo-500 mr-2"></i>
-                                Moderator: {{ $session->moderator?->name ?? '-' }}
+                                Moderator: {{ $session->moderatorUser?->name ?? '-' }}
                                 </p>
 
                             </div>
@@ -135,51 +156,42 @@
 
                     <div class="lg:text-right flex flex-col gap-2">
 
-                        @if($session->speaker_user_id === auth()->id())
-                            <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
-                               class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+    @if($session->speaker_user_id === auth()->id())
+        <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
+           class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+            Lengkapi Materi
+        </a>
+    @endif
 
-                                <i class="fas fa-edit"></i>
-                                Lengkapi Materi
+    @if($session->session_date->isToday())
 
-                            </a>
-                        @endif
+        @if($session->evaluation_form_link)
+            <a href="{{ $session->evaluation_form_link }}"
+               target="_blank"
+               class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+                Isi Evaluasi
+            </a>
+        @else
+            <span class="inline-flex items-center justify-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-6 py-3 rounded-2xl font-semibold">
+                Menunggu Link Evaluasi
+            </span>
+        @endif
 
-                        @if(
-                            $session->evaluation_form_link &&
-                            $session->session_date->isToday()
-                        )
+    @elseif($session->session_date->lt(today()))
 
-                            <a href="{{ $session->evaluation_form_link }}"
-                               target="_blank"
-                               class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+        <span class="inline-flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-200 px-6 py-3 rounded-2xl font-semibold">
+            Form Sudah Ditutup
+        </span>
 
-                                <i class="fas fa-clipboard-check"></i>
-                                Isi Evaluasi
+    @else
 
-                            </a>
+        <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 border border-gray-200 px-6 py-3 rounded-2xl font-semibold">
+            Form Belum Dibuka
+        </span>
 
-                        @elseif($session->session_date->isPast())
+    @endif
 
-                            <span class="inline-flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-200 px-6 py-3 rounded-2xl font-semibold">
-
-                                <i class="fas fa-lock"></i>
-                                Form Sudah Ditutup
-
-                            </span>
-
-                        @else
-
-                            <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 border border-gray-200 px-6 py-3 rounded-2xl font-semibold">
-
-                                <i class="fas fa-clock"></i>
-                                Form Belum Dibuka
-
-                            </span>
-
-                        @endif
-
-                    </div>
+</div>
 
                 </div>
 
@@ -189,9 +201,7 @@
 
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-12 text-center text-gray-500">
 
-                <i class="fas fa-comments text-4xl text-blue-500 mb-4"></i>
-
-                <p class="font-semibold">
+                <p class="font-semibold text-lg">
                     Belum ada jadwal sharing session.
                 </p>
 
@@ -200,6 +210,10 @@
         @endforelse
 
     </div>
-
+@if($sessions->hasPages())
+    <div class="mt-8">
+        {{ $sessions->links() }}
+    </div>
+@endif
 </div>
 @endsection

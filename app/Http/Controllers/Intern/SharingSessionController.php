@@ -12,9 +12,10 @@ class SharingSessionController extends Controller
     public function index(Request $request)
     {
         $filter = $request->get('filter', 'semua');
+        $roleFilter = $request->get('role_filter', 'semua');
         $today = Carbon::today();
 
-        $sessions = SharingSession::with(['speaker', 'moderator'])
+        $sessions = SharingSession::with(['speakerUser', 'moderatorUser'])
             ->when($filter === 'hari-ini', function ($query) use ($today) {
                 $query->whereDate('session_date', $today);
             })
@@ -24,10 +25,21 @@ class SharingSessionController extends Controller
             ->when($filter === 'selesai', function ($query) use ($today) {
                 $query->whereDate('session_date', '<', $today);
             })
-            ->orderBy('session_date', 'desc')
-            ->get();
+            ->when($roleFilter === 'narasumber-saya', function ($query) {
+                $query->where('speaker_user_id', auth()->id());
+            })
+            ->when($roleFilter === 'moderator-saya', function ($query) {
+                $query->where('moderator_user_id', auth()->id());
+            })
+            ->orderBy('session_date', 'asc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('intern.sharing-session.index', compact('sessions', 'filter'));
+        return view('intern.sharing-session.index', compact(
+            'sessions',
+            'filter',
+            'roleFilter'
+        ));
     }
 
     public function editMateri(SharingSession $sharingSession)
@@ -36,7 +48,7 @@ class SharingSessionController extends Controller
             abort(403, 'Anda bukan narasumber pada sharing session ini.');
         }
 
-        $sharingSession->load(['speaker', 'moderator']);
+        $sharingSession->load(['speakerUser', 'moderatorUser']);
 
         return view('intern.sharing-session.edit-materi', compact('sharingSession'));
     }

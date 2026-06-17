@@ -34,16 +34,16 @@ class SharingSession extends Model
     /**
      * Narasumber
      */
-    public function speaker()
+    public function speakerUser()
     {
-        return $this->belongsTo(User::class, 'speaker_user_id');
+    return $this->belongsTo(User::class, 'speaker_user_id');
     }
 
     /**
      * Moderator
      */
-    public function moderator()
+    public function moderatorUser()
     {
-        return $this->belongsTo(User::class, 'moderator_user_id');
+    return $this->belongsTo(User::class, 'moderator_user_id');
     }
 }

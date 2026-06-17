@@ -366,6 +366,65 @@
             </div>
         </div>
     </div>
+    @if(isset($todaySharingSessions) && $todaySharingSessions->count() > 0)
+    <div class="mb-6 space-y-4">
+        @foreach($todaySharingSessions as $session)
+            <div class="bg-white rounded-3xl shadow-sm border border-blue-100 p-5">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-blue-500 mb-2">
+                            Sharing Session Hari Ini
+                        </p>
+
+                        <h3 class="text-xl font-bold text-gray-800">
+                            {{ $session->title ?? 'Materi Belum Diisi' }}
+                        </h3>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            <i class="fas fa-clock text-green-500 mr-2"></i>
+                            {{ $session->start_time ? \Carbon\Carbon::parse($session->start_time)->format('H:i') : '-' }} WITA - Selesai
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-1">
+                            <i class="fas fa-map-marker-alt text-orange-500 mr-2"></i>
+                            {{ $session->location ?? '-' }}
+                        </p>
+
+                        @if($session->speaker_user_id === auth()->id() && !$session->evaluation_form_link)
+                            <p class="mt-3 inline-flex items-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-4 py-2 rounded-2xl text-sm font-semibold">
+                                <i class="fas fa-triangle-exclamation"></i>
+                                Anda sebagai narasumber belum mengisi link evaluasi.
+                            </p>
+                        @endif
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        @if($session->speaker_user_id === auth()->id())
+                            <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
+                               class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-2xl font-semibold">
+                                <i class="fas fa-edit"></i>
+                                Lengkapi Materi
+                            </a>
+                        @endif
+
+                        @if($session->evaluation_form_link)
+                            <a href="{{ $session->evaluation_form_link }}" target="_blank"
+                               class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold">
+                                <i class="fas fa-clipboard-check"></i>
+                                Isi Evaluasi
+                            </a>
+                        @else
+                            <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 px-5 py-3 rounded-2xl font-semibold">
+                                <i class="fas fa-clock"></i>
+                                Menunggu Link Evaluasi
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+@endif
 
     {{-- ── STAT TILES ── --}}
     <div class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-4 anim-2">
