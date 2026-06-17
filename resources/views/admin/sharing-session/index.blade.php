@@ -56,10 +56,10 @@
                 <select name="filter"
                         onchange="this.form.submit()"
                         class="border border-gray-200 rounded-2xl px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-blue-500">
-                    <option value="semua" {{ ($filter ?? 'semua') == 'semua' ? 'selected' : '' }}>📋 Semua</option>
-                    <option value="hari-ini" {{ ($filter ?? 'semua') == 'hari-ini' ? 'selected' : '' }}>🔥 Hari Ini</option>
-                    <option value="akan-datang" {{ ($filter ?? 'semua') == 'akan-datang' ? 'selected' : '' }}>📅 Akan Datang</option>
-                    <option value="selesai" {{ ($filter ?? 'semua') == 'selesai' ? 'selected' : '' }}>✅ Selesai</option>
+                    <option value="semua" {{ ($filter ?? 'semua') == 'semua' ? 'selected' : '' }}>Semua</option>
+                    <option value="hari-ini" {{ ($filter ?? 'semua') == 'hari-ini' ? 'selected' : '' }}>Hari Ini</option>
+                    <option value="akan-datang" {{ ($filter ?? 'semua') == 'akan-datang' ? 'selected' : '' }}>Akan Datang</option>
+                    <option value="selesai" {{ ($filter ?? 'semua') == 'selesai' ? 'selected' : '' }}>Selesai</option>
                 </select>
             </form>
         </div>
