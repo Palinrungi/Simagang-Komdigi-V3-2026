@@ -159,8 +159,6 @@
                     Password
                 </label>
                 <div class="relative">
-
-                <div class="relative">
                     <input type="password"
                         id="login_password"
                         name="password"
@@ -207,8 +205,9 @@
                         </svg>
                     </button>
                 </div>
+            </div>
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between pt-2 pb-1">
     <label class="flex items-center gap-2 text-sm text-gray-600">
         <input type="checkbox"
                 name="remember"
