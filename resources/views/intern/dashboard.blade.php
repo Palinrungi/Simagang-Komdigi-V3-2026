@@ -321,6 +321,48 @@
 @endphp
 
 <div class="dash-bg py-8">
+@if(!empty($mustFillSharingMaterial) && $mustFillSharingMaterial)
+<div id="sharingAlertOverlay"
+     class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center">
+
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl">
+
+        <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-yellow-100 flex items-center justify-center">
+            <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl"></i>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">
+            Materi Sharing Session Belum Lengkap
+        </h2>
+
+        <p class="text-gray-600 mb-6">
+            Anda ditunjuk sebagai narasumber pada sharing session hari ini.
+            Silakan lengkapi materi dan link evaluasi terlebih dahulu.
+        </p>
+
+        <button id="btnLengkapiMateri"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl">
+            Lengkapi Sekarang
+        </button>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('btnLengkapiMateri').addEventListener('click', function() {
+
+        window.location.href =
+            "{{ route('intern.sharing-session.edit-materi', $sharingSessionAlert->id) }}";
+
+    });
+
+});
+</script>
+@endif
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
     {{-- ── PROFILE HEADER ── --}}

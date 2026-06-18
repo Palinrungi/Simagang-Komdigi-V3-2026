@@ -107,6 +107,29 @@ class DashboardController extends Controller
         ->orderBy('start_time')
         ->get();
 
+       $mustFillSharingMaterial = false;
+$sharingSessionAlert = null;
+
+$allMySpeakerSessions = SharingSession::where(
+    'speaker_user_id',
+    auth()->id()
+)
+->orderBy('session_date')
+->get();
+
+foreach ($allMySpeakerSessions as $session) {
+
+    $materialNotFilled =
+        empty($session->description) ||
+        empty($session->evaluation_form_link);
+
+    if ($materialNotFilled) {
+        $mustFillSharingMaterial = true;
+        $sharingSessionAlert = $session;
+        break;
+    }
+}
+
         return view('intern.dashboard', compact(
             'intern',
             'todayAttendance',
@@ -121,7 +144,9 @@ class DashboardController extends Controller
             'topMicroSkills',
             'cekaktif',
             'latestApprovedLogbook',
-            'todaySharingSessions'
+            'todaySharingSessions',
+            'mustFillSharingMaterial',
+            'sharingSessionAlert'
         ));
     }
 }
