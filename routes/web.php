@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminLogbookController;
 use App\Http\Controllers\Admin\AdminLowonganController;
 use App\Http\Controllers\Admin\AdminVerifikasiLowonganController;
 use App\Http\Controllers\Admin\AdminMonitoringIndustriController;
+use App\Http\Controllers\Admin\AdminRagController;
 use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\InstitutionController;
 use App\Http\Controllers\Intern\MicroSkillController as InternMicroSkillController;
@@ -394,6 +395,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/accounts/{user}/edit', [AdminAccountController::class, 'edit'])->name('accounts.edit');
         Route::put('/accounts/{user}', [AdminAccountController::class, 'update'])->name('accounts.update');
         Route::delete('/accounts/{user}', [AdminAccountController::class, 'destroy'])->name('accounts.destroy');
+        
+        // RAG Knowledge Management Routes
+        Route::get('/rag-knowledge', [AdminRagController::class, 'index'])->name('rag.index');
+        Route::post('/rag-knowledge', [AdminRagController::class, 'store'])->name('rag.store');
+        Route::get('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'show'])->name('rag.show');
+        Route::put('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'update'])->name('rag.update');
+        Route::delete('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'destroy'])->name('rag.destroy');
+        Route::post('/rag-knowledge/sync', [AdminRagController::class, 'sync'])->name('rag.sync');
+        Route::post('/rag-knowledge/clear-cache', [AdminRagController::class, 'clearCache'])->name('rag.clearCache');
     });
 
     // Mentor Management Routes
