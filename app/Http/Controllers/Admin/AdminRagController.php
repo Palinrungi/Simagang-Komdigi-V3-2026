@@ -103,4 +103,52 @@ class AdminRagController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+    public function show($folder, $filename)
+    {
+        try {
+            $response = Http::withToken($this->apiKey)
+                ->get($this->ragBaseUrl . "/knowledge/{$folder}/{$filename}/content");
+
+            if ($response->successful()) {
+                return response()->json($response->json());
+            }
+
+            return response()->json([
+                'error' => $response->json('detail') ?? 'Gagal membaca file.'
+            ], $response->status());
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, $folder, $filename)
+    {
+        $request->validate([
+            'content' => 'required|string|max:10485760', // max ~10MB
+        ]);
+
+        try {
+            $response = Http::withToken($this->apiKey)
+                ->put($this->ragBaseUrl . "/knowledge/{$folder}/{$filename}/content", [
+                    'content' => $request->input('content')
+                ]);
+
+            if ($response->successful()) {
+                return response()->json($response->json());
+            }
+
+            return response()->json([
+                'error' => $response->json('detail') ?? 'Gagal memperbarui file.'
+            ], $response->status());
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -399,6 +399,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         // RAG Knowledge Management Routes
         Route::get('/rag-knowledge', [AdminRagController::class, 'index'])->name('rag.index');
         Route::post('/rag-knowledge', [AdminRagController::class, 'store'])->name('rag.store');
+        Route::get('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'show'])->name('rag.show');
+        Route::put('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'update'])->name('rag.update');
         Route::delete('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'destroy'])->name('rag.destroy');
         Route::post('/rag-knowledge/sync', [AdminRagController::class, 'sync'])->name('rag.sync');
         Route::post('/rag-knowledge/clear-cache', [AdminRagController::class, 'clearCache'])->name('rag.clearCache');
