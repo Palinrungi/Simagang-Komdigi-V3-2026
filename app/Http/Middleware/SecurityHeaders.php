@@ -21,7 +21,15 @@ class SecurityHeaders
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'no-referrer-when-downgrade');
 
-        $csp = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: blob:; object-src 'none'; frame-ancestors 'none';";
+        $csp = "default-src 'self'; "
+            . "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; "
+            . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; "
+            . "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; "
+            . "img-src 'self' data: blob: https://i.ytimg.com https://img.youtube.com https://i3.ytimg.com https://i4.ytimg.com https://ui-avatars.com; "
+            . "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; "
+            . "object-src 'none'; "
+            . "frame-ancestors 'none';";
+
         $response->headers->set('Content-Security-Policy', $csp);
 
         // Prevent stale authenticated pages/files from being reused after user switch.

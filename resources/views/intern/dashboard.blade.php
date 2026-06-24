@@ -321,6 +321,117 @@
 @endphp
 
 <div class="dash-bg py-8">
+@if(!empty($mustFillSharingMaterial) && $mustFillSharingMaterial)
+<div id="sharingAlertOverlay"
+     class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center">
+
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl">
+
+        <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-yellow-100 flex items-center justify-center">
+            <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl"></i>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">
+            Materi Sharing Session Belum Lengkap
+        </h2>
+
+        <p class="text-gray-600 mb-6">
+            Anda ditunjuk sebagai narasumber pada sharing session.
+            Silakan lengkapi judul dan deskripsi materi sharing session terlebih dahulu.
+        </p>
+
+        <button id="btnLengkapiMateri"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl">
+            Lengkapi Sekarang
+        </button>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('btnLengkapiMateri').addEventListener('click', function() {
+
+        window.location.href =
+            "{{ route('intern.sharing-session.edit-materi', $sharingSessionAlert->id) }}";
+
+    });
+
+});
+</script>
+@endif
+
+@if(
+    !empty($mustUploadSharingDocumentation) &&
+    $mustUploadSharingDocumentation &&
+    !empty($sharingDocumentationAlert)
+)
+
+<div id="sharingDocumentationAlertOverlay"
+     class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center">
+
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl">
+
+        <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-amber-100 flex items-center justify-center">
+            <i class="fas fa-camera text-amber-500 text-4xl"></i>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">
+            Dokumentasi Belum Diupload
+        </h2>
+
+        <p class="text-gray-600 mb-4">
+            Anda ditunjuk sebagai moderator pada sharing session berikut, tetapi gambar dokumentasi belum diunggah.
+        </p>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-left mb-6">
+            <p class="text-sm font-bold text-amber-800">
+                {{ $sharingDocumentationAlert->title ?? 'Sharing Session' }}
+            </p>
+
+            <p class="text-xs text-amber-700 mt-2">
+                <i class="fas fa-calendar-alt mr-1"></i>
+                {{ $sharingDocumentationAlert->session_date ? $sharingDocumentationAlert->session_date->format('d M Y') : '-' }}
+
+                <span class="mx-1">•</span>
+
+                <i class="fas fa-clock mr-1"></i>
+                {{ $sharingDocumentationAlert->start_time ? \Carbon\Carbon::parse($sharingDocumentationAlert->start_time)->format('H:i') : '-' }} WITA
+            </p>
+
+            <p class="text-xs text-amber-700 mt-1">
+                <i class="fas fa-map-marker-alt mr-1"></i>
+                {{ $sharingDocumentationAlert->location ?? '-' }}
+            </p>
+        </div>
+
+        <button id="btnUploadDokumentasi"
+                class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl">
+            Upload Dokumentasi Sekarang
+        </button>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.overflow = 'hidden';
+
+    const btnUploadDokumentasi = document.getElementById('btnUploadDokumentasi');
+
+    if (btnUploadDokumentasi) {
+        btnUploadDokumentasi.addEventListener('click', function() {
+            window.location.href =
+                "{{ route('intern.sharing-session.edit-materi', $sharingDocumentationAlert->id) }}";
+        });
+    }
+});
+</script>
+@endif
+
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
     {{-- ── PROFILE HEADER ── --}}
@@ -390,12 +501,18 @@
                             {{ $session->location ?? '-' }}
                         </p>
 
-                        @if($session->speaker_user_id === auth()->id() && !$session->evaluation_form_link)
-                            <p class="mt-3 inline-flex items-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-4 py-2 rounded-2xl text-sm font-semibold">
-                                <i class="fas fa-triangle-exclamation"></i>
-                                Anda sebagai narasumber belum mengisi link evaluasi.
-                            </p>
-                        @endif
+                        @if($session->speaker_user_id === auth()->id() && $session->material_status !== 'lengkap')
+    <p class="mt-3 inline-flex items-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-4 py-2 rounded-2xl text-sm font-semibold">
+        <i class="fas fa-triangle-exclamation"></i>
+        Anda sebagai narasumber belum melengkapi materi sharing session.
+    </p>
+@endif
+                        @if($session->moderator_user_id === auth()->id() && empty($session->documentation_photo))
+    <p class="mt-3 inline-flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-200 px-4 py-2 rounded-2xl text-sm font-semibold">
+        <i class="fas fa-camera"></i>
+        Anda sebagai moderator belum mengunggah gambar dokumentasi.
+    </p>
+@endif
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -407,18 +524,42 @@
                             </a>
                         @endif
 
-                        @if($session->evaluation_form_link)
-                            <a href="{{ $session->evaluation_form_link }}" target="_blank"
-                               class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold">
-                                <i class="fas fa-clipboard-check"></i>
-                                Isi Evaluasi
-                            </a>
-                        @else
-                            <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 px-5 py-3 rounded-2xl font-semibold">
-                                <i class="fas fa-clock"></i>
-                                Menunggu Link Evaluasi
-                            </span>
-                        @endif
+                        @if($session->moderator_user_id === auth()->id() && empty($session->documentation_photo))
+    <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
+       class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-5 py-3 rounded-2xl font-semibold">
+        <i class="fas fa-camera"></i>
+        Upload Dokumentasi
+    </a>
+@endif
+
+                        @php
+    $formEvaluasiUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScmXTrcHoymatge-rPRNZM0iSKwNxOXiMCZECUPmvrUT0Xd2g/viewform';
+
+    $materiLengkap = $session->material_status === 'lengkap';
+
+    $formSudahDibuka = $session->session_date
+        && $session->session_date->lte(\Carbon\Carbon::today());
+
+    $bolehIsiEvaluasi = $materiLengkap && $formSudahDibuka;
+@endphp
+
+@if($bolehIsiEvaluasi)
+    <a href="{{ $formEvaluasiUrl }}" target="_blank"
+       class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold">
+        <i class="fas fa-clipboard-check"></i>
+        Isi Evaluasi
+    </a>
+@elseif(!$materiLengkap)
+    <span class="inline-flex items-center justify-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-5 py-3 rounded-2xl font-semibold">
+        <i class="fas fa-file-circle-xmark"></i>
+        Materi Belum Lengkap
+    </span>
+@else
+    <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 px-5 py-3 rounded-2xl font-semibold">
+        <i class="fas fa-lock"></i>
+        Form Belum Dibuka
+    </span>
+@endif
                     </div>
                 </div>
             </div>

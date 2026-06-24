@@ -17,6 +17,7 @@ class SharingSession extends Model
         'location',
         'description',
         'evaluation_form_link',
+        'documentation_photo',
     ];
 
     protected $casts = [
@@ -32,18 +33,52 @@ class SharingSession extends Model
     }
 
     /**
-     * Narasumber
+     * Narasumber dari relasi user
      */
     public function speakerUser()
     {
-    return $this->belongsTo(User::class, 'speaker_user_id');
+        return $this->belongsTo(User::class, 'speaker_user_id');
     }
 
     /**
-     * Moderator
+     * Moderator dari relasi user
      */
     public function moderatorUser()
     {
-    return $this->belongsTo(User::class, 'moderator_user_id');
+        return $this->belongsTo(User::class, 'moderator_user_id');
+    }
+
+    /**
+     * URL dokumentasi foto
+     */
+    public function getDocumentationPhotoUrlAttribute()
+    {
+        return $this->documentation_photo
+            ? asset('storage/' . $this->documentation_photo)
+            : null;
+    }
+
+    /**
+     * Status kelengkapan materi
+     */
+    public function getMaterialStatusAttribute()
+    {
+        if (
+            empty($this->title) &&
+            empty($this->description) &&
+            empty($this->evaluation_form_link)
+        ) {
+            return 'belum';
+        }
+
+        if (
+            empty($this->title) ||
+            empty($this->description) ||
+            empty($this->evaluation_form_link)
+        ) {
+            return 'belum_lengkap';
+        }
+
+        return 'lengkap';
     }
 }

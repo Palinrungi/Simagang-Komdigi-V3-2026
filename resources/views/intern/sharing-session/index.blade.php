@@ -19,72 +19,92 @@
         </p>
     </div>
 
+    @if(session('success'))
+        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl font-semibold">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="mb-6 flex justify-end">
-    <form method="GET" class="flex flex-col sm:flex-row gap-3">
+        <form method="GET" class="flex flex-col sm:flex-row gap-3">
 
-        <select name="filter"
-                onchange="this.form.submit()"
-                class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
+            <select name="filter"
+                    onchange="this.form.submit()"
+                    class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
 
-            <option value="semua"
-                {{ ($filter ?? 'semua') == 'semua' ? 'selected' : '' }}>
-                Semua Jadwal
-            </option>
+                <option value="semua"
+                    {{ ($filter ?? 'semua') == 'semua' ? 'selected' : '' }}>
+                    Semua Jadwal
+                </option>
 
-            <option value="hari-ini"
-                {{ ($filter ?? 'semua') == 'hari-ini' ? 'selected' : '' }}>
-                Hari Ini
-            </option>
+                <option value="hari-ini"
+                    {{ ($filter ?? 'semua') == 'hari-ini' ? 'selected' : '' }}>
+                    Hari Ini
+                </option>
 
-            <option value="akan-datang"
-                {{ ($filter ?? 'semua') == 'akan-datang' ? 'selected' : '' }}>
-                Akan Datang
-            </option>
+                <option value="akan-datang"
+                    {{ ($filter ?? 'semua') == 'akan-datang' ? 'selected' : '' }}>
+                    Akan Datang
+                </option>
 
-            <option value="selesai"
-                {{ ($filter ?? 'semua') == 'selesai' ? 'selected' : '' }}>
-                Selesai
-            </option>
-        </select>
+                <option value="selesai"
+                    {{ ($filter ?? 'semua') == 'selesai' ? 'selected' : '' }}>
+                    Selesai
+                </option>
+            </select>
 
-        <select name="role_filter"
-                onchange="this.form.submit()"
-                class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
+            <select name="role_filter"
+                    onchange="this.form.submit()"
+                    class="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm text-gray-700 font-medium">
 
-            <option value="semua"
-                {{ ($roleFilter ?? 'semua') == 'semua' ? 'selected' : '' }}>
-                Semua Peran
-            </option>
+                <option value="semua"
+                    {{ ($roleFilter ?? 'semua') == 'semua' ? 'selected' : '' }}>
+                    Semua Peran
+                </option>
 
-            <option value="narasumber-saya"
-                {{ ($roleFilter ?? 'semua') == 'narasumber-saya' ? 'selected' : '' }}>
-                Saya Narasumber
-            </option>
+                <option value="narasumber-saya"
+                    {{ ($roleFilter ?? 'semua') == 'narasumber-saya' ? 'selected' : '' }}>
+                    Saya Narasumber
+                </option>
 
-            <option value="moderator-saya"
-                {{ ($roleFilter ?? 'semua') == 'moderator-saya' ? 'selected' : '' }}>
-                Saya Moderator
-            </option>
-        </select>
+                <option value="moderator-saya"
+                    {{ ($roleFilter ?? 'semua') == 'moderator-saya' ? 'selected' : '' }}>
+                    Saya Moderator
+                </option>
+            </select>
 
-    </form>
-</div>
+        </form>
+    </div>
 
     <div class="grid gap-6">
 
         @forelse($sessions as $session)
 
+            @php
+                $isSpeaker = (int) $session->speaker_user_id === (int) auth()->id();
+                $isModerator = (int) $session->moderator_user_id === (int) auth()->id();
+
+                $formEvaluasiUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScmXTrcHoymatge-rPRNZM0iSKwNxOXiMCZECUPmvrUT0Xd2g/viewform';
+
+                $materiLengkap = $session->material_status === 'lengkap';
+
+                $formSudahDibuka = $session->session_date
+                    && $session->session_date->lte(\Carbon\Carbon::today());
+
+                $bolehIsiEvaluasi = $materiLengkap && $formSudahDibuka;
+            @endphp
+
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
 
                 <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
 
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 flex-1">
 
                         <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center shrink-0">
                             <i class="fas fa-comments text-blue-600 text-xl"></i>
                         </div>
 
-                        <div>
+                        <div class="flex-1">
 
                             <div class="flex flex-wrap items-center gap-2 mb-2">
 
@@ -96,20 +116,31 @@
                                     <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
                                         HARI INI
                                     </span>
-
                                 @elseif($session->session_date->isTomorrow())
                                     <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold">
                                         BESOK
                                     </span>
-
                                 @elseif($session->session_date->isPast())
                                     <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-bold">
                                         SELESAI
                                     </span>
-
                                 @else
                                     <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
                                         AKAN DATANG
+                                    </span>
+                                @endif
+
+                                @if($session->material_status === 'lengkap')
+                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                                        MATERI LENGKAP
+                                    </span>
+                                @elseif($session->material_status === 'belum_lengkap')
+                                    <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold">
+                                        MATERI BELUM LENGKAP
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-bold">
+                                        MATERI BELUM DIISI
                                     </span>
                                 @endif
 
@@ -134,64 +165,112 @@
                                 </p>
 
                                 <p>
-                                <i class="fas fa-user-tie text-purple-500 mr-2"></i>
-                                Narasumber: {{ $session->speakerUser?->name ?? '-' }}
+                                    <i class="fas fa-user-tie text-purple-500 mr-2"></i>
+                                    Narasumber: {{ $session->speakerUser?->name ?? $session->speaker ?? '-' }}
                                 </p>
 
                                 <p>
-                                <i class="fas fa-user-check text-indigo-500 mr-2"></i>
-                                Moderator: {{ $session->moderatorUser?->name ?? '-' }}
+                                    <i class="fas fa-user-check text-indigo-500 mr-2"></i>
+                                    Moderator: {{ $session->moderatorUser?->name ?? $session->moderator ?? '-' }}
                                 </p>
 
                             </div>
 
+                            {{-- Deskripsi singkat --}}
                             @if($session->description)
                                 <div class="mt-4 bg-gray-50 rounded-2xl p-4 text-gray-600 text-sm leading-relaxed">
-                                    {{ $session->description }}
+                                    {{ \Illuminate\Support\Str::limit($session->description, 180) }}
+
+                                    @if(strlen($session->description) > 180)
+                                        <a href="{{ route('intern.sharing-session.show', $session) }}"
+                                           class="text-blue-600 font-semibold hover:text-blue-800 ml-1">
+                                            Lihat selengkapnya
+                                        </a>
+                                    @endif
+                                </div>
+                            @else
+                                <div class="mt-4 bg-gray-50 rounded-2xl p-4 text-gray-400 text-sm">
+                                    Belum ada deskripsi sharing session.
                                 </div>
                             @endif
+
+                            {{-- Dokumentasi thumbnail --}}
+                            <div class="mt-4">
+                                <p class="text-sm font-semibold text-gray-700 mb-2">
+                                    Dokumentasi Sharing Session
+                                </p>
+
+                                @if($session->documentation_photo_url)
+                                    <a href="{{ route('intern.sharing-session.show', $session) }}#dokumentasi"
+                                       class="inline-block group">
+                                        <div class="relative w-40 h-28 rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-gray-100">
+                                            <img
+                                                src="{{ $session->documentation_photo_url }}"
+                                                alt="Dokumentasi Sharing Session"
+                                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                            >
+
+                                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition flex items-center justify-center">
+                                                <span class="opacity-0 group-hover:opacity-100 text-white text-xs font-bold">
+                                                    Lihat Foto
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @else
+                                    <div class="border border-dashed border-gray-200 rounded-2xl p-4 text-sm text-gray-400 bg-white">
+                                        Belum ada dokumentasi yang diupload.
+                                    </div>
+                                @endif
+                            </div>
 
                         </div>
                     </div>
 
-                    <div class="lg:text-right flex flex-col gap-2">
+                    {{-- Tombol kanan --}}
+                    <div class="lg:text-right flex flex-col gap-2 min-w-[220px]">
 
-    @if($session->speaker_user_id === auth()->id())
-        <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
-           class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
-            Lengkapi Materi
-        </a>
-    @endif
+                        <a href="{{ route('intern.sharing-session.show', $session) }}"
+                           class="inline-flex items-center justify-center gap-2 bg-white hover:bg-blue-50 text-blue-700 border border-blue-100 px-6 py-3 rounded-2xl font-semibold shadow-sm">
+                            <i class="fas fa-eye"></i>
+                            Lihat Detail
+                        </a>
 
-    @if($session->session_date->isToday())
+                        @if($isSpeaker)
+                            <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
+                               class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+                                <i class="fas fa-pen"></i>
+                                Lengkapi Materi
+                            </a>
+                        @elseif($isModerator)
+                            <a href="{{ route('intern.sharing-session.edit-materi', $session) }}"
+                               class="inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+                                <i class="fas fa-upload"></i>
+                                Upload Dokumentasi
+                            </a>
+                        @endif
 
-        @if($session->evaluation_form_link)
-            <a href="{{ $session->evaluation_form_link }}"
-               target="_blank"
-               class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
-                Isi Evaluasi
-            </a>
-        @else
-            <span class="inline-flex items-center justify-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-6 py-3 rounded-2xl font-semibold">
-                Menunggu Link Evaluasi
-            </span>
-        @endif
+                        {{-- Tombol Evaluasi --}}
+                        @if($bolehIsiEvaluasi)
+                            <a href="{{ $formEvaluasiUrl }}"
+                               target="_blank"
+                               class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold shadow">
+                                <i class="fas fa-clipboard-check"></i>
+                                Isi Evaluasi
+                            </a>
+                        @elseif(!$materiLengkap)
+                            <span class="inline-flex items-center justify-center gap-2 bg-yellow-50 text-yellow-700 border border-yellow-200 px-6 py-3 rounded-2xl font-semibold">
+                                <i class="fas fa-file-circle-xmark"></i>
+                                Materi Belum Lengkap
+                            </span>
+                        @else
+                            <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 border border-gray-200 px-6 py-3 rounded-2xl font-semibold">
+                                <i class="fas fa-lock"></i>
+                                Form Belum Dibuka
+                            </span>
+                        @endif
 
-    @elseif($session->session_date->lt(today()))
-
-        <span class="inline-flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-200 px-6 py-3 rounded-2xl font-semibold">
-            Form Sudah Ditutup
-        </span>
-
-    @else
-
-        <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 border border-gray-200 px-6 py-3 rounded-2xl font-semibold">
-            Form Belum Dibuka
-        </span>
-
-    @endif
-
-</div>
+                    </div>
 
                 </div>
 
@@ -200,20 +279,22 @@
         @empty
 
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-12 text-center text-gray-500">
+                <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
 
                 <p class="font-semibold text-lg">
                     Belum ada jadwal sharing session.
                 </p>
-
             </div>
 
         @endforelse
 
     </div>
-@if($sessions->hasPages())
-    <div class="mt-8">
-        {{ $sessions->links() }}
-    </div>
-@endif
+
+    @if($sessions->hasPages())
+        <div class="mt-8">
+            {{ $sessions->links() }}
+        </div>
+    @endif
+
 </div>
 @endsection

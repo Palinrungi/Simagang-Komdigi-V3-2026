@@ -34,6 +34,7 @@ use App\Http\Controllers\Intern\ReportController;
 use App\Http\Controllers\Intern\MicroSkillLeaderboardController as InternMicroSkillLeaderboardController;
 use App\Http\Controllers\Intern\ProfileController;
 use App\Http\Controllers\Admin\AdminSharingSessionController;
+use App\Http\Controllers\Admin\ActivityPostController;
 use App\Http\Controllers\Intern\SharingSessionController;
 use App\Http\Controllers\Mentor\ProfileController as MentorProfileController;
 use App\Http\Controllers\Mentor\CertificateController;
@@ -63,6 +64,7 @@ use App\Http\Controllers\Industri\IndustriReportController;
 use App\Http\Controllers\PengajuanFileController;
 use App\Http\Controllers\SecureDownloadController;
 use App\Models\Testimonial;
+use App\Models\ActivityPost;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -97,9 +99,155 @@ Route::get('/', function () {
         ->latest()
         ->limit(6)
         ->get();
+    
+    $weekStart = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::SATURDAY);
+$weekEnd = $weekStart->copy()->addDays(6);
 
-    return view('landingpage', compact('partners', 'testimonials', 'totalPesertaAktif', 'lowongans'));
+$weeklySharingSessions = \App\Models\SharingSession::with(['speakerUser', 'moderatorUser'])
+    ->whereBetween('session_date', [
+        $weekStart->toDateString(),
+        $weekEnd->toDateString()
+    ])
+    ->orderBy('session_date', 'asc')
+    ->orderBy('start_time', 'asc')
+    ->take(4)
+    ->get();
+
+$today = \Carbon\Carbon::today();
+
+$featuredSharingSession = $weeklySharingSessions
+    ->first(function ($session) use ($today) {
+        return $session->session_date->isSameDay($today);
+    });
+
+if (!$featuredSharingSession) {
+    $featuredSharingSession = $weeklySharingSessions
+        ->first(function ($session) use ($today) {
+            return $session->session_date->greaterThan($today);
+        });
+}
+
+if (!$featuredSharingSession) {
+    $featuredSharingSession = $weeklySharingSessions->last();
+}
+
+$sideSharingSessions = $weeklySharingSessions
+    ->filter(function ($session) use ($featuredSharingSession) {
+        return !$featuredSharingSession || $session->id !== $featuredSharingSession->id;
+    })
+    ->values()
+    ->take(3);
+$landingView = \App\Models\PageView::firstOrCreate(
+    ['page' => 'landingpage'],
+    ['views' => 0]
+);
+
+if (!session()->has('landingpage_view_counted')) {
+    $landingView->increment('views');
+    session(['landingpage_view_counted' => true]);
+    $landingView->refresh();
+}
+
+$visitorCount = $landingView->views;
+
+$articleActivities = ActivityPost::published()
+    ->where('type', 'artikel')
+    ->orderByDesc('published_at')
+    ->orderByDesc('created_at')
+    ->take(3)
+    ->get();
+
+$youtubeActivities = ActivityPost::published()
+    ->where('type', 'youtube')
+    ->orderByDesc('published_at')
+    ->orderByDesc('created_at')
+    ->take(3)
+    ->get();
+
+$totalArticleActivities = ActivityPost::published()
+    ->where('type', 'artikel')
+    ->count();
+
+$totalYoutubeActivities = ActivityPost::published()
+    ->where('type', 'youtube')
+    ->count();
+
+    return view('landingpage', compact(
+    'partners',
+    'testimonials',
+    'totalPesertaAktif',
+    'lowongans',
+    'weeklySharingSessions',
+    'featuredSharingSession',
+    'sideSharingSessions',
+    'weekStart',
+    'weekEnd',
+    'visitorCount',
+    'articleActivities',
+    'youtubeActivities',
+    'totalArticleActivities',
+    'totalYoutubeActivities',
+));
+
 })->name('landing');
+Route::get('/sharing-session/{sharingSession}', function (\App\Models\SharingSession $sharingSession) {
+    $sharingSession->load(['speakerUser', 'moderatorUser']);
+
+    $weekStart = $sharingSession->session_date->copy()->startOfWeek(\Carbon\Carbon::SATURDAY);
+    $weekEnd = $weekStart->copy()->addDays(6);
+
+    $otherSharingSessions = \App\Models\SharingSession::with(['speakerUser', 'moderatorUser'])
+        ->whereBetween('session_date', [
+            $weekStart->toDateString(),
+            $weekEnd->toDateString()
+        ])
+        ->where('id', '!=', $sharingSession->id)
+        ->orderBy('session_date', 'asc')
+        ->orderBy('start_time', 'asc')
+        ->take(3)
+        ->get();
+
+    return view('sharing-session-detail', compact(
+        'sharingSession',
+        'otherSharingSessions',
+        'weekStart',
+        'weekEnd'
+    ));
+})->name('public.sharing-session.show');
+
+Route::get('/aktivitas', function (\Illuminate\Http\Request $request) {
+    $type = $request->query('type', 'artikel');
+
+    if (! in_array($type, ['artikel', 'youtube'])) {
+        $type = 'artikel';
+    }
+
+    $posts = ActivityPost::published()
+        ->where('type', $type)
+        ->orderByDesc('published_at')
+        ->orderByDesc('created_at')
+        ->paginate(9)
+        ->withQueryString();
+
+    return view('activity-post-list', compact('posts', 'type'));
+})->name('public.activity.index');
+
+Route::get('/aktivitas/{activityPost:slug}', function (ActivityPost $activityPost) {
+    abort_if(!$activityPost->is_published, 404);
+
+    $relatedPosts = ActivityPost::published()
+        ->where('id', '!=', $activityPost->id)
+        ->where('type', $activityPost->type)
+        ->orderByDesc('published_at')
+        ->orderByDesc('created_at')
+        ->take(3)
+        ->get();
+
+    return view('activity-post-detail', compact(
+        'activityPost',
+        'relatedPosts'
+    ));
+})->name('public.activity.show');
 
 Route::get('/daftar-lowongan', function () {
 
@@ -319,16 +467,18 @@ Route::get('/download/{path}', SecureDownloadController::class)
 Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::get('/sharing-session/{sharingSession}/edit-materi', [SharingSessionController::class, 'editMateri'])
+   // Sharing Session Routes
+Route::get('/sharing-session', [SharingSessionController::class, 'index'])
+    ->name('sharing-session.index');
+
+Route::get('/sharing-session/{sharingSession}', [SharingSessionController::class, 'show'])
+    ->name('sharing-session.show');
+
+Route::get('/sharing-session/{sharingSession}/edit-materi', [SharingSessionController::class, 'editMateri'])
     ->name('sharing-session.edit-materi');
 
-    Route::put('/sharing-session/{sharingSession}/update-materi', [SharingSessionController::class, 'updateMateri'])
+Route::put('/sharing-session/{sharingSession}/update-materi', [SharingSessionController::class, 'updateMateri'])
     ->name('sharing-session.update-materi');
-
-    Route::get(
-    '/sharing-session',
-    [SharingSessionController::class, 'index']
-    )->name('sharing-session.index');
 
     Route::get(
             'certificates/{certificate}/print',
@@ -385,6 +535,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     'sharing-session',
     AdminSharingSessionController::class
     );
+
+    Route::resource('aktivitas', ActivityPostController::class)
+    ->parameters(['aktivitas' => 'aktivita']);
 
     Route::middleware('role:super_admin')->group(function () {
         Route::get('/accounts', [AdminAccountController::class, 'index'])->name('accounts.index');
