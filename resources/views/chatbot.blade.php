@@ -8,7 +8,7 @@
     }
 </style>
 
-<div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 {{ request()->is('/') ? 'right-2 md:right-4' : 'right-6 md:right-8' }} z-50">
+<div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 {{ request()->is('/') ? 'right-2 md:right-4' : 'right-6 md:right-8' }} z-50 translate-y-[10px]">
     <!-- Bubble Tanya SIMA Permanen -->
     <!-- <div id="chatbot-bubble-hint" class="absolute bottom-[90%] sm:bottom-full mb-2 right-1/2 translate-x-1/2 bg-white text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] border border-blue-100 flex items-center justify-center animate-bounce z-40 whitespace-nowrap cursor-pointer hover:bg-blue-50 hover:scale-105 transition-all">
         Tanya SIMA -->

@@ -494,7 +494,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/team/{team}', [TeamController::class, 'destroy'])->name('team.destroy');  
 
     // Lowongan Management Routes
-    Route::get('/Lowongan', [AdminLowonganController::class, 'index'])->name('lowongan.index');
+    Route::get('/lowongan', [AdminLowonganController::class, 'index'])->name('lowongan.index');
     Route::get('/lowongan/create', [AdminLowonganController::class, 'create'])->name('lowongan.create');
     Route::post('/lowongan', [AdminLowonganController::class, 'store'])->name('lowongan.store');
     Route::get('/lowongan/{id}', [AdminLowonganController::class, 'show'])->name('lowongan.show');
