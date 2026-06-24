@@ -72,6 +72,129 @@
             transition: all 0.2s;
         }
         .nav-links a:hover { background: #eff6ff; color: #1d6fca; }
+
+        /* ── DROPDOWN NAVBAR ── */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b6580;
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.2s;
+}
+
+.nav-dropdown-btn:hover {
+    background: #eff6ff;
+    color: #1d6fca;
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: 46px;
+    left: 0;
+    min-width: 220px;
+    background: white;
+    border: 1px solid #dbeafe;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(14,99,201,0.12);
+    padding: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: all 0.2s ease;
+    z-index: 80;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 13px;
+    border-radius: 13px;
+    color: #4b6580;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.nav-dropdown-menu a:hover {
+    background: #eff6ff;
+    color: #1d6fca;
+}
+
+.nav-dropdown-menu i {
+    width: 18px;
+    text-align: center;
+    color: #1d6fca;
+}
+/* ── VISITOR COUNTER NAVBAR ── */
+
+.visitor-counter i {
+    font-size: 12px;
+    color: #0ea5e9;
+}
+
+.visitor-counter span {
+    color: #0f2d4a;
+}
+/* ── NAVBAR ACTIONS ── */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Counter views umum */
+.visitor-counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d6fca;
+    border: 1px solid #bfdbfe;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(29,111,202,0.08);
+}
+
+.visitor-counter i {
+    font-size: 12px;
+    color: #0ea5e9;
+}
+
+.visitor-counter span {
+    color: #0f2d4a;
+}
+
+/* Default: counter mobile disembunyikan di desktop */
+.visitor-counter-mobile {
+    display: none;
+}
+.visitor-counter-desktop {
+    display: inline-flex;
+}
         .btn-login {
             display: inline-flex;
             align-items: center;
@@ -127,6 +250,66 @@
             transition: background 0.2s, color 0.2s;
         }
         .mobile-menu a:hover { background: #eff6ff; }
+
+        /* ── MOBILE DROPDOWN AKTIVITAS ── */
+.mobile-dropdown {
+    width: 100%;
+}
+
+.mobile-dropdown-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #0f2d4a;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.mobile-dropdown-btn:hover {
+    background: #eff6ff;
+}
+
+.mobile-dropdown-btn-left {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+    padding-left: 12px;
+}
+
+.mobile-dropdown.open .mobile-dropdown-content {
+    display: flex;
+}
+
+.mobile-dropdown.open .mobile-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.mobile-dropdown-arrow {
+    transition: transform 0.2s ease;
+    font-size: 11px;
+    color: #1d6fca;
+}
+
+.mobile-dropdown-content a {
+    background: #f8fbff;
+    color: #4b6580;
+    font-size: 14px;
+    padding: 11px 14px;
+    border-left: 3px solid #bfdbfe;
+}
         .mobile-menu .login-link {
             display: inline-flex;
             align-items: center;
@@ -704,97 +887,259 @@
         .copyright span { color: #22d3ee; font-weight: 600; }
 
 
-        /* ── MODERN NEWS SECTION ── */
-        .news-container {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 30px;
-        }
+        /* ── AKTIVITAS TERBARU DINAMIS ── */
+.section-news {
+    padding: 6rem 0;
+    background:
+        radial-gradient(circle at top left, rgba(59,130,246,.12), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #eef6ff 100%);
+}
 
-        /* Berita Utama (Kiri) */
-        .news-main-card {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            height: 500px;
-            cursor: pointer;
-        }
+.activity-tabs {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid #dbeafe;
+    box-shadow: 0 12px 30px rgba(37,99,235,.08);
+}
 
-        .news-main-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
+.activity-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: transparent;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 800;
+    transition: all .25s ease;
+}
 
-        .news-main-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(2, 11, 26, 0.95), transparent);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 40px;
-        }
+.activity-tab.active {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: white;
+    box-shadow: 0 10px 24px rgba(37,99,235,.25);
+}
 
-        /* Daftar Berita Samping (Kanan) */
-        .news-side-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.activity-panel {
+    display: none;
+}
 
-        .news-side-item {
-            display: flex;
-            gap: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 18px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 242, 255, 0.05);
-            text-decoration: none;
-        }
+.activity-panel.active {
+    display: block;
+    animation: fadeActivity .3s ease both;
+}
 
-        .news-side-item:hover {
-            border-color: #00f2ff;
-            transform: translateX(10px);
-            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.05);
-        }
+@keyframes fadeActivity {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        .news-side-img {
-            width: 120px;
-            height: 90px;
-            border-radius: 12px;
-            object-fit: cover;
-        }
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
 
-        .news-side-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+.activity-card {
+    background: white;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 12px 34px rgba(15,23,42,.07);
+    text-decoration: none;
+    color: inherit;
+    transition: all .3s ease;
+}
 
-        .news-side-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #020b1a;
-            line-height: 1.4;
-            margin-bottom: 5px;
-        }
+.activity-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 50px rgba(37,99,235,.14);
+}
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .news-container { grid-template-columns: 1fr; }
-            .news-main-card { height: 350px; }
-        }
+.activity-img-wrap {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: #dbeafe;
+}
 
+.activity-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .5s ease;
+}
 
+.activity-card:hover .activity-img-wrap img {
+    transform: scale(1.08);
+}
+
+.activity-badge {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    color: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,.18);
+}
+
+.badge-article {
+    background: #2563eb;
+}
+
+.badge-youtube {
+    background: #ef4444;
+}
+
+.play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 26px;
+    background: rgba(15,23,42,.22);
+}
+
+.play-overlay i {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(239,68,68,.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    box-shadow: 0 18px 34px rgba(239,68,68,.28);
+}
+
+.activity-content {
+    padding: 22px;
+}
+
+.activity-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.activity-content h3 {
+    font-size: 18px;
+    line-height: 1.35;
+    color: #0f172a;
+    font-weight: 900;
+    margin: 0 0 10px;
+}
+
+.activity-excerpt {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.activity-empty {
+    background: white;
+    border: 1px dashed #bfdbfe;
+    border-radius: 28px;
+    padding: 60px 20px;
+    text-align: center;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.activity-empty i {
+    font-size: 42px;
+    margin-bottom: 14px;
+    display: block;
+    color: #cbd5e1;
+}
+
+@media (max-width: 1024px) {
+    .activity-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .activity-tabs {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .activity-tab {
+        flex: 1;
+        justify-content: center;
+        padding: 11px 14px;
+        font-size: 13px;
+    }
+
+    .activity-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 16px;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 12px;
+    }
+
+    .activity-card {
+        min-width: 82%;
+        scroll-snap-align: start;
+    }
+
+    .activity-img-wrap {
+        height: 190px;
+    }
+}
         /* ── SCROLL ANIMATION ── */
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
+            .visitor-counter-mobile {
+    display: inline-flex;
+}
+.visitor-counter-desktop {
+    display: none;
+}
+
+.navbar-actions {
+    margin-left: auto;
+    gap: 10px;
+}
+
+.nav-toggle {
+    display: inline-flex;
+}
+
+.btn-login {
+    display: none;
+}
             .hero { min-height: auto; }
             .hero-inner {
                 grid-template-columns: 1fr;
@@ -828,6 +1173,28 @@
             .testi-grid { display: none; }
             .testi-carousel { display: block; }
         }
+        @media (max-width: 640px) {
+    .navbar-inner {
+        padding: 0 1rem;
+        gap: 8px;
+    }
+
+    .nav-logo {
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .visitor-counter-mobile {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .nav-toggle {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+    }
+}
 
         /* ── LOWONGAN SECTION ── */
         .section-jobs { background: #f0f7ff; padding: 5rem 0; }
@@ -1026,52 +1393,145 @@
 <!-- ===== NAVBAR ===== -->
 <header class="navbar">
     <div class="navbar-inner">
-        <a href="#hero" class="nav-logo">
+        <a href="{{ route('landing') }}#hero" class="nav-logo">
             <div class="logo-wrap">
                 <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Komdigi">
             </div>
+
             <div>
                 <div class="font-etna" style="font-size:20px; font-weight:900; line-height:1.1">
                     <span style="color:#9d272a">SI</span><span style="color:#086bb0">MA</span><span style="color:#2dabe2">GA</span><span style="color:#efc400">NG</span>
                 </div>
-                <div class="font-etna" style="font-size:10px; color:#8ea5bc; margin-top:2px">Sistem Manajemen Magang</div>
+                <div class="font-etna" style="font-size:10px; color:#8ea5bc; margin-top:2px">
+                    Sistem Manajemen Magang
+                </div>
             </div>
         </a>
 
+        {{-- Navbar Desktop --}}
         <nav class="nav-links">
-            <a href="#hero">Beranda</a>
-            <a href="#lowonganGrid">Lowongan</a>
-            <a href="#process">Alur</a>
-            <a href="#usage">Fitur</a>
-            <a href="#testimonials">Testimoni</a>
-            <a href="#partners">Mitra</a>
-            <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Aktivitas</a>
-            <a href="#about" class="text-gray-700 hover:text-blue-600 font-medium transition">Tentang Kami</a>
+            <a href="{{ route('landing') }}#hero">Beranda</a>
+            <a href="{{ route('landing') }}#lowonganGrid">Lowongan</a>
+            <a href="{{ route('landing') }}#process">Alur</a>
+            <a href="{{ route('landing') }}#usage">Fitur</a>
+            <a href="{{ route('landing') }}#testimonials">Testimoni</a>
+            <a href="{{ route('landing') }}#partners">Mitra</a>
+
+            <div class="nav-dropdown">
+                <button type="button" class="nav-dropdown-btn">
+                    Aktivitas
+                    <i class="fas fa-chevron-down text-[10px]"></i>
+                </button>
+
+                <div class="nav-dropdown-menu">
+                    <a href="{{ route('landing') }}#news">
+                        <i class="fas fa-newspaper"></i>
+                        Aktivitas Terbaru
+                    </a>
+
+                    <a href="{{ route('landing') }}#sharing-session">
+                        <i class="fas fa-comments"></i>
+                        Sharing Session
+                    </a>
+                </div>
+            </div>
+
+            <a href="{{ route('landing') }}#about">Tentang Kami</a>
         </nav>
 
-        <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false">
-            <i class="fas fa-bars" style="font-size:18px"></i>
-        </button>
+        <div class="navbar-actions">
+    {{-- Views Desktop --}}
+    <div class="visitor-counter visitor-counter-desktop">
+        <i class="fas fa-eye"></i>
+        <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
+        Views
+    </div>
 
-        <div class="mobile-menu" aria-hidden="true">
-            <a href="#hero">Beranda</a>
-            <a href="#lowonganGrid">Lowongan</a>
-            <a href="#process">Tahapan</a>
-            <a href="#usage">Fitur</a>
-            <a href="#testimonials">Testimoni</a>
-            <a href="#partners">Partner</a>
-            <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Aktivitas</a>
-            <a href="#about" class="text-gray-700 hover:text-blue-600 font-medium transition">Tentang Kami</a>
-            <a href="{{ route('login') }}" class="login-link">
-                <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>Login
-            </a>
+    {{-- Views Mobile --}}
+    <div class="visitor-counter visitor-counter-mobile">
+        <i class="fas fa-eye"></i>
+        <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
+        Views
+    </div>
+
+    {{-- Tombol Mobile --}}
+    <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false">
+        <i class="fas fa-bars" style="font-size:18px"></i>
+    </button>
+
+    {{-- Menu Mobile --}}
+    <div class="mobile-menu" aria-hidden="true">
+        <a href="{{ route('landing') }}#hero">
+            <i class="fas fa-home" style="margin-right:8px"></i>
+            Beranda
+        </a>
+
+        <a href="{{ route('landing') }}#lowonganGrid">
+            <i class="fas fa-briefcase" style="margin-right:8px"></i>
+            Lowongan
+        </a>
+
+        <a href="{{ route('landing') }}#process">
+            <i class="fas fa-route" style="margin-right:8px"></i>
+            Tahapan
+        </a>
+
+        <a href="{{ route('landing') }}#usage">
+            <i class="fas fa-layer-group" style="margin-right:8px"></i>
+            Fitur
+        </a>
+
+        <a href="{{ route('landing') }}#testimonials">
+            <i class="fas fa-comment-dots" style="margin-right:8px"></i>
+            Testimoni
+        </a>
+
+        <a href="{{ route('landing') }}#partners">
+            <i class="fas fa-handshake" style="margin-right:8px"></i>
+            Partner
+        </a>
+
+        {{-- Dropdown Aktivitas Mobile --}}
+        <div class="mobile-dropdown" id="mobileAktivitasDropdown">
+            <button type="button" class="mobile-dropdown-btn" onclick="toggleMobileAktivitas()">
+                <span class="mobile-dropdown-btn-left">
+                    <i class="fas fa-calendar-check" style="margin-right:8px"></i>
+                    Aktivitas
+                </span>
+
+                <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
+            </button>
+
+            <div class="mobile-dropdown-content">
+                <a href="{{ route('landing') }}#news">
+                    <i class="fas fa-newspaper" style="margin-right:8px"></i>
+                    Aktivitas Terbaru
+                </a>
+
+                <a href="{{ route('landing') }}#sharing-session">
+                    <i class="fas fa-comments" style="margin-right:8px"></i>
+                    Sharing Session
+                </a>
+            </div>
         </div>
 
-        <a href="{{ route('login') }}" class="btn-login">
-            <i class="fas fa-sign-in-alt" style="font-size:13px"></i>
+        <a href="{{ route('landing') }}#about">
+            <i class="fas fa-info-circle" style="margin-right:8px"></i>
+            Tentang Kami
+        </a>
+
+        <a href="{{ route('login') }}" class="login-link">
+            <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>
             Login
         </a>
     </div>
+
+    {{-- Login Desktop --}}
+    <a href="{{ route('login') }}" class="btn-login">
+        <i class="fas fa-sign-in-alt" style="font-size:13px"></i>
+        Login
+    </a>
+</div>
 </header>
 
 <main>
@@ -1795,130 +2255,314 @@
     </div>
 </section>
 
-<!-- ===== FOTO/MICRO SKILL ===== -->
-<section id="news" class="py-24 bg-[#f8faff]">
-    <div class="container mx-auto px-6">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <h2 class="text-3xl font-bold text-[#020b1a]">Aktivitas Terbaru</h2>
-                <div class="h-1 w-20 bg-[#00f2ff] mt-2"></div>
-            </div>
-        </div>
+<!-- ===== AKTIVITAS TERBARU DINAMIS ===== -->
+<section id="news" class="section-news">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="news-container">
-    <div class="news-main-card relative group overflow-hidden rounded-[24px] h-[500px]">
-        <div id="newsSlider" class="flex transition-transform duration-700 ease-in-out h-full">
-            
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession01.jpeg') }}" class="w-full h-full object-cover" alt="Berita 1">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Terbaru</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Knowledge Management</h3>
-                    <p class="text-gray-300 text-sm">5 Mei 2026</p>
-                </div>
-            </div>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10 reveal">
+    <div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+            Aktivitas Terbaru
+        </h2>
 
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/senampagi02.png') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Kamis Bersih & Senam</h3>
-                    <p class="text-gray-300 text-sm">16 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession02.jpg') }}" class="w-full h-full object-cover" alt="Berita 3">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Update</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Bijak Berkomentar di Era Digital</h3>
-                    <p class="text-gray-300 text-sm">7 Mei 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/diskusi02.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Diskusi Bersama Mentor</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession03.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Desain Komunikasi Visual</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/kerjaproject.webp') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Mengerjakan Project</h3>
-                    <p class="text-gray-300 text-sm">12 Februari 2026</p>
-                </div>
-            </div>
-
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/diskusi.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Diskusi Kelas</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-            <div class="min-w-full h-full relative">
-                <img src="{{ url('storage/photos-landingpage/sharingsession04.jpeg') }}" class="w-full h-full object-cover" alt="Berita 2">
-                <div class="news-main-overlay absolute inset-0 bg-gradient-to-t from-[#020b1a] via-transparent to-transparent flex flex-direction-column justify-end p-10">
-                    <span class="bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-4 uppercase">Kegiatan</span>
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Sharing Session : Data Visualization</h3>
-                    <p class="text-gray-300 text-sm">1 April 2026</p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="absolute bottom-5 right-10 flex gap-2">
-            <div class="w-2 h-2 rounded-full bg-[#00f2ff] opacity-50"></div>
-            <div class="w-2 h-2 rounded-full bg-white opacity-30"></div>
-            <div class="w-2 h-2 rounded-full bg-white opacity-30"></div>
-        </div>
+        <div class="mt-3 w-24 h-1 rounded-full bg-cyan-400"></div>
     </div>
 
-            <div class="news-side-list">
-                <a href="{{route('artikel_1')}}" target="_self" class="news-side-item">
-                    <img src="{{ asset('storage/artikel/artikel_1.jpeg') }} " class="news-side-img">
-                    <div class="news-side-content">
-                        <h4 class="news-side-title">Sharing Session</h4>
-                        <p class="text-gray-300 text-sm">Mari kita bahas tentang pentingnya berbagi pengetahuan dan pengalaman dalam dunia digital.</p>
-                        <span class="text-[12px] text-gray-400">07 Mei 2026</span>
-                    </div>
-                </a>
+    <div class="activity-tabs">
+        <button type="button" class="activity-tab active" onclick="showActivityTab('artikel', this)">
+            <i class="fas fa-newspaper"></i>
+            Artikel
+        </button>
 
-                <a href="{{route('artikel_2')}}" target="_self" class="news-side-item">
-                    <img src="{{ asset('storage/artikel/artikel_2.png') }}" class="news-side-img">
-                    <div class="news-side-content">
-                        <h4 class="news-side-title">Emang Gen Z lebih jago soal keamanan digital? - Podcast Capila 2026 Episode 1</h4>
-                        <p class="text-gray-300 text-sm">Apakah Gen Z benar-benar lebih mahir dalam menghadapi ancaman keamanan digital dibandingkan generasi sebelumnya? Mari kita bahas dalam podcast Capila 2026 Episode 1.</p>
-                        <span class="text-[12px] text-gray-400">06 Mei 2026</span>
-                    </div>
-                </a>
+        <button type="button" class="activity-tab" onclick="showActivityTab('youtube', this)">
+            <i class="fab fa-youtube"></i>
+            YouTube
+        </button>
+    </div>
+</div>
+        {{-- Artikel --}}
+        <div id="activity-artikel" class="activity-panel active">
+            @if(isset($articleActivities) && $articleActivities->count() > 0)
+                <div class="activity-grid">
+                    @foreach($articleActivities as $post)
+                        <a href="{{ route('public.activity.show', $post->slug) }}" class="activity-card reveal">
+                            <div class="activity-img-wrap">
+                                <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}">
 
-                <a href="{{route('artikel_3')}}" target="_self" class="news-side-item">
-                    <img src="{{ asset('storage/artikel/artikel_3_1.png') }}" class="news-side-img">
-                    <div class="news-side-content">
-                        <h4 class="news-side-title">Senam Sehat & Bersih</h4>
-                        <p class="text-gray-300 text-sm">Mari kita bahas tentang pentingnya berbagi pengetahuan dan pengalaman dalam dunia digital.</p>
-                        <span class="text-[12px] text-gray-400">05 Mei 2026</span>
-                    </div>
-                </a>
+                                <span class="activity-badge badge-article">
+                                    <i class="fas fa-newspaper"></i>
+                                    Artikel
+                                </span>
+                            </div>
+
+                            <div class="activity-content">
+                                <p class="activity-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $post->published_at ? $post->published_at->format('d M Y') : '-' }}
+                                </p>
+
+                                <h3>{{ $post->title }}</h3>
+
+                                <p class="activity-excerpt">
+                                    {{ \Illuminate\Support\Str::limit($post->excerpt ?? strip_tags($post->content), 110) }}
+                                </p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @else
+                <div class="activity-empty reveal">
+                    <i class="fas fa-newspaper"></i>
+                    <p>Belum ada artikel yang dipublikasikan.</p>
+                </div>
+            @endif
+        </div>
+
+        {{-- YouTube --}}
+        <div id="activity-youtube" class="activity-panel">
+            @if(isset($youtubeActivities) && $youtubeActivities->count() > 0)
+                <div class="activity-grid">
+                    @foreach($youtubeActivities as $post)
+                        <a href="{{ route('public.activity.show', $post->slug) }}" class="activity-card reveal">
+                            <div class="activity-img-wrap">
+                                <img src="{{ $post->thumbnail_url }}" alt="{{ $post->title }}">
+
+                                <span class="activity-badge badge-youtube">
+                                    <i class="fab fa-youtube"></i>
+                                    YouTube
+                                </span>
+
+                                <div class="play-overlay">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+
+                            <div class="activity-content">
+                                <p class="activity-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $post->published_at ? $post->published_at->format('d M Y') : '-' }}
+                                </p>
+
+                                <h3>{{ $post->title }}</h3>
+
+                                <p class="activity-excerpt">
+                                    {{ \Illuminate\Support\Str::limit($post->excerpt ?? $post->content, 110) }}
+                                </p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            @else
+                <div class="activity-empty reveal">
+                    <i class="fab fa-youtube"></i>
+                    <p>Belum ada video YouTube yang dipublikasikan.</p>
+                </div>
+            @endif
+        </div>
+       @if(($totalArticleActivities ?? 0) > 3 || ($totalYoutubeActivities ?? 0) > 3)
+    <div id="activityMoreWrapper"
+         class="mt-10 text-center {{ ($totalArticleActivities ?? 0) > 3 ? '' : 'hidden' }}">
+        <a id="activityMoreButton"
+           href="{{ route('public.activity.index', ['type' => 'artikel']) }}"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/20">
+            Lihat Artikel Lainnya
+            <i class="fas fa-arrow-right text-xs"></i>
+        </a>
+    </div>
+@endif
+    </div>
+</section>
+
+{{-- Sharing Session Mingguan --}}
+<section id="sharing-session" class="py-24 bg-[#eef6ff] relative overflow-hidden">
+    {{-- Layer dekorasi background --}}
+    <div class="absolute top-0 left-0 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl -translate-x-24 -translate-y-24"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-200/30 rounded-full blur-3xl translate-x-24 translate-y-24"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+
+        {{-- Header sejajar seperti Aktivitas Terbaru --}}
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-3xl font-bold text-[#020b1a]">
+                    Sharing Session
+                </h2>
+
+                <div class="h-1 w-20 bg-[#00f2ff] mt-2"></div>
+
+                <p class="text-gray-500 mt-4 text-sm md:text-base">
+                    Jadwal sharing session minggu ini,
+                    {{ $weekStart->format('d M Y') }} - {{ $weekEnd->format('d M Y') }}.
+                </p>
             </div>
+        </div>
+
+        {{-- Layer card utama --}}
+        <div class="bg-white/65 backdrop-blur-sm border border-white/70 rounded-[34px] p-5 md:p-7 shadow-[0_18px_50px_rgba(15,45,74,0.08)]">
+
+            @if($featuredSharingSession)
+                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-[30px] items-stretch">
+
+                    {{-- Gambar besar kiri --}}
+                    <a href="{{ route('public.sharing-session.show', $featuredSharingSession) }}"
+                       class="relative group rounded-[24px] overflow-hidden h-[500px] shadow-lg bg-gray-200 block">
+
+                        @if($featuredSharingSession->documentation_photo_url)
+                            <img
+                                src="{{ $featuredSharingSession->documentation_photo_url }}"
+                                alt="{{ $featuredSharingSession->title ?? 'Sharing Session' }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        @else
+                            <div class="w-full h-full bg-gradient-to-br from-blue-800 via-indigo-700 to-[#020b1a] flex flex-col items-center justify-center text-white">
+                                <div class="w-24 h-24 rounded-3xl bg-white/15 flex items-center justify-center mb-5">
+                                    <i class="fas fa-comments text-5xl"></i>
+                                </div>
+
+                                <p class="text-3xl font-bold">
+                                    Sharing Session
+                                </p>
+
+                                <p class="text-sm text-blue-100 mt-2">
+                                    Dokumentasi belum tersedia
+                                </p>
+                            </div>
+                        @endif
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#020b1a]/95 via-[#020b1a]/35 to-transparent"></div>
+
+                        <div class="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition">
+                            <span class="inline-flex items-center gap-2 bg-white/90 text-blue-700 px-4 py-2 rounded-full text-xs font-bold shadow">
+                                Lihat Detail
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </div>
+
+                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
+                            <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold mb-4 uppercase">
+                                Minggu Ini
+                            </span>
+
+                            <h3 class="text-2xl md:text-3xl font-bold leading-tight group-hover:text-cyan-200 transition">
+                                {{ $featuredSharingSession->title ?? 'Materi Belum Diisi' }}
+                            </h3>
+
+                            @if($featuredSharingSession->description)
+                                <p class="text-gray-300 mt-3 text-sm leading-relaxed max-w-xl">
+                                    {{ \Illuminate\Support\Str::limit($featuredSharingSession->description, 120) }}
+                                </p>
+                            @else
+                                <p class="text-gray-300 mt-3 text-sm leading-relaxed max-w-xl">
+                                    Deskripsi sharing session belum tersedia.
+                                </p>
+                            @endif
+
+                            <div class="flex flex-wrap gap-4 mt-4 text-sm text-white/90">
+                                <span>
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    {{ $featuredSharingSession->session_date->format('d M Y') }}
+                                </span>
+
+                                <span>
+                                    <i class="fas fa-clock mr-2"></i>
+                                    {{ $featuredSharingSession->start_time ? \Carbon\Carbon::parse($featuredSharingSession->start_time)->format('H:i') : '-' }}
+                                    WITA
+                                </span>
+
+                                <span>
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    {{ $featuredSharingSession->location ?? '-' }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+
+                    {{-- List kecil kanan --}}
+                    <div class="flex flex-col gap-5">
+
+                        @forelse($sideSharingSessions as $session)
+                            <a href="{{ route('public.sharing-session.show', $session) }}"
+                               class="bg-white rounded-[18px] p-[15px] flex gap-5 shadow-sm hover:shadow-md border border-cyan-50 hover:border-[#00f2ff] transition group">
+
+                                <div class="w-[120px] h-[90px] rounded-[12px] overflow-hidden bg-gray-200 shrink-0">
+                                    @if($session->documentation_photo_url)
+                                        <img
+                                            src="{{ $session->documentation_photo_url }}"
+                                            alt="{{ $session->title ?? 'Sharing Session' }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    @else
+                                        <div class="w-full h-full bg-gradient-to-br from-blue-700 to-indigo-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-comments text-3xl"></i>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="flex flex-col justify-center flex-1 min-w-0">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <h3 class="text-[15px] font-bold text-[#020b1a] leading-snug mb-1 group-hover:text-blue-700 transition">
+                                            {{ $session->title ?? 'Materi Belum Diisi' }}
+                                        </h3>
+
+                                        <i class="fas fa-arrow-right text-blue-500 text-xs mt-1 opacity-0 group-hover:opacity-100 transition"></i>
+                                    </div>
+
+                                    <p class="text-gray-400 text-sm leading-relaxed line-clamp-2">
+                                        {{ $session->description ? \Illuminate\Support\Str::limit($session->description, 85) : 'Deskripsi sharing session belum tersedia.' }}
+                                    </p>
+
+                                    <div class="flex flex-wrap gap-3 mt-2 text-[12px] text-gray-400">
+                                        <span>
+                                            <i class="fas fa-calendar-alt text-blue-500 mr-1"></i>
+                                            {{ $session->session_date->format('d M Y') }}
+                                        </span>
+
+                                        <span>
+                                            <i class="fas fa-clock text-green-500 mr-1"></i>
+                                            {{ $session->start_time ? \Carbon\Carbon::parse($session->start_time)->format('H:i') : '-' }}
+                                            WITA
+                                        </span>
+
+                                        <span>
+                                            <i class="fas fa-map-marker-alt text-orange-500 mr-1"></i>
+                                            {{ $session->location ?? '-' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="bg-white rounded-[18px] p-8 text-gray-400 text-center shadow-sm border border-cyan-50">
+                                <i class="fas fa-calendar-plus text-3xl text-gray-300 mb-3"></i>
+                                <p class="font-semibold">
+                                    Belum ada jadwal sharing session lain minggu ini.
+                                </p>
+                            </div>
+                        @endforelse
+
+                        @if($weeklySharingSessions->count() === 1)
+                            <div class="bg-white rounded-[18px] p-8 text-gray-400 text-center shadow-sm border border-cyan-50">
+                                <i class="fas fa-info-circle text-3xl text-gray-300 mb-3"></i>
+                                <p class="font-semibold">
+                                    Baru ada 1 jadwal sharing session untuk minggu ini.
+                                </p>
+                            </div>
+                        @endif
+
+                    </div>
+
+                </div>
+            @else
+                <div class="bg-white rounded-[24px] p-12 text-center text-gray-500 shadow-sm border border-cyan-50">
+                    <i class="fas fa-calendar-times text-4xl text-gray-300 mb-4"></i>
+
+                    <p class="font-semibold text-lg">
+                        Belum ada jadwal sharing session minggu ini.
+                    </p>
+
+                    <p class="text-sm text-gray-400 mt-2">
+                        Jadwal akan tampil otomatis jika admin sudah membuat sharing session pada minggu berjalan.
+                    </p>
+                </div>
+            @endif
+
         </div>
     </div>
 </section>
@@ -2861,22 +3505,6 @@ if (toggle && menu) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-        const slider = document.getElementById('newsSlider');
-        const slides = slider.children;
-        let index = 0;
-
-        function nextSlide() {
-            index++;
-            if (index >= slides.length) {
-                index = 0;
-            }
-            slider.style.transform = `translateX(-${index * 100}%)`;
-        }
-
-        setInterval(nextSlide, 5000);
-    });
-
 /* ── Carousel Factory ── */
 function initCarousel({ wrapperId, dotsId, prevId, nextId, interval = 5000 }) {
     const wrapper = document.getElementById(wrapperId);
@@ -2913,9 +3541,69 @@ function initCarousel({ wrapperId, dotsId, prevId, nextId, interval = 5000 }) {
 
 initCarousel({ wrapperId:'process-wrapper', dotsId:'process-dots', prevId:'process-prev', nextId:'process-next' });
 initCarousel({ wrapperId:'testi-wrapper',   dotsId:'testi-dots',   prevId:'testi-prev',   nextId:'testi-next' });
+
+function toggleMobileAktivitas() {
+    const dropdown = document.getElementById('mobileAktivitasDropdown');
+
+    if (dropdown) {
+        dropdown.classList.toggle('open');
+    }
+}
+
+    function showActivityTab(type, button) {
+        document.querySelectorAll('.activity-tab').forEach(function(tab) {
+            tab.classList.remove('active');
+        });
+
+        button.classList.add('active');
+
+        document.querySelectorAll('.activity-panel').forEach(function(panel) {
+            panel.classList.remove('active');
+        });
+
+        const targetPanel = document.getElementById('activity-' + type);
+
+        if (targetPanel) {
+            targetPanel.classList.add('active');
+        }
+
+        const moreWrapper = document.getElementById('activityMoreWrapper');
+        const moreButton = document.getElementById('activityMoreButton');
+
+        const hasMoreArtikel = {{ ($totalArticleActivities ?? 0) > 3 ? 'true' : 'false' }};
+        const hasMoreYoutube = {{ ($totalYoutubeActivities ?? 0) > 3 ? 'true' : 'false' }};
+
+        if (moreWrapper && moreButton) {
+            if (type === 'youtube') {
+                if (hasMoreYoutube) {
+                    moreWrapper.classList.remove('hidden');
+                } else {
+                    moreWrapper.classList.add('hidden');
+                }
+
+                moreButton.href = "{{ route('public.activity.index', ['type' => 'youtube']) }}";
+                moreButton.innerHTML = 'Lihat Video Lainnya <i class="fas fa-arrow-right text-xs"></i>';
+
+                moreButton.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/20');
+                moreButton.classList.add('bg-red-500', 'hover:bg-red-600', 'shadow-red-500/20');
+            } else {
+                if (hasMoreArtikel) {
+                    moreWrapper.classList.remove('hidden');
+                } else {
+                    moreWrapper.classList.add('hidden');
+                }
+
+                moreButton.href = "{{ route('public.activity.index', ['type' => 'artikel']) }}";
+                moreButton.innerHTML = 'Lihat Artikel Lainnya <i class="fas fa-arrow-right text-xs"></i>';
+
+                moreButton.classList.remove('bg-red-500', 'hover:bg-red-600', 'shadow-red-500/20');
+                moreButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/20');
+            }
+        }
+    }
 </script>
 
-<!-- Memanggil komponen chatbot -->
 @include('chatbot')
+
 </body>
 </html>

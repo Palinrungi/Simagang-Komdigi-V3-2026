@@ -217,7 +217,7 @@
                         </div>
 
                         {{-- Operasional Magang --}}
-                        <div x-data="{ open: {{ request()->routeIs('admin.lowongan.*','admin.verifikasi.*','admin.pengajuan.*', 'admin.attendance.*', 'admin.logbook.*', 'admin.microskill.*') ? 'true' : 'false' }} }" class="mt-1">
+                        <div x-data="{ open: {{ request()->routeIs('admin.lowongan.*','admin.verifikasi.*','admin.pengajuan.*', 'admin.attendance.*', 'admin.logbook.*', 'admin.microskill.*', 'admin.sharing-session.*', 'admin.aktivitas.*') ? 'true' : 'false' }} }" class="mt-1">
                             <button type="button" @click="open = !open" class="{{ request()->routeIs('admin.lowongan.*','admin.pengajuan.*', 'admin.attendance.*', 'admin.logbook.*', 'admin.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
                                 <span class="flex items-center">
                                     <i class="fas fa-briefcase w-5 mr-3"></i>
@@ -265,6 +265,11 @@
                                 <i class="fas fa-comments w-4 mr-3 text-xs"></i>
                                 Sharing Session
                                 </a>
+                                <a href="{{ route('admin.aktivitas.index') }}"
+class="{{ request()->routeIs('admin.aktivitas.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+<i class="fas fa-newspaper w-4 mr-3 text-xs"></i>
+Aktivitas Terbaru
+</a>
                             </div>
                         </div>
 
@@ -601,7 +606,7 @@
                                 </div>
 
                                 {{-- Operasional Magang --}}
-                                <div x-data="{ open: {{ request()->routeIs('admin.pengajuan.*', 'admin.attendance.*', 'admin.logbook.*', 'admin.microskill.*') ? 'true' : 'false' }} }" class="mt-1">
+                                <div x-data="{ open: {{ request()->routeIs('admin.lowongan.*', 'admin.verifikasi.*', 'admin.pengajuan.*', 'admin.attendance.*', 'admin.logbook.*', 'admin.microskill.*', 'admin.sharing-session.*', 'admin.aktivitas.*') ? 'true' : 'false' }} }" class="mt-1">
                                     <button type="button" @click="open = !open" class="{{ request()->routeIs('admin.pengajuan.*', 'admin.attendance.*', 'admin.logbook.*', 'admin.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
                                         <span class="flex items-center">
                                             <i class="fas fa-briefcase w-5 mr-3"></i>
@@ -649,6 +654,11 @@
                                         <i class="fas fa-comments w-4 mr-3 text-xs"></i>
                                         Sharing Session
                                         </a>
+                                        <a href="{{ route('admin.aktivitas.index') }}"
+class="{{ request()->routeIs('admin.aktivitas.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+<i class="fas fa-newspaper w-4 mr-3 text-xs"></i>
+Aktivitas Terbaru
+</a>
                                     </div>
                                 </div>
 

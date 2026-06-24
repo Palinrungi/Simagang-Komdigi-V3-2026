@@ -11,7 +11,7 @@
                 <div>
                     <p class="text-blue-100 text-sm font-semibold uppercase tracking-wider mb-2">Admin Panel</p>
                     <h1 class="text-3xl font-bold">Kelola Sharing Session</h1>
-                    <p class="text-blue-100 mt-2">Atur jadwal sharing session dan link Google Form evaluasi peserta magang.</p>
+                    <p class="text-blue-100 mt-2">Atur jadwal sharing session. Form evaluasi otomatis terbuka mulai hari H setelah materi diisi.</p>
                 </div>
 
                 <a href="{{ route('admin.sharing-session.create') }}"
@@ -75,7 +75,8 @@
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Lokasi</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Status Jadwal</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Status Materi</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Link</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Form Evaluasi</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Dokumentasi</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Aksi</th>
                     </tr>
                 </thead>
@@ -88,7 +89,7 @@
                                     {{ $session->title ?? 'Materi Belum Diisi' }}
                                 </div>
                                 <div class="text-sm text-gray-400 mt-1">
-                                    {{ $session->description ?? 'Tidak ada deskripsi' }}
+                                    {{ $session->description ? \Illuminate\Support\Str::limit($session->description, 70) : 'Tidak ada deskripsi' }}
                                 </div>
                             </td>
 
@@ -105,12 +106,12 @@
 
                             <td class="px-6 py-5 text-gray-600">
                                 <i class="fas fa-user-tie text-purple-500 mr-2"></i>
-                                {{ $session->speakerUser?->name ?? '-' }}
+                                {{ $session->speakerUser?->name ?? $session->speaker ?? '-' }}
                             </td>
 
                             <td class="px-6 py-5 text-gray-600">
                                 <i class="fas fa-user-check text-indigo-500 mr-2"></i>
-                                {{ $session->moderatorUser?->name ?? '-' }}
+                                {{ $session->moderatorUser?->name ?? $session->moderator ?? '-' }}
                             </td>
 
                             <td class="px-6 py-5 text-gray-600">
@@ -135,36 +136,75 @@
                             </td>
 
                             <td class="px-6 py-5">
-                                @if(empty($session->title) && empty($session->evaluation_form_link))
-                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-bold">
-                                        Belum Diisi
+                                @if($session->material_status === 'lengkap')
+                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+                                        Sudah Diisi
                                     </span>
-                                @elseif(!empty($session->title) && empty($session->evaluation_form_link))
+                                @elseif($session->material_status === 'belum_lengkap')
                                     <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-bold">
                                         Materi Belum Lengkap
                                     </span>
                                 @else
-                                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
-                                        Sudah Diisi
+                                    <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-bold">
+                                        Belum Diisi
                                     </span>
                                 @endif
                             </td>
 
                             <td class="px-6 py-5">
-                                @if($session->evaluation_form_link)
-                                    <a href="{{ $session->evaluation_form_link }}" target="_blank"
-                                       class="text-blue-600 font-semibold hover:text-blue-800">
+                                @php
+                                    $formEvaluasiUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScmXTrcHoymatge-rPRNZM0iSKwNxOXiMCZECUPmvrUT0Xd2g/viewform';
+
+                                    $materiLengkap = $session->material_status === 'lengkap';
+
+                                    $formSudahDibuka = $session->session_date
+                                        && $session->session_date->lte(\Carbon\Carbon::today());
+
+                                    $bolehBukaForm = $materiLengkap && $formSudahDibuka;
+                                @endphp
+
+                                @if($bolehBukaForm)
+                                    <a href="{{ $formEvaluasiUrl }}"
+                                       target="_blank"
+                                       class="inline-flex items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-100 px-4 py-2 rounded-xl text-sm font-bold transition">
+                                        <i class="fas fa-external-link-alt text-xs"></i>
                                         Buka Form
                                     </a>
+                                @elseif(!$materiLengkap)
+                                    <span class="inline-flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-100 px-4 py-2 rounded-xl text-sm font-bold">
+                                        <i class="fas fa-file-circle-xmark text-xs"></i>
+                                        Materi Belum Diisi
+                                    </span>
                                 @else
-                                    <span class="text-gray-400">Belum ada</span>
+                                    <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 border border-gray-100 px-4 py-2 rounded-xl text-sm font-bold">
+                                        <i class="fas fa-lock text-xs"></i>
+                                        Belum Dibuka
+                                    </span>
+                                @endif
+                            </td>
+
+                            <td class="px-6 py-5">
+                                @if($session->documentation_photo_url)
+                                    <button
+                                        type="button"
+                                        onclick="openDocumentationModal('{{ $session->id }}')"
+                                        class="inline-flex items-center justify-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-100 px-4 py-2 rounded-xl text-sm font-semibold transition">
+                                        <i class="fas fa-image"></i>
+                                        Lihat Foto
+                                    </button>
+                                @else
+                                    <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 px-4 py-2 rounded-xl text-sm font-semibold">
+                                        <i class="fas fa-image"></i>
+                                        Belum Ada
+                                    </span>
                                 @endif
                             </td>
 
                             <td class="px-6 py-5">
                                 <div class="flex gap-2">
                                     <a href="{{ route('admin.sharing-session.edit', $session) }}"
-                                       class="w-9 h-9 rounded-xl bg-yellow-100 text-yellow-700 flex items-center justify-center">
+                                       class="w-9 h-9 rounded-xl bg-yellow-100 text-yellow-700 flex items-center justify-center"
+                                       title="Edit jadwal">
                                         <i class="fas fa-edit"></i>
                                     </a>
 
@@ -172,7 +212,8 @@
                                         @csrf
                                         @method('DELETE')
                                         <button onclick="return confirm('Hapus jadwal ini?')"
-                                                class="w-9 h-9 rounded-xl bg-red-100 text-red-700 flex items-center justify-center">
+                                                class="w-9 h-9 rounded-xl bg-red-100 text-red-700 flex items-center justify-center"
+                                                title="Hapus jadwal">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -181,7 +222,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="px-6 py-16 text-center text-gray-500">
+                            <td colspan="10" class="px-6 py-16 text-center text-gray-500">
                                 Belum ada jadwal sharing session.
                             </td>
                         </tr>
@@ -197,4 +238,100 @@
         @endif
     </div>
 </div>
+
+{{-- Modal Dokumentasi --}}
+@foreach($sessions as $session)
+    @if($session->documentation_photo_url)
+        <div
+            id="documentation-modal-{{ $session->id }}"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 px-4">
+
+            <div class="bg-white rounded-3xl shadow-xl w-full max-w-3xl overflow-hidden">
+
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">
+                            Dokumentasi Sharing Session
+                        </h3>
+
+                        <p class="text-sm text-gray-400 mt-1">
+                            {{ $session->title ?? 'Materi Belum Diisi' }}
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        onclick="closeDocumentationModal('{{ $session->id }}')"
+                        class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="p-6">
+                    <img
+                        src="{{ $session->documentation_photo_url }}"
+                        alt="Dokumentasi Sharing Session"
+                        class="w-full max-h-[70vh] object-contain rounded-2xl border border-gray-200 bg-gray-50">
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-end gap-3 px-6 py-4 border-t border-gray-100">
+                    <a
+                        href="{{ $session->documentation_photo_url }}"
+                        target="_blank"
+                        class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-2xl font-semibold">
+                        <i class="fas fa-external-link-alt"></i>
+                        Buka Ukuran Penuh
+                    </a>
+
+                    <button
+                        type="button"
+                        onclick="closeDocumentationModal('{{ $session->id }}')"
+                        class="inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-3 rounded-2xl font-semibold">
+                        Tutup
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    @endif
+@endforeach
+
+<script>
+    function openDocumentationModal(id) {
+        const modal = document.getElementById('documentation-modal-' + id);
+
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+    }
+
+    function closeDocumentationModal(id) {
+        const modal = document.getElementById('documentation-modal-' + id);
+
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('[id^="documentation-modal-"]').forEach(function (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            });
+        }
+    });
+
+    document.addEventListener('click', function (event) {
+        document.querySelectorAll('[id^="documentation-modal-"]').forEach(function (modal) {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        });
+    });
+</script>
+
 @endsection
