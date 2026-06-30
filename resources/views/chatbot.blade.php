@@ -9,52 +9,18 @@
 </style>
 
 <div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 {{ request()->is('/') ? 'right-2 md:right-4' : 'right-6 md:right-8' }} z-50 translate-y-[10px]">
-    <!-- Bubble Tanya SIMA Permanen -->
-    <!-- <div id="chatbot-bubble-hint" class="absolute bottom-[90%] sm:bottom-full mb-2 right-1/2 translate-x-1/2 bg-white text-blue-600 font-bold text-sm sm:text-base px-5 py-2.5 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] border border-blue-100 flex items-center justify-center animate-bounce z-40 whitespace-nowrap cursor-pointer hover:bg-blue-50 hover:scale-105 transition-all">
-        Tanya SIMA -->
+    <!-- Bubble Tanya SIMA -->
+    <div id="chatbot-bubble-hint" class="absolute bottom-full mb-4 right-0 sm:right-4 bg-white text-blue-600 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] border border-gray-200 flex items-center justify-center z-40 whitespace-nowrap cursor-pointer hover:bg-gray-50 hover:scale-105 transition-all duration-500 opacity-0 pointer-events-none">
+        Hai, ada pertanyaan?
         <!-- Segitiga penunjuk ke bawah -->
-        <!-- <div class="absolute -bottom-1.5 w-3 h-3 bg-white transform rotate-45 border-b border-r border-blue-100 rounded-sm"></div>
-    </div> -->
+        <div class="absolute -bottom-1.5 right-10 w-3 h-3 bg-white transform rotate-45 border-b border-r border-gray-200 rounded-sm"></div>
+    </div>
 
     <!-- Tombol buka -->
     <button id="chatbot-toggle"
         class="w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center hover:scale-110 transition-transform duration-300 focus:outline-none drop-shadow-2xl filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
         <img src="{{ asset('storage/chatbot_icon/SIMA nobg3.png') }}" class="w-full h-full object-contain animate-float-bot" alt="SIMA Bot">
     </button>
-
-    <!-- Pop up SIMA Mengarahkan ke Toggle -->
-    <div id="chatbot-tooltip" class="absolute bottom-full right-0 mb-4 z-[60] flex flex-col items-end transition-all duration-500 opacity-0 pointer-events-none origin-bottom-right drop-shadow-2xl">
-        <!-- Modal Content -->
-        <div id="chatbot-tooltip-box" class="bg-[#f0f7ff] rounded-3xl w-[90vw] sm:w-[420px] text-center relative transform scale-95 transition-transform duration-500 border border-white">
-            
-            <!-- Close Button -->
-            <button id="close-tooltip" class="absolute top-3 right-3 text-blue-400 hover:text-blue-600 bg-white/50 hover:bg-white rounded-full p-1.5 transition-colors focus:outline-none z-20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-
-            <!-- Top Graphic Area (Background Image) -->
-            <div class="h-48 w-full flex items-center justify-center relative rounded-t-3xl overflow-hidden">
-                <!-- Background Image -->
-                <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-                    <img src="{{ asset('storage/chatbot_icon/SIMA menyapa nobg.png') }}" class="w-full h-full object-contain" alt="Background">
-                </div>
-            </div>
-
-            <!-- Bottom Content Area (White Card) -->
-            <div class="bg-white rounded-t-[2rem] rounded-b-3xl pt-6 pb-6 px-6 relative z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Hai, aku adalah <strong>SIMA</strong> </h3>
-                <p class="text-gray-600 text-[15px] mb-6 leading-relaxed">Bot asisten yang akan membantumu menjawab pertanyaan seputar SIMAGANG.</p>
-                
-                <button id="open-chatbot-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-xl text-base hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 hover:scale-[1.02]">
-                    <span>Mulai Tanya SIMA</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
-
-                <!-- Segitiga penunjuk ke toggle -->
-                <div class="absolute -bottom-4 right-10 sm:right-14 w-8 h-8 bg-white transform rotate-45 rounded-sm pointer-events-none"></div>
-            </div>
-        </div>
-    </div>
 
     <div id="chatbot-panel-wrapper" class="hidden absolute bottom-full mb-4 right-0 z-50 origin-bottom-right">
         <!-- Panel chat -->
@@ -121,10 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatInput = document.getElementById('chatbot-input');
     const chatSend = document.getElementById('chatbot-send');
     const chatMessages = document.getElementById('chatbot-messages');
-    const chatTooltip = document.getElementById('chatbot-tooltip');
-    const tooltipBox = document.getElementById('chatbot-tooltip-box');
-    const closeTooltipBtn = document.getElementById('close-tooltip');
-    const openChatbotBtn = document.getElementById('open-chatbot-btn');
     const bubbleHint = document.getElementById('chatbot-bubble-hint');
 
     if (!chatToggle || !chatPanel) return;
@@ -135,35 +97,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Tampilkan pop-up setelah 1 detik jika panel chat belum dibuka
-    // Hanya tampilkan pop-up otomatis jika berada di halaman landing page (bukan dashboard)
+    // Tampilkan pop-up bubble setelah 1 detik jika panel chat belum dibuka
     const isLandingPage = window.location.pathname === '/';
+    let bubbleTimeout;
     
     if (isLandingPage) {
         setTimeout(() => {
-            if (chatTooltip && chatPanelWrapper.classList.contains('hidden')) {
-                chatTooltip.classList.remove('opacity-0', 'pointer-events-none');
-                chatTooltip.classList.add('opacity-100');
-                if (tooltipBox) {
-                    tooltipBox.classList.remove('scale-95');
-                    tooltipBox.classList.add('scale-100');
-                }
+            if (bubbleHint && chatPanelWrapper.classList.contains('hidden')) {
+                bubbleHint.classList.remove('opacity-0', 'pointer-events-none');
+                bubbleHint.classList.add('opacity-100');
+                
+                // Hilangkan otomatis setelah 5 detik
+                bubbleTimeout = setTimeout(() => {
+                    hideBubbleHint();
+                }, 5000);
             }
         }, 1000);
     }
 
-    function hideTooltip() {
-        if (chatTooltip) {
-            chatTooltip.classList.remove('opacity-100');
-            chatTooltip.classList.add('opacity-0', 'pointer-events-none');
-            if (tooltipBox) {
-                tooltipBox.classList.remove('scale-100');
-                tooltipBox.classList.add('scale-95');
-            }
+    function hideBubbleHint() {
+        if (bubbleHint) {
+            bubbleHint.classList.remove('opacity-100');
+            bubbleHint.classList.add('opacity-0', 'pointer-events-none');
+            clearTimeout(bubbleTimeout);
         }
     }
-
-    if (closeTooltipBtn) closeTooltipBtn.addEventListener('click', hideTooltip);
 
     let isFirstTimeOpen = true;
 
@@ -176,34 +134,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (openChatbotBtn) {
-        openChatbotBtn.addEventListener('click', () => {
-            hideTooltip();
-            if (chatPanelWrapper.classList.contains('hidden')) {
-                chatPanelWrapper.classList.remove('hidden');
-                if (bubbleHint) bubbleHint.style.display = 'none';
-                handleChatbotOpen();
-            }
-        });
-    }
-
     const closePanelBtn = document.getElementById('close-chatbot-panel');
     if (closePanelBtn) {
         closePanelBtn.addEventListener('click', () => {
             chatPanelWrapper.classList.add('hidden');
-            if (bubbleHint) bubbleHint.style.display = 'flex';
         });
     }
 
     chatToggle.addEventListener('click', () => {
-        hideTooltip(); // Sembunyikan pop-up saat toggle diklik
+        hideBubbleHint(); // Sembunyikan pop-up saat toggle diklik
         if (chatPanelWrapper.classList.contains('hidden')) {
             chatPanelWrapper.classList.remove('hidden');
-            if (bubbleHint) bubbleHint.style.display = 'none';
             handleChatbotOpen();
         } else {
             chatPanelWrapper.classList.add('hidden');
-            if (bubbleHint) bubbleHint.style.display = 'flex';
         }
     });
 
