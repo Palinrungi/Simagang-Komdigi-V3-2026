@@ -11,7 +11,7 @@
 <div id="chatbot-widget" class="fixed bottom-36 sm:bottom-24 {{ request()->is('/') ? 'right-2 md:right-4' : 'right-6 md:right-8' }} z-50 translate-y-[10px]">
     <!-- Bubble Tanya SIMA -->
     <div id="chatbot-bubble-hint" class="absolute bottom-full mb-4 right-0 sm:right-4 bg-white text-blue-600 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full shadow-[0_5px_15px_rgba(0,0,0,0.15)] border border-gray-200 flex items-center justify-center z-40 whitespace-nowrap cursor-pointer hover:bg-gray-50 hover:scale-105 transition-all duration-500 opacity-0 pointer-events-none">
-        Hai, ada pertanyaan?
+        ada pertanyaan?
         <!-- Segitiga penunjuk ke bawah -->
         <div class="absolute -bottom-1.5 right-10 w-3 h-3 bg-white transform rotate-45 border-b border-r border-gray-200 rounded-sm"></div>
     </div>
