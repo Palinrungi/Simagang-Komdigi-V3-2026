@@ -13,8 +13,8 @@ class AdminRagController extends Controller
 
     public function __construct()
     {
-        $this->ragBaseUrl = env('RAG_SERVICE_URL', 'http://127.0.0.1:8001');
-        $this->apiKey = env('RAG_SERVICE_API_KEY', 'your-secret-token-here');
+        $this->ragBaseUrl = env('RAG_SERVICE_URL');
+        $this->apiKey = env('RAG_SERVICE_API_KEY');
     }
 
     public function index()
@@ -32,9 +32,9 @@ class AdminRagController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $this->validate($request, [
             'file' => 'required|file|mimes:pdf,txt|max:10240', // max 10MB
-            'folder' => 'required|in:public_faq,faq,sop'
+            'folder' => 'required|in:public_faq,sop'
         ]);
 
         try {
