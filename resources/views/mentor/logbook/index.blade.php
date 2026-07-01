@@ -217,7 +217,7 @@
         }
 
         thead th:nth-child(5) {
-            width: 96px;
+            width: 150px;
         }
 
         tbody td {
@@ -315,6 +315,58 @@
 
         .btn-action i {
             font-size: 11px;
+        }
+
+        .action-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .action-inline form {
+            margin: 0;
+        }
+
+        .btn-approve {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .2s ease;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.24);
+        }
+
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 14px rgba(34, 197, 94, 0.35);
+        }
+
+        .btn-approve i {
+            font-size: 13px;
+        }
+
+        .btn-approved {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #dcfce7;
+            color: #15803d;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            border: 1px solid #bbf7d0;
+        }
+
+        .btn-approved i {
+            font-size: 13px;
         }
 
         /* ── Empty state ── */
@@ -540,7 +592,7 @@
             }
 
             thead th:nth-child(5) {
-                width: 70px;
+                width: 140px;
             }
         }
 
@@ -633,7 +685,7 @@
                                     <th style="min-width: 150px;">Nama</th>
                                     <th style="min-width: 250px;">Aktivitas</th>
                                     <th style="min-width: 50px;">Foto</th>
-                                    <th style="min-width: 80px;">Aksi</th>
+                                    <th style="min-width: 145px;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -685,9 +737,29 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('mentor.logbook.show', $l) }}" class="btn-action">
-                                                <i class="fas fa-eye"></i> Lihat
-                                            </a>
+                                            <div class="action-inline">
+                                                <a href="{{ route('mentor.logbook.show', $l) }}" class="btn-action">
+                                                    <i class="fas fa-eye"></i> Lihat
+                                                </a>
+
+                                                @if ($l->approval_status === 'approved')
+                                                    <span class="btn-approved" title="Sudah disetujui">
+                                                        <i class="fas fa-check"></i>
+                                                    </span>
+                                                @else
+                                                    <form method="POST"
+                                                        action="{{ route('mentor.logbook.approve', $l) }}"
+                                                        onsubmit="return confirm('Setujui logbook ini?')">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="status" value="approved">
+
+                                                        <button type="submit" class="btn-approve" title="Approve Logbook">
+                                                            <i class="fas fa-thumbs-up"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -757,6 +829,27 @@
                                     <a href="{{ route('mentor.logbook.show', $l) }}" class="card-action-btn">
                                         <i class="fas fa-eye"></i> Lihat
                                     </a>
+
+                                    @if ($l->approval_status === 'approved')
+                                        <span class="card-action-btn"
+                                            style="background:#dcfce7; color:#15803d; box-shadow:none;">
+                                            <i class="fas fa-check"></i> Approved
+                                        </span>
+                                    @else
+                                        <form method="POST"
+                                            action="{{ route('mentor.logbook.approve', $l) }}"
+                                            style="flex:1; margin:0;"
+                                            onsubmit="return confirm('Setujui logbook ini?')">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="status" value="approved">
+
+                                            <button type="submit" class="card-action-btn"
+                                                style="width:100%; background:linear-gradient(135deg,#16a34a,#22c55e); color:white;">
+                                                <i class="fas fa-thumbs-up"></i> Approve
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         @empty

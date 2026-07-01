@@ -21,6 +21,7 @@ class Industri extends Model
         'nib',
         'status',
         'jenis_lembaga',
+        'is_active',
     ];
 
     public function user()

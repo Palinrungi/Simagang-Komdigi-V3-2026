@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminInternController;
 use App\Http\Controllers\Admin\AdminMentorController;
+use App\Http\Controllers\Admin\AdminMitraController;
 use App\Http\Controllers\Admin\AdminMonitoringController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminLogbookController;
@@ -575,6 +576,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/intern/{intern}/edit', [AdminInternController::class, 'edit'])->name('intern.edit');
     Route::put('/intern/{intern}', [AdminInternController::class, 'update'])->name('intern.update');
     Route::delete('/intern/{intern}', [AdminInternController::class, 'destroy'])->name('intern.destroy');
+
+    Route::get('/mitra', [AdminMitraController::class, 'index'])->name('mitra.index');
+Route::get('/mitra/create', [AdminMitraController::class, 'create'])->name('mitra.create');
+Route::post('/mitra', [AdminMitraController::class, 'store'])->name('mitra.store');
+
+Route::get('/mitra/{jenis}/{id}/edit', [AdminMitraController::class, 'edit'])->name('mitra.edit');
+Route::put('/mitra/{jenis}/{id}', [AdminMitraController::class, 'update'])->name('mitra.update');
+Route::delete('/mitra/{jenis}/{id}', [AdminMitraController::class, 'destroy'])->name('mitra.destroy');
 
     // Attendance Monitoring Route
     Route::get('/attendance/photo/{filename}', [AdminAttendanceController::class, 'servePhoto'])

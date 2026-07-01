@@ -19,6 +19,7 @@ class Institusi extends Model
         'no_hp',
         'fakultas',
         'departemen',
+        'is_active',
     ];
 
 

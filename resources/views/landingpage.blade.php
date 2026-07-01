@@ -714,107 +714,221 @@
         .cta-card-sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
         .cta-arrow { font-size: 20px; opacity: 0.6; }
 
-        /* ── FOOTER ── */
-        .main-footer {
-            background:  linear-gradient(135deg, #10499e 100%, #0e60cc 40%, #0891b2 30%);
-            color: white;
-            padding: 15px 0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            border-top: 1px solid rgba(34, 211, 238, 0.3);
-            backdrop-filter: blur(10px); 
-            box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
-        }
+       /* ── FOOTER ── */
+.main-footer {
+    background: linear-gradient(135deg, #10499e 100%, #0e60cc 40%, #0891b2 30%);
+    color: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    z-index: 1000;
+    border-top: 1px solid rgba(34, 211, 238, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
+}
 
-        .footer-simple-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+.footer-simple-inner {
+    max-width: 1280px;
+    height: 64px;
+    margin: 0 auto;
+    padding: 0 2rem;
 
-        .footer-logos-simple, 
-        .social-links-simple {
-            flex: 1;
-            display: flex;
-            align-items: center;
-        }
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 24px;
+}
 
-        .footer-logos-simple {
-            gap: 1.5rem;
-        }
+.footer-logos-simple {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    height: 100%;
+}
 
-        .footer-logos-simple img {
-            height: 28px;
-            object-fit: contain;
-            /* Membuat logo sedikit lebih terang agar kontras */
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+.footer-logos-simple img {
+    height: 28px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
+    transition: all 0.3s ease;
+}
 
-        .footer-logos-simple img:hover {
-            transform: translateY(-5px) scale(1.1);
-            filter: drop-shadow(0 5px 15px rgba(34, 211, 238, 0.4));
-        }
+.footer-logos-simple img:hover {
+    transform: translateY(-3px) scale(1.08);
+    filter: drop-shadow(0 5px 15px rgba(34, 211, 238, 0.4));
+}
 
-        .copyright-simple {
-            flex: 1.5;
-            text-align: center;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.8);
-        }
+.footer-center-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    height: 100%;
+    white-space: nowrap;
+}
 
-        .copyright-simple strong {
-            color: #22d3ee;
-            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
-        }
+.copyright-simple {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.82);
+    text-align: center;
+    margin: 0;
+}
 
-        .social-links-simple {
-            justify-content: flex-end;
-            gap: 12px;
-        }
+.copyright-simple strong {
+    color: #22d3ee;
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+}
 
-        .social-links-simple a {
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
+.footer-visitor-counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: auto;
+    max-width: max-content;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(125, 211, 252, 0.35);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    box-shadow: 0 6px 18px rgba(14, 165, 233, 0.14);
+    transform: translateX(45px);
+}
 
-        .social-links-simple a:hover {
-            background: rgba(34, 211, 238, 0.15);
-            color: #22d3ee;
-            border-color: #22d3ee;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(34, 211, 238, 0.2);
-        }
+.footer-visitor-counter i {
+    font-size: 12px;
+    color: #7dd3fc;
+}
 
-        /* Padding body agar konten tidak tertutup fixed footer */
-        body { padding-bottom: 60px; } /* tinggi footer desktop */
+.footer-visitor-counter span {
+    color: #ffffff;
+    font-weight: 900;
+}
 
-        /* Responsif untuk Mobile */
-        @media (max-width: 768px) {
-            .main-footer { padding: 10px 0; }
-            .footer-simple-inner { flex-direction: column; gap: 8px; padding: 4px 1rem; }
-            .copyright-simple { order: 3; font-size: 11px; }
-            .footer-logos-simple { order: 1; justify-content: center; }
-            .social-links-simple { order: 2; justify-content: center; }
-            /* Tambah padding bawah lebih besar di mobile karena footer jadi lebih tinggi (stacked) */
-            body { padding-bottom: 110px; }
+.footer-visitor-counter small {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.social-links-simple {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.social-links-simple a {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+.social-links-simple a:hover {
+    background: rgba(34, 211, 238, 0.15);
+    color: #22d3ee;
+    border-color: #22d3ee;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(34, 211, 238, 0.2);
+}
+
+body {
+    padding-bottom: 64px;
+}
+
+@media (max-width: 768px) {
+    .main-footer {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .footer-simple-inner {
+    max-width: 1280px;
+    height: 64px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 24px;
+}
+
+.footer-logos-simple {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.footer-center-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.social-links-simple {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+    body {
+        padding-bottom: 120px;
+    }
+}
+            .footer-center-group {
+    order: 3;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.footer-visitor-counter {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.footer-visitor-counter small {
+    font-size: 11px;
+}
+
+.copyright-simple {
+    font-size: 11px;
+}
         }
 
 
@@ -1197,7 +1311,11 @@
 }
 
         /* ── LOWONGAN SECTION ── */
-        .section-jobs { background: #f0f7ff; padding: 5rem 0; }
+        .section-jobs {
+    background: #f0f7ff;
+    padding: 5rem 0;
+    scroll-margin-top: 90px;
+}
 
         .lowongan-scroll-wrapper {
             display: flex;
@@ -1410,50 +1528,77 @@
 
         {{-- Navbar Desktop --}}
         <nav class="nav-links">
-            <a href="{{ route('landing') }}#hero">Beranda</a>
-            <a href="{{ route('landing') }}#lowonganGrid">Lowongan</a>
-            <a href="{{ route('landing') }}#process">Alur</a>
-            <a href="{{ route('landing') }}#usage">Fitur</a>
-            <a href="{{ route('landing') }}#testimonials">Testimoni</a>
-            <a href="{{ route('landing') }}#partners">Mitra</a>
+    <a href="{{ route('landing') }}#hero">Beranda</a>
 
-            <div class="nav-dropdown">
-                <button type="button" class="nav-dropdown-btn">
-                    Aktivitas
-                    <i class="fas fa-chevron-down text-[10px]"></i>
-                </button>
+    <a href="{{ route('landing') }}#daftar-lowongan">Lowongan</a>
 
-                <div class="nav-dropdown-menu">
-                    <a href="{{ route('landing') }}#news">
-                        <i class="fas fa-newspaper"></i>
-                        Aktivitas Terbaru
-                    </a>
+    {{-- Dropdown Panduan --}}
+    <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-btn">
+            Panduan
+            <i class="fas fa-chevron-down text-[10px]"></i>
+        </button>
 
-                    <a href="{{ route('landing') }}#sharing-session">
-                        <i class="fas fa-comments"></i>
-                        Sharing Session
-                    </a>
-                </div>
-            </div>
+        <div class="nav-dropdown-menu">
+            <a href="{{ route('landing') }}#process">
+                <i class="fas fa-route"></i>
+                Alur
+            </a>
 
-            <a href="{{ route('landing') }}#about">Tentang Kami</a>
-        </nav>
+            <a href="{{ route('landing') }}#usage">
+                <i class="fas fa-layer-group"></i>
+                Fitur
+            </a>
+        </div>
+    </div>
 
+    {{-- Dropdown Aktivitas --}}
+    <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-btn">
+            Aktivitas
+            <i class="fas fa-chevron-down text-[10px]"></i>
+        </button>
+
+        <div class="nav-dropdown-menu">
+            <a href="{{ route('landing') }}#news">
+                <i class="fas fa-newspaper"></i>
+                Aktivitas Terbaru
+            </a>
+
+            <a href="{{ route('landing') }}#sharing-session">
+                <i class="fas fa-comments"></i>
+                Sharing Session
+            </a>
+        </div>
+    </div>
+
+    {{-- Dropdown Tentang Kami --}}
+    <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-btn">
+            Tentang Kami
+            <i class="fas fa-chevron-down text-[10px]"></i>
+        </button>
+
+        <div class="nav-dropdown-menu">
+            <a href="{{ route('landing') }}#about">
+                <i class="fas fa-info-circle"></i>
+                Profil/Tentang Kami
+            </a>
+
+            <a href="{{ route('landing') }}#partners">
+                <i class="fas fa-handshake"></i>
+                Mitra
+            </a>
+
+            <a href="{{ route('landing') }}#testimonials">
+                <i class="fas fa-comment-dots"></i>
+                Testimoni
+            </a>
+        </div>
+    </div>
+</nav>
         <div class="navbar-actions">
-    {{-- Views Desktop --}}
-    <div class="visitor-counter visitor-counter-desktop">
-        <i class="fas fa-eye"></i>
-        <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
-        Views
-    </div>
-
-    {{-- Views Mobile --}}
-    <div class="visitor-counter visitor-counter-mobile">
-        <i class="fas fa-eye"></i>
-        <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
-        Views
-    </div>
-
+    
     {{-- Tombol Mobile --}}
     <button type="button" class="nav-toggle" aria-label="Buka menu" aria-expanded="false">
         <i class="fas fa-bars" style="font-size:18px"></i>
@@ -1461,70 +1606,98 @@
 
     {{-- Menu Mobile --}}
     <div class="mobile-menu" aria-hidden="true">
-        <a href="{{ route('landing') }}#hero">
-            <i class="fas fa-home" style="margin-right:8px"></i>
-            Beranda
-        </a>
+    <a href="{{ route('landing') }}#hero">
+        <i class="fas fa-home" style="margin-right:8px"></i>
+        Beranda
+    </a>
 
-        <a href="{{ route('landing') }}#lowonganGrid">
-            <i class="fas fa-briefcase" style="margin-right:8px"></i>
-            Lowongan
-        </a>
+    <a href="{{ route('landing') }}#daftar-lowongan">
+    <i class="fas fa-briefcase" style="margin-right:8px"></i>
+    Lowongan
+</a>
 
-        <a href="{{ route('landing') }}#process">
-            <i class="fas fa-route" style="margin-right:8px"></i>
-            Tahapan
-        </a>
+    {{-- Dropdown Panduan Mobile --}}
+    <div class="mobile-dropdown" id="mobilePanduanDropdown">
+        <button type="button" class="mobile-dropdown-btn" onclick="toggleMobileDropdown('mobilePanduanDropdown')">
+            <span class="mobile-dropdown-btn-left">
+                <i class="fas fa-book-open" style="margin-right:8px"></i>
+                Panduan
+            </span>
 
-        <a href="{{ route('landing') }}#usage">
-            <i class="fas fa-layer-group" style="margin-right:8px"></i>
-            Fitur
-        </a>
+            <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
+        </button>
 
-        <a href="{{ route('landing') }}#testimonials">
-            <i class="fas fa-comment-dots" style="margin-right:8px"></i>
-            Testimoni
-        </a>
+        <div class="mobile-dropdown-content">
+            <a href="{{ route('landing') }}#process">
+                <i class="fas fa-route" style="margin-right:8px"></i>
+                Alur
+            </a>
 
-        <a href="{{ route('landing') }}#partners">
-            <i class="fas fa-handshake" style="margin-right:8px"></i>
-            Partner
-        </a>
-
-        {{-- Dropdown Aktivitas Mobile --}}
-        <div class="mobile-dropdown" id="mobileAktivitasDropdown">
-            <button type="button" class="mobile-dropdown-btn" onclick="toggleMobileAktivitas()">
-                <span class="mobile-dropdown-btn-left">
-                    <i class="fas fa-calendar-check" style="margin-right:8px"></i>
-                    Aktivitas
-                </span>
-
-                <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
-            </button>
-
-            <div class="mobile-dropdown-content">
-                <a href="{{ route('landing') }}#news">
-                    <i class="fas fa-newspaper" style="margin-right:8px"></i>
-                    Aktivitas Terbaru
-                </a>
-
-                <a href="{{ route('landing') }}#sharing-session">
-                    <i class="fas fa-comments" style="margin-right:8px"></i>
-                    Sharing Session
-                </a>
-            </div>
+            <a href="{{ route('landing') }}#usage">
+                <i class="fas fa-layer-group" style="margin-right:8px"></i>
+                Fitur
+            </a>
         </div>
-
-        <a href="{{ route('landing') }}#about">
-            <i class="fas fa-info-circle" style="margin-right:8px"></i>
-            Tentang Kami
-        </a>
-
-        <a href="{{ route('login') }}" class="login-link">
-            <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>
-            Login
-        </a>
     </div>
+
+    {{-- Dropdown Aktivitas Mobile --}}
+    <div class="mobile-dropdown" id="mobileAktivitasDropdown">
+        <button type="button" class="mobile-dropdown-btn" onclick="toggleMobileDropdown('mobileAktivitasDropdown')">
+            <span class="mobile-dropdown-btn-left">
+                <i class="fas fa-calendar-check" style="margin-right:8px"></i>
+                Aktivitas
+            </span>
+
+            <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
+        </button>
+
+        <div class="mobile-dropdown-content">
+            <a href="{{ route('landing') }}#news">
+                <i class="fas fa-newspaper" style="margin-right:8px"></i>
+                Aktivitas Terbaru
+            </a>
+
+            <a href="{{ route('landing') }}#sharing-session">
+                <i class="fas fa-comments" style="margin-right:8px"></i>
+                Sharing Session
+            </a>
+        </div>
+    </div>
+
+    {{-- Dropdown Tentang Kami Mobile --}}
+    <div class="mobile-dropdown" id="mobileTentangDropdown">
+        <button type="button" class="mobile-dropdown-btn" onclick="toggleMobileDropdown('mobileTentangDropdown')">
+            <span class="mobile-dropdown-btn-left">
+                <i class="fas fa-users" style="margin-right:8px"></i>
+                Tentang Kami
+            </span>
+
+            <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
+        </button>
+
+        <div class="mobile-dropdown-content">
+            <a href="{{ route('landing') }}#about">
+                <i class="fas fa-info-circle" style="margin-right:8px"></i>
+                Profil/Tentang Kami
+            </a>
+
+            <a href="{{ route('landing') }}#partners">
+                <i class="fas fa-handshake" style="margin-right:8px"></i>
+                Mitra
+            </a>
+
+            <a href="{{ route('landing') }}#testimonials">
+                <i class="fas fa-comment-dots" style="margin-right:8px"></i>
+                Testimoni
+            </a>
+        </div>
+    </div>
+
+    <a href="{{ route('login') }}" class="login-link">
+        <i class="fas fa-sign-in-alt" style="font-size:13px; margin-right:8px"></i>
+        Login
+    </a>
+</div>
 
     {{-- Login Desktop --}}
     <a href="{{ route('login') }}" class="btn-login">
@@ -1557,22 +1730,36 @@
             </p>
 
             <div class="hero-stats">
-                <div>
-                    <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
-                    <div class="hero-stat-label">Peserta Magang</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div>
-                    <div class="hero-stat-num text-center">11+</div>
-                    <div class="hero-stat-label">Mitra pendidikan dan industri</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div>
-                    <div class="hero-stat-num text-center">93.25</div>
-                    <div class="hero-stat-label">Tingkat Kepuasan</div>
-                </div>
-            </div>
+    <div>
+        <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
+        <div class="hero-stat-label">Peserta Magang</div>
+    </div>
 
+    <div class="hero-stat-divider"></div>
+
+    <div>
+        <div class="hero-stat-num text-center">11+</div>
+        <div class="hero-stat-label">Mitra pendidikan dan industri</div>
+    </div>
+
+    <div class="hero-stat-divider"></div>
+
+    <div>
+        <div class="hero-stat-num text-center">93.25</div>
+        <div class="hero-stat-label">Tingkat Kepuasan</div>
+    </div>
+
+    <div class="hero-stat-divider"></div>
+
+    <div>
+        <div>
+    <div class="hero-stat-num text-center">
+        {{ number_format($visitorCount ?? 0, 0, ',', '.') }}
+    </div>
+    <div class="hero-stat-label">Jumlah Pengunjung</div>
+</div>
+    </div>
+</div>
             <div class="hero-btns">
                 <a href="#daftar" class="btn-primary">
                     <i class="fas fa-rocket" style="font-size:14px"></i>
@@ -3442,15 +3629,54 @@ window.addEventListener('resize', () => {
         </div>
 
         <div class="copyright-simple">
-            &copy; 2026 <strong>Simagang</strong> — BBLSDM Komdigi Makassar. All rights reserved.
+    © 2026 <strong>Simagang</strong> — BBLSDM Komdigi Makassar. All rights reserved.
+</div>
+
+<div class="footer-visitor-counter">
+    <i class="fas fa-eye"></i>
+    <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
+    <small>Pengunjung</small>
+</div>
+
+        <footer class="main-footer">
+    <div class="footer-simple-inner">
+
+        <div class="footer-logos-simple">
+            <img src="{{ url('storage/vendor/logo_berakhlak.png') }}" alt="BerAkhlak"> 
+            <img src="{{ url('storage/vendor/logo_banggamelayani.png') }}" alt="Bangga Melayani">
+            <img src="{{ url('storage/vendor/logo_antikorupsi.png') }}" alt="Anti Korupsi">
+        </div>
+
+        <div class="footer-center-area">
+            <div class="copyright-simple">
+                © 2026 <strong>Simagang</strong> — BBLSDM Komdigi Makassar. All rights reserved.
+            </div>
+
+            <div class="footer-visitor-counter">
+                <i class="fas fa-eye"></i>
+                <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
+                <small>Pengunjung</small>
+            </div>
         </div>
 
         <div class="social-links-simple">
-            <a href="https://www.instagram.com/bblsdm.komdigi.makassar/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.komdigi.go.id/" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@balaikomdigimakassar" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="https://www.youtube.com/@bblsdm.komdigi.makassar" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/bblsdm.komdigi.makassar/" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            <a href="https://www.komdigi.go.id/" target="_blank" title="Website">
+                <i class="fas fa-globe"></i>
+            </a>
+
+            <a href="https://www.tiktok.com/@balaikomdigimakassar" target="_blank" title="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+
+            <a href="https://www.youtube.com/@bblsdm.komdigi.makassar" target="_blank" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
         </div>
+
     </div>
 </footer>
 
@@ -3600,6 +3826,25 @@ function toggleMobileAktivitas() {
                 moreButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/20');
             }
         }
+    }
+</script>
+<script>
+    function toggleMobileDropdown(dropdownId) {
+        const targetDropdown = document.getElementById(dropdownId);
+
+        if (!targetDropdown) {
+            return;
+        }
+
+        const allDropdowns = document.querySelectorAll('.mobile-dropdown');
+
+        allDropdowns.forEach(function(dropdown) {
+            if (dropdown !== targetDropdown) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        targetDropdown.classList.toggle('open');
     }
 </script>
 

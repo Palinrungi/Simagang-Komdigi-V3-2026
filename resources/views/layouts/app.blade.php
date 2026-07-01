@@ -182,8 +182,8 @@
                         @endif
 
                         {{-- Manajemen Pengguna --}}
-                        <div x-data="{ open: {{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.team.*') ? 'true' : 'false' }} }" class="mt-1">
-                            <button type="button" @click="open = !open" class="{{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.team.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
+                        <div x-data="{ open: {{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.mitra.*', 'admin.team.*') ? 'true' : 'false' }} }" class="mt-1">
+                            <button type="button" @click="open = !open" class="{{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.mitra.*', 'admin.team.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
                                 <span class="flex items-center">
                                     <i class="fas fa-users-cog w-5 mr-3"></i>
                                     Manajemen Pengguna
@@ -203,6 +203,11 @@
                                     Mentor
                                 </a>
                                 @endcan
+                                <a href="{{ route('admin.mitra.index') }}"
+       class="{{ request()->routeIs('admin.mitra.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+        <i class="fas fa-handshake w-4 mr-3 text-xs"></i>
+        Mitra
+    </a>
                                 <a href="{{ route('admin.intern.index') }}" class="{{ request()->routeIs('admin.intern.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                     <i class="fas fa-user-graduate w-4 mr-3 text-xs"></i>
                                     Peserta Magang
@@ -579,8 +584,8 @@ Aktivitas Terbaru
                                 </a>
 
                                 {{-- Manajemen Pengguna --}}
-                                <div x-data="{ open: {{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.team.*') ? 'true' : 'false' }} }" class="mt-1">
-                                    <button type="button" @click="open = !open" class="{{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.team.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
+                                <div x-data="{ open: {{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.mitra.*', 'admin.team.*') ? 'true' : 'false' }} }" class="mt-1">
+                                    <button type="button" @click="open = !open" class="{{ request()->routeIs('admin.accounts.*', 'admin.mentor.*', 'admin.intern.*', 'admin.mitra.*', 'admin.team.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
                                         <span class="flex items-center">
                                             <i class="fas fa-users-cog w-5 mr-3"></i>
                                             Manajemen Pengguna
