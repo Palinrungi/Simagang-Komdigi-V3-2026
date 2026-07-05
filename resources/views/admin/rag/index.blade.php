@@ -67,8 +67,7 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2">Kategori Visibilitas</label>
                         <select name="folder" required class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500">
                             <option value="public_faq">Publik (Bisa diakses siapa saja)</option>
-                            <option value="faq">Internal FAQ (Hanya untuk Intern/Magang)</option>
-                            <option value="sop">SOP Internal (Dokumen Prosedur)</option>
+                            <!-- <option value="sop">SOP Internal (Dokumen Prosedur)</option> -->
                         </select>
                         <p class="text-xs text-gray-400 mt-2">Pilih kategori yang sesuai agar AI tahu siapa yang berhak membaca informasi ini.</p>
                     </div>

@@ -107,10 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 bubbleHint.classList.remove('opacity-0', 'pointer-events-none');
                 bubbleHint.classList.add('opacity-100');
                 
-                // Hilangkan otomatis setelah 5 detik
+                // Hilangkan otomatis setelah 10 detik
                 bubbleTimeout = setTimeout(() => {
                     hideBubbleHint();
-                }, 5000);
+                }, 10000);
             }
         }, 1000);
     }

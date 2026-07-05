@@ -985,8 +985,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 
-@include('chatbot')
-
 @push('scripts')
 <script>
     const checkoutVideo         = document.getElementById('checkoutVideo');
