@@ -11,6 +11,8 @@ class SharingSession extends Model
         'created_by',
         'speaker_user_id',
         'moderator_user_id',
+        'speaker',
+        'moderator',
         'title',
         'session_date',
         'start_time',
