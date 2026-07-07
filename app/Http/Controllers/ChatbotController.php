@@ -20,7 +20,7 @@ class ChatbotController extends Controller
 
         try {
             $response = Http::withToken(config('services.rag.api_key'))
-                ->timeout(30)
+                ->timeout(90)
                 ->post(config('services.rag.url') . '/query', [
                     'question'  => $request->input('message'),
                     'user_role' => $role,

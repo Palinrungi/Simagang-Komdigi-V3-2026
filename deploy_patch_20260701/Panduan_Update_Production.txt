@@ -1,0 +1,25 @@
+﻿DAFTAR FILE UPDATE (Sejak 1 Juli 2026)
+
+Silakan copy/timpa file-file berikut ini ke server production Anda sesuai dengan strukturnya:
+
+
+- [UBAH/BARU] app/Http/Controllers/Admin/AdminMitraController.php
+- [UBAH/BARU] app/Http/Controllers/Admin/AdminRagController.php
+- [UBAH/BARU] app/Models/Industri.php
+- [UBAH/BARU] app/Models/Institusi.php
+- [UBAH/BARU] database/migrations/2026_06_30_182432_add_is_active_to_mitra_tables.php
+- [UBAH/BARU] DATABASE_ANALYSIS_REPORT.md
+- [UBAH/BARU] LARAVEL12_MIGRATION_KNOWLEDGE_BASE.md
+- [UBAH/BARU] resources/views/admin/mitra/create.blade.php
+- [UBAH/BARU] resources/views/admin/mitra/edit.blade.php
+- [UBAH/BARU] resources/views/admin/mitra/index.blade.php
+- [UBAH/BARU] resources/views/admin/rag/index.blade.php
+- [UBAH/BARU] resources/views/chatbot.blade.php
+- [UBAH/BARU] resources/views/intern/dashboard.blade.php
+- [UBAH/BARU] resources/views/landingpage.blade.php
+- [UBAH/BARU] resources/views/layouts/app.blade.php
+- [UBAH/BARU] resources/views/mentor/logbook/index.blade.php
+- [UBAH/BARU] routes/web.php
+- [UBAH/BARU] storage/app/private/logbook-photos/7f973f5f-b654-44c1-b1c8-9951cc1e3744.jpg
+- [UBAH/BARU] storage/app/private/logbook-photos/f97f6ffe-cffa-4384-b0d2-1ed330750e81.jpg
+- [UBAH/BARU] storage/app/private/surat_magang/surat_1782884879_6a44aa0f27efd.pdf
