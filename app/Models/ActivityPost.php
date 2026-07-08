@@ -12,6 +12,7 @@ class ActivityPost extends Model
         'title',
         'slug',
         'type',
+        'author_name',
         'thumbnail',
         'excerpt',
         'content',
@@ -24,6 +25,20 @@ class ActivityPost extends Model
         'published_at' => 'date',
         'is_published' => 'boolean',
     ];
+
+    public function authorUser()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getDisplayAuthorAttribute(): string
+    {
+        if (!empty($this->author_name)) {
+            return $this->author_name;
+        }
+        
+        return $this->authorUser ? $this->authorUser->name : 'Admin';
+    }
 
     public function getThumbnailUrlAttribute(): string
     {
