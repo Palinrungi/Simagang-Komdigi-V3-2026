@@ -361,6 +361,13 @@
                                     {{ $activityPost->display_author }}
                                 </span>
 
+                                @if($activityPost->display_editor !== '-')
+                                <span>
+                                    <i class="fas fa-edit mr-2"></i>
+                                    Ed: {{ $activityPost->display_editor }}
+                                </span>
+                                @endif
+
                                 <span>
                                     <i class="{{ $activityPost->type_icon }} mr-2"></i>
                                     {{ $activityPost->type_label }}
@@ -415,6 +422,20 @@
                                 </p>
                             </div>
                         </div>
+
+                        @if($activityPost->display_editor !== '-')
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">Editor</p>
+                                <p class="text-sm text-gray-500">
+                                    {{ $activityPost->display_editor }}
+                                </p>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="flex gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">

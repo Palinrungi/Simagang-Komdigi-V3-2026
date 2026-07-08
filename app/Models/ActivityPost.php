@@ -13,6 +13,7 @@ class ActivityPost extends Model
         'slug',
         'type',
         'author_name',
+        'editor_name',
         'thumbnail',
         'excerpt',
         'content',
@@ -38,6 +39,15 @@ class ActivityPost extends Model
         }
         
         return $this->authorUser ? $this->authorUser->name : 'Admin';
+    }
+
+    public function getDisplayEditorAttribute(): string
+    {
+        if (!empty($this->editor_name)) {
+            return $this->editor_name;
+        }
+        
+        return '-';
     }
 
     public function getThumbnailUrlAttribute(): string
