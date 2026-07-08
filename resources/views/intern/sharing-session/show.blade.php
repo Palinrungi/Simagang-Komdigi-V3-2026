@@ -7,6 +7,9 @@
     $isSpeaker = (int) $sharingSession->speaker_user_id === (int) auth()->id();
     $isModerator = (int) $sharingSession->moderator_user_id === (int) auth()->id();
 
+    $materiLengkap = $sharingSession->material_status === 'lengkap';
+    $bolehIsiEvaluasi = $materiLengkap && $sharingSession->evaluation_is_open;
+
     $statusTanggal = 'AKAN DATANG';
     $statusClass = 'bg-blue-100 text-blue-700';
 
@@ -84,7 +87,7 @@
                             </a>
                         @endif
 
-                        @if($sharingSession->session_date->isToday() && $sharingSession->evaluation_form_link)
+                        @if($bolehIsiEvaluasi)
                             <a href="{{ $sharingSession->evaluation_form_link }}"
                                target="_blank"
                                class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold shadow-sm">
@@ -249,7 +252,7 @@
                             <div>
                                 <p class="text-sm font-bold text-gray-700">Narasumber</p>
                                 <p class="text-sm text-gray-500">
-                                    {{ $sharingSession->speakerUser?->name ?? $sharingSession->speaker ?? '-' }}
+                                    {{ $sharingSession->speaker_name }}
                                 </p>
                             </div>
                         </div>
@@ -261,7 +264,7 @@
                             <div>
                                 <p class="text-sm font-bold text-gray-700">Moderator</p>
                                 <p class="text-sm text-gray-500">
-                                    {{ $sharingSession->moderatorUser?->name ?? $sharingSession->moderator ?? '-' }}
+                                    {{ $sharingSession->moderator_name }}
                                 </p>
                             </div>
                         </div>
@@ -275,30 +278,29 @@
                         Form Evaluasi
                     </h2>
 
-                    @if($sharingSession->session_date->isToday())
-                        @if($sharingSession->evaluation_form_link)
-                            <a href="{{ $sharingSession->evaluation_form_link }}"
-                               target="_blank"
-                               class="w-full inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold shadow-sm">
-                                <i class="fas fa-clipboard-check"></i>
-                                Isi Evaluasi
-                            </a>
+                    @if($sharingSession->material_status !== 'lengkap')
+                        <div class="bg-yellow-50 border border-yellow-200 text-yellow-700 rounded-2xl p-4 text-sm font-semibold">
+                            Form evaluasi belum dibuka karena materi sharing session belum lengkap.
+                        </div>
+                    @elseif($sharingSession->evaluation_is_open)
+                        <a href="{{ $sharingSession->evaluation_form_link }}"
+                           target="_blank"
+                           class="w-full inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl font-semibold shadow-sm">
+                            <i class="fas fa-clipboard-check"></i>
+                            Isi Evaluasi
+                        </a>
 
-                            <p class="text-xs text-gray-400 mt-3 text-center">
-                                Form hanya dibuka pada hari pelaksanaan.
-                            </p>
-                        @else
-                            <div class="bg-yellow-50 border border-yellow-200 text-yellow-700 rounded-2xl p-4 text-sm font-semibold">
-                                Link evaluasi belum tersedia.
-                            </div>
-                        @endif
-                    @elseif($sharingSession->session_date->lt(today()))
+                        <p class="text-xs text-gray-400 mt-3 text-center">
+                            Form evaluasi otomatis terbuka sesuai jadwal sharing session.
+                        </p>
+                    @elseif($sharingSession->evaluation_already_closed)
                         <div class="bg-red-50 border border-red-200 text-red-600 rounded-2xl p-4 text-sm font-semibold">
                             Form evaluasi sudah ditutup.
                         </div>
                     @else
                         <div class="bg-gray-50 border border-gray-200 text-gray-500 rounded-2xl p-4 text-sm font-semibold">
-                            Form evaluasi akan dibuka pada hari pelaksanaan.
+                            Form evaluasi akan dibuka pada
+                            {{ $sharingSession->evaluation_opens_at ? $sharingSession->evaluation_opens_at->format('d M Y H:i') : 'hari pelaksanaan' }}.
                         </div>
                     @endif
                 </div>

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SharingSession;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class AdminSharingSessionController extends Controller
 {
@@ -51,26 +53,17 @@ class AdminSharingSessionController extends Controller
 
     public function create()
     {
-        return view('admin.sharing-session.create');
+        $activeInternUsers = $this->activeInternUsers();
+
+        return view('admin.sharing-session.create', compact('activeInternUsers'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'speaker' => 'required|string|max:255',
-            'moderator' => 'required|string|max:255',
-            'session_date' => 'required|date',
-            'start_time' => 'nullable|date_format:H:i',
-            'location' => 'nullable|string|max:255',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'evaluation_form_link' => 'nullable|url|max:2048',
-            'documentation_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-        ]);
+        $validated = $this->validateSharingSession($request);
+        $participantData = $this->resolveParticipantData($request);
 
-        $validated['created_by'] = auth()->id();
-        $validated['speaker_user_id'] = null;
-        $validated['moderator_user_id'] = null;
+        $validated['evaluation_form_link'] = SharingSession::EVALUATION_FORM_LINK;
 
         if ($request->hasFile('documentation_photo')) {
             $validated['documentation_photo'] = $request
@@ -78,7 +71,13 @@ class AdminSharingSessionController extends Controller
                 ->store('sharing-documentations', 'public');
         }
 
-        SharingSession::create($validated);
+        SharingSession::create(array_merge(
+            $validated,
+            $participantData,
+            [
+                'created_by' => auth()->id(),
+            ]
+        ));
 
         return redirect()
             ->route('admin.sharing-session.index')
@@ -87,25 +86,20 @@ class AdminSharingSessionController extends Controller
 
     public function edit(SharingSession $sharingSession)
     {
-        return view('admin.sharing-session.edit', compact('sharingSession'));
+        $activeInternUsers = $this->activeInternUsers();
+
+        return view('admin.sharing-session.edit', compact(
+            'sharingSession',
+            'activeInternUsers'
+        ));
     }
 
     public function update(Request $request, SharingSession $sharingSession)
     {
-        $validated = $request->validate([
-            'speaker' => 'required|string|max:255',
-            'moderator' => 'required|string|max:255',
-            'session_date' => 'required|date',
-            'start_time' => 'nullable|date_format:H:i',
-            'location' => 'nullable|string|max:255',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'evaluation_form_link' => 'nullable|url|max:2048',
-            'documentation_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-        ]);
+        $validated = $this->validateSharingSession($request);
+        $participantData = $this->resolveParticipantData($request);
 
-        $validated['speaker_user_id'] = null;
-        $validated['moderator_user_id'] = null;
+        $validated['evaluation_form_link'] = SharingSession::EVALUATION_FORM_LINK;
 
         if ($request->hasFile('documentation_photo')) {
             if (
@@ -120,7 +114,10 @@ class AdminSharingSessionController extends Controller
                 ->store('sharing-documentations', 'public');
         }
 
-        $sharingSession->update($validated);
+        $sharingSession->update(array_merge(
+            $validated,
+            $participantData
+        ));
 
         return redirect()
             ->route('admin.sharing-session.index')
@@ -141,5 +138,118 @@ class AdminSharingSessionController extends Controller
         return redirect()
             ->route('admin.sharing-session.index')
             ->with('success', 'Sharing session berhasil dihapus.');
+    }
+
+    private function activeInternUsers()
+    {
+        return User::with('intern')
+            ->whereHas('intern', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->orderBy('name')
+            ->get();
+    }
+
+    private function validateSharingSession(Request $request): array
+    {
+        $validated = $request->validate([
+            'speaker_input_type' => 'required|in:manual,intern',
+            'speaker_user_id' => 'nullable|required_if:speaker_input_type,intern|exists:users,id',
+            'speaker' => 'nullable|required_if:speaker_input_type,manual|string|max:255',
+
+            'moderator_input_type' => 'required|in:manual,intern',
+            'moderator_user_id' => 'nullable|required_if:moderator_input_type,intern|exists:users,id',
+            'moderator' => 'nullable|required_if:moderator_input_type,manual|string|max:255',
+
+            'session_date' => 'required|date',
+            'start_time' => 'nullable|date_format:H:i',
+            'location' => 'nullable|string|max:255',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'documentation_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'speaker_input_type.required' => 'Pilih sumber nama pemateri terlebih dahulu.',
+            'speaker_input_type.in' => 'Pilihan sumber nama pemateri tidak valid.',
+            'speaker_user_id.required_if' => 'Pilih pemateri dari daftar intern aktif.',
+            'speaker_user_id.exists' => 'Pemateri yang dipilih tidak ditemukan.',
+            'speaker.required_if' => 'Masukkan nama pemateri baru.',
+
+            'moderator_input_type.required' => 'Pilih sumber nama moderator terlebih dahulu.',
+            'moderator_input_type.in' => 'Pilihan sumber nama moderator tidak valid.',
+            'moderator_user_id.required_if' => 'Pilih moderator dari daftar intern aktif.',
+            'moderator_user_id.exists' => 'Moderator yang dipilih tidak ditemukan.',
+            'moderator.required_if' => 'Masukkan nama moderator baru.',
+
+            'session_date.required' => 'Tanggal sharing session wajib diisi.',
+            'session_date.date' => 'Format tanggal tidak valid.',
+            'start_time.date_format' => 'Format jam mulai tidak valid.',
+            'documentation_photo.image' => 'Dokumentasi harus berupa gambar.',
+            'documentation_photo.mimes' => 'Dokumentasi harus berformat JPG, JPEG, PNG, atau WEBP.',
+            'documentation_photo.max' => 'Ukuran dokumentasi maksimal 5 MB.',
+        ]);
+
+        return collect($validated)->only([
+            'session_date',
+            'start_time',
+            'location',
+            'title',
+            'description',
+        ])->toArray();
+    }
+
+    private function resolveParticipantData(Request $request): array
+    {
+        if ($request->speaker_input_type === 'intern') {
+            $speakerUser = $this->findActiveInternUser(
+                $request->speaker_user_id,
+                'speaker_user_id',
+                'Pemateri yang dipilih harus berasal dari user intern yang masih aktif.'
+            );
+
+            $speakerUserId = $speakerUser->id;
+            $speakerName = $speakerUser->intern?->name ?: $speakerUser->name;
+        } else {
+            $speakerUserId = null;
+            $speakerName = trim((string) $request->speaker);
+        }
+
+        if ($request->moderator_input_type === 'intern') {
+            $moderatorUser = $this->findActiveInternUser(
+                $request->moderator_user_id,
+                'moderator_user_id',
+                'Moderator yang dipilih harus berasal dari user intern yang masih aktif.'
+            );
+
+            $moderatorUserId = $moderatorUser->id;
+            $moderatorName = $moderatorUser->intern?->name ?: $moderatorUser->name;
+        } else {
+            $moderatorUserId = null;
+            $moderatorName = trim((string) $request->moderator);
+        }
+
+        return [
+            'speaker_user_id' => $speakerUserId,
+            'speaker' => $speakerName,
+            'moderator_user_id' => $moderatorUserId,
+            'moderator' => $moderatorName,
+        ];
+    }
+
+    private function findActiveInternUser($userId, string $field, string $message): User
+    {
+        $user = User::with('intern')
+            ->whereKey($userId)
+            ->whereHas('intern', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages([
+                $field => $message,
+            ]);
+        }
+
+        return $user;
     }
 }
