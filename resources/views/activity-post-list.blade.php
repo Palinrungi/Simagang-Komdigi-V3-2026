@@ -230,6 +230,11 @@
                             <p class="text-sm font-bold text-slate-500 mb-3">
                                 <i class="fas fa-calendar-alt mr-2 {{ $post->type === 'youtube' ? 'text-red-500' : 'text-blue-500' }}"></i>
                                 {{ $post->published_at ? $post->published_at->format('d M Y') : '-' }}
+                                &nbsp;|&nbsp;
+                                <i class="fas fa-user {{ $post->type === 'youtube' ? 'text-red-500' : 'text-blue-500' }}"></i> {{ $post->display_author }}
+                                @if($post->display_editor !== '-')
+                                    &nbsp;|&nbsp; <i class="fas fa-edit {{ $post->type === 'youtube' ? 'text-red-500' : 'text-blue-500' }}"></i> {{ $post->display_editor }}
+                                @endif
                             </p>
 
                             <h2 class="text-xl font-black text-slate-900 leading-snug group-hover:text-blue-600 transition">
