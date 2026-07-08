@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+DATABASE_ANALYSIS_REPORT.md 
+LARAVEL12_MIGRATION_KNOWLEDGE_BASE.md 
+*.zip
