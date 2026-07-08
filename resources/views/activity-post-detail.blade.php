@@ -357,6 +357,11 @@
                                 </span>
 
                                 <span>
+                                    <i class="fas fa-user mr-2"></i>
+                                    {{ $activityPost->display_author }}
+                                </span>
+
+                                <span>
                                     <i class="{{ $activityPost->type_icon }} mr-2"></i>
                                     {{ $activityPost->type_label }}
                                 </span>
@@ -395,6 +400,18 @@
                                 <p class="text-sm font-bold text-slate-800">Tanggal Publikasi</p>
                                 <p class="text-sm text-gray-500">
                                     {{ $activityPost->published_at ? $activityPost->published_at->format('d M Y') : '-' }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">Penulis</p>
+                                <p class="text-sm text-gray-500">
+                                    {{ $activityPost->display_author }}
                                 </p>
                             </div>
                         </div>

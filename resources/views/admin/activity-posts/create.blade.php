@@ -89,6 +89,19 @@
                        placeholder="Masukkan judul aktivitas">
             </div>
 
+            {{-- Nama Penulis --}}
+            <div id="authorNameField">
+                <label class="block text-sm font-bold text-slate-700 mb-2">
+                    Nama Penulis <span class="text-red-500">*</span>
+                </label>
+
+                <input type="text"
+                       name="author_name"
+                       value="{{ old('author_name') }}"
+                       class="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                       placeholder="Masukkan nama penulis (wajib untuk artikel)">
+            </div>
+
             {{-- Thumbnail Artikel --}}
             <div id="thumbnailField">
                 <label class="block text-sm font-bold text-slate-700 mb-2">
@@ -253,6 +266,7 @@
         const thumbnailField = document.getElementById('thumbnailField');
         const youtubeThumbnailInfo = document.getElementById('youtubeThumbnailInfo');
         const youtubeDescriptionField = document.getElementById('youtubeDescriptionField');
+        const authorNameField = document.getElementById('authorNameField');
 
         const finalContent = document.getElementById('finalContent');
         const articleTextarea = contentField ? contentField.querySelector('textarea') : null;
@@ -265,6 +279,7 @@
 
             thumbnailField.style.display = 'none';
             contentField.style.display = 'none';
+            if (authorNameField) authorNameField.style.display = 'none';
 
             if (articleTextarea) {
                 articleTextarea.removeAttribute('name');
@@ -284,6 +299,7 @@
 
             thumbnailField.style.display = 'block';
             contentField.style.display = 'block';
+            if (authorNameField) authorNameField.style.display = 'block';
 
             if (articleTextarea) {
                 articleTextarea.setAttribute('name', 'content');

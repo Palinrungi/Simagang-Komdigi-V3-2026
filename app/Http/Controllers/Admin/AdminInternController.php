@@ -89,7 +89,7 @@ class AdminInternController extends Controller
             ->whereHas('pengajuan', function ($q) use ($komdigi) {
                 $q->where('status', 'approved')
                 ->whereHas('lowongan', function ($lowongan) use ($komdigi) {
-                    $lowongan->where('industri_id', $komdigi->id);
+                    $lowongan->where('industri_id', optional($komdigi)->id);
                 });
             })
             ->doesntHave('intern')

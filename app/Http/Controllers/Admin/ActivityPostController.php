@@ -49,6 +49,7 @@ class ActivityPostController extends Controller
         $validated = $request->validate([
             'title'        => 'required|string|max:255',
             'type'         => 'required|in:artikel,youtube',
+            'author_name'  => 'required_if:type,artikel|string|max:255|nullable',
             'thumbnail'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'excerpt'      => 'nullable|string|max:500',
             'content'      => 'nullable|string',
@@ -58,6 +59,7 @@ class ActivityPostController extends Controller
         ], [
             'title.required' => 'Judul aktivitas wajib diisi.',
             'type.required' => 'Tipe konten wajib dipilih.',
+            'author_name.required_if' => 'Nama penulis wajib diisi untuk artikel.',
             'thumbnail.image' => 'Thumbnail harus berupa gambar.',
             'thumbnail.mimes' => 'Format thumbnail harus JPG, JPEG, PNG, atau WEBP.',
             'thumbnail.max' => 'Ukuran thumbnail maksimal 5 MB.',
@@ -91,6 +93,7 @@ class ActivityPostController extends Controller
             'title'        => $validated['title'],
             'slug'         => Str::slug($validated['title']) . '-' . time(),
             'type'         => $validated['type'],
+            'author_name'  => $request->type === 'artikel' ? ($validated['author_name'] ?? null) : null,
             'thumbnail'    => $request->type === 'artikel' ? $thumbnailPath : null,
             'excerpt'      => $validated['excerpt'] ?? null,
             'content'      => $validated['content'] ?? null,
@@ -123,6 +126,7 @@ class ActivityPostController extends Controller
         $validated = $request->validate([
             'title'        => 'required|string|max:255',
             'type'         => 'required|in:artikel,youtube',
+            'author_name'  => 'required_if:type,artikel|string|max:255|nullable',
             'thumbnail'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'excerpt'      => 'nullable|string|max:500',
             'content'      => 'nullable|string',
@@ -132,6 +136,7 @@ class ActivityPostController extends Controller
         ], [
             'title.required' => 'Judul aktivitas wajib diisi.',
             'type.required' => 'Tipe konten wajib dipilih.',
+            'author_name.required_if' => 'Nama penulis wajib diisi untuk artikel.',
             'thumbnail.image' => 'Thumbnail harus berupa gambar.',
             'thumbnail.mimes' => 'Format thumbnail harus JPG, JPEG, PNG, atau WEBP.',
             'thumbnail.max' => 'Ukuran thumbnail maksimal 5 MB.',
@@ -175,6 +180,7 @@ class ActivityPostController extends Controller
         $post->update([
             'title'        => $validated['title'],
             'type'         => $validated['type'],
+            'author_name'  => $request->type === 'artikel' ? ($validated['author_name'] ?? null) : null,
             'thumbnail'    => $request->type === 'artikel' ? $thumbnailPath : null,
             'excerpt'      => $validated['excerpt'] ?? null,
             'content'      => $validated['content'] ?? null,

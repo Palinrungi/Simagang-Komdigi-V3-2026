@@ -229,9 +229,8 @@
             top: 70px;
             right: 1rem;
             width: min(280px, calc(100% - 2rem));
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(219, 234, 254, 0.6);
+            background: white;
+            border: 1px solid #dbeafe;
             border-radius: 18px;
             box-shadow: 0 18px 40px rgba(14,99,201,0.12);
             display: none;
@@ -866,72 +865,71 @@ body {
 
 @media (max-width: 768px) {
     .main-footer {
-        position: fixed;
         height: auto;
-        padding: 8px 0;
-        bottom: 0;
-        width: 100%;
-        z-index: 1000;
+        padding: 10px 0;
     }
+
     .footer-simple-inner {
-        max-width: 100%;
-        height: auto;
-        margin: 0 auto;
-        padding: 0 1rem;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .footer-logos-simple {
-        order: 1;
-        justify-content: flex-start;
-        flex-wrap: nowrap;
-        height: auto;
-        gap: 8px;
-    }
-    .footer-logos-simple img {
-        height: 18px;
-    }
-    .social-links-simple {
-        order: 2;
-        justify-content: flex-end;
-        height: auto;
-        gap: 6px;
-    }
-    .social-links-simple a {
-        width: 26px;
-        height: 26px;
-        font-size: 12px;
-    }
-    .footer-center-area {
-        order: 3;
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: center;
-        gap: 6px;
-        margin-top: 6px;
-    }
-    .footer-visitor-counter {
-        padding: 4px 12px;
-        font-size: 11px;
-    }
-    .footer-visitor-counter small {
-        display: inline;
-        font-size: 10px;
-    }
-    .copyright-simple {
-        text-align: center;
-        font-size: 9px;
-        line-height: 1.2;
-        color: rgba(255,255,255,0.7);
-    }
+    max-width: 1280px;
+    height: 64px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 24px;
+}
+
+.footer-logos-simple {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.footer-center-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.social-links-simple {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
     body {
-        padding-bottom: 110px;
+        padding-bottom: 120px;
     }
 }
+            .footer-center-group {
+    order: 3;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.footer-visitor-counter {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.footer-visitor-counter small {
+    font-size: 11px;
+}
+
+.copyright-simple {
+    font-size: 11px;
+}
+        }
 
 
         /* Newsletter Input matching your theme */
@@ -1283,15 +1281,6 @@ body {
             .hero-inner { padding: 2.5rem 1rem; gap: 1.5rem; }
             .hero-title { font-size: 1.8rem; }
             .hero-image-wrap { max-width: 100%; }
-            .hero-stats {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-                justify-items: center;
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-            .hero-stat-divider { display: none; }
             .partners-grid { grid-template-columns: 1fr 1fr; }
             .process-grid { display: none; }
             .process-carousel { display: block; }
@@ -3631,6 +3620,23 @@ window.addEventListener('resize', () => {
 </main>
 
 <!-- ===== FOOTER ===== -->
+<footer class="main-footer">
+    <div class="footer-simple-inner">
+        <div class="footer-logos-simple">
+            <img src="{{ url('storage/vendor/logo_berakhlak.png') }}" alt="BerAkhlak"> 
+            <img src="{{ url('storage/vendor/logo_banggamelayani.png') }}" alt="Bangga Melayani">
+            <img src="{{ url('storage/vendor/logo_antikorupsi.png') }}" alt="Anti Korupsi">
+        </div>
+
+        <div class="copyright-simple">
+    © 2026 <strong>Simagang</strong> — BBLSDM Komdigi Makassar. All rights reserved.
+</div>
+
+<div class="footer-visitor-counter">
+    <i class="fas fa-eye"></i>
+    <span>{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</span>
+    <small>Pengunjung</small>
+</div>
 
         <footer class="main-footer">
     <div class="footer-simple-inner">
