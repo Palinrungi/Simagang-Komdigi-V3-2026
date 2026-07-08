@@ -2497,6 +2497,11 @@ body {
                                 <p class="activity-date">
                                     <i class="fas fa-calendar-alt"></i>
                                     {{ $post->published_at ? $post->published_at->format('d M Y') : '-' }}
+                                    &nbsp;|&nbsp;
+                                    <i class="fas fa-user"></i> {{ $post->display_author }}
+                                    @if($post->display_editor !== '-')
+                                        &nbsp;|&nbsp; <i class="fas fa-edit"></i> {{ $post->display_editor }}
+                                    @endif
                                 </p>
 
                                 <h3>{{ $post->title }}</h3>
@@ -2539,6 +2544,11 @@ body {
                                 <p class="activity-date">
                                     <i class="fas fa-calendar-alt"></i>
                                     {{ $post->published_at ? $post->published_at->format('d M Y') : '-' }}
+                                    &nbsp;|&nbsp;
+                                    <i class="fas fa-user"></i> {{ $post->display_author }}
+                                    @if($post->display_editor !== '-')
+                                        &nbsp;|&nbsp; <i class="fas fa-edit"></i> {{ $post->display_editor }}
+                                    @endif
                                 </p>
 
                                 <h3>{{ $post->title }}</h3>

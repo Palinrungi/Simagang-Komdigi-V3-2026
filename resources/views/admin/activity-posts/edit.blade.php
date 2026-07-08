@@ -107,6 +107,19 @@
                        placeholder="Masukkan nama penulis (wajib untuk artikel)">
             </div>
 
+            {{-- Nama Editor --}}
+            <div id="editorNameField">
+                <label class="block text-sm font-bold text-slate-700 mb-2">
+                    Nama Editor
+                </label>
+
+                <input type="text"
+                       name="editor_name"
+                       value="{{ old('editor_name', $post->editor_name) }}"
+                       class="w-full rounded-2xl border border-slate-200 px-4 py-3 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+                       placeholder="Masukkan nama editor (opsional)">
+            </div>
+
             {{-- Thumbnail Artikel --}}
             <div id="thumbnailField">
                 <label class="block text-sm font-bold text-slate-700 mb-2">
@@ -302,6 +315,7 @@
         const youtubeThumbnailInfo = document.getElementById('youtubeThumbnailInfo');
         const youtubeDescriptionField = document.getElementById('youtubeDescriptionField');
         const authorNameField = document.getElementById('authorNameField');
+        const editorNameField = document.getElementById('editorNameField');
 
         if (selected === 'youtube') {
             youtubeField.style.display = 'block';
@@ -311,6 +325,7 @@
             thumbnailField.style.display = 'none';
             contentField.style.display = 'none';
             if (authorNameField) authorNameField.style.display = 'none';
+            if (editorNameField) editorNameField.style.display = 'none';
 
             setFieldGroupEnabled(youtubeField, true);
             setFieldGroupEnabled(youtubeDescriptionField, true);
@@ -318,6 +333,7 @@
             setFieldGroupEnabled(thumbnailField, false);
             setFieldGroupEnabled(contentField, false);
             setFieldGroupEnabled(authorNameField, false);
+            setFieldGroupEnabled(editorNameField, false);
         } else {
             youtubeField.style.display = 'none';
             youtubeThumbnailInfo.style.display = 'none';
@@ -326,6 +342,7 @@
             thumbnailField.style.display = 'block';
             contentField.style.display = 'block';
             if (authorNameField) authorNameField.style.display = 'block';
+            if (editorNameField) editorNameField.style.display = 'block';
 
             setFieldGroupEnabled(youtubeField, false);
             setFieldGroupEnabled(youtubeDescriptionField, false);
@@ -333,6 +350,7 @@
             setFieldGroupEnabled(thumbnailField, true);
             setFieldGroupEnabled(contentField, true);
             setFieldGroupEnabled(authorNameField, true);
+            setFieldGroupEnabled(editorNameField, true);
         }
     }
 
