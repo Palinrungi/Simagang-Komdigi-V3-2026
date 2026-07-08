@@ -10,16 +10,22 @@
     </div>
 
     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-        <form action="{{ route('admin.sharing-session.update', $sharingSession) }}" method="POST">
+        <form action="{{ route('admin.sharing-session.update', $sharingSession) }}"
+              method="POST"
+              enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
             @include('admin.sharing-session.form')
 
             <div class="flex justify-end gap-3 mt-8">
-                <a href="{{ route('admin.sharing-session.index') }}" class="px-5 py-3 rounded-2xl bg-gray-100 text-gray-600 font-semibold">
+                <a href="{{ route('admin.sharing-session.index') }}"
+                   class="px-5 py-3 rounded-2xl bg-gray-100 text-gray-600 font-semibold">
                     Batal
                 </a>
-                <button class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-semibold">
+
+                <button type="submit"
+                        class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-semibold">
                     Update
                 </button>
             </div>

@@ -84,14 +84,9 @@
                 $isSpeaker = (int) $session->speaker_user_id === (int) auth()->id();
                 $isModerator = (int) $session->moderator_user_id === (int) auth()->id();
 
-                $formEvaluasiUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScmXTrcHoymatge-rPRNZM0iSKwNxOXiMCZECUPmvrUT0Xd2g/viewform';
-
+                $formEvaluasiUrl = $session->evaluation_form_link;
                 $materiLengkap = $session->material_status === 'lengkap';
-
-                $formSudahDibuka = $session->session_date
-                    && $session->session_date->lte(\Carbon\Carbon::today());
-
-                $bolehIsiEvaluasi = $materiLengkap && $formSudahDibuka;
+                $bolehIsiEvaluasi = $materiLengkap && $session->evaluation_is_open;
             @endphp
 
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
@@ -166,12 +161,12 @@
 
                                 <p>
                                     <i class="fas fa-user-tie text-purple-500 mr-2"></i>
-                                    Narasumber: {{ $session->speakerUser?->name ?? $session->speaker ?? '-' }}
+                                    Narasumber: {{ $session->speaker_name }}
                                 </p>
 
                                 <p>
                                     <i class="fas fa-user-check text-indigo-500 mr-2"></i>
-                                    Moderator: {{ $session->moderatorUser?->name ?? $session->moderator ?? '-' }}
+                                    Moderator: {{ $session->moderator_name }}
                                 </p>
 
                             </div>
@@ -263,9 +258,14 @@
                                 <i class="fas fa-file-circle-xmark"></i>
                                 Materi Belum Lengkap
                             </span>
+                        @elseif($session->evaluation_already_closed)
+                            <span class="inline-flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-200 px-6 py-3 rounded-2xl font-semibold">
+                                <i class="fas fa-lock"></i>
+                                Form Sudah Ditutup
+                            </span>
                         @else
                             <span class="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-500 border border-gray-200 px-6 py-3 rounded-2xl font-semibold">
-                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-clock"></i>
                                 Form Belum Dibuka
                             </span>
                         @endif
