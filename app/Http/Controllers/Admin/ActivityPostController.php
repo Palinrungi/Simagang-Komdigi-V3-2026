@@ -110,9 +110,11 @@ class ActivityPostController extends Controller
     }
 
     public function show(ActivityPost $aktivita)
-    {
-        return redirect()->route('admin.aktivitas.edit', $aktivita);
-    }
+{
+    $post = $aktivita;
+
+    return view('admin.activity-posts.show', compact('post'));
+}
 
     public function edit(ActivityPost $aktivita)
     {
