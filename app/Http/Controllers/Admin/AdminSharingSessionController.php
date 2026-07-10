@@ -146,7 +146,7 @@ class AdminSharingSessionController extends Controller
             ->whereHas('intern', function ($query) {
                 $query->where('is_active', true);
             })
-            ->orderBy('name')
+            ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name')
             ->get();
     }
 

@@ -46,7 +46,7 @@ class MicroSkillController extends Controller
         $submissions = $query->orderByDesc('created_at')->paginate(20)->withQueryString();
 
         $interns = $internIds->isNotEmpty()
-            ? Intern::whereIn('id', $internIds)->orderBy('name')->get()
+            ? Intern::whereIn('id', $internIds)->join('users', 'interns.user_id', '=', 'users.id')->orderBy('users.name')->select('interns.*')->get()
             : collect();
 
         return view('institusi.microskill.index', compact('institusi', 'submissions', 'interns'));

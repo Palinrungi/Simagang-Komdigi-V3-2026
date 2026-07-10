@@ -13,11 +13,13 @@ class InternController extends Controller
     {
         $mentor = Auth::user()->mentor;
 
-        $query = $mentor ? $mentor->interns() : Intern::query()->whereRaw('1 = 0');
+        $query = $mentor 
+            ? $mentor->interns()->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*') 
+            : Intern::query()->whereRaw('1 = 0');
         
         // Search by name
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('users.name', 'like', '%' . $request->search . '%');
         }
 
         // Filter by status (active / alumni)
@@ -31,7 +33,7 @@ class InternController extends Controller
 
         $interns = $query
             ->withCount(['attendances', 'logbooks', 'microSkills'])
-            ->orderBy('name')
+            ->orderBy('users.name')
             ->paginate(15)
             ->withQueryString();
 

@@ -38,7 +38,7 @@ class AttendanceController extends Controller
 
         $attendances = $query->orderByDesc('date')->paginate(20)->withQueryString();
 
-        $interns = $mentor ? $mentor->interns()->orderBy('name')->get() : collect();
+        $interns = $mentor ? $mentor->interns()->join('users', 'interns.user_id', '=', 'users.id')->orderBy('users.name')->select('interns.*')->get() : collect();
 
         $todayAbsentInterns = collect();
         $isWorkday = !HolidayService::isHoliday($nowWita);

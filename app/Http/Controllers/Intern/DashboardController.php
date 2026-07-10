@@ -90,23 +90,24 @@ class DashboardController extends Controller
             ->first();
 
         // Leaderboard Micro Skill
-        $topMicroSkills = Intern::leftJoin('micro_skill_submissions', 'interns.id', '=', 'micro_skill_submissions.intern_id')
+        $topMicroSkills = Intern::join('users', 'interns.user_id', '=', 'users.id')
+            ->leftJoin('micro_skill_submissions', 'interns.id', '=', 'micro_skill_submissions.intern_id')
             ->select(
                 'interns.id as intern_id',
-                'interns.name',
+                'users.name',
                 'interns.institution',
                 'interns.photo_path',
                 DB::raw('COUNT(micro_skill_submissions.id) as total')
             )
             ->groupBy(
                 'interns.id',
-                'interns.name',
+                'users.name',
                 'interns.institution',
                 'interns.photo_path'
             )
             ->where('interns.is_active', true)
             ->orderByDesc('total')
-            ->orderBy('interns.name')
+            ->orderBy('users.name')
             ->limit(10)
             ->get()
             ->map(function ($row) {

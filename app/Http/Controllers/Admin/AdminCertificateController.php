@@ -28,7 +28,7 @@ class AdminCertificateController extends Controller
      */
     public function create(Request $request)
     {
-        $interns = Intern::orderBy('name')->get();
+        $interns = Intern::with('user')->get()->sortBy(function($i) { return $i->user->name ?? ''; })->values();
         $selectedIntern = null;
         $certificate = null;
         $mode = 'create';

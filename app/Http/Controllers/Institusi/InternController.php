@@ -33,12 +33,12 @@ class InternController extends Controller
         $internIds = $this->getInstitusiInternIds();
 
         $query = $internIds->isNotEmpty()
-            ? Intern::whereIn('id', $internIds)
+            ? Intern::whereIn('id', $internIds)->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')
             : Intern::whereRaw('1 = 0');
 
         // Search by name
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('users.name', 'like', '%' . $request->search . '%');
         }
 
         // Filter by status (active / alumni)
@@ -52,7 +52,7 @@ class InternController extends Controller
 
         $interns = $query
             ->withCount(['attendances', 'logbooks', 'microSkills'])
-            ->orderBy('name')
+            ->orderBy('users.name')
             ->paginate(15)
             ->withQueryString();
 

@@ -31,6 +31,8 @@ class AdminInternController extends Controller
         $komdigi = Industri::where('nama_industri', 'BBLSDM Komdigi Makassar')->first();
 
         $baseQuery = Intern::with(['user', 'mentor', 'team'])
+            ->join('users', 'interns.user_id', '=', 'users.id')
+            ->select('interns.*')
             ->where(function ($q) use ($komdigi) {
                 // Peserta yang tidak punya pengajuan (didaftarkan manual oleh admin)
                 $q->whereNull('pengajuan_detail_id');
@@ -44,7 +46,7 @@ class AdminInternController extends Controller
             });
 
         if ($request->filled('search')) {
-            $baseQuery->where('name', 'like', '%' . $request->search . '%');
+            $baseQuery->where('users.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->filled('team_id')) {
@@ -214,7 +216,6 @@ class AdminInternController extends Controller
 
         Intern::create([
             'user_id' => $user->id,
-            'name' => $validated['name'],
             'gender' => $validated['gender'],
             'education_level' => $validated['education_level'],
             'major' => $validated['major'],
@@ -325,7 +326,6 @@ class AdminInternController extends Controller
         }
 
         $data = [
-            'name' => $validated['name'],
             'gender' => $validated['gender'],
             'education_level' => $validated['education_level'],
             'major' => $validated['major'],

@@ -75,7 +75,7 @@ class AttendanceController extends Controller
         
         // data intern
         $interns = Intern::whereIn('id', $internIds)
-            ->orderBy('name')
+            ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name')
             ->get();
 
         // persentase kehadiran

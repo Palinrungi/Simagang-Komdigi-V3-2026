@@ -75,24 +75,28 @@ class AdminDashboardController extends Controller
                 ->toArray();
 
             $todayAbsentInterns = (clone $baseInternQuery)
+                ->with('user')
                 ->where('is_active', true)
                 ->whereNotIn('id', $presentIds)
-                ->orderBy('name')
-                ->get();
+                ->get()
+                ->sortBy(function ($intern) {
+                    return $intern->user->name ?? '';
+                })->values();
         }
 
-        $topMicroSkills = Intern::leftJoin('micro_skill_submissions', 'interns.id', '=', 'micro_skill_submissions.intern_id')
+        $topMicroSkills = Intern::join('users', 'interns.user_id', '=', 'users.id')
+            ->leftJoin('micro_skill_submissions', 'interns.id', '=', 'micro_skill_submissions.intern_id')
             ->select(
                 'interns.id as intern_id',
-                'interns.name',
+                'users.name',
                 'interns.institution',
                 'interns.photo_path',
                 DB::raw('COUNT(micro_skill_submissions.id) as total')
             )
             ->whereIn('interns.id', $adminInternIds)
-            ->groupBy('interns.id', 'interns.name', 'interns.institution', 'interns.photo_path')
+            ->groupBy('interns.id', 'users.name', 'interns.institution', 'interns.photo_path')
             ->orderByDesc('total')
-            ->orderBy('interns.name')
+            ->orderBy('users.name')
             ->limit(10)
             ->get()
             ->map(function ($row) {

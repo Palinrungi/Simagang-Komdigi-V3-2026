@@ -11,7 +11,8 @@ class MicroSkillLeaderboardController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Intern::leftJoin(
+        $query = Intern::join('users', 'interns.user_id', '=', 'users.id')
+            ->leftJoin(
                 'micro_skill_submissions',
                 'interns.id',
                 '=',
@@ -19,7 +20,7 @@ class MicroSkillLeaderboardController extends Controller
             )
             ->select(
                 'interns.id as intern_id',
-                'interns.name',
+                'users.name',
                 'interns.institution',
                 'interns.photo_path',
                 'interns.is_active',
@@ -39,19 +40,19 @@ class MicroSkillLeaderboardController extends Controller
 
         // Search nama
         if ($request->filled('search')) {
-            $query->where('interns.name', 'like', '%' . trim($request->search) . '%');
+            $query->where('users.name', 'like', '%' . trim($request->search) . '%');
         }
 
         $rows = $query
             ->groupBy(
                 'interns.id',
-                'interns.name',
+                'users.name',
                 'interns.institution',
                 'interns.photo_path',
                 'interns.is_active'
             )
             ->orderByDesc('total')
-            ->orderBy('interns.name')
+            ->orderBy('users.name')
             ->paginate(20)
             ->withQueryString();
 
