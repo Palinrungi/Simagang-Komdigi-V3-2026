@@ -86,9 +86,6 @@ class Intern extends Model
         return $this->belongsTo(PengajuanDetail::class);
     }
 
-    public function teamRelation()
-    {
-        return $this->belongsTo(Team::class, 'team_id');
-    }
+
     
 }

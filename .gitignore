@@ -9,6 +9,7 @@
 .env.backup
 .env.production
 .phpunit.result.cache
+.env.staging
 Homestead.json
 Homestead.yaml
 auth.json
@@ -20,3 +21,4 @@ yarn-error.log
 DATABASE_ANALYSIS_REPORT.md 
 LARAVEL12_MIGRATION_KNOWLEDGE_BASE.md 
 *.zip
+DATABASE_MAINTENANCE_DOC.md

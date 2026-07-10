@@ -14,7 +14,12 @@ class ChatbotController extends Controller
             'message' => 'required|string|max:500',
         ]);
 
-        $role = auth()->check() ? auth()->user()->role : 'guest';
+        $role = 'guest';
+        if (auth()->check()) {
+            $user = auth()->user();
+            $roleNames = $user->getRoleNames();
+            $role = $roleNames->isNotEmpty() ? $roleNames->first() : 'guest';
+        }
 
         Log::info('Chatbot query', ['msg' => $request->input('message'), 'role' => $role]);
 

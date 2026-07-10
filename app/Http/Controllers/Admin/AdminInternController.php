@@ -30,7 +30,7 @@ class AdminInternController extends Controller
         // Ambil ID industri BBLSDM Komdigi Makassar (milik admin)
         $komdigi = Industri::where('nama_industri', 'BBLSDM Komdigi Makassar')->first();
 
-        $baseQuery = Intern::with(['user', 'mentor', 'teamRelation'])
+        $baseQuery = Intern::with(['user', 'mentor', 'team'])
             ->where(function ($q) use ($komdigi) {
                 // Peserta yang tidak punya pengajuan (didaftarkan manual oleh admin)
                 $q->whereNull('pengajuan_detail_id');
@@ -131,7 +131,6 @@ class AdminInternController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'intern',
         ]);
         $user->assignRole('intern');
 
