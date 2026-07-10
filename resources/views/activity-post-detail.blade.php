@@ -356,10 +356,14 @@
                                     {{ $activityPost->published_at ? $activityPost->published_at->format('d M Y') : '-' }}
                                 </span>
 
-                                <span>
-                                    <i class="fas fa-user mr-2"></i>
-                                    {{ $activityPost->display_author }}
-                                </span>
+                                @if($activityPost->type !== 'youtube')
+
+<span>
+    <i class="fas fa-user mr-2"></i>
+    {{ $activityPost->display_author }}
+</span>
+
+@endif
 
                                 @if($activityPost->display_editor !== '-')
                                 <span>
@@ -411,17 +415,35 @@
                             </div>
                         </div>
 
-                        <div class="flex gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">Penulis</p>
-                                <p class="text-sm text-gray-500">
-                                    {{ $activityPost->display_author }}
-                                </p>
-                            </div>
-                        </div>
+                        @if($activityPost->type !== 'youtube')
+
+<div class="flex gap-4">
+
+    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex 
+    items-center justify-center shrink-0">
+
+        <i class="fas fa-user"></i>
+
+    </div>
+
+
+    <div>
+
+        <p class="text-sm font-bold text-slate-800">
+            Penulis
+        </p>
+
+
+        <p class="text-sm text-gray-500">
+            {{ $activityPost->display_author }}
+        </p>
+
+
+    </div>
+
+</div>
+
+@endif
 
                         @if($activityPost->display_editor !== '-')
                         <div class="flex gap-4">

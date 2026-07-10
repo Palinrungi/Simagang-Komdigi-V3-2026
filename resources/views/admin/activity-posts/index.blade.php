@@ -194,35 +194,39 @@
                                 </td>
 
                                 {{-- AKSI --}}
-                                <td class="px-5 py-4">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <a href="{{ route('public.activity.show', $post->slug) }}"
-                                           target="_blank"
-                                           title="Lihat"
-                                           class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center transition">
-                                            <i class="fas fa-eye text-xs"></i>
-                                        </a>
+<td class="px-5 py-4">
+    <div class="flex items-center justify-end gap-2">
 
-                                        <a href="{{ route('admin.aktivitas.edit', $post) }}"
-                                           title="Edit"
-                                           class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center transition">
-                                            <i class="fas fa-edit text-xs"></i>
-                                        </a>
+        {{-- Detail Admin --}}
+        <a href="{{ route('admin.aktivitas.show', $post) }}"
+           title="Detail"
+           class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center transition">
+            <i class="fas fa-eye text-xs"></i>
+        </a>
 
-                                        <form action="{{ route('admin.aktivitas.destroy', $post) }}"
-                                              method="POST"
-                                              onsubmit="return confirm('Yakin ingin menghapus aktivitas ini?')">
-                                            @csrf
-                                            @method('DELETE')
+        {{-- Edit --}}
+        <a href="{{ route('admin.aktivitas.edit', $post) }}"
+           title="Edit"
+           class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center transition">
+            <i class="fas fa-edit text-xs"></i>
+        </a>
 
-                                            <button type="submit"
-                                                    title="Hapus"
-                                                    class="w-9 h-9 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center transition">
-                                                <i class="fas fa-trash text-xs"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+        {{-- Hapus --}}
+        <form action="{{ route('admin.aktivitas.destroy', $post) }}"
+              method="POST"
+              onsubmit="return confirm('Yakin ingin menghapus aktivitas ini?')">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    title="Hapus"
+                    class="w-9 h-9 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center transition">
+                <i class="fas fa-trash text-xs"></i>
+            </button>
+        </form>
+
+    </div>
+</td>
                             </tr>
                         @empty
                             <tr>
