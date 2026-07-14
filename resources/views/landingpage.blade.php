@@ -2377,11 +2377,11 @@ body {
                     <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
                     <div class="testi-author">
                         <div class="testi-avatar">
-                            <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
+                            <img src="{{ asset('storage/' . ($testimony->intern?->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern?->user?->name ?? 'Anonim' }}">
                         </div>
                         <div>
-                            <div class="testi-name">{{ $testimony->intern->name }}</div>
-                            <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
+                            <div class="testi-name">{{ $testimony->intern?->user?->name ?? 'Anonim' }}</div>
+                            <div class="testi-inst">Mahasiswa — {{ $testimony->intern?->institution ?? 'Institusi' }}</div>
                         </div>
                     </div>
                 </div>
@@ -2404,11 +2404,11 @@ body {
                         <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
                         <div class="testi-author">
                             <div class="testi-avatar">
-                                <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
+                                <img src="{{ asset('storage/' . ($testimony->intern?->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern?->user?->name ?? 'Anonim' }}">
                             </div>
                             <div>
-                                <div class="testi-name">{{ $testimony->intern->name }}</div>
-                                <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
+                                <div class="testi-name">{{ $testimony->intern?->user?->name ?? 'Anonim' }}</div>
+                                <div class="testi-inst">Mahasiswa — {{ $testimony->intern?->institution ?? 'Institusi' }}</div>
                             </div>
                         </div>
                     </div>
