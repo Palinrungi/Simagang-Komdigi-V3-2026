@@ -15,6 +15,37 @@ use App\Http\Controllers\ChatbotController;
 |
 */
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AttendanceController;
+use App\Http\Controllers\Api\LogbookController;
+use App\Http\Controllers\Api\MicroSkillController;
+use App\Http\Controllers\Api\SharingSessionController;
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Mobile API Routes
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/profile/fcm-token', [AuthController::class, 'updateFcmToken']);
+
+    // Attendance
+    Route::get('/attendance/today', [AttendanceController::class, 'today']);
+    Route::get('/attendance/history', [AttendanceController::class, 'history']);
+    Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn']);
+    Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut']);
+
+    // Logbooks
+    Route::get('/logbooks', [LogbookController::class, 'index']);
+    Route::post('/logbooks', [LogbookController::class, 'store']);
+
+    // Micro Skills
+    Route::get('/micro-skills', [MicroSkillController::class, 'index']);
+
+    // Sharing Sessions
+    Route::get('/sharing-sessions', [SharingSessionController::class, 'index']);
 });
