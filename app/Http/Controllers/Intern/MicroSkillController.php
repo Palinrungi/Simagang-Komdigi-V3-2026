@@ -61,10 +61,16 @@ class MicroSkillController extends Controller
     }
 
     public function create(Request $request)
-    {
-        $suggestedTitle = $request->query('title');
-        return view('intern.microskill.create', compact('suggestedTitle'));
-    }
+{
+    $suggestedTitle = $request->query('title');
+
+    $microSkills = MicroSkill::orderBy('judul_micro')->get();
+
+    return view(
+        'intern.microskill.create',
+        compact('suggestedTitle', 'microSkills')
+    );
+}
 
     public function store(Request $request)
     {
