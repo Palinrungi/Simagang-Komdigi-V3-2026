@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/attendance/history', [AttendanceController::class, 'history']);
     Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn']);
     Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut']);
+    Route::get('/attendance/photo/{filename}', [AttendanceController::class, 'servePhoto']);
 
     // Logbooks
     Route::get('/logbooks', [LogbookController::class, 'index']);

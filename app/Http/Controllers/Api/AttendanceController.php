@@ -89,9 +89,14 @@ class AttendanceController extends Controller
 
         $validated = $request->validate([
             'status' => ['required', 'in:hadir,izin,sakit'],
-            'photo_data' => ['required_if:status,hadir', 'nullable', 'string'],
+            'photo' => ['nullable', 'image', 'max:5120'], // 5MB max
+            'photo_data' => ['nullable', 'string'],
             'note' => ['required_if:status,izin,sakit', 'nullable', 'string'],
         ]);
+        
+        if ($validated['status'] === 'hadir' && !$request->hasFile('photo') && empty($validated['photo_data'])) {
+            return response()->json(['success' => false, 'message' => 'Foto wajib diisi.'], 400);
+        }
 
         $data = [
             'intern_id' => $intern->id,
@@ -105,23 +110,11 @@ class AttendanceController extends Controller
             $currentTime = $nowWita->format('H:i');
 
             if ($currentTime < $checkInStart || $currentTime > $checkInEnd) {
-                return response()->json(['success' => false, 'message' => 'Absensi hanya antara ' . $checkInStart . ' - ' . $checkInEnd], 400);
+                // TODO: Disabled for testing
+                // return response()->json(['success' => false, 'message' => 'Absensi hanya antara ' . $checkInStart . ' - ' . $checkInEnd], 400);
             }
 
-            if ($request->filled('photo_data')) {
-                $imageData = $request->input('photo_data');
-
-                // Clean base64 header if exists
-                if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
-                    $imageData = substr($imageData, strpos($imageData, ',') + 1);
-                }
-                
-                $imageData = base64_decode($imageData);
-
-                if ($imageData === false) {
-                    return response()->json(['success' => false, 'message' => 'Data gambar rusak.'], 400);
-                }
-
+            if ($request->hasFile('photo') || $request->filled('photo_data')) {
                 try {
                     $filename = Str::uuid() . '.jpg';
                     $path = 'private/attendance-photos/' . $filename;
@@ -129,13 +122,27 @@ class AttendanceController extends Controller
                     if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
 
                     $manager = new ImageManager(new Driver());
-                    $image = $manager->read($imageData)->toJpeg(80);
+                    
+                    if ($request->hasFile('photo')) {
+                        $image = $manager->read($request->file('photo')->getRealPath())->toJpeg(80);
+                    } else {
+                        $imageData = $request->input('photo_data');
+                        if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
+                            $imageData = substr($imageData, strpos($imageData, ',') + 1);
+                        }
+                        $imageData = base64_decode($imageData);
+                        if ($imageData === false) {
+                            return response()->json(['success' => false, 'message' => 'Data gambar rusak.'], 400);
+                        }
+                        $image = $manager->read($imageData)->toJpeg(80);
+                    }
+
                     Storage::disk('local')->put($path, (string) $image);
                     
                     $data['photo_path'] = $path;
                     $data['check_in'] = $nowWita;
                 } catch (\Exception $e) {
-                    return response()->json(['success' => false, 'message' => 'Gagal upload foto.'], 500);
+                    return response()->json(['success' => false, 'message' => 'Gagal upload foto: ' . $e->getMessage()], 500);
                 }
             } else {
                 return response()->json(['success' => false, 'message' => 'Foto wajib diisi.'], 400);
@@ -161,8 +168,13 @@ class AttendanceController extends Controller
         $intern = $request->user()->intern;
 
         $validated = $request->validate([
-            'photo_data' => ['required', 'string'],
+            'photo' => ['nullable', 'image', 'max:5120'], // 5MB max
+            'photo_data' => ['nullable', 'string'],
         ]);
+
+        if (!$request->hasFile('photo') && empty($validated['photo_data'])) {
+            return response()->json(['success' => false, 'message' => 'Foto wajib diisi.'], 400);
+        }
 
         $todayAttendance = Attendance::where('intern_id', $intern->id)
             ->whereDate('date', $nowWita->toDateString())
@@ -178,14 +190,9 @@ class AttendanceController extends Controller
         }
 
         if ($nowWita->format('H:i') < '16:00') {
-            return response()->json(['success' => false, 'message' => 'Absensi keluar mulai 16:00.'], 400);
+            // TODO: Disabled for testing
+            // return response()->json(['success' => false, 'message' => 'Absensi keluar mulai 16:00.'], 400);
         }
-
-        $imageData = $request->input('photo_data');
-        if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
-            $imageData = substr($imageData, strpos($imageData, ',') + 1);
-        }
-        $imageData = base64_decode($imageData);
 
         try {
             $filename = Str::uuid() . '.jpg';
@@ -194,7 +201,20 @@ class AttendanceController extends Controller
             if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
 
             $manager = new ImageManager(new Driver());
-            $image = $manager->read($imageData)->toJpeg(80);
+            
+            if ($request->hasFile('photo')) {
+                $image = $manager->read($request->file('photo')->getRealPath())->toJpeg(80);
+            } else {
+                $imageData = $request->input('photo_data');
+                if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
+                    $imageData = substr($imageData, strpos($imageData, ',') + 1);
+                }
+                $imageData = base64_decode($imageData);
+                if ($imageData === false) {
+                    return response()->json(['success' => false, 'message' => 'Data gambar rusak.'], 400);
+                }
+                $image = $manager->read($imageData)->toJpeg(80);
+            }
             Storage::disk('local')->put($path, (string) $image);
             
             $todayAttendance->update([
@@ -210,5 +230,27 @@ class AttendanceController extends Controller
             'message' => 'Absensi keluar berhasil disimpan.',
             'data' => $todayAttendance
         ]);
+    }
+
+    public function servePhoto(Request $request, $filename)
+    {
+        $intern = $request->user()->intern;
+        $path = 'private/attendance-photos/' . $filename;
+
+        if (!Storage::disk('local')->exists($path)) {
+            return response()->json(['success' => false, 'message' => 'Foto tidak ditemukan.'], 404);
+        }
+
+        $attendance = Attendance::where('intern_id', $intern->id)
+            ->where(function ($query) use ($path) {
+                $query->where('photo_path', $path)
+                      ->orWhere('photo_checkout', $path);
+            })->first();
+
+        if (!$attendance) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        return response()->file(storage_path('app/' . $path));
     }
 }

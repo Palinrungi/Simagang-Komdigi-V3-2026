@@ -55,19 +55,27 @@ class AuthController extends Controller
     public function profile(Request $request)
     {
         $user = clone $request->user();
-        $user->load('intern.institusi'); // load intern and institusi relation
+        $user->load('intern'); // load intern relation
         
-        $summary = null;
+        $summary = [
+            'hadir' => 0,
+            'sakit' => 0,
+            'alpha' => 0,
+            'logbook' => 0,
+            'micro_skill' => 0
+        ];
         if ($user->intern) {
             $internId = $user->intern->id;
             $hadir = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'hadir')->count();
             $sakit = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'sakit')->count();
+            $alpha = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'alpha')->count();
             $logbook = \App\Models\Logbook::where('intern_id', $internId)->count();
             $microSkill = \App\Models\MicroSkillSubmission::where('intern_id', $internId)->count();
             
             $summary = [
                 'hadir' => $hadir,
                 'sakit' => $sakit,
+                'alpha' => $alpha,
                 'logbook' => $logbook,
                 'micro_skill' => $microSkill
             ];

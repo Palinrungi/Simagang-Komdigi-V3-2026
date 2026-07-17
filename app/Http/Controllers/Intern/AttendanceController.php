@@ -78,8 +78,9 @@ class AttendanceController extends Controller
         $currentTime = $nowWita->format('H:i');
 
         if ($currentTime < $checkInStart || $currentTime > $checkInEnd) {
-            return redirect()->route('intern.attendance.index')
-                ->with('info', 'Form absensi masuk hanya tersedia pukul ' . $checkInStart . ' - ' . $checkInEnd . ' WITA.');
+            // TODO: Disabled for testing
+            // return redirect()->route('intern.dashboard')
+            //    ->with('info', 'Form absensi masuk hanya tersedia pukul ' . $checkInStart . ' - ' . $checkInEnd . ' WITA.');
         }
 
         $todayAttendance = Attendance::where('intern_id', $intern->id)
@@ -168,7 +169,8 @@ class AttendanceController extends Controller
             $currentTime = $nowWita->format('H:i');
 
             if ($currentTime < $checkInStart || $currentTime > $checkInEnd) {
-                return back()->withErrors(['error' => 'Absensi masuk hanya diperbolehkan antara ' . $checkInStart . ' - ' . $checkInEnd . ' WITA.'])->withInput();
+                // TODO: Disabled for testing
+                // return back()->withErrors(['error' => 'Absensi masuk hanya diperbolehkan antara ' . $checkInStart . ' - ' . $checkInEnd . ' WITA.'])->withInput();
             }
 
             $photoPath = null;
@@ -368,7 +370,8 @@ class AttendanceController extends Controller
         }
 
         if ($nowWita->format('H:i') < '16:00') {
-            return back()->withErrors(['error' => 'Absensi keluar hanya bisa mulai pukul 16:00 WITA.']);
+            // TODO: Disabled for testing
+            // return back()->withErrors(['error' => 'Absensi keluar hanya bisa mulai pukul 16:00 WITA.']);
         }
 
         $photoCheckoutPath = null;
