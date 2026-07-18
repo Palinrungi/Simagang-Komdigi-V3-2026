@@ -110,8 +110,7 @@ class AttendanceController extends Controller
             $currentTime = $nowWita->format('H:i');
 
             if ($currentTime < $checkInStart || $currentTime > $checkInEnd) {
-                // TODO: Disabled for testing
-                // return response()->json(['success' => false, 'message' => 'Absensi hanya antara ' . $checkInStart . ' - ' . $checkInEnd], 400);
+                return response()->json(['success' => false, 'message' => 'Absensi hanya antara ' . $checkInStart . ' - ' . $checkInEnd], 400);
             }
 
             if ($request->hasFile('photo') || $request->filled('photo_data')) {
@@ -190,8 +189,7 @@ class AttendanceController extends Controller
         }
 
         if ($nowWita->format('H:i') < '16:00') {
-            // TODO: Disabled for testing
-            // return response()->json(['success' => false, 'message' => 'Absensi keluar mulai 16:00.'], 400);
+            return response()->json(['success' => false, 'message' => 'Absensi keluar mulai 16:00.'], 400);
         }
 
         try {

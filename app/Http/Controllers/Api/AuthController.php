@@ -59,23 +59,31 @@ class AuthController extends Controller
         
         $summary = [
             'hadir' => 0,
+            'izin' => 0,
             'sakit' => 0,
             'alpha' => 0,
+            'disiplin' => 0,
             'logbook' => 0,
             'micro_skill' => 0
         ];
         if ($user->intern) {
             $internId = $user->intern->id;
             $hadir = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'hadir')->count();
+            $izin = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'izin')->count();
             $sakit = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'sakit')->count();
             $alpha = \App\Models\Attendance::where('intern_id', $internId)->where('status', 'alpha')->count();
             $logbook = \App\Models\Logbook::where('intern_id', $internId)->count();
             $microSkill = \App\Models\MicroSkillSubmission::where('intern_id', $internId)->count();
             
+            $totalDays = $hadir + $izin + $sakit + $alpha;
+            $disiplin = $totalDays > 0 ? round(($hadir / $totalDays) * 100) : 0;
+            
             $summary = [
                 'hadir' => $hadir,
+                'izin' => $izin,
                 'sakit' => $sakit,
                 'alpha' => $alpha,
+                'disiplin' => $disiplin,
                 'logbook' => $logbook,
                 'micro_skill' => $microSkill
             ];
@@ -111,6 +119,79 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'FCM Token updated (placeholder)',
+        ]);
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'photo' => 'required|image|max:5120', // 5MB max
+        ]);
+
+        $user = $request->user();
+        $intern = $user->intern;
+
+        if (!$intern) {
+            return response()->json(['success' => false, 'message' => 'Data intern tidak ditemukan.'], 404);
+        }
+
+        try {
+            // Hapus foto lama jika ada
+            if ($intern->photo_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($intern->photo_path)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($intern->photo_path);
+            }
+
+            // Simpan foto baru
+            $path = $request->file('photo')->store('profile-photos', 'public');
+            $intern->update(['photo_path' => $path]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto profil berhasil diperbarui.',
+                'photo_path' => $path,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Gagal mengunggah foto: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'old_password' => 'nullable|string',
+            'new_password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $user = $request->user();
+        $intern = $user->intern;
+
+        // Update user data
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+        ]);
+
+        // Update data intern
+        if ($intern && isset($validated['phone'])) {
+            $intern->update(['phone' => $validated['phone']]);
+        }
+
+        // Update password jika diisi
+        if (!empty($validated['old_password']) && !empty($validated['new_password'])) {
+            if (!Hash::check($validated['old_password'], $user->password)) {
+                return response()->json(['success' => false, 'message' => 'Kata sandi lama salah.'], 422);
+            }
+            $user->update(['password' => Hash::make($validated['new_password'])]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui.',
         ]);
     }
 }

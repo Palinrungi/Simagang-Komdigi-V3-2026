@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/profile/fcm-token', [AuthController::class, 'updateFcmToken']);
+    Route::post('/profile/update', [AuthController::class, 'updateProfile']);
+    Route::post('/profile/update-photo', [AuthController::class, 'updatePhoto']);
 
     // Attendance
     Route::get('/attendance/today', [AttendanceController::class, 'today']);
@@ -49,4 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Sharing Sessions
     Route::get('/sharing-sessions', [SharingSessionController::class, 'index']);
+    Route::get('/sharing-sessions/{id}', [SharingSessionController::class, 'show']);
+    Route::post('/sharing-sessions/{id}/update-materi', [SharingSessionController::class, 'updateMateri']);
 });

@@ -134,4 +134,14 @@ class SharingSession extends Model
 
         return 'lengkap';
     }
+
+    public function getIsSpeakerAttribute()
+    {
+        return auth()->check() && (int) $this->speaker_user_id === (int) auth()->id();
+    }
+
+    public function getIsModeratorAttribute()
+    {
+        return auth()->check() && (int) $this->moderator_user_id === (int) auth()->id();
+    }
 }
