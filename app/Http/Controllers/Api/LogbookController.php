@@ -47,7 +47,12 @@ class LogbookController extends Controller
         $validated = $request->validate([
             'date' => ['required', 'date'],
             'activity' => ['required', 'string', 'max:1000'],
-            'photo_data' => ['nullable', 'string'],
+            'photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:4096'
+            ],
         ]);
 
         $data = [
@@ -56,28 +61,30 @@ class LogbookController extends Controller
             'activity' => $validated['activity'],
         ];
 
-        if ($request->filled('photo_data')) {
-            $imageData = $request->input('photo_data');
-            
-            if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
-                $imageData = substr($imageData, strpos($imageData, ',') + 1);
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $allowedMimeTypes = ['image/jpeg', 'image/png'];
+
+            if (!in_array($photo->getMimeType(), $allowedMimeTypes)) {
+                return response()->json(['success' => false, 'message' => 'Tipe file tidak valid.'], 400);
             }
-            $imageData = base64_decode($imageData);
 
-            try {
-                $filename = Str::uuid() . '.jpg';
-                $path = 'private/logbook-photos/' . $filename;
-                $destinationPath = storage_path('app/private/logbook-photos');
-                
-                if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+            if ($photo->isValid() && $photo->getError() === UPLOAD_ERR_OK) {
+                try {
+                    $filename = Str::uuid() . '.jpg';
+                    $path = 'private/logbook-photos/' . $filename;
+                    $destinationPath = storage_path('app/private/logbook-photos');
 
-                $manager = new ImageManager(new Driver());
-                $image = $manager->read($imageData)->toJpeg(80);
-                
-                Storage::disk('local')->put($path, (string) $image);
-                $data['photo_path'] = $path;
-            } catch (\Exception $e) {
-                return response()->json(['success' => false, 'message' => 'Gagal upload foto.'], 500);
+                    if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+
+                    $manager = new ImageManager(new Driver());
+                    $image = $manager->read($photo)->toJpeg(80);
+
+                    Storage::disk('local')->put($path, (string) $image);
+                    $data['photo_path'] = $path;
+                } catch (\Exception $e) {
+                    return response()->json(['success' => false, 'message' => 'Gagal upload foto: ' . $e->getMessage()], 500);
+                }
             }
         }
 
@@ -88,5 +95,114 @@ class LogbookController extends Controller
             'message' => 'Logbook berhasil disimpan.',
             'data' => $logbook
         ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $intern = $request->user()->intern;
+        $logbook = Logbook::where('id', $id)->where('intern_id', $intern->id)->firstOrFail();
+
+        $validated = $request->validate([
+            'date' => ['required', 'date'],
+            'activity' => ['required', 'string', 'max:1000'],
+            'photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:4096'
+            ],
+        ]);
+
+        $data = [
+            'date' => $validated['date'],
+            'activity' => $validated['activity'],
+        ];
+
+        if ($request->hasFile('photo')) {
+            if ($logbook->photo_path) {
+                $oldPath = storage_path('app/' . $logbook->photo_path);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $photo = $request->file('photo');
+            $allowedMimeTypes = ['image/jpeg', 'image/png'];
+
+            if (!in_array($photo->getMimeType(), $allowedMimeTypes)) {
+                return response()->json(['success' => false, 'message' => 'Tipe file tidak valid.'], 400);
+            }
+
+            if ($photo->isValid() && $photo->getError() === UPLOAD_ERR_OK) {
+                try {
+                    $filename = Str::uuid() . '.jpg';
+                    $path = 'private/logbook-photos/' . $filename;
+                    $destinationPath = storage_path('app/private/logbook-photos');
+
+                    if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+
+                    $manager = new ImageManager(new Driver());
+                    $image = $manager->read($photo)->toJpeg(80);
+
+                    Storage::disk('local')->put($path, (string) $image);
+                    $data['photo_path'] = $path;
+                } catch (\Exception $e) {
+                    return response()->json(['success' => false, 'message' => 'Gagal upload foto: ' . $e->getMessage()], 500);
+                }
+            }
+        }
+
+        $logbook->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logbook berhasil diperbarui.',
+            'data' => $logbook
+        ]);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $intern = $request->user()->intern;
+        $logbook = Logbook::where('id', $id)->where('intern_id', $intern->id)->firstOrFail();
+
+        if ($logbook->photo_path) {
+            $photoPath = storage_path('app/' . $logbook->photo_path);
+            if (file_exists($photoPath)) {
+                unlink($photoPath);
+            }
+        }
+
+        $logbook->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logbook berhasil dihapus.'
+        ]);
+    }
+
+    public function servePhoto(Request $request, $filename)
+    {
+        $intern = $request->user()->intern;
+        
+        if ($filename !== basename($filename)) {
+            return response()->json(['success' => false, 'message' => 'Not found'], 404);
+        }
+
+        $filePath = storage_path('app/private/logbook-photos/' . $filename);
+
+        if (!file_exists($filePath)) {
+            return response()->json(['success' => false, 'message' => 'Not found'], 404);
+        }
+
+        $logbook = Logbook::where('photo_path', 'private/logbook-photos/' . $filename)
+            ->where('intern_id', $intern->id)
+            ->first();
+
+        if (!$logbook) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        return response()->file($filePath);
     }
 }

@@ -43,11 +43,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/attendance/photo/{filename}', [AttendanceController::class, 'servePhoto']);
 
     // Logbooks
+    Route::get('/logbooks/photo/{filename}', [LogbookController::class, 'servePhoto'])->where('filename', '[^/]+');
     Route::get('/logbooks', [LogbookController::class, 'index']);
     Route::post('/logbooks', [LogbookController::class, 'store']);
+    Route::put('/logbooks/{id}', [LogbookController::class, 'update']);
+    Route::delete('/logbooks/{id}', [LogbookController::class, 'destroy']);
 
     // Micro Skills
     Route::get('/micro-skills', [MicroSkillController::class, 'index']);
+    Route::post('/micro-skills', [MicroSkillController::class, 'store']);
+    Route::post('/micro-skills/{id}', [MicroSkillController::class, 'update']); // Use POST because of multipart/form-data
+    Route::delete('/micro-skills/{id}', [MicroSkillController::class, 'destroy']);
+    Route::get('/micro-skills/photo/{filename}', [MicroSkillController::class, 'servePhoto']);
 
     // Sharing Sessions
     Route::get('/sharing-sessions', [SharingSessionController::class, 'index']);
