@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Pendaftaran Institusi - Simagang</title>
     <link rel="shortcut icon" href="{{ url('storage/vendor/icon-komdigi.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -231,7 +232,7 @@
             height: 100%; width: 0; border-radius: 3px;
             transition: width 0.35s ease, background 0.35s;
         }
-        .strength-hint { font-size: 11px; margin-top: 5px; font-weight: 600; }
+        .strength-fill { font-size: 11px; margin-top: 5px; font-weight: 600; }
         .pw-wrap { position: relative; }
         .pw-wrap input { padding-right: 46px; }
         .eye-toggle {
@@ -298,6 +299,37 @@
 
         /* ── Grid helpers ── */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+
+        /* ── WELCOME POPUP STYLES ── */
+        .welcome-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .welcome-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .welcome-modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            width: min(92%, 640px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .welcome-modal.open .welcome-modal-content {
+            transform: scale(1);
+        }
 
         /* ── Responsive ── */
         @media (max-width: 600px) {
@@ -456,7 +488,7 @@
                         <div class="field" style="margin-bottom:0;">
                             <label class="field-label">Fakultas</label>
                             <div class="input-wrap has-icon">
-                                <i class="fas fa-books input-icon"></i>
+                                <i class="fas fa-book input-icon"></i>
                                 <input type="text" name="fakultas" value="{{ old('fakultas') }}"
                                     placeholder="cth. Fakultas Teknik"
                                     class="field-input">
@@ -548,8 +580,7 @@
 
                     <div class="info-hint">
                         <i class="fas fa-circle-info"></i>
-                        Gunakan kombinasi huruf besar, angka, dan simbol untuk password yang lebih aman.
-                        Minimal 8 karakter.
+                        Gunakan kombinasi huruf besar, angka, dan simbol untuk password yang lebih aman. Minimal 8 karakter.
                     </div>
 
                     <div class="grid-2">
@@ -586,7 +617,7 @@
 
                 </div>
 
-                {{-- ── Footer Actions (inside form, outside section-body) ── --}}
+                {{-- ── Footer Actions ── --}}
                 <div class="form-footer">
                     <a href="{{ route('landing') }}" class="btn-back">
                         <i class="fas fa-arrow-left"></i> Kembali
@@ -602,7 +633,72 @@
     </div>
 </div>
 
+<!-- ── WELCOME VIDEO MODAL ── -->
+<div id="videoWelcomeModal" class="welcome-modal">
+    <div class="welcome-modal-content">
+        
+        <!-- Header / Peringatan Penting -->
+        <div class="text-center mb-4">
+            <div class="w-14 h-14 bg-red-50 border border-red-200 text-red-500 rounded-full flex items-center justify-center mx-auto text-xl mb-2 animate-bounce">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-800 leading-tight">PERINGATAN PENTING!</h3>
+            
+            <div class="mt-2.5 bg-gradient-to-r from-red-500 to-rose-600 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-md shadow-red-500/10">
+                <i class="fas fa-university mr-1.5"></i> Formulir ini wajib diisi oleh pihak KAMPUS / SEKOLAH, BUKAN oleh Siswa / Mahasiswa!
+            </div>
+        </div>
+
+        <!-- Video Player Frame (PERBAIKAN URL SEMAT YOUTUBE) -->
+        <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-inner bg-slate-950 border border-slate-200">
+            <iframe id="tutorialVideoFrame" class="w-full h-full" 
+                    src="https://www.youtube.com/embed/GorIEj-qp6A?enablejsapi=1&rel=0" 
+                    title="Panduan Alur Pendaftaran Mitra" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+
+        <p class="text-[11px] text-slate-400 text-center mt-2.5 leading-relaxed">
+            Silakan tonton video alur panduan di atas terlebih dahulu agar tidak terjadi kesalahan validasi data institusi Anda.
+        </p>
+
+        <!-- Action Button -->
+        <div class="flex items-center justify-center mt-5 pt-3.5 border-t border-slate-100">
+            <button type="button" onclick="closeWelcomeModal()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs sm:text-sm rounded-xl transition shadow-md shadow-slate-800/10 flex items-center gap-2">
+                Saya Mengerti, Lewati Panduan <i class="fas fa-arrow-right text-[10px]"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
 <script>
+    // ── Welcome Video Modal Logic ──────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('videoWelcomeModal');
+        if (modal) {
+            setTimeout(() => {
+                modal.classList.add('open');
+            }, 300);
+        }
+    });
+
+    function closeWelcomeModal() {
+        const modal = document.getElementById('videoWelcomeModal');
+        const videoFrame = document.getElementById('tutorialVideoFrame');
+        
+        if (modal) {
+            modal.classList.remove('open');
+        }
+        
+        // Menghentikan pemutaran video secara instan saat modal ditutup
+        if (videoFrame) {
+            const currentSrc = videoFrame.src;
+            videoFrame.src = currentSrc;
+        }
+    }
+
     // ── Jenis institusi pill selector ──────────────────────────────
     let selectedJenis = '{{ old('jenis_institusi') }}';
 
@@ -620,7 +716,6 @@
         liveProgress();
     }
 
-    // Init old value
     if (selectedJenis) selectJenis(selectedJenis);
 
 
@@ -657,7 +752,7 @@
         if (/[^A-Za-z0-9]/.test(val)) score++;
 
         const configs = [
-            { pct: '0%',   color: 'transparent', label: '',              textColor: '#94a3b8' },
+            { pct: '0%',   color: 'transparent', label: '',               textColor: '#94a3b8' },
             { pct: '25%',  color: '#ef4444',      label: 'Lemah',        textColor: '#dc2626' },
             { pct: '50%',  color: '#f59e0b',      label: 'Cukup',        textColor: '#b45309' },
             { pct: '75%',  color: '#3b82f6',      label: 'Kuat',         textColor: '#1d4ed8' },
@@ -687,7 +782,6 @@
         setStep(2, !!s2ok);
         setStep(3, !!s3ok);
 
-        // Determine active step
         if (!s1ok) activate(1);
         else if (!s2ok) activate(2);
         else if (!s3ok) activate(3);

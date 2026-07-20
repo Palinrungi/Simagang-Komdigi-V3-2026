@@ -61,16 +61,16 @@ class MicroSkillController extends Controller
     }
 
     public function create(Request $request)
-{
-    $suggestedTitle = $request->query('title');
+    {
+        $suggestedTitle = $request->query('title');
 
-    $microSkills = MicroSkill::orderBy('judul_micro')->get();
+        $microSkills = MicroSkill::orderBy('judul_micro')->get();
 
-    return view(
-        'intern.microskill.create',
-        compact('suggestedTitle', 'microSkills')
-    );
-}
+        return view(
+            'intern.microskill.create',
+            compact('suggestedTitle', 'microSkills')
+        );
+    }
 
     public function store(Request $request)
     {
@@ -85,7 +85,6 @@ class MicroSkillController extends Controller
                     ->where(fn ($query) => $query->where('intern_id', $intern->id)),
             ],
             'description' => ['nullable', 'string', 'max:1000'],
-            // 'photo' => ['required', 'image', 'max:4096'],
             'photo' => [
                 'nullable',
                 'image',
@@ -112,8 +111,6 @@ class MicroSkillController extends Controller
 
             if ($photo->isValid() && $photo->getError() === UPLOAD_ERR_OK) {
                 try {
-                    // $extension = $photo->guessExtension() ?: 'jpg';
-
                     $filename = Str::uuid() . '.jpg';
 
                     $destinationPath = storage_path('app/private/micro-skills');
@@ -146,7 +143,6 @@ class MicroSkillController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
             'photo_path' => $photoPath,
-            // Langsung dianggap selesai/terkumpul
             'status' => 'approved',
             'submitted_at' => now(),
         ]);
@@ -158,10 +154,13 @@ class MicroSkillController extends Controller
     {
         $this->authorize('update', $submission);
 
-        // Generate one-time photo URL
+        // 1. Ambil data master MicroSkill dari database agar tidak memicu error undefined variable di View
+        $microSkills = MicroSkill::orderBy('judul_micro')->get();
+
+        // 2. Generate one-time photo URL
         $submission->photo_url = $this->makeOneTimeMicroSkillPhotoUrl($submission->photo_path);
 
-        return view('intern.microskill.edit', compact('submission'));
+        return view('intern.microskill.edit', compact('submission', 'microSkills'));
     }
 
     public function update(Request $request, MicroSkillSubmission $submission)
@@ -178,7 +177,6 @@ class MicroSkillController extends Controller
                     ->ignore($submission->id),
             ],
             'description' => ['nullable', 'string', 'max:1000'],
-            // 'photo' => ['nullable', 'image', 'max:4096'],
             'photo' => [
                 'nullable',
                 'image',
@@ -187,6 +185,8 @@ class MicroSkillController extends Controller
                 'max:4096'
              ],
         ]);
+
+        $photoPath = $submission->photo_path;
 
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
@@ -212,8 +212,6 @@ class MicroSkillController extends Controller
 
             if ($photo->isValid() && $photo->getError() === UPLOAD_ERR_OK) {
                 try {
-                    // $extension = $photo->guessExtension() ?: 'jpg';
-
                     $filename = Str::uuid() . '.jpg';
 
                     $destinationPath = storage_path('app/private/micro-skills');
@@ -232,21 +230,20 @@ class MicroSkillController extends Controller
                         (string) $image
                     );
 
-                    $validated['photo_path'] = 'private/micro-skills/' . $filename;
+                    $photoPath = 'private/micro-skills/' . $filename;
 
                 } catch (\Exception $e) {
                     return back()->withErrors([
                         'photo' => 'Gagal upload foto.'
                     ])->withInput();
                 }
-                
             }
         }
 
         $submission->update([
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
-            'photo_path' => $validated['photo_path'] ?? $submission->photo_path,
+            'photo_path' => $photoPath,
         ]);
 
         return redirect()->route('intern.microskill.index')->with('success', 'Bukti Mikro Skill berhasil diperbarui.');
@@ -269,9 +266,6 @@ class MicroSkillController extends Controller
         return redirect()->route('intern.microskill.index')->with('success', 'Bukti Mikro Skill berhasil dihapus.');
     }
 
-    /**
-     * Generate one-time temporary URL for microskill photo
-     */
     private function makeOneTimeMicroSkillPhotoUrl(?string $photoPath): ?string
     {
         if (!$photoPath) {
@@ -294,29 +288,22 @@ class MicroSkillController extends Controller
         return route('intern.microskill.photo', ['filename' => $filename, 'token' => $token]);
     }
 
-    /**
-     * Serve private microskill photo with token validation or ownership check
-     */
     public function servePhoto(Request $request, $filename)
     {
-        // Filename sanitization
         if ($filename !== basename($filename)) {
             abort(404, 'File not found');
         }
 
         $filePath = storage_path('app/private/micro-skills/' . $filename);
 
-        // Validate the file path to prevent directory traversal
         if (!str_starts_with(realpath($filePath) ?: '', realpath(storage_path('app/private/micro-skills')) ?: '')) {
             abort(404, 'File not found');
         }
 
-        // Check if file exists
         if (!file_exists($filePath)) {
             abort(404, 'File not found');
         }
 
-        // Try token validation first
         $token = $request->query('token');
         if ($token) {
             $cacheKey = "intern-photo-token:{$token}";
@@ -325,10 +312,6 @@ class MicroSkillController extends Controller
             if (!$tokenData || $tokenData['user_id'] != Auth::id() || $tokenData['filename'] !== $filename) {
                 abort(404, 'File not found');
             }
-            // Token is valid, don't consume it - keep in cache for duration
-        } else {
-            // No token: fallback to ownership check
-            // Policy check below will enforce ownership and role-based access.
         }
 
         $submission = MicroSkillSubmission::where('photo_path', 'private/micro-skills/' . $filename)
