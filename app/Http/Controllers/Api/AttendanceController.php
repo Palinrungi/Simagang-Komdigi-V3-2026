@@ -26,6 +26,20 @@ class AttendanceController extends Controller
         $nowWita = TimeService::nowWita();
         $todayWita = $nowWita->toDateString();
 
+        // Otomatis checkout untuk hari-hari sebelumnya yang terlewat
+        $incompleteAttendances = Attendance::where('intern_id', $intern->id)
+            ->where('status', 'hadir')
+            ->whereNull('check_out')
+            ->where('date', '<', $todayWita)
+            ->get();
+
+        foreach ($incompleteAttendances as $attendance) {
+            $checkoutTime = Carbon::parse($attendance->date->format('Y-m-d') . ' 23:59:59', 'Asia/Makassar');
+            $attendance->update([
+                'check_out' => $checkoutTime
+            ]);
+        }
+
         $todayAttendance = Attendance::where('intern_id', $intern->id)
             ->whereDate('date', $todayWita)
             ->first();
