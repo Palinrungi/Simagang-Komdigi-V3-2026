@@ -40,8 +40,11 @@ class Intern extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getNameAttribute()
+    public function getNameAttribute($value)
     {
+        if (!empty($value)) {
+            return $value;
+        }
         return $this->user ? $this->user->name : 'Tanpa Nama';
     }
 
@@ -75,10 +78,6 @@ class Intern extends Model
         return $this->hasOne(Certificate::class);
     }
 
-    public function finalReports()
-    {
-        return $this->hasMany(FinalReport::class, 'intern_id');
-    }
 
     public function team()
     {

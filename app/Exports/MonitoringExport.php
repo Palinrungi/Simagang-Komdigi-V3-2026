@@ -31,7 +31,7 @@ class MonitoringExport implements
    
     public function collection()
     {
-        $query = Intern::with(['mentor', 'user']);
+        $query = Intern::with(['mentor', 'user', 'finalReport']);
 
         $startOfMonth = null;
         $endOfMonth = null;
@@ -155,12 +155,8 @@ class MonitoringExport implements
             $status = 'Pelepasan';
         }
 
-        $finalProject = $intern->finalReports->isNotEmpty()
-            ? $intern->finalReports
-                ->map(function ($report) {
-                    return asset('storage/' . $report->file_path);
-                })
-                ->implode("\n")
+        $finalProject = $intern->finalReport
+            ? asset('storage/' . $intern->finalReport->file_path)
             : '-';
 
         return [
