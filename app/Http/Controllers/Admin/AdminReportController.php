@@ -53,7 +53,7 @@ class AdminReportController extends Controller
         // Dropdown hanya menampilkan intern aktif milik admin
         $interns = Intern::whereIn('id', $internIds)
             ->where('is_active', true)
-            ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name')
+            ->orderBy(\App\Models\User::select('name')->whereColumn('users.id', 'interns.user_id'), 'asc')
             ->get();
 
         return view('admin.report.index', compact('reports', 'interns'));

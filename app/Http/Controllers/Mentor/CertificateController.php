@@ -28,7 +28,10 @@ class CertificateController extends Controller
      */
     public function create(Request $request)
     {
-        $interns = Intern::orderBy('name')->get();
+        $mentor = \Illuminate\Support\Facades\Auth::user()->mentor;
+        $interns = $mentor 
+            ? $mentor->interns()->orderBy(\App\Models\User::select('name')->whereColumn('users.id', 'interns.user_id'))->get()
+            : collect();
         $selectedIntern = null;
         $certificate = null;
         $mode = 'create';

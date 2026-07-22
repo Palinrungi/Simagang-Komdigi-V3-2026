@@ -19,20 +19,12 @@ class AdminAccountController extends Controller
     {
         $query = User::query()
             ->with('roles')
-            ->where(function ($builder) {
-                $builder->whereHas('roles', function ($roleQuery) {
-                    $roleQuery->whereIn('name', [
-                        'super_admin',
-                        'admin_full',
-                        'admin_user_manager',
-                        'admin_data_manager',
-                    ]);
-                })->orWhereIn('role', [
+            ->whereHas('roles', function ($roleQuery) {
+                $roleQuery->whereIn('name', [
                     'super_admin',
                     'admin_full',
                     'admin_user_manager',
                     'admin_data_manager',
-                    'admin',
                 ]);
             });
 
@@ -44,8 +36,14 @@ class AdminAccountController extends Controller
             });
         }
 
-        $accounts = $query->orderByRaw("CASE role WHEN 'super_admin' THEN 0 WHEN 'admin_full' THEN 1 WHEN 'admin_user_manager' THEN 2 WHEN 'admin_data_manager' THEN 3 ELSE 4 END")
-            ->orderBy('name')
+        $accounts = $query->select('users.*')
+            ->leftJoin('model_has_roles', function($join) {
+                $join->on('users.id', '=', 'model_has_roles.model_id')
+                     ->where('model_has_roles.model_type', User::class);
+            })
+            ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->orderByRaw("CASE roles.name WHEN 'super_admin' THEN 0 WHEN 'admin_full' THEN 1 WHEN 'admin_user_manager' THEN 2 WHEN 'admin_data_manager' THEN 3 ELSE 4 END")
+            ->orderBy('users.name')
             ->paginate(15);
 
         $accounts->appends($request->query());

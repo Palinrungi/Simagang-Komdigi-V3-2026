@@ -88,7 +88,7 @@ class AdminAttendanceController extends Controller
             $absentQuery = Intern::whereIn('id', $internIds)
                 ->where('is_active', true)
                 ->whereNotIn('id', $presentIds)
-                ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name');
+                ->orderBy(\App\Models\User::select('name')->whereColumn('users.id', 'interns.user_id'), 'asc');
 
             if ($request->filled('intern_id')) {
                 $absentQuery->where('id', $request->integer('intern_id'));

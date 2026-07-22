@@ -44,6 +44,14 @@ class DaftarAkunController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
+        $user->assignRole('industri');
+
+        \App\Models\Industri::create([
+            'user_id' => $user->id,
+            'nama_industri' => $validated['nama_admin'],
+            'email_industri' => $validated['email'],
+            'is_active' => true,
+        ]);
 
         return redirect()->route('login')
             ->with('success', 'Data industri berhasil ditambahkan');

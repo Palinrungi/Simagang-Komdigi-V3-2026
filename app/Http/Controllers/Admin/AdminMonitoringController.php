@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Intern;
 use App\Models\Mentor;
 use App\Models\Industri;
+use App\Models\User;
 use App\Exports\MonitoringExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -92,7 +93,7 @@ class AdminMonitoringController extends Controller
             ->whereDate('start_date', '<=', $endOfMonth)
             ->with(['mentor', 'user'])
             ->orderBy('end_date', 'asc')
-            ->orderBy('name', 'asc')
+            ->orderBy(User::select('name')->whereColumn('users.id', 'interns.user_id'), 'asc')
             ->get();
 
         // ── Akan pelepasan (aktif, end_date di bulan ini) ─────────────────
@@ -165,9 +166,9 @@ class AdminMonitoringController extends Controller
             }
         }
 
-        $activeInterns = $activeQuery->orderBy('end_date', 'asc')->orderBy('name', 'asc')
+        $activeInterns = $activeQuery->orderBy('end_date', 'asc')->orderBy(User::select('name')->whereColumn('users.id', 'interns.user_id'), 'asc')
             ->paginate(15, ['*'], 'active_page');
-        $alumniInterns = $alumniQuery->orderBy('updated_at', 'desc')->orderBy('name', 'asc')
+        $alumniInterns = $alumniQuery->orderBy('updated_at', 'desc')->orderBy(User::select('name')->whereColumn('users.id', 'interns.user_id'), 'asc')
             ->paginate(15, ['*'], 'alumni_page');
 
         // ── Rencana pelepasan bulan ini ───────────────────────────────────
