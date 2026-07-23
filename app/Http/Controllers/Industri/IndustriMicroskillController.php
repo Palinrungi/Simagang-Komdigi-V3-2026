@@ -48,7 +48,7 @@ class IndustriMicroskillController extends Controller
         $submissions = $query->orderByDesc('created_at')->paginate(20)->withQueryString();
 
         $interns = $internIds->isNotEmpty()
-            ? Intern::whereIn('id', $internIds)->orderBy('name')->get()
+            ? Intern::whereIn('id', $internIds)->with('user')->get()->sortBy(function($i) { return $i->user->name ?? ''; })->values()
             : collect();
 
         return view('industri.microskill.index', compact('industri', 'submissions', 'interns'));

@@ -64,7 +64,6 @@ class ProfileController extends Controller
         $user->save();
 
         // Update intern data
-        $intern->name = $validated['name'];
         $intern->phone = $validated['phone'];
         $intern->save();
 

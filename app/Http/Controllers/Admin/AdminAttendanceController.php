@@ -72,7 +72,7 @@ class AdminAttendanceController extends Controller
             ->withQueryString();
 
         // Dropdown filter hanya menampilkan intern milik admin
-        $interns = Intern::whereIn('id', $internIds)->orderBy('name')->get();
+        $interns = Intern::whereIn('id', $internIds)->with('user')->get()->sortBy(function($i) { return $i->user->name ?? ''; })->values();
 
         $todayAbsentInterns = collect();
         $isWorkday      = !HolidayService::isHoliday($nowWita);
@@ -88,7 +88,7 @@ class AdminAttendanceController extends Controller
             $absentQuery = Intern::whereIn('id', $internIds)
                 ->where('is_active', true)
                 ->whereNotIn('id', $presentIds)
-                ->orderBy('name');
+                ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name');
 
             if ($request->filled('intern_id')) {
                 $absentQuery->where('id', $request->integer('intern_id'));

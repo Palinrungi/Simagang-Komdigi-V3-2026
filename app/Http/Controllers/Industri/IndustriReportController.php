@@ -51,7 +51,7 @@ class IndustriReportController extends Controller
             ->withQueryString();
 
         $interns = Intern::whereIn('id', $internIds)
-            ->orderBy('name')
+            ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name')
             ->get();
 
         return view('industri.report.index', compact(

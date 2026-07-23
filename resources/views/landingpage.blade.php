@@ -1063,7 +1063,12 @@
 
         /* ── SPESIFIKASI PREMIUM CARD TIM V3.5 ── */
         #tab-angkatan3 .tmember-card {
-            background: linear-gradient(135deg, #051433 0%, #0d255c 50%, #030b21 100%);
+            background: 
+                linear-gradient(rgba(34, 211, 238, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 211, 238, 0.06) 1px, transparent 1px),
+                linear-gradient(135deg, #051433 0%, #0d255c 50%, #030b21 100%);
+            background-size: 18px 18px, 18px 18px, 100% 100%;
+            background-position: -1px -1px, -1px -1px, 0 0;
             border: 1.5px solid rgba(34, 211, 238, 0.25);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
             overflow: visible !important; /* Agar bagian kepala foto transparan bisa keluar menonjol */
@@ -1559,11 +1564,11 @@
                     <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
                     <div class="testi-author">
                         <div class="testi-avatar">
-                            <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
+                            <img src="{{ asset('storage/' . ($testimony->intern?->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern?->user?->name ?? 'Anonim' }}">
                         </div>
                         <div>
-                            <div class="testi-name">{{ $testimony->intern->name }}</div>
-                            <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
+                            <div class="testi-name">{{ $testimony->intern?->user?->name ?? 'Anonim' }}</div>
+                            <div class="testi-inst">Mahasiswa — {{ $testimony->intern?->institution ?? 'Institusi' }}</div>
                         </div>
                     </div>
                 </div>
@@ -1585,11 +1590,11 @@
                         <p class="testi-text">{{ Str::limit($testimony->testimony, 150) }}</p>
                         <div class="testi-author">
                             <div class="testi-avatar">
-                                <img src="{{ asset('storage/' . ($testimony->intern->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern->name }}">
+                                <img src="{{ asset('storage/' . ($testimony->intern?->photo_path ?? 'profiles/default.jpg')) }}" alt="{{ $testimony->intern?->user?->name ?? 'Anonim' }}">
                             </div>
                             <div>
-                                <div class="testi-name">{{ $testimony->intern->name }}</div>
-                                <div class="testi-inst">Mahasiswa — {{ $testimony->intern->institution ?? 'Institusi' }}</div>
+                                <div class="testi-name">{{ $testimony->intern?->user?->name ?? 'Anonim' }}</div>
+                                <div class="testi-inst">Mahasiswa — {{ $testimony->intern?->institution ?? 'Institusi' }}</div>
                             </div>
                         </div>
                     </div>

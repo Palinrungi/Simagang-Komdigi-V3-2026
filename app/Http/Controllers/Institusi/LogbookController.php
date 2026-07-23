@@ -50,7 +50,7 @@ class LogbookController extends Controller
         $logbooks = $query->orderByDesc('date')->paginate(20)->withQueryString();
 
         $interns = $internIds->isNotEmpty()
-            ? Intern::whereIn('id', $internIds)->orderBy('name')->get()
+            ? Intern::whereIn('id', $internIds)->with('user')->get()->sortBy(function($i) { return $i->user->name ?? ''; })->values()
             : collect();
 
         return view('institusi.logbook.index', compact('institusi', 'logbooks', 'interns'));

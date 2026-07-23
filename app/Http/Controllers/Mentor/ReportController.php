@@ -31,7 +31,7 @@ class ReportController extends Controller
 
         $reports = $query->orderByDesc('created_at')->paginate(20)->withQueryString();
 
-        $interns = $mentor ? $mentor->interns()->orderBy('name')->get() : collect();
+        $interns = $mentor ? $mentor->interns()->join('users', 'interns.user_id', '=', 'users.id')->orderBy('users.name')->select('interns.*')->get() : collect();
 
         return view('mentor.report.index', compact('mentor', 'reports', 'interns'));
     }

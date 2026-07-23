@@ -48,7 +48,6 @@ class AdminMentorController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password'] ?? str()->random(12)),
-                'role' => 'mentor',
             ]);
             $user->assignRole('mentor');
             $userId = $user->id;
@@ -100,7 +99,6 @@ class AdminMentorController extends Controller
                     'name' => $validated['name'],
                     'email' => $validated['email'],
                     'password' => Hash::make($validated['password'] ?? str()->random(12)),
-                    'role' => 'mentor',
                 ]);
                 $user->assignRole('mentor');
                 $mentor->user_id = $user->id;

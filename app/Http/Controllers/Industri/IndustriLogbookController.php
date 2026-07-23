@@ -59,7 +59,7 @@ class IndustriLogbookController extends Controller
             ->withQueryString();
 
         $interns = Intern::whereIn('id', $internIds)
-            ->orderBy('name')
+            ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name')
             ->get();
 
         return view('industri.logbook.index', compact(

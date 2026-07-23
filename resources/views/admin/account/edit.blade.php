@@ -257,7 +257,7 @@
                                 <option value="">Pilih Akses...</option>
                                 @foreach ($roleOptions as $value => $label)
                                     <option value="{{ $value }}"
-                                        {{ old('role', $user->role ?? $user->getRoleNames()->first()) === $value ? 'selected' : '' }}>
+                                        {{ old('role', $user->getRoleNames()->first()) === $value ? 'selected' : '' }}>
                                         {{ $label }}
                                     </option>
                                 @endforeach

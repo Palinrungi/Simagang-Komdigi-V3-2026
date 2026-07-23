@@ -79,7 +79,6 @@ class AdminAccountController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
         ]);
         $user->syncRoles([$validated['role']]);
 
@@ -119,7 +118,6 @@ class AdminAccountController extends Controller
         $user->fill([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'role' => $targetRole,
         ]);
 
         if (!empty($validated['password'])) {

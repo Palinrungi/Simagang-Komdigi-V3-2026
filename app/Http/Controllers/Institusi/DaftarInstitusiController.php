@@ -50,7 +50,6 @@ class DaftarInstitusiController extends Controller
             'name' => $validated['nama_admin'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'institusi',
         ]);
 
         // 2. simpan institusi

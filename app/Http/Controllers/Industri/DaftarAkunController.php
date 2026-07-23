@@ -43,7 +43,6 @@ class DaftarAkunController extends Controller
             'name' => $validated['nama_admin'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'industri',
         ]);
 
         return redirect()->route('login')

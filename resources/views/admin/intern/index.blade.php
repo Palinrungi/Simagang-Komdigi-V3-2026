@@ -436,13 +436,9 @@
                                             {{ $intern->institution }}
                                         </td>
                                         <td>
-                                            @if($intern->teamRelation)
+                                            @if($intern->team)
                                                 <span class="pill pill-blue">
-                                                    {{ $intern->teamRelation->name }}
-                                                </span>
-                                            @elseif($intern->team)
-                                                <span class="pill pill-blue">
-                                                    {{ $intern->team }}
+                                                    {{ $intern->team->name }}
                                                 </span>
                                             @else
                                                 <span class="pill pill-gray">—</span>
@@ -538,13 +534,9 @@
                                             {{ $intern->institution }}
                                         </td>
                                         <td>
-                                            @if($intern->teamRelation)
+                                            @if($intern->team)
                                                 <span class="pill pill-gray">
-                                                    {{ $intern->teamRelation->name }}
-                                                </span>
-                                            @elseif($intern->team)
-                                                <span class="pill pill-gray">
-                                                    {{ $intern->team }}
+                                                    {{ $intern->team->name }}
                                                 </span>
                                             @else
                                                 <span class="pill pill-gray">—</span>

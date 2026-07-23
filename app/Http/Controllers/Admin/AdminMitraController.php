@@ -156,7 +156,6 @@ public function store(Request $request)
             'name' => $request->nama_admin,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $role,
         ]);
 
         try {

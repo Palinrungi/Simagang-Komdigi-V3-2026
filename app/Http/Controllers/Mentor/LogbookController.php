@@ -33,7 +33,7 @@ class LogbookController extends Controller
 
         $logbooks = $query->orderByDesc('date')->paginate(20)->withQueryString();
 
-        $interns = $mentor ? $mentor->interns()->orderBy('name')->get() : collect();
+        $interns = $mentor ? $mentor->interns()->join('users', 'interns.user_id', '=', 'users.id')->orderBy('users.name')->select('interns.*')->get() : collect();
 
         return view('mentor.logbook.index', compact('mentor', 'logbooks', 'interns'));
     }

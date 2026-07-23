@@ -114,7 +114,7 @@ class MonitoringExport implements
                 END
             ")
             ->orderBy('end_date')
-            ->orderBy('name')
+            ->join('users', 'interns.user_id', '=', 'users.id')->select('interns.*')->orderBy('users.name')
             ->get();
     }
 

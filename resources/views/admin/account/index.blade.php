@@ -280,7 +280,7 @@
                             <tbody class="bg-white divide-y divide-gray-100">
                                 @forelse($accounts as $account)
                                     @php
-                                        $roleName = $account->getRoleNames()->first() ?? ($account->role ?? '-');
+                                        $roleName = $account->getRoleNames()->first() ?? '-';
                                         $roleBadgeMap = [
                                             'super_admin' => [
                                                 'label'   => 'Super Admin',

@@ -66,12 +66,13 @@ class DashboardController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $topMicroSkills = \App\Models\Intern::leftJoin('micro_skill_submissions', 'interns.id', '=', 'micro_skill_submissions.intern_id')
+        $topMicroSkills = \App\Models\Intern::join('users', 'interns.user_id', '=', 'users.id')
+            ->leftJoin('micro_skill_submissions', 'interns.id', '=', 'micro_skill_submissions.intern_id')
             ->whereIn('interns.id', $internIds)
-            ->select('interns.id as intern_id', 'interns.name', 'interns.institution', 'interns.photo_path', DB::raw('COUNT(micro_skill_submissions.id) as total'))
-            ->groupBy('interns.id', 'interns.name', 'interns.institution', 'interns.photo_path')
+            ->select('interns.id as intern_id', 'users.name', 'interns.institution', 'interns.photo_path', DB::raw('COUNT(micro_skill_submissions.id) as total'))
+            ->groupBy('interns.id', 'users.name', 'interns.institution', 'interns.photo_path')
             ->orderByDesc('total')
-            ->orderBy('interns.name')
+            ->orderBy('users.name')
             ->limit(10)
             ->get()
             ->map(function ($row) {

@@ -33,8 +33,5 @@ class Institusi extends Model
         return $this->hasMany(Pengajuan::class);
     }
 
-    public function interns()
-    {
-        return $this->hasMany(Intern::class);
-    }
+
 } 

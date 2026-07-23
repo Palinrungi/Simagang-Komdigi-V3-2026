@@ -11,7 +11,6 @@ class Intern extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
         'gender',
         'education_level',
         'major',
@@ -39,6 +38,11 @@ class Intern extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->user ? $this->user->name : 'Tanpa Nama';
     }
 
     public function attendances()
@@ -86,9 +90,6 @@ class Intern extends Model
         return $this->belongsTo(PengajuanDetail::class);
     }
 
-    public function teamRelation()
-    {
-        return $this->belongsTo(Team::class, 'team_id');
-    }
+
     
 }

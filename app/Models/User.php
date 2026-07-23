@@ -24,7 +24,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
     ];
 
     /**
@@ -64,47 +63,47 @@ class User extends Authenticatable
             'admin_full',
             'admin_user_manager',
             'admin_data_manager',
-        ]) || in_array($this->role, ['admin', 'super_admin', 'admin_full', 'admin_user_manager', 'admin_data_manager'], true);
+        ]);
     }
 
     public function isSuperAdmin()
     {
-        return $this->hasRole('super_admin') || $this->role === 'super_admin';
+        return $this->hasRole('super_admin');
     }
 
     public function isAdminFull()
     {
-        return $this->hasRole('admin_full') || $this->role === 'admin_full';
+        return $this->hasRole('admin_full');
     }
 
     public function isAdminUserManager()
     {
-        return $this->hasRole('admin_user_manager') || $this->role === 'admin_user_manager';
+        return $this->hasRole('admin_user_manager');
     }
 
     public function isAdminDataManager()
     {
-        return $this->hasRole('admin_data_manager') || $this->role === 'admin_data_manager';
+        return $this->hasRole('admin_data_manager');
     }
 
     public function isIntern()
     {
-        return $this->hasRole('intern') || $this->role === 'intern';
+        return $this->hasRole('intern');
     }
 
     public function isMentor()
     {
-        return $this->hasRole('mentor') || $this->role === 'mentor';
+        return $this->hasRole('mentor');
     }
 
     public function isInstitusi()
     {
-        return $this->hasRole('institusi') || $this->role === 'institusi';
+        return $this->hasRole('institusi');
     }
 
     public function isIndustri()
     {
-        return $this->hasRole('industri') || $this->role === 'industri';
+        return $this->hasRole('industri');
     }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
     public function mentor()

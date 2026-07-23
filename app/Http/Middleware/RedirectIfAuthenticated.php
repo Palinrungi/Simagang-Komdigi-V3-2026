@@ -38,7 +38,7 @@ class RedirectIfAuthenticated
                 // Redirect based on role
                 if ($user->isAdmin()) {
                     return redirect()->route('admin.dashboard');
-                } elseif ($user->role === 'mentor') {
+                } elseif ($user->isMentor()) {
                     return redirect()->route('mentor.dashboard');
                 } elseif ($user->isIntern()) {
                     return redirect()->route('intern.dashboard');
