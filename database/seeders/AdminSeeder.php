@@ -25,7 +25,6 @@ class AdminSeeder extends Seeder
             [
                 'name' => 'Super Administrator',
                 'password' => Hash::make('password123'),
-                'role' => 'super_admin',
             ]
         );
         $superAdmin->syncRoles(['super_admin']);
@@ -40,7 +39,6 @@ class AdminSeeder extends Seeder
             [
                 'name' => 'Administrator',
                 'password' => Hash::make('password123'),
-                'role' => 'admin_full',
             ]
         );
         $admin->syncRoles(['admin_full']);

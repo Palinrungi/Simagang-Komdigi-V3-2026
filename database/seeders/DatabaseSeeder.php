@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Super Administrator',
                 'password' => Hash::make('password123'),
-                'role' => 'super_admin',
             ]
         );
         $superAdmin->syncRoles(['super_admin']);
@@ -45,7 +44,6 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Administrator',
                 'password' => Hash::make('password123'),
-                'role' => 'admin_full',
             ]
         );
         $admin->syncRoles(['admin_full']);
@@ -103,7 +101,6 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => $name,
                     'password' => Hash::make('password123'),
-                    'role' => 'mentor',
                 ]
             );
             $user->syncRoles(['mentor']);
@@ -168,7 +165,6 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => $internData['name'],
                     'password' => Hash::make('password123'),
-                    'role' => 'intern',
                 ]
             );
             $user->syncRoles(['intern']);
@@ -180,7 +176,6 @@ class DatabaseSeeder extends Seeder
             Intern::updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'name' => $internData['name'],
                     'gender' => $internData['gender'],
                     'education_level' => $internData['education_level'],
                     'major' => $internData['major'],

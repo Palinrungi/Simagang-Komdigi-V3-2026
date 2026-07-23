@@ -38,7 +38,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Super Administrator',
                 'password' => Hash::make('password123'),
-                'role' => 'super_admin',
             ]
         );
         $superAdmin->syncRoles(['super_admin']);
@@ -53,7 +52,6 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Administrator',
                 'password' => Hash::make('password123'),
-                'role' => 'admin_full',
             ]
         );
         $admin->syncRoles(['admin_full']);
@@ -118,7 +116,6 @@ class UserSeeder extends Seeder
                 'name' => $name,
                 'email' => $email,
                 'password' => Hash::make('password123'),
-                'role' => 'mentor',
             ]);
             $user->syncRoles(['mentor']);
 
@@ -162,7 +159,6 @@ class UserSeeder extends Seeder
                 [
                     'name' => $institution,
                     'password' => Hash::make('password123'),
-                    'role' => 'institusi',
                 ]
             );
 
@@ -271,7 +267,6 @@ class UserSeeder extends Seeder
                 [
                     'name' => $internData['name'],
                     'password' => Hash::make('password123'),
-                    'role' => 'intern',
                 ]
             );
             $user->syncRoles(['intern']);
@@ -283,7 +278,6 @@ class UserSeeder extends Seeder
             Intern::updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'name' => $internData['name'],
                     'gender' => $internData['gender'],
                     'education_level' => $internData['education_level'],
                     'major' => $internData['major'],
