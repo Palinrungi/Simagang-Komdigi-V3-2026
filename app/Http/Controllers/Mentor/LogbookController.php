@@ -94,7 +94,6 @@ class LogbookController extends Controller
                 'comment' => $data['comment'],
             ]);
 
-            // optional: mark that mentor has acted (could be used for activity metrics)
             $logbook->touch();
         });
 
@@ -133,6 +132,49 @@ class LogbookController extends Controller
 
         return redirect()->back()->with('success', 'Status logbook diperbarui.');
     }
+
+    /**
+     * Setujui beberapa logbook sekaligus (Bulk Approve)
+     */
+    public function bulkApprove(Request $request)
+    {
+        $mentor = Auth::user()->mentor;
+
+        if (!$mentor) {
+            return redirect()->back()->with('error', 'Akses ditolak: Data mentor tidak ditemukan.');
+        }
+
+        $rawLogbookIds = $request->input('logbooks', []);
+        $logbookIds = array_unique(array_filter($rawLogbookIds));
+
+        if (empty($logbookIds)) {
+            return redirect()->back()->with('error', 'Pilih setidaknya satu logbook yang ingin disetujui.');
+        }
+
+        $myInternIds = $mentor->interns()->pluck('id');
+
+        // Ambil logbook berdasarkan ID dan pastikan milik anak bimbingan mentor ini
+        $logbooksToApprove = Logbook::whereIn('id', $logbookIds)
+            ->whereIn('intern_id', $myInternIds)
+            ->get();
+
+        if ($logbooksToApprove->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada logbook valid yang perlu disetujui.');
+        }
+
+        DB::transaction(function () use ($logbooksToApprove, $mentor) {
+            foreach ($logbooksToApprove as $logbook) {
+                $logbook->update([
+                    'approval_status' => 'approved',
+                    'approved_by'     => $mentor->id,
+                    'approved_at'     => now(),
+                ]);
+
+                $logbook->touch();
+            }
+        });
+
+        $count = $logbooksToApprove->count();
+        return redirect()->back()->with('success', "Berhasil menyetujui {$count} logbook.");
+    }
 }
-
-

@@ -94,7 +94,7 @@
                 </svg>
             </button>
 
-            <!-- Logo & Brand -->
+            <!-- Logo & Brand Desktop -->
             <div class="flex flex-col items-center p-4 border-b">
                 <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
                 <h1 class="text-3xl font-extrabold font-etna">
@@ -103,7 +103,7 @@
                 <p class="font-etna" style="color: #626161; font-size:10px">Sistem Manajemen Magang</p>
             </div>
 
-            <!-- Navigation Menu -->
+            <!-- Navigation Menu Desktop -->
             <nav class="flex-1 overflow-y-auto py-4">
                 @auth
                     @if(auth()->user()->isAdmin())
@@ -302,6 +302,7 @@ Aktivitas Terbaru
                                     Laporan
                                 </a>
                                 @endcan
+                            </div>
                         </div>
 
                         @if(auth()->user()->isSuperAdmin())
@@ -408,8 +409,8 @@ Aktivitas Terbaru
                                 <i class="fas fa-chevron-down text-xs transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
                             </button>
                             <div x-show="open" x-transition class="bg-gray-50 border-l-4 border-blue-200 ml-4">
-                                <a href="{{ route('industri.intern.index') }}" class="{{ request()->routeIs('industri.intern.index') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
-                                    <i class="fas fa-users w-5 mr-3"></i>
+                                <a href="{{ route('industri.intern.index') }}" class="{{ request()->routeIs('industri.intern.index') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+                                    <i class="fas fa-users w-4 mr-3 text-xs"></i>
                                     Peserta Magang
                                 </a>
                                 <a href="{{ route('industri.attendance.index') }}" class="{{ request()->routeIs('industri.attendance.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
@@ -424,7 +425,7 @@ Aktivitas Terbaru
                                     <i class="fas fa-graduation-cap w-4 mr-3 text-xs"></i>
                                     Mikro Skill
                                 </a>
-                                <a href="{{ route('industri.report.index') }}" class="{{ request()->routeIs('industri.certificate.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
+                                <a href="{{ route('industri.report.index') }}" class="{{ request()->routeIs('industri.report.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                     <i class="fas fa-certificate w-4 mr-3 text-xs"></i>
                                     Laporan Akhir
                                 </a>
@@ -448,7 +449,7 @@ Aktivitas Terbaru
                             <i class="fas fa-file-alt w-5 mr-3"></i>
                             Laporan
                         </a>
-                        <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.index', 'intern.microskill.create', 'intern.microskill.edit', 'intern.microskill.show') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
+                        <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                             <i class="fas fa-star w-5 mr-3"></i>
                             Mikro Skill
                         </a>
@@ -543,9 +544,6 @@ Aktivitas Terbaru
                         <svg class="h-6 w-6" id="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
-                        <svg class="h-6 w-6 hidden" id="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
                     </button>
                 </div>
             </header>
@@ -553,25 +551,24 @@ Aktivitas Terbaru
             <!-- Mobile Sidebar -->
             <div id="mobile-sidebar" class="lg:hidden hidden fixed inset-0 z-50">
                 <div class="fixed inset-0 bg-gray-600 bg-opacity-75" id="mobile-sidebar-backdrop"></div>
-                <div class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white">
-                    <div class="flex justify-between">
-                        <div><p></p></div>
-                        <div class="flex items-center justify-between p-4 border-b">
-                            <div class="flex flex-col items-center p-4 border-b">
-                                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
-                                <h1 class="text-3xl font-extrabold font-etna">
+                <div class="fixed top-0 left-0 bottom-0 flex flex-col w-64 bg-white shadow-xl z-10 h-full">
+                    
+                    <!-- Mobile Header (Tunggal & Bersih - Logo Utama Saja) -->
+                    <div class="flex items-center justify-between p-4 border-b flex-shrink-0">
+                        <div class="flex items-center space-x-2">
+                            <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain w-8 h-8"/>
+                            <div>
+                                <h1 class="text-base font-extrabold font-etna leading-none">
                                     <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>
                                 </h1>
-                                <p class="font-etna" style="color: #626161; font-size:10px">Sistem Manajemen Magang</p>
+                                <p class="font-etna text-[8px] text-gray-500 mt-0.5">Sistem Manajemen Magang</p>
                             </div>
                         </div>
-                        <div>
-                            <button type="button" id="mobile-close-button" class="p-2 rounded-md text-gray-600 hover:text-gray-900">
-                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+                        <button type="button" id="mobile-close-button" class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
 
                     <!-- Mobile Navigation -->
@@ -858,7 +855,7 @@ Aktivitas Terbaru
                     </nav>
 
                     <!-- Mobile User Info -->
-                    <div class="border-t p-4">
+                    <div class="border-t p-4 flex-shrink-0 bg-white">
                         @auth
                             @if(auth()->user()->isAdmin())
                                 <div class="flex items-center space-x-3 mb-3">
@@ -979,26 +976,18 @@ Aktivitas Terbaru
             const mobileSidebar = document.getElementById('mobile-sidebar');
             const mobileCloseBtn = document.getElementById('mobile-close-button');
             const mobileBackdrop = document.getElementById('mobile-sidebar-backdrop');
-            const iconMenu  = document.getElementById('icon-menu');
-            const iconClose = document.getElementById('icon-close');
 
             function openMobileSidebar() {
                 mobileSidebar.classList.remove('hidden');
-                iconMenu.classList.add('hidden');
-                iconClose.classList.remove('hidden');
             }
 
             function closeMobileSidebar() {
                 mobileSidebar.classList.add('hidden');
-                iconMenu.classList.remove('hidden');
-                iconClose.classList.add('hidden');
             }
 
-            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', () =>
-                mobileSidebar.classList.contains('hidden') ? openMobileSidebar() : closeMobileSidebar()
-            );
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileSidebar);
             if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileSidebar);
-            if (mobileBackdrop)  mobileBackdrop.addEventListener('click', closeMobileSidebar);
+            if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeMobileSidebar);
 
             const sidebar = document.getElementById('sidebar');
             window.toggleDesktopSidebar = function () {
