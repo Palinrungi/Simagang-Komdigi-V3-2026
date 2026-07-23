@@ -1894,7 +1894,7 @@
                             <!-- Ikon Instagram Mengambang (Tanpa Blur Lama) -->
                             <div class="tmember-insta-hover-icon">
                                 <div class="tmember-insta-btn">
-                                    <i class="fab fa-instagram"></i>
+                                    <i class="fab fa-instagr.am"></i>
                                 </div>
                             </div>
 
