@@ -96,7 +96,7 @@
 
             <!-- Logo & Brand -->
             <div class="flex flex-col items-center p-4 border-b">
-                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
+                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
                 <h1 class="text-3xl font-extrabold font-etna">
                     <span class="font-etna" style="color: #9d272a">SI</span><span class="font-etna" style="color: #086bb0">MA</span><span class="font-etna" style="color: #2dabe2">GA</span><span class="font-etna" style="color: #efc400">NG</span>
                 </h1>
@@ -124,7 +124,7 @@
                                                         <i class="fas fa-clock text-xl"></i>
                                                     </div>
                                                     <div>
-                                                        <p class="text-xs uppercase tracking-[0.35em] text-cyan-300/80">SIMAGANG</p>
+                                                        <p class="text-xs uppercase tracking-[0.35em] text-cyan-300/80">{{ \App\Models\SystemSetting::get('site_name', 'SIMAGANG') }}</p>
                                                         <h2 class="font-etna text-lg">
                                                             <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>
                                                         </h2>
@@ -309,6 +309,10 @@ Aktivitas Terbaru
                             <a href="{{ route('admin.rag.index') }}" class="{{ request()->routeIs('admin.rag.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
                                 <i class="fas fa-brain w-5 mr-3"></i>
                                 Manajemen AI RAG
+                            </a>
+                            <a href="{{ route('admin.settings.edit') }}" class="{{ request()->routeIs('admin.settings.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
+                                <i class="fas fa-cog w-5 mr-3"></i>
+                                Manajemen Situs
                             </a>
                         </div>
                         @endif
@@ -537,7 +541,7 @@ Aktivitas Terbaru
             <header class="lg:hidden bg-white shadow-sm">
                 <div class="flex items-center justify-between p-4">
                     <div class="flex items-center">
-                        <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
+                        <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
                     </div>
                     <button type="button" id="mobile-menu-button" class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                         <svg class="h-6 w-6" id="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -558,7 +562,7 @@ Aktivitas Terbaru
                         <div><p></p></div>
                         <div class="flex items-center justify-between p-4 border-b">
                             <div class="flex flex-col items-center p-4 border-b">
-                                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
+                                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
                                 <h1 class="text-3xl font-extrabold font-etna">
                                     <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>
                                 </h1>
@@ -707,6 +711,10 @@ Aktivitas Terbaru
                                     <a href="{{ route('admin.rag.index') }}" class="{{ request()->routeIs('admin.rag.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
                                         <i class="fas fa-brain w-5 mr-3"></i>
                                         Manajemen AI RAG
+                                    </a>
+                                    <a href="{{ route('admin.settings.edit') }}" class="{{ request()->routeIs('admin.settings.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
+                                        <i class="fas fa-cog w-5 mr-3"></i>
+                                        Manajemen Situs
                                     </a>
                                 </div>
                                 @endif

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminLowonganController;
 use App\Http\Controllers\Admin\AdminVerifikasiLowonganController;
 use App\Http\Controllers\Admin\AdminMonitoringIndustriController;
 use App\Http\Controllers\Admin\AdminRagController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\InstitutionController;
 use App\Http\Controllers\Intern\MicroSkillController as InternMicroSkillController;
@@ -552,6 +553,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         
         // RAG Knowledge Management Routes
         Route::get('/rag-knowledge', [AdminRagController::class, 'index'])->name('rag.index');
+        
+        // Site Settings Routes
+        Route::get('/settings', [SiteSettingController::class, 'edit'])->name('settings.edit');
+        Route::put('/settings', [SiteSettingController::class, 'update'])->name('settings.update');
         Route::post('/rag-knowledge', [AdminRagController::class, 'store'])->name('rag.store');
         Route::get('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'show'])->name('rag.show');
         Route::put('/rag-knowledge/{folder}/{filename}', [AdminRagController::class, 'update'])->name('rag.update');

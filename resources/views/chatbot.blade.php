@@ -19,7 +19,7 @@
     <!-- Tombol buka -->
     <button id="chatbot-toggle"
         class="w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center hover:scale-110 transition-transform duration-300 focus:outline-none drop-shadow-2xl filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
-        <img src="{{ asset('storage/chatbot_icon/SIMA nobg3.png') }}" class="w-full h-full object-contain animate-float-bot" alt="SIMA Bot">
+        <img src="{{ \App\Models\SystemSetting::get('chatbot_icon', asset('storage/chatbot_icon/SIMA nobg3.png')) }}" class="w-full h-full object-contain animate-float-bot" alt="{{ \App\Models\SystemSetting::get('chatbot_name', 'SIMA') }} Bot">
     </button>
 
     <div id="chatbot-panel-wrapper" class="hidden absolute bottom-full mb-4 right-0 z-50 origin-bottom-right">
@@ -30,9 +30,9 @@
         <div class="bg-white px-4 py-3 flex items-center justify-between z-10 relative">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
-                    <img src="{{ asset('storage/chatbot_icon/SIMA head.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
+                    <img src="{{ \App\Models\SystemSetting::get('chatbot_icon', asset('storage/chatbot_icon/SIMA head.png')) }}" class="w-full h-full object-cover" alt="{{ \App\Models\SystemSetting::get('chatbot_name', 'SIMA') }} Bot">
                 </div>
-                <span class="font-bold text-gray-800 text-base">SIMA Bot</span>
+                <span class="font-bold text-gray-800 text-base">{{ \App\Models\SystemSetting::get('chatbot_name', 'SIMA') }} Bot</span>
             </div>
             <div class="flex items-center gap-3 text-gray-500">
                 <button id="close-chatbot-panel" class="hover:text-gray-800"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></button>
@@ -43,7 +43,7 @@
         <div class="flex-1 relative">
             <!-- Background Image Samar -->
             <div class="absolute inset-0 z-0 flex items-center justify-center opacity-[0.05] pointer-events-none">
-                <img src="{{ asset('storage/chatbot_icon/SIMA nobg2.png') }}" class="w-3/4 max-h-[80%] object-contain" alt="Background">
+                <img src="{{ \App\Models\SystemSetting::get('chatbot_icon', asset('storage/chatbot_icon/SIMA nobg2.png')) }}" class="w-3/4 max-h-[80%] object-contain" alt="Background">
             </div>
 
             <!-- Placeholder Tengah -->
@@ -51,7 +51,7 @@
                 <div class="w-48 h-48 bg-white/30 rounded-full flex items-center justify-center">
                     <div class="w-36 h-36 bg-white/70 backdrop-blur-md rounded-2xl shadow-sm flex flex-col items-center justify-center relative">
                         <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-blue-50 overflow-hidden">
-                            <img src="{{ asset('storage/chatbot_icon/SIMA nobg2.png') }}" class="w-full h-full object-cover" alt="SIMA Bot">
+                            <img src="{{ \App\Models\SystemSetting::get('chatbot_icon', asset('storage/chatbot_icon/SIMA nobg2.png')) }}" class="w-full h-full object-cover" alt="{{ \App\Models\SystemSetting::get('chatbot_name', 'SIMA') }} Bot">
                         </div>
                         <div class="absolute bottom-4 right-6 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-md z-10">AI</div>
                     </div>
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isFirstTimeOpen) {
             isFirstTimeOpen = false;
             setTimeout(() => {
-                appendMessage('bot', 'Hai aku SIMA chatbot asisten yang akan membantumu. Apa yang bisa saya bantu?');
+                appendMessage('bot', 'Hai aku ' + '{{ \App\Models\SystemSetting::get('chatbot_name', 'SIMA') }}' + ' chatbot asisten yang akan membantumu. Apa yang bisa saya bantu?');
             }, 300);
         }
     }

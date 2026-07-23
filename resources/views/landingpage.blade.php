@@ -1128,7 +1128,7 @@
     <div class="navbar-inner">
         <a href="{{ route('landing') }}#hero" class="nav-logo">
             <div class="logo-wrap">
-                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Komdigi">
+                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Komdigi">
             </div>
             <div>
                 <div class="font-etna" style="font-size:20px; font-weight:900; line-height:1.1">
@@ -2074,9 +2074,9 @@
 <footer class="main-footer">
     <div class="footer-simple-inner">
         <div class="footer-logos-simple">
-            <img src="{{ url('storage/vendor/logo_berakhlak.png') }}" alt="BerAkhlak"> 
-            <img src="{{ url('storage/vendor/logo_banggamelayani.png') }}" alt="Bangga Melayani">
-            <img src="{{ url('storage/vendor/logo_antikorupsi.png') }}" alt="Anti Korupsi">
+            <img src="{{ \App\Models\SystemSetting::get('logo_berakhlak', url('storage/vendor/logo_berakhlak.png')) }}" alt="BerAkhlak"> 
+            <img src="{{ \App\Models\SystemSetting::get('logo_banggamelayani', url('storage/vendor/logo_banggamelayani.png')) }}" alt="Bangga Melayani">
+            <img src="{{ \App\Models\SystemSetting::get('logo_antikorupsi', url('storage/vendor/logo_antikorupsi.png')) }}" alt="Anti Korupsi">
         </div>
         <div class="footer-center-area">
             <div class="copyright-simple">
