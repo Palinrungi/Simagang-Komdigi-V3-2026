@@ -555,24 +555,14 @@ Aktivitas Terbaru
             <!-- Mobile Sidebar -->
             <div id="mobile-sidebar" class="lg:hidden hidden fixed inset-0 z-50">
                 <div class="fixed inset-0 bg-gray-600 bg-opacity-75" id="mobile-sidebar-backdrop"></div>
-<<<<<<< HEAD
-                <div class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white">
-                    <div class="flex justify-between">
-                        <div><p></p></div>
-                        <div class="flex items-center justify-between p-4 border-b">
-                            <div class="flex flex-col items-center p-4 border-b">
-                                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
-                                <h1 class="text-3xl font-extrabold font-etna">
-=======
                 <div class="fixed top-0 left-0 bottom-0 flex flex-col w-64 bg-white shadow-xl z-10 h-full">
                     
                     <!-- Mobile Header (Tunggal & Bersih - Logo Utama Saja) -->
                     <div class="flex items-center justify-between p-4 border-b flex-shrink-0">
                         <div class="flex items-center space-x-2">
-                            <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Logo" class="object-contain w-8 h-8"/>
+                            <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain w-8 h-8"/>
                             <div>
                                 <h1 class="text-base font-extrabold font-etna leading-none">
->>>>>>> 8378dc75f30718ea8b06c5e8aebb93317a408a10
                                     <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>
                                 </h1>
                                 <p class="font-etna text-[8px] text-gray-500 mt-0.5">Sistem Manajemen Magang</p>
