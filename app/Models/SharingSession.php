@@ -73,48 +73,49 @@ class SharingSession extends Model
     }
 
     public function getEvaluationOpensAtAttribute()
-    {
-        if (!$this->session_date) {
-            return null;
-        }
-
-        $date = Carbon::parse($this->session_date)->format('Y-m-d');
-        $time = $this->start_time
-            ? Carbon::parse($this->start_time)->format('H:i:s')
-            : '00:00:00';
-
-        return Carbon::parse($date . ' ' . $time);
+{
+    if (!$this->session_date) {
+        return null;
     }
 
-    public function getEvaluationClosesAtAttribute()
-    {
-        if (!$this->session_date) {
-            return null;
-        }
+    $date = Carbon::parse($this->session_date)->format('Y-m-d');
+    $time = $this->start_time
+        ? Carbon::parse($this->start_time)->format('H:i:s')
+        : '00:00:00';
 
-        return Carbon::parse($this->session_date)->endOfDay();
+    return Carbon::createFromFormat('Y-m-d H:i:s', $date . ' ' . $time, 'Asia/Makassar');
+}
+
+public function getEvaluationClosesAtAttribute()
+{
+    if (!$this->session_date) {
+        return null;
     }
 
-    public function getEvaluationIsOpenAttribute()
-    {
-        if (!$this->evaluation_opens_at || !$this->evaluation_closes_at) {
-            return false;
-        }
+    return Carbon::parse($this->session_date, 'Asia/Makassar')->endOfDay();
+}
 
-        return now()->between(
-            $this->evaluation_opens_at,
-            $this->evaluation_closes_at
-        );
+public function getEvaluationIsOpenAttribute()
+{
+    if (!$this->evaluation_opens_at || !$this->evaluation_closes_at) {
+        return false;
     }
 
-    public function getEvaluationAlreadyClosedAttribute()
-    {
-        if (!$this->evaluation_closes_at) {
-            return false;
-        }
+    return now('Asia/Makassar')->between(
+        $this->evaluation_opens_at,
+        $this->evaluation_closes_at
+    );
+}
 
-        return now()->gt($this->evaluation_closes_at);
+public function getEvaluationAlreadyClosedAttribute()
+{
+    if (!$this->evaluation_closes_at) {
+        return false;
     }
+
+    return now('Asia/Makassar')->gt($this->evaluation_closes_at);
+}
+
 
     public function getMaterialStatusAttribute()
     {
