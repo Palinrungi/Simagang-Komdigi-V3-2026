@@ -150,9 +150,7 @@
                 </div>
             </div>
 
-            <!-- Statistics Cards (Optional - untuk informasi tambahan) -->
-            {{-- @if ($pengajuans->count() > 0) --}}
-            {{-- Stats Cards --}}
+            <!-- Statistics Cards -->
             <div class="stats-shell mb-8">
 
                 @php
@@ -209,6 +207,7 @@
 
             </div>
 
+            <!-- Filter & Pencarian -->
             <div class="panel mb-6 border-t-4 border-blue-500">
                 <div class="panel-content p-6">
                     <h2 class="text-lg font-semibold text-blue-900 mb-1 flex items-center">
@@ -216,10 +215,9 @@
                     </h2>
                     <p class="section-label">Filter Monitoring</p>
                     <form method="GET" action="{{ route('admin.pengajuan.index') }}"
-                        class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                         <div>
-                            <label for="search" class="block text-sm font-medium text-blue-900 mb-1">Cari Nomor
-                                Surat</label>
+                            <label for="search" class="block text-sm font-medium text-blue-900 mb-1">Cari Nomor Surat</label>
                             <input type="text" name="search" id="search" value="{{ request('search') }}"
                                 placeholder="Cari nomor surat..."
                                 class="w-full px-3 py-2 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -229,18 +227,15 @@
                             <select name="status" id="status"
                                 class="w-full px-3 py-2 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                 <option value="">Semua Status</option>
-                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending
-                                </option>
-                                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved
-                                </option>
-                                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected
-                                </option>
-                                <option value="revised" {{ request('status') == 'revised' ? 'selected' : '' }}>Revised
-                                </option>
+                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                <option value="revised" {{ request('status') == 'revised' ? 'selected' : '' }}>Revised</option>
                             </select>
                         </div>
-                        <!-- status filter removed; inactive interns shown in separate table below -->
-                        <div class="flex items-end gap-2">
+                        
+                        <!-- Tombol Filter -->
+                        <div class="flex items-center gap-2">
                             <button type="submit"
                                 class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 flex-1">
                                 <i class="fas fa-filter mr-2"></i>Filter
@@ -252,13 +247,25 @@
                                 </a>
                             @endif
                         </div>
+
+                        <!-- Tombol Google Drive Kumpulan Surat -->
+                        <div>
+                            <a href="{{ env('GOOGLE_DRIVE_SURAT_PENGAJUAN', '#') }}" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center justify-center gap-2 w-full">
+                                <i class="fab fa-google-drive text-lg"></i>
+                                <span>Folder Surat (Drive)</span>
+                                <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
 
             <!-- Pengajuan Magang Table -->
             <div class="panel border border-blue-100">
-                <div class="panel-header px-6 py-4">
+                <div class="panel-header px-6 py-4 flex items-center justify-between">
                     <h2 class="text-xl font-bold text-white flex items-center">
                         <i class="fas fa-list mr-3"></i>
                         Data Pengajuan Magang
@@ -269,20 +276,15 @@
                         <table class="pengajuan-table min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr class="bg-blue-50">
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">
                                         Nomor Surat</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Institusi</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Tanggal Pengajuan</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
                                         Status</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
                                         Aksi</th>
                                 </tr>
                             </thead>
@@ -313,19 +315,13 @@
                                         </td>
                                         <td class="px-6 py-4 text-left">
                                             <div class="flex flex-col space-y-1 items-center">
-                                                <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                                 @if ($pengajuan->status == 'approved') bg-green-100 text-green-800 
                                                 @elseif($pengajuan->status == 'rejected') bg-red-100 text-red-800 
                                                 @elseif($pengajuan->status == 'revised') bg-orange-100 text-orange-800 
                                                 @else bg-yellow-100 text-yellow-800 @endif">
                                                     {{ ucfirst($pengajuan->status) }}
                                                 </span>
-                                                {{-- @if ($pengajuan->needs_revision)
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
-                                                    Revisi
-                                                </span>
-                                            @endif --}}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -333,15 +329,14 @@
                                                 <a href="{{ route('admin.pengajuan.show', $pengajuan->id) }}"
                                                     class="inline-flex items-center justify-center w-10 h-10 bg-green-100 hover:bg-green-600 rounded-lg transition-all duration-200 group"
                                                     title="Lihat">
-                                                    <i class="fas fa-eye"></i>
+                                                    <i class="fas fa-eye text-green-600 group-hover:text-white"></i>
                                                 </a>
                                                 <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-delete-modal-pengajuan', { detail: { url: '{{ route('admin.pengajuan.destroy', $pengajuan->id) }}' } }))"
                                                     class="inline-flex items-center justify-center w-10 h-10 bg-red-100 hover:bg-red-200 rounded-lg transition-all duration-200 group"
                                                     title="Hapus">
                                                     <svg class="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform"
                                                         fill="currentColor" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
                                                     </svg>
                                                 </button>
                                             </div>
@@ -360,42 +355,35 @@
                             </tbody>
                         </table>
                     </div>
-
-                    {{-- <!-- Pagination -->
-                @if ($logbooks->count() > 0)
-                    <div class="mt-6">
-                        {{ $logbooks->links() }}
-                    </div>
-                @endif --}}
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
-                        <div x-data="{ showDeleteModal: false, deleteUrl: '' }" @open-delete-modal-pengajuan.window="showDeleteModal = true; deleteUrl = $event.detail.url">
-                            <!-- Modal Backdrop -->
-                            <div x-show="showDeleteModal" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900 bg-opacity-50 backdrop-blur-sm" x-transition.opacity>
-                                <!-- Modal Content -->
-                                <div @click.away="showDeleteModal = false" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all" x-show="showDeleteModal" x-transition.scale.origin.bottom>
-                                    <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
-                                        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Hapus</h3>
-                                    <p class="text-center text-gray-600 mb-6">Apakah Anda yakin ingin menghapus pengajuan ini? Tindakan ini tidak dapat dibatalkan.</p>
-                                    <div class="flex justify-center gap-3">
-                                        <button type="button" @click="showDeleteModal = false" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
-                                            Batal
-                                        </button>
-                                        <form :action="deleteUrl" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors flex items-center gap-2">
-                                                <i class="fas fa-trash"></i> Ya, Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div x-data="{ showDeleteModal: false, deleteUrl: '' }" @open-delete-modal-pengajuan.window="showDeleteModal = true; deleteUrl = $event.detail.url">
+        <!-- Modal Backdrop -->
+        <div x-show="showDeleteModal" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900 bg-opacity-50 backdrop-blur-sm" x-transition.opacity>
+            <!-- Modal Content -->
+            <div @click.away="showDeleteModal = false" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all" x-show="showDeleteModal" x-transition.scale.origin.bottom>
+                <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Hapus</h3>
+                <p class="text-center text-gray-600 mb-6">Apakah Anda yakin ingin menghapus pengajuan ini? Tindakan ini tidak dapat dibatalkan.</p>
+                <div class="flex justify-center gap-3">
+                    <button type="button" @click="showDeleteModal = false" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+                        Batal
+                    </button>
+                    <form :action="deleteUrl" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors flex items-center gap-2">
+                            <i class="fas fa-trash"></i> Ya, Hapus
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

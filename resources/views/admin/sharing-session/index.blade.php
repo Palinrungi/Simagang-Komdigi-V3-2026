@@ -13,7 +13,7 @@
                     </p>
 
                     <h1 class="text-3xl font-bold">
-                        Kelola Sharing Session
+                        Keloola Sharing Session
                     </h1>
 
                     <p class="text-blue-100 mt-2">
@@ -21,11 +21,23 @@
                     </p>
                 </div>
 
-                <a href="{{ route('admin.sharing-session.create') }}"
-                   class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-5 py-3 rounded-2xl font-semibold shadow hover:bg-blue-50 transition">
-                    <i class="fas fa-plus"></i>
-                    Tambah Jadwal
-                </a>
+                {{-- Action Buttons --}}
+                <div class="flex items-center gap-3">
+                    {{-- Tombol Export Excel --}}
+                    <button type="button" 
+                            onclick="window.dispatchEvent(new CustomEvent('open-export-modal-ss'))"
+                            class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl font-semibold shadow transition">
+                        <i class="fas fa-file-excel"></i>
+                        <span>Cetak Excel</span>
+                    </button>
+
+                    {{-- Tombol Tambah Jadwal --}}
+                    <a href="{{ route('admin.sharing-session.create') }}"
+                       class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-5 py-3 rounded-2xl font-semibold shadow hover:bg-blue-50 transition">
+                        <i class="fas fa-plus"></i>
+                        <span>Tambah Jadwal</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -284,6 +296,7 @@
     </div>
 </div>
 
+{{-- MODAL FOTO DOKUMENTASI --}}
 @foreach($sessions as $session)
     @if($session->documentation_photo_url)
         <div id="documentation-modal-{{ $session->id }}"
@@ -332,6 +345,91 @@
         </div>
     @endif
 @endforeach
+
+{{-- MODAL POPUP CETAK EXCEL (Alpine.js) --}}
+<div x-data="{ showExportModal: false, filterType: 'all' }"
+     @open-export-modal-ss.window="showExportModal = true">
+
+    <div x-show="showExportModal" style="display:none;"
+         class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+         x-transition.opacity>
+
+        <div @click.away="showExportModal = false"
+             class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 overflow-hidden">
+
+            <div class="flex items-center justify-between border-b pb-3 mb-4">
+                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-file-excel text-emerald-600"></i>
+                    Cetak Laporan Sharing Session
+                </h3>
+                <button type="button" @click="showExportModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form action="{{ route('admin.sharing-session.export') }}" method="GET" @submit="showExportModal = false">
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Periode Laporan</label>
+                        <select name="filter_type" x-model="filterType" class="w-full rounded-xl border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500">
+                            <option value="all">Semua Data</option>
+                            <option value="weekly">Mingguan / Rentang Tanggal</option>
+                            <option value="monthly">Bulanan</option>
+                            <option value="yearly">Tahunan</option>
+                        </select>
+                    </div>
+
+                    {{-- Filter Rentang Tanggal / Mingguan --}}
+                    <div x-show="filterType === 'weekly'" class="grid grid-cols-2 gap-3" style="display:none;">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Dari Tanggal</label>
+                            <input type="date" name="start_date" class="w-full rounded-xl border-slate-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Sampai Tanggal</label>
+                            <input type="date" name="end_date" class="w-full rounded-xl border-slate-200 text-sm">
+                        </div>
+                    </div>
+
+                    {{-- Filter Bulanan --}}
+                    <div x-show="filterType === 'monthly'" class="grid grid-cols-2 gap-3" style="display:none;">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Bulan</label>
+                            <select name="month" class="w-full rounded-xl border-slate-200 text-sm">
+                                @foreach(range(1, 12) as $m)
+                                    <option value="{{ $m }}" {{ date('n') == $m ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Tahun</label>
+                            <input type="number" name="year" value="{{ date('Y') }}" class="w-full rounded-xl border-slate-200 text-sm">
+                        </div>
+                    </div>
+
+                    {{-- Filter Tahunan --}}
+                    <div x-show="filterType === 'yearly'" style="display:none;">
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Tahun</label>
+                        <input type="number" name="year" value="{{ date('Y') }}" class="w-full rounded-xl border-slate-200 text-sm">
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-slate-100">
+                    <button type="button" @click="showExportModal = false" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl flex items-center gap-2">
+                        <i class="fas fa-download"></i> Unduh Excel
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     function openDocumentationModal(id) {

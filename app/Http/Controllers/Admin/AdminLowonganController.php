@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Lowongan;
 use App\Models\Industri;
 use App\Models\Team;
+use App\Models\Position; // 1. Import Model Position
 
 class AdminLowonganController extends Controller
 {
@@ -118,7 +119,10 @@ class AdminLowonganController extends Controller
     public function create()
     {
         $teams = Team::orderBy('name')->get();
-        return view('admin.lowongan.create', compact('teams'));
+        // 2. Ambil data posisi yang aktif untuk dikirim ke view create
+        $positions = Position::where('is_active', true)->orderBy('name')->get();
+
+        return view('admin.lowongan.create', compact('teams', 'positions'));
     }
 
     /**
@@ -177,7 +181,7 @@ class AdminLowonganController extends Controller
     public function show(string $id)
     {
         $lowongan = Lowongan::with('industri')
-        ->findOrFail($id);
+            ->findOrFail($id);
 
         return view('admin.lowongan.show', compact('lowongan'));
     }
@@ -188,11 +192,11 @@ class AdminLowonganController extends Controller
     public function edit(string $id)
     {
         $lowongan = Lowongan::findOrFail($id);
-        // if (!$this->canEditLowongan($lowongan)) {
-        //     abort(403, 'Anda tidak memiliki akses untuk mengedit lowongan ini.');
-        // }
         $teams = Team::orderBy('name')->get();
-        return view('admin.lowongan.edit', compact('lowongan', 'teams'));
+        // 3. Tambahkan juga pempunyaan $positions pada method edit agar halaman edit tidak error
+        $positions = Position::where('is_active', true)->orderBy('name')->get();
+
+        return view('admin.lowongan.edit', compact('lowongan', 'teams', 'positions'));
     }
 
     /**
@@ -201,9 +205,7 @@ class AdminLowonganController extends Controller
     public function update(Request $request, string $id)
     {
         $lowongan = Lowongan::findOrFail($id);
-        // if (!$this->canEditLowongan($lowongan)) {
-        //     abort(403, 'Anda tidak memiliki akses untuk mengedit lowongan ini.');
-        // }
+
         $request->validate([
             'judul_lowongan'      => 'required|string|max:255',
             'posisi_magang'       => 'required|string|max:255',
@@ -216,6 +218,7 @@ class AdminLowonganController extends Controller
         ], [
             'required' => ':attribute wajib diisi.',
         ]);
+
         $lowongan->update([
             'judul_lowongan'      => $request->judul_lowongan,
             'posisi_magang'       => $request->posisi_magang,
@@ -226,18 +229,15 @@ class AdminLowonganController extends Controller
             'kuota_peserta'       => $request->kuota_peserta,
             'status'              => $request->status === 'aktif' ? 'dibuka' : 'ditutup',
         ]);
+
         return redirect()
             ->route('admin.lowongan.show', $lowongan->id)
             ->with('success', 'Lowongan magang berhasil diperbarui.');
     }
 
-
-     /**
-
+    /**
      * Determine whether the current admin may edit the lowongan.
-
      */
-
     private function canEditLowongan(Lowongan $lowongan): bool
     {
         $user = auth()->user();
@@ -248,6 +248,7 @@ class AdminLowonganController extends Controller
         }
         return $lowongan->industri_id === null;
     }
+
     /**
      * Remove the specified resource from storage.
      */

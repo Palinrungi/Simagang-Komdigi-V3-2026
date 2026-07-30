@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\SharingSessionExport;
 use App\Http\Controllers\Controller;
 use App\Models\SharingSession;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminSharingSessionController extends Controller
 {
@@ -49,6 +51,15 @@ class AdminSharingSessionController extends Controller
             'akanDatang',
             'selesai'
         ));
+    }
+
+    /**
+     * Export data sharing session ke file Excel berdasarkan filter periode
+     */
+    public function exportExcel(Request $request)
+    {
+        $filename = 'Laporan_Sharing_Session_' . date('Ymd_His') . '.xlsx';
+        return Excel::download(new SharingSessionExport($request), $filename);
     }
 
     public function create()

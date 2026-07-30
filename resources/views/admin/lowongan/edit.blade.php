@@ -338,10 +338,6 @@
             font-size: 15px;
         }
 
-        .divider {
-            border-top: 1px solid #f1f5f9;
-        }
-
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(14px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -350,10 +346,8 @@
         .anim-1 { animation: fadeSlideUp .5s ease both; }
         .anim-2 { animation: fadeSlideUp .5s ease .1s both; }
         .anim-3 { animation: fadeSlideUp .5s ease .2s both; }
-        .anim-4 { animation: fadeSlideUp .5s ease .3s both; }
 
         .panel form { padding: 22px; }
-
         .form-section { padding: 20px 22px; }
 
         .section-label {
@@ -430,7 +424,6 @@
                 <div class="lg:col-span-3 anim-2">
                     <div class="panel">
 
-                        {{-- Form tanpa action langsung — submit dikontrol oleh modal --}}
                         <form method="POST"
                               action="{{ route('admin.lowongan.update', $lowongan->id) }}"
                               id="edit-lowongan-form">
@@ -447,36 +440,54 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                    <div class="md:col-span-2">
-                                        <label class="form-label">Judul Lowongan</label>
-                                        <input type="text" name="judul_lowongan" id="judul_lowongan" maxlength="255"
-                                            value="{{ old('judul_lowongan', $lowongan->judul_lowongan) }}"
-                                            placeholder="Contoh: Lowongan Magang UI/UX Designer"
-                                            class="form-input">
-                                    </div>
+                                    
+                                    {{-- 1. Posisi Magang (Dropdown Utama) --}}
                                     <div>
-                                        <label class="form-label">Posisi Magang</label>
-                                        <input type="text" name="posisi_magang" id="posisi_magang" maxlength="255"
-                                            value="{{ old('posisi_magang', $lowongan->posisi_magang) }}"
-                                            placeholder="Contoh: Frontend Developer"
-                                            class="form-input">
-                                    </div>
-                                    <div>
-                                        <label class="form-label">Tim / Bagian</label>
-                                        <select name="divisi" id="divisi" class="form-input">
-                                            <option value="" {{ old('divisi', $lowongan->divisi) == '' ? 'selected' : '' }}>Pilih Tim / Bagian</option>
-                                            @if(isset($teams) && $teams->count())
-                                                @foreach($teams as $team)
-                                                    <option value="{{ $team->name }}"
-                                                        {{ old('divisi', $lowongan->divisi) == $team->name ? 'selected' : '' }}>
-                                                        {{ $team->name }}
+                                        <label class="form-label">Posisi Magang <span class="text-red-500">*</span></label>
+                                        <select name="posisi_magang" id="posisi_magang" class="form-input">
+                                            <option value="" disabled>-- Pilih Posisi Magang --</option>
+                                            @if(isset($positions) && $positions->count())
+                                                @foreach($positions as $pos)
+                                                    <option value="{{ $pos->name }}" data-team="{{ $pos->team_id }}"
+                                                        {{ old('posisi_magang', $lowongan->posisi_magang) == $pos->name ? 'selected' : '' }}>
+                                                        {{ $pos->name }}
                                                     </option>
                                                 @endforeach
                                             @else
-                                                <option disabled>Tidak ada tim terdaftar</option>
+                                                <option value="{{ $lowongan->posisi_magang }}" selected>{{ $lowongan->posisi_magang }}</option>
                                             @endif
                                         </select>
                                     </div>
+
+                                    {{-- 2. Tim / Bagian (Otomatis & Terkunci) --}}
+                                    <div>
+                                        <label class="form-label">Tim / Bagian <span class="text-xs text-gray-400 font-normal">(Otomatis)</span></label>
+                                        <select id="team_id_display" class="form-input bg-gray-100 cursor-not-allowed opacity-75 pointer-events-none" tabindex="-1">
+                                            <option value="" disabled>-- Otomatis Mengikuti Posisi --</option>
+                                            @if(isset($teams) && $teams->count())
+                                                @foreach($teams as $team)
+                                                    <option value="{{ $team->id }}" {{ old('team_id', $lowongan->team_id) == $team->id ? 'selected' : '' }}>
+                                                        {{ $team->name }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        {{-- Hidden Input untuk backend --}}
+                                        <input type="hidden" name="team_id" id="team_id" value="{{ old('team_id', $lowongan->team_id) }}">
+                                    </div>
+
+                                    {{-- 3. Judul Lowongan (Otomatis & Readonly) --}}
+                                    <div class="md:col-span-2">
+                                        <label class="form-label">Judul Lowongan <span class="text-xs text-gray-400 font-normal">(Otomatis)</span></label>
+                                        <input type="text" 
+                                               name="judul_lowongan" 
+                                               id="judul_lowongan" 
+                                               readonly 
+                                               value="{{ old('judul_lowongan', $lowongan->judul_lowongan) }}" 
+                                               placeholder="Akan terisi otomatis setelah memilih posisi magang..." 
+                                               class="form-input bg-gray-100 cursor-not-allowed font-semibold text-gray-700">
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -545,12 +556,11 @@
 
                             {{-- ── Footer ── --}}
                             <div class="form-footer">
-                                <a href="{{ route('admin.lowongan.show', $lowongan->id) }}" class="back-btn">
+                                <a href="{{ route('admin.lowongan.index') }}" class="back-btn">
                                     <i class="fas fa-arrow-left"></i>
                                     Kembali
                                 </a>
 
-                                {{-- Tombol ini membuka modal, BUKAN submit langsung --}}
                                 <button type="button" class="submit-btn"
                                     onclick="window.dispatchEvent(new CustomEvent('open-update-modal-lowongan', {
                                         detail: { title: document.getElementById('judul_lowongan').value || '{{ addslashes($lowongan->judul_lowongan) }}' }
@@ -587,7 +597,7 @@
                             <div class="rounded-xl bg-indigo-50 border border-indigo-100 p-3">
                                 <p class="text-[11px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Judul Lowongan</p>
                                 <p class="text-sm font-bold text-indigo-900 leading-snug" id="judul_preview">Belum diisi</p>
-                                <p class="text-xs text-indigo-700 mt-1" id="meta_preview">Posisi dan divisi akan tampil di sini</p>
+                                <p class="text-xs text-indigo-700 mt-1" id="meta_preview">Posisi dan tim akan tampil di sini</p>
                             </div>
                         </div>
                     </div>
@@ -629,9 +639,7 @@
         </div>
     </div>
 
-    {{-- ══════════════════════════════════════════════════════════════ --}}
-    {{-- ── MODAL KONFIRMASI PERBARUI (Alpine.js) ── --}}
-    {{-- ══════════════════════════════════════════════════════════════ --}}
+    {{-- MODAL KONFIRMASI --}}
     <div x-data="{ showUpdateModal: false, jobTitle: '' }"
          @open-update-modal-lowongan.window="showUpdateModal = true; jobTitle = $event.detail.title">
 
@@ -643,22 +651,18 @@
                  class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all"
                  x-show="showUpdateModal" x-transition.scale.origin.bottom>
 
-                {{-- Icon --}}
                 <div class="flex items-center justify-center w-12 h-12 mx-auto bg-blue-100 rounded-full mb-4">
                     <i class="fas fa-save text-blue-600 text-xl"></i>
                 </div>
 
-                {{-- Title --}}
                 <h3 class="text-xl font-bold text-center text-gray-900 mb-2">Konfirmasi Perbarui</h3>
 
-                {{-- Message --}}
                 <p class="text-center text-gray-600 mb-6">
                     Apakah Anda yakin ingin memperbarui informasi lowongan
                     <strong x-text="jobTitle"></strong>?
                     Perubahan akan langsung tersimpan.
                 </p>
 
-                {{-- Buttons --}}
                 <div class="flex justify-center gap-3">
                     <button type="button" @click="showUpdateModal = false"
                         class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
@@ -683,7 +687,8 @@
             const fields = {
                 judul:        document.getElementById('judul_lowongan'),
                 posisi:       document.getElementById('posisi_magang'),
-                divisi:       document.getElementById('divisi'),
+                team:         document.getElementById('team_id'),
+                teamDisplay:  document.getElementById('team_id_display'),
                 deskripsi:    document.getElementById('deskripsi_pekerjaan'),
                 requirements: document.getElementById('requirements'),
                 fasilitas:    document.getElementById('fasilitas'),
@@ -704,13 +709,21 @@
                 const values = {
                     judul:        fields.judul.value.trim(),
                     posisi:       fields.posisi.value.trim(),
-                    divisi:       fields.divisi.value,
+                    team:         fields.team.value,
                     deskripsi:    fields.deskripsi.value.trim(),
                     requirements: fields.requirements.value.trim(),
                     fasilitas:    fields.fasilitas.value.trim(),
                     kuota:        fields.kuota.value,
                     status:       fields.status.value,
                 };
+
+                let teamName = 'Tim belum diisi';
+                if (fields.teamDisplay && fields.teamDisplay.selectedIndex >= 0) {
+                    const selectedTeamOption = fields.teamDisplay.options[fields.teamDisplay.selectedIndex];
+                    if (selectedTeamOption && selectedTeamOption.value) {
+                        teamName = selectedTeamOption.text;
+                    }
+                }
 
                 const completed = Object.values(values).filter(Boolean).length;
                 const percentage = Math.round((completed / 8) * 100);
@@ -724,10 +737,30 @@
 
                 previewEls.kuota.textContent       = values.kuota ? `${values.kuota} peserta` : '0 peserta';
                 previewEls.judul.textContent       = values.judul || 'Belum diisi';
-                previewEls.meta.textContent        = values.posisi && values.divisi
-                    ? `${values.posisi} • ${values.divisi}`
-                    : 'Posisi dan divisi akan tampil di sini';
+                previewEls.meta.textContent        = values.posisi ? `${values.posisi} • ${teamName}` : 'Posisi dan tim akan tampil di sini';
             };
+
+            // Otomatisasi Posisi -> Tim & Judul Lowongan
+            if (fields.posisi) {
+                fields.posisi.addEventListener('change', function() {
+                    const selectedPosition = this.value;
+                    const selectedOption = this.options[this.selectedIndex];
+                    const teamId = selectedOption.getAttribute('data-team');
+
+                    // 1. Otomatis set Judul Lowongan
+                    if (selectedPosition && fields.judul) {
+                        fields.judul.value = 'Lowongan Magang ' + selectedPosition;
+                    }
+
+                    // 2. Otomatis set Tim / Bagian
+                    if (teamId) {
+                        if (fields.teamDisplay) fields.teamDisplay.value = teamId;
+                        if (fields.team) fields.team.value = teamId;
+                    }
+
+                    updatePreview();
+                });
+            }
 
             Object.values(fields).forEach((field) => {
                 if (!field) return;

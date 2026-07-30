@@ -652,7 +652,7 @@
         <!-- Video Player Frame (PERBAIKAN URL SEMAT YOUTUBE) -->
         <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-inner bg-slate-950 border border-slate-200">
             <iframe id="tutorialVideoFrame" class="w-full h-full" 
-                    src="https://www.youtube.com/embed/GorIEj-qp6A?enablejsapi=1&rel=0" 
+                    src="https://www.youtube.com/embed/nvyUqIMfeYg" 
                     title="Panduan Alur Pendaftaran Mitra" frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     allowfullscreen>
