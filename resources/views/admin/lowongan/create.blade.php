@@ -347,40 +347,6 @@
             font-size: 15px;
         }
 
-        .divider {
-            border-top: 1px solid #f1f5f9;
-        }
-
-        /* ── Animations ───────────────────────────────── */
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .anim-1 {
-            animation: fadeSlideUp .5s ease both;
-        }
-        
-        .anim-2 {
-            animation: fadeSlideUp .5s ease .1s both;
-        }
-
-        .anim-3 {
-            animation: fadeSlideUp .5s ease .2s both;
-        }
-
-        .anim-4 {
-            animation: fadeSlideUp .5s ease .3s both;
-        }
-
-        /* ── Small UI improvements */
         .panel form {
             padding: 22px;
         }
@@ -398,14 +364,6 @@
             margin-bottom: 8px;
             display: block;
         }
-
-        .counter {
-            display: inline-block;
-            margin-top: 6px;
-            font-size: 12px;
-            color: #6b7280;
-        }
-
     </style>
 @endpush
 
@@ -495,33 +453,51 @@
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                    <div class="md:col-span-2">
-                                        <label class="form-label">Judul Lowongan</label>
-                                        <input type="text" name="judul_lowongan" id="judul_lowongan" maxlength="255"
-                                            value="{{ old('judul_lowongan') }}"
-                                            placeholder="Contoh: Lowongan Magang UI/UX Designer" class="form-input">
+                                    
+                                    {{-- 1. Posisi Magang (Dapat Dipilih) --}}
+                                    <div>
+                                        <label class="form-label">Posisi Magang <span class="text-red-500">*</span></label>
+                                        <select name="posisi_magang" id="posisi_magang" class="form-input">
+                                            <option value="" disabled {{ old('posisi_magang') == '' ? 'selected' : '' }}>-- Pilih Posisi Magang --</option>
+                                            @if(isset($positions) && $positions->count())
+                                                @foreach($positions as $pos)
+                                                    <option value="{{ $pos->name }}" data-team="{{ $pos->team_id }}" {{ old('posisi_magang') == $pos->name ? 'selected' : '' }}>
+                                                        {{ $pos->name }}
+                                                    </option>
+                                                @endforeach
+                                            @else
+                                                <option disabled>Tidak ada posisi terdaftar</option>
+                                            @endif
+                                        </select>
                                     </div>
 
+                                    {{-- 2. Tim / Bagian (Otomatis & Terkunci) --}}
                                     <div>
-                                        <label class="form-label">Posisi Magang</label>
-                                        <input type="text" name="posisi_magang" id="posisi_magang" maxlength="255"
-                                            value="{{ old('posisi_magang') }}" placeholder="Contoh: Frontend Developer"
-                                            class="form-input">
-                                    </div>
-
-                                    <div>
-                                        <label class="form-label">Tim / Bagian</label>
-                                        <select name="team_id" id="team_id" class="form-input">
-                                            <option value="" {{ old('team_id') == '' ? 'selected' : '' }}>Pilih Tim / Bagian</option>
+                                        <label class="form-label">Tim / Bagian <span class="text-xs text-gray-400 font-normal">(Otomatis)</span></label>
+                                        <select id="team_id_display" class="form-input bg-gray-100 cursor-not-allowed opacity-75 pointer-events-none" tabindex="-1">
+                                            <option value="" disabled {{ old('team_id') == '' ? 'selected' : '' }}>-- Otomatis Mengikuti Posisi --</option>
                                             @if(isset($teams) && $teams->count())
                                                 @foreach($teams as $team)
                                                     <option value="{{ $team->id }}" {{ old('team_id') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
                                                 @endforeach
-                                            @else
-                                                <option disabled>Tidak ada tim terdaftar</option>
                                             @endif
                                         </select>
+                                        {{-- Hidden Input untuk mengirim data ke Controller --}}
+                                        <input type="hidden" name="team_id" id="team_id" value="{{ old('team_id') }}">
                                     </div>
+
+                                    {{-- 3. Judul Lowongan (Otomatis & Readonly) --}}
+                                    <div class="md:col-span-2">
+                                        <label class="form-label">Judul Lowongan <span class="text-xs text-gray-400 font-normal">(Otomatis)</span></label>
+                                        <input type="text" 
+                                               name="judul_lowongan" 
+                                               id="judul_lowongan" 
+                                               readonly 
+                                               value="{{ old('judul_lowongan') }}" 
+                                               placeholder="Akan terisi otomatis setelah memilih posisi magang..." 
+                                               class="form-input bg-gray-100 cursor-not-allowed font-semibold text-gray-700">
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -566,8 +542,7 @@
                                     </div>
                                     <div>
                                         <h2 class="section-title">Informasi Magang</h2>
-                                        <p class="section-subtitle">Tentukan kuota, status, dan pastikan fasilitas terisi
-                                            jelas.</p>
+                                        <p class="section-subtitle">Tentukan kuota, status, dan pastikan fasilitas terisi jelas.</p>
                                     </div>
                                 </div>
 
@@ -629,17 +604,13 @@
 
                             <div class="live-row">
                                 <span class="text-xs font-semibold text-slate-500">Kuota</span>
-                                <span class="mono text-xs font-semibold text-slate-700" id="kuota_preview">0
-                                    peserta</span>
+                                <span class="mono text-xs font-semibold text-slate-700" id="kuota_preview">0 peserta</span>
                             </div>
 
                             <div class="rounded-xl bg-indigo-50 border border-indigo-100 p-3">
-                                <p class="text-[11px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Judul
-                                    Lowongan</p>
-                                <p class="text-sm font-bold text-indigo-900 leading-snug" id="judul_preview">Belum diisi
-                                </p>
-                                <p class="text-xs text-indigo-700 mt-1" id="meta_preview">Posisi dan divisi akan tampil di
-                                    sini</p>
+                                <p class="text-[11px] font-semibold text-indigo-500 uppercase tracking-wider mb-1">Judul Lowongan</p>
+                                <p class="text-sm font-bold text-indigo-900 leading-snug" id="judul_preview">Belum diisi</p>
+                                <p class="text-xs text-indigo-700 mt-1" id="meta_preview">Posisi dan tim akan tampil di sini</p>
                             </div>
                         </div>
                     </div>
@@ -653,8 +624,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-slate-800 text-sm mb-1">Judul yang Jelas</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Gunakan judul lowongan yang mudah
-                                    dipahami peserta.</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">Gunakan judul lowongan yang mudah dipahami peserta.</p>
                             </div>
                         </div>
 
@@ -664,8 +634,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-slate-800 text-sm mb-1">Jelaskan Kebutuhan</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Tuliskan requirement dengan detail agar
-                                    seleksi lebih tepat.</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">Tuliskan requirement dengan detail agar seleksi lebih tepat.</p>
                             </div>
                         </div>
 
@@ -675,8 +644,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-slate-800 text-sm mb-1">Aktifkan Lowongan</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Pastikan status lowongan aktif agar dapat
-                                    dilihat peserta.</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">Pastikan status lowongan aktif agar dapat dilihat peserta.</p>
                             </div>
                         </div>
 
@@ -686,8 +654,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-slate-800 text-sm mb-1">Tawarkan Fasilitas</h4>
-                                <p class="text-xs text-slate-500 leading-relaxed">Sebutkan fasilitas yang diterima peserta
-                                    untuk menarik lebih banyak pendaftar.</p>
+                                <p class="text-xs text-slate-500 leading-relaxed">Sebutkan fasilitas yang diterima peserta untuk menarik lebih banyak pendaftar.</p>
                             </div>
                         </div>
 
@@ -707,19 +674,13 @@
             const fields = {
                 judul: document.getElementById('judul_lowongan'),
                 posisi: document.getElementById('posisi_magang'),
-                divisi: document.getElementById('divisi'),
+                team: document.getElementById('team_id'),
+                teamDisplay: document.getElementById('team_id_display'),
                 deskripsi: document.getElementById('deskripsi_pekerjaan'),
                 requirements: document.getElementById('requirements'),
                 fasilitas: document.getElementById('fasilitas'),
                 kuota: document.getElementById('kuota_peserta'),
                 status: document.getElementById('status')
-            };
-
-            const counterEls = {
-                judul: document.getElementById('judul_counter'),
-                deskripsi: document.getElementById('deskripsi_counter'),
-                requirements: document.getElementById('requirements_counter'),
-                fasilitas: document.getElementById('fasilitas_counter')
             };
 
             const completionBar = document.getElementById('completion_bar');
@@ -732,7 +693,7 @@
             const requiredForProgress = [
                 fields.judul,
                 fields.posisi,
-                fields.divisi,
+                fields.team,
                 fields.deskripsi,
                 fields.requirements,
                 fields.fasilitas,
@@ -744,33 +705,23 @@
                 return (el && el.value ? el.value.trim() : '');
             }
 
-            function updateCounters() {
-                if (counterEls.judul && fields.judul) {
-                    counterEls.judul.textContent = `${fields.judul.value.length}/255`;
-                }
-
-                if (counterEls.deskripsi && fields.deskripsi) {
-                    counterEls.deskripsi.textContent = `${fields.deskripsi.value.length} karakter`;
-                }
-
-                if (counterEls.requirements && fields.requirements) {
-                    counterEls.requirements.textContent = `${fields.requirements.value.length} karakter`;
-                }
-
-                if (counterEls.fasilitas && fields.fasilitas) {
-                    counterEls.fasilitas.textContent = `${fields.fasilitas.value.length} karakter`;
-                }
-            }
-
             function updatePreview() {
                 const judul = val(fields.judul) || 'Belum diisi';
                 const posisi = val(fields.posisi) || 'Posisi belum diisi';
-                const divisi = val(fields.divisi) || 'Divisi belum diisi';
+                
+                let teamName = 'Tim belum diisi';
+                if (fields.teamDisplay && fields.teamDisplay.selectedIndex >= 0) {
+                    const selectedTeamOption = fields.teamDisplay.options[fields.teamDisplay.selectedIndex];
+                    if (selectedTeamOption && selectedTeamOption.value) {
+                        teamName = selectedTeamOption.text;
+                    }
+                }
+
                 const kuota = val(fields.kuota) || '0';
                 const status = val(fields.status) || 'aktif';
 
                 judulPreview.textContent = judul;
-                metaPreview.textContent = `${posisi} • ${divisi}`;
+                metaPreview.textContent = `${posisi} • ${teamName}`;
                 kuotaPreview.textContent = `${kuota} peserta`;
                 statusPreview.textContent = status === 'aktif' ? 'Aktif' : 'Nonaktif';
                 statusPreview.classList.remove('aktif', 'nonaktif');
@@ -788,9 +739,35 @@
             }
 
             function updateAll() {
-                updateCounters();
                 updatePreview();
                 updateProgress();
+            }
+
+            // Otomatisasi Posisi -> Tim & Judul Lowongan
+            if (fields.posisi) {
+                fields.posisi.addEventListener('change', function() {
+                    const selectedPosition = this.value;
+                    const selectedOption = this.options[this.selectedIndex];
+                    const teamId = selectedOption.getAttribute('data-team');
+
+                    // 1. Otomatis set Judul Lowongan
+                    if (selectedPosition && fields.judul) {
+                        fields.judul.value = 'Lowongan Magang ' + selectedPosition;
+                    } else if (fields.judul) {
+                        fields.judul.value = '';
+                    }
+
+                    // 2. Otomatis set Tim / Bagian
+                    if (teamId) {
+                        if (fields.teamDisplay) fields.teamDisplay.value = teamId;
+                        if (fields.team) fields.team.value = teamId;
+                    } else {
+                        if (fields.teamDisplay) fields.teamDisplay.selectedIndex = 0;
+                        if (fields.team) fields.team.value = '';
+                    }
+
+                    updateAll();
+                });
             }
 
             Object.values(fields).forEach(function(field) {
@@ -799,7 +776,12 @@
                 field.addEventListener('change', updateAll);
             });
 
-            updateAll();
+            // Jalankan sekali saat pertama kali dibuka untuk menjaga status data lama (jika ada error validasi)
+            if (fields.posisi && fields.posisi.value) {
+                fields.posisi.dispatchEvent(new Event('change'));
+            } else {
+                updateAll();
+            }
         });
     </script>
 @endpush

@@ -42,6 +42,7 @@ use App\Http\Controllers\Mentor\ProfileController as MentorProfileController;
 use App\Http\Controllers\Mentor\CertificateController;
 use App\Http\Controllers\Admin\AdminCertificateController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\AdminPositionController;
 use App\Http\Controllers\Institusi\DaftarInstitusiController;
 use App\Http\Controllers\Institusi\DashboardController as InstitusiDashboardController;
 use App\Http\Controllers\Institusi\PengajuanController;
@@ -533,6 +534,7 @@ Route::put('/sharing-session/{sharingSession}/update-materi', [SharingSessionCon
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('sharing-session/export', [AdminSharingSessionController::class, 'exportExcel'])->name('sharing-session.export');
     Route::resource(
     'sharing-session',
     AdminSharingSessionController::class
@@ -660,6 +662,11 @@ Route::delete('/mitra/{jenis}/{id}', [AdminMitraController::class, 'destroy'])->
     Route::put('/team/{team}', [TeamController::class, 'update'])->name('team.update');
     Route::delete('/team/{team}', [TeamController::class, 'destroy'])->name('team.destroy');  
 
+    // Position Management Routes (Master Posisi Magang)
+    Route::get('/positions', [AdminPositionController::class, 'index'])->name('positions.index');
+    Route::post('/positions', [AdminPositionController::class, 'store'])->name('positions.store');
+    Route::delete('/positions/{position}', [AdminPositionController::class, 'destroy'])->name('positions.destroy');
+    
     // Lowongan Management Routes
     Route::get('/lowongan', [AdminLowonganController::class, 'index'])->name('lowongan.index');
     Route::get('/lowongan/create', [AdminLowonganController::class, 'create'])->name('lowongan.create');

@@ -12,8 +12,6 @@ use Illuminate\Validation\Rule;
 use App\Services\PengajuanWhatsappService;
 use Illuminate\Support\Facades\DB;
 
-
-
 class PengajuanController extends Controller
 {
     public function index(Request $request)
@@ -75,12 +73,6 @@ class PengajuanController extends Controller
 
     public function store(Request $request)
     {
-        // dd([
-        //     'hasFile' => $request->hasFile('surat_magang'),
-        //     'file' => $request->file('surat_magang'),
-        //     'error' => $request->file('surat_magang')?->getError(),
-        //     'size' => $request->file('surat_magang')?->getSize(),
-        // ]);
         $request->validate([
             'surat_magang' => 'required|file|mimes:pdf',
             'start_date' => 'required|date',
@@ -147,27 +139,59 @@ class PengajuanController extends Controller
             }
 
             // ==================================================
-            // UPLOAD FILE
+            // UPLOAD FILE LOKAL (Penamaan Rapi: Instansi_NoSurat_NamaAsli)
             // ==================================================
             $file = $request->file('surat_magang');
 
             $extension = $file->getClientOriginalExtension()
                 ?: ($file->guessExtension() ?: 'pdf');
 
-            $storedFileName =
-                'surat_' . time() . '_' . uniqid() . '.' . $extension;
+            // Format penamaan file berdasarkan institusi, no_surat, dan nama asli file
+            $namaInstitusi = Auth::user()->institusi->nama_institusi ?? 'Institusi';
+            $noSurat = $request->no_surat ?? 'NoSurat';
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-            $destinationPath = storage_path('app/private/surat_magang');
+            // Bersihkan karakter khusus yang tidak valid untuk file sistem
+            $cleanInstitusi = preg_replace('/[^A-Za-z0-9_\- ]/', '', $namaInstitusi);
+            $cleanNoSurat = preg_replace('/[^A-Za-z0-9_\- ]/', '_', $noSurat);
+            $cleanOriginalName = preg_replace('/[^A-Za-z0-9_\- ]/', '_', $originalName);
 
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+            $storedFileName = trim($cleanInstitusi) . '_' . trim($cleanNoSurat) . '_' . trim($cleanOriginalName) . '.' . $extension;
+
+            // Simpan ke Private
+            $destinationPathPrivate = storage_path('app/private/surat_magang');
+            if (!file_exists($destinationPathPrivate)) {
+                mkdir($destinationPathPrivate, 0755, true);
             }
 
-            if (!$file->move($destinationPath, $storedFileName)) {
+            // Simpan ke Public (supaya terjangkau Rclone)
+            $destinationPathPublic = storage_path('app/public/surat_magang');
+            if (!file_exists($destinationPathPublic)) {
+                mkdir($destinationPathPublic, 0755, true);
+            }
+
+            // Salin file ke folder public & private
+            copy($file->getRealPath(), $destinationPathPublic . '/' . $storedFileName);
+
+            if (!$file->move($destinationPathPrivate, $storedFileName)) {
                 throw new \Exception('Gagal menyimpan file surat magang.');
             }
 
             $path = 'surat_magang/' . $storedFileName;
+
+            // ==================================================
+            // AUTO-UPLOAD GOOGLE DRIVE VIA RCLONE
+            // ==================================================
+            try {
+                $rcloneExecutable = 'C:\rclone-v1.74.4-windows-amd64\rclone-v1.74.4-windows-amd64\rclone.exe';
+                $folderDriveId = '1xV3zX6wzxGPxIBAc1qIXvrgXN3yVynyJ';
+
+                if (file_exists($rcloneExecutable)) {
+                    pclose(popen("start /B \"\" \"{$rcloneExecutable}\" copy \"{$destinationPathPublic}\" gdrive: --drive-root-folder-id \"{$folderDriveId}\"", "r"));
+                }
+            } catch (\Throwable $th) {
+                \Log::error('Rclone Sync Error: ' . $th->getMessage());
+            }
 
             // ==================================================
             // SIMPAN PENGAJUAN
@@ -265,21 +289,50 @@ class PengajuanController extends Controller
         // Handle file upload jika ada
         if ($request->hasFile('surat_magang')) {
             $file = $request->file('surat_magang');
-            $fileName = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'pdf');
-            $storedFileName = 'surat_' . time() . '_' . uniqid() . '.' . $extension;
-            $destinationPath = storage_path('app/private/surat_magang');
 
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+            // Format penamaan file baru
+            $namaInstitusi = Auth::user()->institusi->nama_institusi ?? 'Institusi';
+            $noSurat = $request->no_surat ?? 'NoSurat';
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $cleanInstitusi = preg_replace('/[^A-Za-z0-9_\- ]/', '', $namaInstitusi);
+            $cleanNoSurat = preg_replace('/[^A-Za-z0-9_\- ]/', '_', $noSurat);
+            $cleanOriginalName = preg_replace('/[^A-Za-z0-9_\- ]/', '_', $originalName);
+
+            $storedFileName = trim($cleanInstitusi) . '_' . trim($cleanNoSurat) . '_' . trim($cleanOriginalName) . '.' . $extension;
+
+            $destinationPathPrivate = storage_path('app/private/surat_magang');
+            if (!file_exists($destinationPathPrivate)) {
+                mkdir($destinationPathPrivate, 0755, true);
             }
 
-            if (!$file->move($destinationPath, $storedFileName)) {
+            $destinationPathPublic = storage_path('app/public/surat_magang');
+            if (!file_exists($destinationPathPublic)) {
+                mkdir($destinationPathPublic, 0755, true);
+            }
+
+            // Copy ke public folder
+            copy($file->getRealPath(), $destinationPathPublic . '/' . $storedFileName);
+
+            if (!$file->move($destinationPathPrivate, $storedFileName)) {
                 return back()->withErrors(['surat_magang' => 'Gagal menyimpan file.'])->withInput();
             }
 
             $path = 'surat_magang/' . $storedFileName;
             $pengajuan->surat_path = $path;
+
+            // AUTO-UPLOAD GOOGLE DRIVE VIA RCLONE
+            try {
+                $rcloneExecutable = 'C:\rclone-v1.74.4-windows-amd64\rclone-v1.74.4-windows-amd64\rclone.exe';
+                $folderDriveId = '1xV3zX6wzxGPxIBAc1qIXvrgXN3yVynyJ';
+
+                if (file_exists($rcloneExecutable)) {
+                    pclose(popen("start /B \"\" \"{$rcloneExecutable}\" copy \"{$destinationPathPublic}\" gdrive: --drive-root-folder-id \"{$folderDriveId}\"", "r"));
+                }
+            } catch (\Throwable $th) {
+                \Log::error('Rclone Sync Error: ' . $th->getMessage());
+            }
         }
 
         // Update data pengajuan
@@ -329,7 +382,6 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::where('institusi_id', Auth::user()->institusi->id)->findOrFail($id);
 
-        // 🔥 Cek status dulu
         if ($pengajuan->status !== 'rejected' && $pengajuan->status !== 'pending') {
             return redirect()
                 ->back()
@@ -367,7 +419,7 @@ class PengajuanController extends Controller
         $pdf->SetFont('Helvetica', '', 12);
 
         // Nomor surat
-         $pdf->SetXY(43.8, 57.8);
+        $pdf->SetXY(43.8, 57.8);
         $pdf->Write(0, $pengajuan->nomor_surat_balasan ?? '-');
 
         //Tanggal
@@ -380,7 +432,7 @@ class PengajuanController extends Controller
         $pdf->Write(0, $pengajuan->tujuan_surat);
 
         // Institusi
-         $pdf->SetXY(18, 94.7); 
+        $pdf->SetXY(18, 94.7); 
         if ($pengajuan->institusi->jenis_institusi === 'sekolah') {
             $pdf->Write(0, $pengajuan->institusi->nama_institusi );
         } else {
@@ -388,7 +440,7 @@ class PengajuanController extends Controller
         }
 
         // isi
-       $tanggal = $pengajuan->created_at;
+        $tanggal = $pengajuan->created_at;
 
         $teks = "Sehubungan dengan Surat Permohonan Izin Magang No. {$pengajuan->no_surat} "
             . "tanggal "

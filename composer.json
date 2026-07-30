@@ -19,7 +19,8 @@
         "setasign/fpdi": "^2.6",
         "spatie/laravel-csp": "^2.10",
         "spatie/laravel-permission": "^6.24",
-        "tecnickcom/tcpdf": "^6.11"
+        "tecnickcom/tcpdf": "^6.11",
+        "yaza/laravel-google-drive-storage": "^5.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
