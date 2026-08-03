@@ -25,6 +25,7 @@ class SiteSettingController extends Controller
             'logo_banggamelayani' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'logo_antikorupsi' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'chatbot_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'chatbot_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($request->has('site_name')) {
@@ -42,6 +43,7 @@ class SiteSettingController extends Controller
             'logo_banggamelayani',
             'logo_antikorupsi',
             'chatbot_icon',
+            'chatbot_profile',
         ];
 
         foreach ($imageFields as $field) {

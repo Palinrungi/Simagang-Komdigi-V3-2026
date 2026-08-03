@@ -257,8 +257,8 @@
         <div class="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
             <a href="{{ route('landing') }}" class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
-                    <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}"
-                         alt="Komdigi"
+                    <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}"
+                         alt="{{ \App\Models\SystemSetting::get('site_name', 'SIMAGANG') }}"
                          class="w-7 h-7 object-contain">
                 </div>
 

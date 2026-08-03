@@ -66,17 +66,27 @@
                 <div class="mb-5">
                     <label class="block text-gray-700 font-semibold mb-2">Logo Simagang</label>
                     <div class="flex items-center gap-4">
-                        <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_simagang.png')) }}" alt="Logo Simagang" class="w-16 h-16 object-contain border p-2 rounded-lg bg-gray-50">
+                        <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Logo Simagang" class="w-16 h-16 object-contain border p-2 rounded-lg bg-gray-50">
                         <input type="file" name="logo_simagang" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:border-blue-500" accept="image/*">
                     </div>
                 </div>
 
                 <div class="mb-5">
-                    <label class="block text-gray-700 font-semibold mb-2">Icon Chatbot AI</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Icon/Karakter Chatbot AI</label>
                     <div class="flex items-center gap-4">
-                        <img src="{{ \App\Models\SystemSetting::get('chatbot_icon', asset('storage/vendor/logo_komdigi.png')) }}" alt="Chatbot Icon" class="w-16 h-16 object-contain border p-2 rounded-lg bg-gray-50">
+                        <img src="{{ \App\Models\SystemSetting::get('chatbot_icon', asset('storage/chatbot_icon/SIMA nobg3.png')) }}" alt="Chatbot Icon" class="w-16 h-16 object-contain border p-2 rounded-lg bg-gray-50">
                         <input type="file" name="chatbot_icon" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:border-blue-500" accept="image/*">
                     </div>
+                    <p class="text-sm text-gray-500 mt-1">Karakter atau ikon yang melayang di pojok layar.</p>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-semibold mb-2">Foto Profil Chatbot AI</label>
+                    <div class="flex items-center gap-4">
+                        <img src="{{ \App\Models\SystemSetting::get('chatbot_profile', asset('storage/chatbot_icon/SIMA head.png')) }}" alt="Chatbot Profile" class="w-16 h-16 object-cover border p-2 rounded-lg bg-gray-50">
+                        <input type="file" name="chatbot_profile" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:border-blue-500" accept="image/*">
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Foto profil yang tampil pada bagian header obrolan chat.</p>
                 </div>
             </div>
 

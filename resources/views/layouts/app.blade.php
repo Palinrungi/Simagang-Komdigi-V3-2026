@@ -96,7 +96,7 @@
 
             <!-- Logo & Brand Desktop -->
             <div class="flex flex-col items-center p-4 border-b">
-                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
+                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
                 <h1 class="text-3xl font-extrabold font-etna">
                     <span class="font-etna" style="color: #9d272a">SI</span><span class="font-etna" style="color: #086bb0">MA</span><span class="font-etna" style="color: #2dabe2">GA</span><span class="font-etna" style="color: #efc400">NG</span>
                 </h1>
@@ -544,7 +544,7 @@
             <header class="lg:hidden bg-white shadow-sm">
                 <div class="flex items-center justify-between p-4">
                     <div class="flex items-center">
-                        <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
+                        <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Logo" class="object-contain" style="width: 60px; height: 60px"/>
                     </div>
                     <button type="button" id="mobile-menu-button" class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                         <svg class="h-6 w-6" id="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -562,7 +562,7 @@
                     <!-- Mobile Header -->
                     <div class="flex items-center justify-between p-4 border-b flex-shrink-0">
                         <div class="flex items-center space-x-2">
-                            <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo" class="object-contain w-8 h-8"/>
+                            <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Logo" class="object-contain w-8 h-8"/>
                             <div>
                                 <h1 class="text-base font-extrabold font-etna leading-none">
                                     <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>

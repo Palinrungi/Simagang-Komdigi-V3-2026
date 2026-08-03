@@ -1128,7 +1128,7 @@
     <div class="navbar-inner">
         <a href="{{ route('landing') }}#hero" class="nav-logo">
             <div class="logo-wrap">
-                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/logo_komdigi.png')) }}" alt="Komdigi">
+                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Komdigi">
             </div>
             <div>
                 <div class="font-etna" style="font-size:20px; font-weight:900; line-height:1.1">
