@@ -464,6 +464,11 @@
                         <i class="fas fa-comments w-5 mr-3"></i>
                         Sharing Session
                         </a>
+                        <a href="{{ route('intern.mobile-app.index') }}"
+                        class="{{ request()->routeIs('intern.mobile-app.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
+                        <i class="fas fa-mobile-alt w-5 mr-3"></i>
+                        Aplikasi Mobile
+                        </a>
                     @endif
                 @endauth
             </nav>
@@ -862,6 +867,11 @@
                                 class="{{ request()->routeIs('intern.sharing-session.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                                 <i class="fas fa-comments w-5 mr-3"></i>
                                 Sharing Session
+                                </a>
+                                <a href="{{ route('intern.mobile-app.index') }}"
+                                class="{{ request()->routeIs('intern.mobile-app.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <i class="fas fa-mobile-alt w-5 mr-3"></i>
+                                Aplikasi Mobile
                                 </a>
                             @endif
                         @endauth

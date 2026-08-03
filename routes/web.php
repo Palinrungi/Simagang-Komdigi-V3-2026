@@ -469,6 +469,9 @@ Route::get('/download/{path}', SecureDownloadController::class)
 // Intern Routes
 Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/mobile-app', [DashboardController::class, 'mobileApp'])->name('mobile-app.index');
+    Route::get('/mobile-app/download', [DashboardController::class, 'downloadApp'])->name('mobile-app.download');
+    Route::get('/download-app', [DashboardController::class, 'downloadApp'])->name('app.download');
     
    // Sharing Session Routes
 Route::get('/sharing-session', [SharingSessionController::class, 'index'])

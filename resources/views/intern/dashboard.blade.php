@@ -574,6 +574,24 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 
+    {{-- QUICK BANNER KE HALAMAN DOWNLOAD APLIKASI MOBILE --}}
+    <div class="rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white px-6 py-4 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 anim-2">
+        <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+                <i class="fab fa-android text-xl text-emerald-300"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-sm sm:text-base text-white">Aplikasi Mobile Simagang Komdigi (Android)</h3>
+                <p class="text-xs text-blue-100 mt-0.5">Kelola absensi, logbook, dan pantau magang langsung dari HP Anda.</p>
+            </div>
+        </div>
+        <a href="{{ route('intern.mobile-app.index') }}" 
+           class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-blue-700 hover:bg-blue-50 text-xs font-bold rounded-xl shadow-sm transition flex-shrink-0">
+            <span>Buka Halaman Download</span>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
     @if(isset($todaySharingSessions) && $todaySharingSessions->count() > 0)
         <div class="mb-6 space-y-4">
             @foreach($todaySharingSessions as $session)

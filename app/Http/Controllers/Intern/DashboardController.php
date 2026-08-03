@@ -196,4 +196,84 @@ class DashboardController extends Controller
             'sharingDocumentationAlert'
         ));
     }
+
+    public function mobileApp()
+    {
+        $user = Auth::user();
+        $intern = $user->intern;
+
+        $apkInfo = $this->resolveApkFileInfo();
+        $apkSize = $apkInfo['size'];
+        $apkExists = $apkInfo['exists'];
+
+        return view('intern.mobile-app', compact('intern', 'apkSize', 'apkExists'));
+    }
+
+    public function downloadApp()
+    {
+        $apkInfo = $this->resolveApkFileInfo();
+        $apkPath = $apkInfo['path'];
+
+        if (!$apkPath || !file_exists($apkPath)) {
+            return redirect()
+                ->route('intern.mobile-app.index')
+                ->with('error', 'File APK aplikasi mobile belum tersedia atau sedang dalam proses pembaruan oleh admin.');
+        }
+
+        return response()->download($apkPath, 'simagang-mobile.apk', [
+            'Content-Type' => 'application/vnd.android.package-archive',
+        ]);
+    }
+
+    private function resolveApkFileInfo(): array
+    {
+        $possiblePaths = [
+            storage_path('app/releases/simagang-mobile.apk'),
+            storage_path('app/public/apk/simagang-mobile.apk'),
+            public_path('apk/simagang-mobile.apk'),
+        ];
+
+        $apkPath = null;
+        foreach ($possiblePaths as $path) {
+            if (file_exists($path)) {
+                $apkPath = $path;
+                break;
+            }
+        }
+
+        if (!$apkPath) {
+            $globApks = glob(storage_path('app/releases/*.apk'));
+            if (!empty($globApks)) {
+                $apkPath = $globApks[0];
+            } else {
+                $globPublic = glob(public_path('apk/*.apk'));
+                if (!empty($globPublic)) {
+                    $apkPath = $globPublic[0];
+                }
+            }
+        }
+
+        $apkSize = '~25 MB';
+        $apkExists = false;
+
+        if ($apkPath && file_exists($apkPath)) {
+            $apkExists = true;
+            $bytes = filesize($apkPath);
+            if ($bytes >= 1073741824) {
+                $apkSize = round($bytes / 1073741824, 2) . ' GB';
+            } elseif ($bytes >= 1048576) {
+                $apkSize = round($bytes / 1048576, 1) . ' MB';
+            } elseif ($bytes >= 1024) {
+                $apkSize = round($bytes / 1024, 0) . ' KB';
+            } else {
+                $apkSize = $bytes . ' B';
+            }
+        }
+
+        return [
+            'path' => $apkPath,
+            'size' => $apkSize,
+            'exists' => $apkExists,
+        ];
+    }
 }
