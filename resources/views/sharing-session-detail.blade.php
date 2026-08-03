@@ -6,8 +6,7 @@
     <title>{{ $sharingSession->title ?? 'Detail Sharing Session' }} - Simagang</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="icon" type="image/png" href="{{ url('storage/vendor/icon-komdigi.png') }}">
 
@@ -23,28 +22,28 @@
             background: #eef6ff;
             color: #0f2d4a;
             margin: 0;
-            padding-bottom: 60px;
+            padding-bottom: 80px;
         }
 
         .glass-card {
-            background: rgba(255,255,255,0.78);
+            background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(18px);
-            border: 1px solid rgba(255,255,255,0.75);
+            border: 1px solid rgba(255, 255, 255, 0.85);
         }
 
         .detail-bg {
             background:
-                radial-gradient(circle at top left, rgba(34,211,238,.28), transparent 32%),
-                radial-gradient(circle at bottom right, rgba(37,99,235,.22), transparent 35%),
+                radial-gradient(circle at top left, rgba(34, 211, 238, .22), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(37, 99, 235, .18), transparent 35%),
                 linear-gradient(135deg, #eef6ff 0%, #f8fbff 100%);
         }
 
         /* ── SHARE BUTTONS ── */
         .share-box {
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
             padding: 1.25rem;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255, 255, 255, 0.88);
             border: 1px solid rgba(191, 219, 254, 0.95);
             box-shadow: 0 12px 28px rgba(14, 99, 201, 0.08);
         }
@@ -252,8 +251,8 @@
 
 <body class="detail-bg min-h-screen">
 
-    {{-- Navbar sederhana --}}
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-blue-100">
+    {{-- Navbar --}}
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-blue-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
             <a href="{{ route('landing') }}" class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
@@ -288,159 +287,173 @@
         </div>
     </header>
 
-    <main>
-        {{-- Hero Detail --}}
-        <section class="relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+    <main class="py-8 md:py-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_.9fr] gap-8 items-start">
 
-                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_.8fr] gap-8 items-stretch">
-
-                    {{-- Foto besar --}}
-                    <div class="relative rounded-[34px] overflow-hidden min-h-[430px] md:min-h-[560px] shadow-2xl bg-blue-900">
+                {{-- Kolom Kiri: Banner Gambar & Deskripsi --}}
+                <div class="space-y-6">
+                    {{-- Banner Gambar Utama --}}
+                    <div class="relative rounded-[28px] overflow-hidden aspect-[16/10] max-h-[420px] w-full shadow-2xl bg-[#081b3b]">
                         @if($sharingSession->documentation_photo_url)
                             <img src="{{ $sharingSession->documentation_photo_url }}"
                                  alt="{{ $sharingSession->title ?? 'Sharing Session' }}"
                                  class="w-full h-full object-cover">
                         @else
-                            <div class="w-full h-full bg-gradient-to-br from-blue-800 via-indigo-700 to-slate-950 flex flex-col items-center justify-center text-white">
-                                <div class="w-28 h-28 rounded-3xl bg-white/15 flex items-center justify-center mb-5">
-                                    <i class="fas fa-comments text-6xl"></i>
-                                </div>
-
-                                <p class="text-3xl font-bold">
-                                    Sharing Session
-                                </p>
-
-                                <p class="text-sm text-blue-100 mt-2">
-                                    Dokumentasi belum tersedia
-                                </p>
-                            </div>
+                            <img src="{{ asset('storage/images/Sharingsession.png') }}"
+                                 alt="{{ $sharingSession->title ?? 'Sharing Session' }}"
+                                 class="w-full h-full object-cover">
                         @endif
 
+                        {{-- Gradient Overlay --}}
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent"></div>
 
-                        <div class="absolute left-0 right-0 bottom-0 p-7 md:p-10 text-white">
-                            <span class="inline-flex items-center px-4 py-2 rounded-full bg-cyan-400 text-slate-950 text-xs font-extrabold uppercase mb-4">
+                        <div class="absolute left-0 right-0 bottom-0 p-6 md:p-8 text-white z-10">
+                            <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-cyan-400 text-slate-950 text-[11px] font-extrabold uppercase mb-3 shadow-sm">
                                 Detail Sharing Session
                             </span>
 
-                            <h1 class="text-3xl md:text-5xl font-extrabold leading-tight max-w-3xl">
+                            <h1 class="text-2xl md:text-3xl font-extrabold leading-tight max-w-2xl drop-shadow-md">
                                 {{ $sharingSession->title ?? 'Materi Belum Diisi' }}
                             </h1>
 
-                            <div class="flex flex-wrap gap-4 mt-5 text-sm text-white/90">
+                            <div class="flex flex-wrap gap-4 mt-4 text-xs md:text-sm text-white/90 font-medium">
                                 <span>
-                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    <i class="fas fa-calendar-alt text-cyan-400 mr-2"></i>
                                     {{ $sharingSession->session_date->format('d M Y') }}
                                 </span>
 
                                 <span>
-                                    <i class="fas fa-clock mr-2"></i>
-                                    {{ $sharingSession->start_time ? \Carbon\Carbon::parse($sharingSession->start_time)->format('H:i') : '-' }}
-                                    WITA
+                                    <i class="fas fa-clock text-cyan-400 mr-2"></i>
+                                    {{ $sharingSession->start_time ? \Carbon\Carbon::parse($sharingSession->start_time)->format('H:i') : '-' }} WITA
                                 </span>
 
                                 <span>
-                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <i class="fas fa-map-marker-alt text-cyan-400 mr-2"></i>
                                     {{ $sharingSession->location ?? '-' }}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Info kanan --}}
-                    <div class="glass-card rounded-[34px] p-6 md:p-8 shadow-xl">
-                        <div class="mb-7">
-                            <p class="text-sm font-bold uppercase tracking-widest text-blue-600">
+                    {{-- Deskripsi Kegiatan (Langsung Di Bawah Banner Tanpa Jeda Berlebih) --}}
+                    <div class="glass-card rounded-[28px] p-6 md:p-8 shadow-lg">
+                        <div class="flex items-center gap-4 mb-5">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0">
+                                <i class="fas fa-align-left text-lg"></i>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-blue-600">
+                                    Deskripsi
+                                </p>
+                                <h2 class="text-xl md:text-2xl font-extrabold text-slate-900">
+                                    Tentang Sharing Session Ini
+                                </h2>
+                            </div>
+                        </div>
+
+                        @if($sharingSession->description)
+                            <div class="text-gray-600 leading-relaxed whitespace-pre-line text-sm md:text-base">
+                                {{ $sharingSession->description }}
+                            </div>
+                        @else
+                            <div class="rounded-2xl border border-dashed border-gray-200 bg-white/70 p-8 text-center text-gray-400">
+                                <i class="fas fa-file-alt text-3xl text-gray-300 mb-3"></i>
+                                <p class="font-semibold text-sm">
+                                    Deskripsi sharing session belum tersedia.
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Kolom Kanan: Ringkasan Informasi, Bagikan, & Jadwal Lain --}}
+                <div class="space-y-6">
+                    {{-- Card Informasi & Bagikan --}}
+                    <div class="glass-card rounded-[28px] p-6 md:p-7 shadow-xl">
+                        <div class="mb-5">
+                            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">
                                 Informasi Kegiatan
                             </p>
 
-                            <h2 class="text-2xl font-extrabold text-slate-900 mt-2">
+                            <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-1">
                                 Ringkasan Sharing Session
                             </h2>
                         </div>
 
-                        <div class="space-y-5">
+                        <div class="space-y-4">
                             <div class="flex gap-4">
-                                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                                <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 text-sm">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-800">Tanggal</p>
-                                    <p class="text-sm text-gray-500">{{ $sharingSession->session_date->format('d M Y') }}</p>
+                                    <p class="text-xs font-bold text-slate-800">Tanggal</p>
+                                    <p class="text-sm text-gray-600 font-medium">{{ $sharingSession->session_date->format('d M Y') }}</p>
                                 </div>
                             </div>
 
                             <div class="flex gap-4">
-                                <div class="w-12 h-12 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                                <div class="w-11 h-11 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center shrink-0 text-sm">
                                     <i class="fas fa-clock"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-800">Waktu</p>
-                                    <p class="text-sm text-gray-500">
-                                        {{ $sharingSession->start_time ? \Carbon\Carbon::parse($sharingSession->start_time)->format('H:i') : '-' }}
-                                        WITA - Selesai
+                                    <p class="text-xs font-bold text-slate-800">Waktu</p>
+                                    <p class="text-sm text-gray-600 font-medium">
+                                        {{ $sharingSession->start_time ? \Carbon\Carbon::parse($sharingSession->start_time)->format('H:i') : '-' }} WITA - Selesai
                                     </p>
                                 </div>
                             </div>
 
                             <div class="flex gap-4">
-                                <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                                <div class="w-11 h-11 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0 text-sm">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-800">Lokasi</p>
-                                    <p class="text-sm text-gray-500">{{ $sharingSession->location ?? '-' }}</p>
+                                    <p class="text-xs font-bold text-slate-800">Lokasi</p>
+                                    <p class="text-sm text-gray-600 font-medium">{{ $sharingSession->location ?? '-' }}</p>
                                 </div>
                             </div>
 
                             <div class="flex gap-4">
-                                <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                                <div class="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 text-sm">
                                     <i class="fas fa-user-tie"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-800">Narasumber</p>
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-xs font-bold text-slate-800">Narasumber</p>
+                                    <p class="text-sm text-gray-600 font-medium">
                                         {{ $sharingSession->speakerUser?->name ?? $sharingSession->speaker ?? '-' }}
                                     </p>
                                 </div>
                             </div>
 
                             <div class="flex gap-4">
-                                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                                <div class="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 text-sm">
                                     <i class="fas fa-user-check"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-800">Moderator</p>
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-xs font-bold text-slate-800">Moderator</p>
+                                    <p class="text-sm text-gray-600 font-medium">
                                         {{ $sharingSession->moderatorUser?->name ?? $sharingSession->moderator ?? '-' }}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mt-8 p-5 rounded-3xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
-                            <p class="text-sm text-blue-100">
+                        <div class="mt-5 p-4 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md">
+                            <p class="text-xs text-blue-100">
                                 Periode minggu ini
                             </p>
-                            <p class="font-bold mt-1">
+                            <p class="font-bold text-sm mt-0.5">
                                 {{ $weekStart->format('d M Y') }} - {{ $weekEnd->format('d M Y') }}
                             </p>
                         </div>
 
                         @php
                             $shareTitle = $sharingSession->title ?? 'Sharing Session Simagang';
-
-                            $shareDate = $sharingSession->session_date
-                                ? $sharingSession->session_date->format('d M Y')
-                                : '-';
-
-                            $shareTime = $sharingSession->start_time
-                                ? \Carbon\Carbon::parse($sharingSession->start_time)->format('H:i') . ' WITA'
-                                : '-';
-
+                            $shareDate = $sharingSession->session_date ? $sharingSession->session_date->format('d M Y') : '-';
+                            $shareTime = $sharingSession->start_time ? \Carbon\Carbon::parse($sharingSession->start_time)->format('H:i') . ' WITA' : '-';
                             $shareLocation = $sharingSession->location ?? '-';
-
                             $shareUrl = url()->current();
 
                             $shareText = "Yuk ikuti Sharing Session Simagang!\n\n"
@@ -482,105 +495,66 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        {{-- Deskripsi --}}
-        <section class="pb-16">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_.8fr] gap-8">
-
-                    <div class="glass-card rounded-[34px] p-7 md:p-9 shadow-lg">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                                <i class="fas fa-align-left text-xl"></i>
-                            </div>
-
-                            <div>
-                                <p class="text-sm font-bold uppercase tracking-widest text-blue-600">
-                                    Deskripsi
-                                </p>
-                                <h2 class="text-2xl font-extrabold text-slate-900">
-                                    Tentang Sharing Session Ini
-                                </h2>
-                            </div>
-                        </div>
-
-                        @if($sharingSession->description)
-                            <div class="text-gray-600 leading-relaxed whitespace-pre-line text-base">
-                                {{ $sharingSession->description }}
-                            </div>
-                        @else
-                            <div class="rounded-3xl border border-dashed border-gray-200 bg-white/70 p-8 text-center text-gray-400">
-                                <i class="fas fa-file-alt text-4xl text-gray-300 mb-4"></i>
-                                <p class="font-semibold">
-                                    Deskripsi sharing session belum tersedia.
-                                </p>
-                            </div>
-                        @endif
-                    </div>
-
-                    {{-- Jadwal lain --}}
-                    <div class="glass-card rounded-[34px] p-7 shadow-lg">
-                        <div class="mb-6">
-                            <p class="text-sm font-bold uppercase tracking-widest text-blue-600">
+                    {{-- Card Jadwal Lain --}}
+                    <div class="glass-card rounded-[28px] p-6 shadow-lg">
+                        <div class="mb-4">
+                            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">
                                 Jadwal Lain
                             </p>
-                            <h2 class="text-2xl font-extrabold text-slate-900 mt-1">
+                            <h2 class="text-xl font-extrabold text-slate-900 mt-0.5">
                                 Minggu Ini
                             </h2>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-3">
                             @forelse($otherSharingSessions as $session)
                                 <a href="{{ route('public.sharing-session.show', $session) }}"
-                                   class="flex gap-4 bg-white rounded-3xl p-4 hover:shadow-md transition border border-blue-50 group">
+                                   class="flex gap-4 bg-white rounded-2xl p-3.5 hover:shadow-md transition border border-blue-50 group">
 
-                                    <div class="w-24 h-20 rounded-2xl overflow-hidden bg-blue-100 shrink-0">
+                                    <div class="w-24 h-20 rounded-xl overflow-hidden bg-[#081b3b] shrink-0">
                                         @if($session->documentation_photo_url)
                                             <img src="{{ $session->documentation_photo_url }}"
                                                  alt="{{ $session->title ?? 'Sharing Session' }}"
                                                  class="w-full h-full object-cover group-hover:scale-105 transition">
                                         @else
-                                            <div class="w-full h-full bg-gradient-to-br from-blue-700 to-indigo-500 text-white flex items-center justify-center">
-                                                <i class="fas fa-comments text-2xl"></i>
-                                            </div>
+                                            <img src="{{ asset('storage/images/Sharingsession.png') }}"
+                                                 alt="{{ $session->title ?? 'Sharing Session' }}"
+                                                 class="w-full h-full object-cover group-hover:scale-105 transition">
                                         @endif
                                     </div>
 
-                                    <div class="min-w-0">
-                                        <h3 class="font-bold text-slate-900 leading-snug line-clamp-2">
+                                    <div class="min-w-0 flex flex-col justify-center">
+                                        <h3 class="font-bold text-slate-900 leading-snug line-clamp-2 text-sm group-hover:text-blue-600 transition">
                                             {{ $session->title ?? 'Materi Belum Diisi' }}
                                         </h3>
 
-                                        <p class="text-xs text-gray-400 mt-2">
+                                        <p class="text-xs text-gray-500 mt-1.5">
                                             <i class="fas fa-calendar-alt text-blue-500 mr-1"></i>
                                             {{ $session->session_date->format('d M Y') }}
                                             <span class="mx-1">•</span>
                                             <i class="fas fa-clock text-green-500 mr-1"></i>
-                                            {{ $session->start_time ? \Carbon\Carbon::parse($session->start_time)->format('H:i') : '-' }}
-                                            WITA
+                                            {{ $session->start_time ? \Carbon\Carbon::parse($session->start_time)->format('H:i') : '-' }} WITA
                                         </p>
                                     </div>
                                 </a>
                             @empty
-                                <div class="rounded-3xl border border-dashed border-gray-200 bg-white/70 p-8 text-center text-gray-400">
-                                    <i class="fas fa-calendar-plus text-3xl text-gray-300 mb-3"></i>
-                                    <p class="font-semibold">
+                                <div class="rounded-2xl border border-dashed border-gray-200 bg-white/70 p-6 text-center text-gray-400">
+                                    <i class="fas fa-calendar-plus text-2xl text-gray-300 mb-2"></i>
+                                    <p class="font-semibold text-sm">
                                         Belum ada jadwal lain minggu ini.
                                     </p>
                                 </div>
                             @endforelse
                         </div>
                     </div>
-
                 </div>
+
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- ===== FOOTER ===== -->
+    {{-- Footer --}}
     <footer class="main-footer">
         <div class="footer-simple-inner">
             <div class="footer-logos-simple">
