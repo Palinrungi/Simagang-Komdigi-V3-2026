@@ -1746,52 +1746,58 @@
 
         <div class="bg-white/65 backdrop-blur-sm border border-white/70 rounded-[34px] p-5 md:p-7 shadow-[0_18px_50px_rgba(15,45,74,0.08)]">
             @if($featuredSharingSession)
-                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-[30px] items-stretch">
-                    <a href="{{ route('public.sharing-session.show', $featuredSharingSession) }}" class="relative group rounded-[24px] overflow-hidden h-[500px] shadow-lg bg-gray-200 block">
+                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-[30px] items-start">
+                    
+                    {{-- Card Banner Utama --}}
+                    <a href="{{ route('public.sharing-session.show', $featuredSharingSession) }}" class="relative group rounded-[24px] overflow-hidden w-full shadow-lg block">
+                        
                         @if($featuredSharingSession->documentation_photo_url)
-                            <img src="{{ $featuredSharingSession->documentation_photo_url }}" alt="{{ $featuredSharingSession->title ?? 'Sharing Session' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                            <img src="{{ $featuredSharingSession->documentation_photo_url }}" alt="{{ $featuredSharingSession->title ?? 'Sharing Session' }}" class="w-full h-auto max-h-[520px] object-cover block group-hover:scale-105 transition duration-700">
                         @else
-                            <div class="w-full h-full bg-gradient-to-br from-blue-800 via-indigo-700 to-[#020b1a] flex flex-col items-center justify-center text-white">
-                                <div class="w-24 h-24 rounded-3xl bg-white/15 flex items-center justify-center mb-5"><i class="fas fa-comments text-5xl"></i></div>
-                                <p class="text-3xl font-bold">Sharing Session</p>
-                                <p class="text-sm text-blue-100 mt-2">Dokumentasi belum tersedia</p>
-                            </div>
+                            <img src="{{ asset('storage/images/Sharingsession.png') }}" alt="{{ $featuredSharingSession->title ?? 'Sharing Session' }}" class="w-full h-auto block group-hover:scale-105 transition duration-700">
                         @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#020b1a]/95 via-[#020b1a]/35 to-transparent"></div>
-                        <div class="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition">
-                            <span class="inline-flex items-center gap-2 bg-white/90 text-blue-700 px-4 py-2 rounded-full text-xs font-bold shadow">Lihat Detail <i class="fas fa-arrow-right"></i></span>
+
+                        {{-- Gradient Overlay Halus --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#020b1a]/90 via-[#020b1a]/30 to-transparent"></div>
+
+                        {{-- Tombol Detail saat Hover --}}
+                        <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition z-10">
+                            <span class="inline-flex items-center gap-2 bg-white/90 text-blue-700 px-3.5 py-1.5 rounded-full text-xs font-bold shadow">Lihat Detail <i class="fas fa-arrow-right"></i></span>
                         </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
-                            <span class="inline-flex items-center px-4 py-2 rounded-full bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold mb-4 uppercase">Minggu Ini</span>
-                            <h3 class="text-2xl md:text-3xl font-bold leading-tight group-hover:text-cyan-200 transition">{{ $featuredSharingSession->title ?? 'Materi Belum Diisi' }}</h3>
-                            <p class="text-gray-300 mt-3 text-sm leading-relaxed max-w-xl">
-                                {{ $featuredSharingSession->description ? \Illuminate\Support\Str::limit($featuredSharingSession->description, 120) : 'Deskripsi sharing session belum tersedia.' }}
+
+                        {{-- Informasi Teks Dinamis --}}
+                        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full bg-[#00f2ff] text-[#020b1a] text-[10px] font-bold mb-2.5 uppercase shadow-sm">Minggu Ini</span>
+                            <h3 class="text-xl md:text-2xl font-bold leading-tight group-hover:text-cyan-200 transition drop-shadow-md">{{ $featuredSharingSession->title ?? 'Materi Belum Diisi' }}</h3>
+                            <p class="text-gray-200 mt-2 text-xs md:text-sm leading-relaxed max-w-xl drop-shadow-sm">
+                                {{ $featuredSharingSession->description ? \Illuminate\Support\Str::limit($featuredSharingSession->description, 100) : 'Deskripsi sharing session belum tersedia.' }}
                             </p>
-                            <div class="flex flex-wrap gap-4 mt-4 text-sm text-white/90">
-                                <span><i class="fas fa-calendar-alt mr-2"></i> {{ $featuredSharingSession->session_date->format('d M Y') }}</span>
-                                <span><i class="fas fa-clock mr-2"></i> {{ $featuredSharingSession->start_time ? \Carbon\Carbon::parse($featuredSharingSession->start_time)->format('H:i') : '-' }} WITA</span>
-                                <span><i class="fas fa-map-marker-alt mr-2"></i> {{ $featuredSharingSession->location ?? '-' }}</span>
+                            <div class="flex flex-wrap gap-3 mt-3 text-xs md:text-sm text-white/90 font-medium">
+                                <span><i class="fas fa-calendar-alt text-[#00f2ff] mr-1.5"></i> {{ $featuredSharingSession->session_date->format('d M Y') }}</span>
+                                <span><i class="fas fa-clock text-[#00f2ff] mr-1.5"></i> {{ $featuredSharingSession->start_time ? \Carbon\Carbon::parse($featuredSharingSession->start_time)->format('H:i') : '-' }} WITA</span>
+                                <span><i class="fas fa-map-marker-alt text-[#00f2ff] mr-1.5"></i> {{ $featuredSharingSession->location ?? '-' }}</span>
                             </div>
                         </div>
+
                     </a>
 
-                    <div class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-4">
                         @forelse($sideSharingSessions as $session)
-                            <a href="{{ route('public.sharing-session.show', $session) }}" class="bg-white rounded-[18px] p-[15px] flex gap-5 shadow-sm hover:shadow-md border border-cyan-50 hover:border-[#00f2ff] transition group">
-                                <div class="w-[120px] h-[90px] rounded-[12px] overflow-hidden bg-gray-200 shrink-0">
+                            <a href="{{ route('public.sharing-session.show', $session) }}" class="bg-white rounded-[18px] p-[15px] flex gap-4 shadow-sm hover:shadow-md border border-cyan-50 hover:border-[#00f2ff] transition group">
+                                <div class="w-[120px] h-[85px] rounded-[12px] overflow-hidden bg-[#07132b] shrink-0">
                                     @if($session->documentation_photo_url)
                                         <img src="{{ $session->documentation_photo_url }}" alt="{{ $session->title ?? 'Sharing Session' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                                     @else
-                                        <div class="w-full h-full bg-gradient-to-br from-blue-700 to-indigo-500 flex items-center justify-center text-white"><i class="fas fa-comments text-3xl"></i></div>
+                                        <img src="{{ asset('storage/images/Sharingsession.png') }}" alt="{{ $session->title ?? 'Sharing Session' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                                     @endif
                                 </div>
                                 <div class="flex flex-col justify-center flex-1 min-w-0">
                                     <div class="flex items-start justify-between gap-2">
-                                        <h3 class="text-[15px] font-bold text-[#020b1a] leading-snug mb-1 group-hover:text-blue-700 transition">{{ $session->title ?? 'Materi Belum Diisi' }}</h3>
+                                        <h3 class="text-[14px] font-bold text-[#020b1a] leading-snug mb-1 group-hover:text-blue-700 transition">{{ $session->title ?? 'Materi Belum Diisi' }}</h3>
                                         <i class="fas fa-arrow-right text-blue-500 text-xs mt-1 opacity-0 group-hover:opacity-100 transition"></i>
                                     </div>
-                                    <p class="text-gray-400 text-sm leading-relaxed line-clamp-2">{{ $session->description ? \Illuminate\Support\Str::limit($session->description, 85) : 'Deskripsi sharing session belum tersedia.' }}</p>
-                                    <div class="flex flex-wrap gap-3 mt-2 text-[12px] text-gray-400">
+                                    <p class="text-gray-400 text-xs leading-relaxed line-clamp-2">{{ $session->description ? \Illuminate\Support\Str::limit($session->description, 80) : 'Deskripsi sharing session belum tersedia.' }}</p>
+                                    <div class="flex flex-wrap gap-2.5 mt-2 text-[11px] text-gray-400">
                                         <span><i class="fas fa-calendar-alt text-blue-500 mr-1"></i> {{ $session->session_date->format('d M Y') }}</span>
                                         <span><i class="fas fa-clock text-green-500 mr-1"></i> {{ $session->start_time ? \Carbon\Carbon::parse($session->start_time)->format('H:i') : '-' }} WITA</span>
                                         <span><i class="fas fa-map-marker-alt text-orange-500 mr-1"></i> {{ $session->location ?? '-' }}</span>
@@ -1799,16 +1805,16 @@
                                 </div>
                             </a>
                         @empty
-                            <div class="bg-white rounded-[18px] p-8 text-gray-400 text-center shadow-sm border border-cyan-50">
-                                <i class="fas fa-calendar-plus text-3xl text-gray-300 mb-3"></i>
-                                <p class="font-semibold">Belum ada jadwal sharing session lain minggu ini.</p>
+                            <div class="bg-white rounded-[18px] p-6 text-gray-400 text-center shadow-sm border border-cyan-50">
+                                <i class="fas fa-calendar-plus text-2xl text-gray-300 mb-2"></i>
+                                <p class="font-semibold text-sm">Belum ada jadwal sharing session lain minggu ini.</p>
                             </div>
                         @endforelse
 
                         @if($weeklySharingSessions->count() === 1)
-                            <div class="bg-white rounded-[18px] p-8 text-gray-400 text-center shadow-sm border border-cyan-50">
-                                <i class="fas fa-info-circle text-3xl text-gray-300 mb-3"></i>
-                                <p class="font-semibold">Baru ada 1 jadwal sharing session untuk minggu ini.</p>
+                            <div class="bg-white rounded-[18px] p-6 text-gray-400 text-center shadow-sm border border-cyan-50">
+                                <i class="fas fa-info-circle text-2xl text-gray-300 mb-2"></i>
+                                <p class="font-semibold text-sm">Baru ada 1 jadwal sharing session untuk minggu ini.</p>
                             </div>
                         @endif
                     </div>
@@ -1887,7 +1893,7 @@
                     </div>
 
                     <!-- Anggota 3 -->
-                    <div class="tmember-card cursor-pointer" onclick="openInstagramModal('Muh Imtiyazzaidan Arbi', 'https://instagram.com/imtiyazzaidan')">
+                    <div class="tmember-card cursor-pointer" onclick="openInstagramModal('Muh Imtiyazzaidan Arbi', 'https://www.instagram.com/zaidan.arbii?igsh=dGI2aWRkMW9zMHA5')">
                         <div class="tmember-photo-wrap">
                             <img src="{{ asset('storage/profiles/arbi.jpg') }}" alt="Muh Imtiyazzaidan Arbi" class="tmember-photo">
                             

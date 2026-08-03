@@ -139,7 +139,7 @@ class PengajuanController extends Controller
             }
 
             // ==================================================
-            // UPLOAD FILE LOKAL (Penamaan Rapi: Instansi_NoSurat_NamaAsli)
+            // UPLOAD FILE LOKAL
             // ==================================================
             $file = $request->file('surat_magang');
 
@@ -158,40 +158,17 @@ class PengajuanController extends Controller
 
             $storedFileName = trim($cleanInstitusi) . '_' . trim($cleanNoSurat) . '_' . trim($cleanOriginalName) . '.' . $extension;
 
-            // Simpan ke Private
+            // Simpan ke Private Storage
             $destinationPathPrivate = storage_path('app/private/surat_magang');
             if (!file_exists($destinationPathPrivate)) {
                 mkdir($destinationPathPrivate, 0755, true);
             }
-
-            // Simpan ke Public (supaya terjangkau Rclone)
-            $destinationPathPublic = storage_path('app/public/surat_magang');
-            if (!file_exists($destinationPathPublic)) {
-                mkdir($destinationPathPublic, 0755, true);
-            }
-
-            // Salin file ke folder public & private
-            copy($file->getRealPath(), $destinationPathPublic . '/' . $storedFileName);
 
             if (!$file->move($destinationPathPrivate, $storedFileName)) {
                 throw new \Exception('Gagal menyimpan file surat magang.');
             }
 
             $path = 'surat_magang/' . $storedFileName;
-
-            // ==================================================
-            // AUTO-UPLOAD GOOGLE DRIVE VIA RCLONE
-            // ==================================================
-            try {
-                $rcloneExecutable = 'C:\rclone-v1.74.4-windows-amd64\rclone-v1.74.4-windows-amd64\rclone.exe';
-                $folderDriveId = '1xV3zX6wzxGPxIBAc1qIXvrgXN3yVynyJ';
-
-                if (file_exists($rcloneExecutable)) {
-                    pclose(popen("start /B \"\" \"{$rcloneExecutable}\" copy \"{$destinationPathPublic}\" gdrive: --drive-root-folder-id \"{$folderDriveId}\"", "r"));
-                }
-            } catch (\Throwable $th) {
-                \Log::error('Rclone Sync Error: ' . $th->getMessage());
-            }
 
             // ==================================================
             // SIMPAN PENGAJUAN
@@ -307,32 +284,12 @@ class PengajuanController extends Controller
                 mkdir($destinationPathPrivate, 0755, true);
             }
 
-            $destinationPathPublic = storage_path('app/public/surat_magang');
-            if (!file_exists($destinationPathPublic)) {
-                mkdir($destinationPathPublic, 0755, true);
-            }
-
-            // Copy ke public folder
-            copy($file->getRealPath(), $destinationPathPublic . '/' . $storedFileName);
-
             if (!$file->move($destinationPathPrivate, $storedFileName)) {
                 return back()->withErrors(['surat_magang' => 'Gagal menyimpan file.'])->withInput();
             }
 
             $path = 'surat_magang/' . $storedFileName;
             $pengajuan->surat_path = $path;
-
-            // AUTO-UPLOAD GOOGLE DRIVE VIA RCLONE
-            try {
-                $rcloneExecutable = 'C:\rclone-v1.74.4-windows-amd64\rclone-v1.74.4-windows-amd64\rclone.exe';
-                $folderDriveId = '1xV3zX6wzxGPxIBAc1qIXvrgXN3yVynyJ';
-
-                if (file_exists($rcloneExecutable)) {
-                    pclose(popen("start /B \"\" \"{$rcloneExecutable}\" copy \"{$destinationPathPublic}\" gdrive: --drive-root-folder-id \"{$folderDriveId}\"", "r"));
-                }
-            } catch (\Throwable $th) {
-                \Log::error('Rclone Sync Error: ' . $th->getMessage());
-            }
         }
 
         // Update data pengajuan
