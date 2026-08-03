@@ -1893,7 +1893,7 @@
                     </div>
 
                     <!-- Anggota 3 -->
-                    <div class="tmember-card cursor-pointer" onclick="openInstagramModal('Muh Imtiyazzaidan Arbi', 'https://instagram.com/imtiyazzaidan')">
+                    <div class="tmember-card cursor-pointer" onclick="openInstagramModal('Muh Imtiyazzaidan Arbi', 'https://www.instagram.com/zaidan.arbii?igsh=dGI2aWRkMW9zMHA5')">
                         <div class="tmember-photo-wrap">
                             <img src="{{ asset('storage/profiles/arbi.jpg') }}" alt="Muh Imtiyazzaidan Arbi" class="tmember-photo">
                             

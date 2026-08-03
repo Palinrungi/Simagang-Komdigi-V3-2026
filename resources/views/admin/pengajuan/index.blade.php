@@ -215,7 +215,7 @@
                     </h2>
                     <p class="section-label">Filter Monitoring</p>
                     <form method="GET" action="{{ route('admin.pengajuan.index') }}"
-                        class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                         <div>
                             <label for="search" class="block text-sm font-medium text-blue-900 mb-1">Cari Nomor Surat</label>
                             <input type="text" name="search" id="search" value="{{ request('search') }}"
@@ -246,18 +246,6 @@
                                     <i class="fas fa-times"></i>
                                 </a>
                             @endif
-                        </div>
-
-                        <!-- Tombol Google Drive Kumpulan Surat -->
-                        <div>
-                            <a href="{{ env('GOOGLE_DRIVE_SURAT_PENGAJUAN', '#') }}" 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 flex items-center justify-center gap-2 w-full">
-                                <i class="fab fa-google-drive text-lg"></i>
-                                <span>Folder Surat (Drive)</span>
-                                <i class="fas fa-external-link-alt text-xs"></i>
-                            </a>
                         </div>
                     </form>
                 </div>
