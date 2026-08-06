@@ -1,0 +1,139 @@
+================================================================================
+          PANDUAN UPDATE PRODUCTION — METODE TIMPA FOLDER (MERGE OTOMATIS)
+                    (UNTUK ADMINISTRATOR / PENGELOLA SERVER)
+================================================================================
+Tanggal Rilis : 4 Agustus 2026
+Versi Update  : Pembaruan fitur Simagang V3 (Mobile App APK & Kategori Lowongan)
+Paket Update  : 9 Folder (Berisi 29 File yang Berubah sejak 23 Juli 2026)
+
+--------------------------------------------------------------------------------
+1. KONSEP MERGE OTOMATIS (SANGAT AMAN UNTUK SERVER PRODUCTION)
+--------------------------------------------------------------------------------
+PENTING UNTUK DIKETAHUI ADMIN SERVER:
+Menimpa folder dari paket update ini ke server production TIDAK AKAN MENGHAPUS
+file-file lama yang sudah ada di server Anda! 
+
+Sistem operasi (Linux/Windows/cPanel/FTP) selalu melakukan MERGE (Penggabungan):
+- File baru dari update -> AKAN DITAMBAHKAN ke server.
+- File lama yang ada di dalam update -> AKAN DIGANTI ke versi terbaru.
+- File-file lain di server yang tidak ada di update ini (seperti foto kegiatan,
+  surat magang, file model/controller lain, .env, config) -> TETAP AMAN & UTUH!
+
+--------------------------------------------------------------------------------
+2. DAFTAR 9 FOLDER YANG HARUS DISALIN / DITIMPA KE PRODUCTION
+--------------------------------------------------------------------------------
+Silakan salin dan timpa 9 folder di bawah ini ke root direktori project 
+Laravel production Anda (misalnya `/var/www/simagang` atau `/home/user/public_html`):
+
+[ ] 1. app/Exports/
+       Fungsi      : Penambahan class ekspor Excel (`SharingSessionExport.php`).
+       Aksi Server : Salin & timpa ke folder `app/Exports/` di production.
+
+[ ] 2. app/Http/Controllers/
+       Fungsi      : Update Controller Admin, Institusi, dan Intern (rute APK).
+       Aksi Server : Salin & timpa ke folder `app/Http/Controllers/` di production.
+                     *(Controller lain di server tetap aman/tidak terhapus).*
+
+[ ] 3. app/Models/
+       Fungsi      : Penambahan model `Position.php` & update `SharingSession.php`.
+       Aksi Server : Salin & timpa ke folder `app/Models/` di production.
+                     *(Model lain seperti User.php, Intern.php tetap aman).*
+
+[ ] 4. app/Providers/
+       Fungsi      : Update `RouteServiceProvider.php`.
+       Aksi Server : Salin & timpa ke folder `app/Providers/` di production.
+
+[ ] 5. database/migrations/    <--- *** WAJIB MIGRATE SETELAH DITIMPA ***
+       Fungsi      : File migrasi baru `2026_07_28_201422_create_positions_table.php`
+                     untuk membuat tabel database `positions`.
+       Aksi Server : Salin & timpa ke folder `database/migrations/` di production.
+
+[ ] 6. resources/views/
+       Fungsi      : Seluruh pembaruan tampilan UI web & halaman unduh APK
+                     (`/intern/mobile-app`).
+       Aksi Server : Salin & timpa ke folder `resources/views/` di production.
+
+[ ] 7. routes/
+       Fungsi      : Pembaruan file rute aplikasi (`web.php`).
+       Aksi Server : Salin & timpa ke folder `routes/` di production.
+
+[ ] 8. storage/app/public/images/
+       Fungsi      : Penambahan gambar ilustrasi (`Sharingsession.png`).
+       Aksi Server : Salin & timpa ke folder `storage/app/public/images/` di production.
+                     *(Foto/gambar lain upload dari user di server tetap utuh).*
+
+[ ] 9. storage/app/releases/   <--- *** FOLDER BARU (BERISI APK 30 MB) ***
+       Fungsi      : Folder rilis resmi berisi installer Android Simagang Mobile
+                     (`simagang-mobile.apk`) serta catatan rilis `README_APK.md`.
+       Aksi Server : Salin seluruh folder baru `storage/app/releases/` ke production.
+
+
+--------------------------------------------------------------------------------
+3. LANGKAH-LANGKAH EKSEKUSI DI SERVER PRODUCTION (3 STEP MUDAH)
+--------------------------------------------------------------------------------
+
+STEP 1 — SALIN / TIMPA 9 FOLDER DI ATAS KE PRODUCTION
+- Ekstrak ZIP update ini di folder sementara, lalu copy-paste 9 folder di atas 
+  ke direktori root project Laravel Anda.
+- Atau jika menggunakan terminal Linux, perintah salin (dari folder ekstrak):
+  
+      cp -r app/Exports /path/to/production/app/
+      cp -r app/Http/Controllers /path/to/production/app/Http/
+      cp -r app/Models /path/to/production/app/
+      cp -r app/Providers /path/to/production/app/
+      cp -r database/migrations /path/to/production/database/
+      cp -r resources/views /path/to/production/resources/
+      cp -r routes /path/to/production/
+      cp -r storage/app/public/images /path/to/production/storage/app/public/
+      cp -r storage/app/releases /path/to/production/storage/app/
+
+STEP 2 — JALANKAN DATABASE MIGRATION (WAJIB)
+- Masuk ke folder root Laravel production Anda, lalu jalankan perintah berikut 
+  untuk membuat tabel baru `positions`:
+  
+      php artisan migrate --force
+
+STEP 3 — BERSIHKAN CACHE APLIKASI (WAJIB)
+- Bersihkan cache agar rute dan tampilan baru langsung aktif di browser:
+  
+      php artisan route:clear
+      php artisan view:clear
+      php artisan config:clear
+
+
+--------------------------------------------------------------------------------
+4. LAMPIRAN DAFTAR 29 FILE YANG BERUBAH DI DALAM 9 FOLDER TERSEBUT
+--------------------------------------------------------------------------------
+[NEW]    app/Exports/SharingSessionExport.php
+[MODIFY] app/Http/Controllers/Admin/AdminLowonganController.php
+[NEW]    app/Http/Controllers/Admin/AdminPositionController.php
+[MODIFY] app/Http/Controllers/Admin/AdminSharingSessionController.php
+[MODIFY] app/Http/Controllers/Admin/SiteSettingController.php
+[MODIFY] app/Http/Controllers/Institusi/PengajuanController.php
+[MODIFY] app/Http/Controllers/Intern/DashboardController.php
+[NEW]    app/Models/Position.php
+[MODIFY] app/Models/SharingSession.php
+[MODIFY] app/Providers/RouteServiceProvider.php
+[NEW]    database/migrations/2026_07_28_201422_create_positions_table.php
+[MODIFY] resources/views/activity-post-detail.blade.php
+[MODIFY] resources/views/admin/lowongan/create.blade.php
+[MODIFY] resources/views/admin/lowongan/edit.blade.php
+[MODIFY] resources/views/admin/pengajuan/index.blade.php
+[NEW]    resources/views/admin/positions/index.blade.php
+[MODIFY] resources/views/admin/settings/edit.blade.php
+[MODIFY] resources/views/admin/sharing-session/index.blade.php
+[MODIFY] resources/views/chatbot.blade.php
+[MODIFY] resources/views/daftarInstitusi.blade.php
+[MODIFY] resources/views/intern/dashboard.blade.php
+[NEW]    resources/views/intern/mobile-app.blade.php
+[MODIFY] resources/views/landingpage.blade.php
+[MODIFY] resources/views/layouts/app.blade.php
+[MODIFY] resources/views/sharing-session-detail.blade.php
+[MODIFY] routes/web.php
+[NEW]    storage/app/public/images/Sharingsession.png
+[NEW]    storage/app/releases/README_APK.md
+[NEW]    storage/app/releases/simagang-mobile.apk
+
+================================================================================
+                    TERIMA KASIH — DEPLOYMENT SIMAGANG V3 2026
+================================================================================

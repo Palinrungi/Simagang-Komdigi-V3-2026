@@ -79,19 +79,17 @@
 
     <div class="login-container">
         <div class="text-center mb-6 space-y-3">
-            <div class="flex flex-col items-center p-4">
-                <img src="{{ url('storage/vendor/logo_komdigi.png') }}"
-                     alt="Logo"
-                     class="object-contain"
-                     style="width: 80px; height: 80px"/>
-
-                <h1 class="text-3xl font-extrabold font-etna">
-                    <span style="color: #9d272a">SI</span><span style="color: #086bb0">MA</span><span style="color: #2dabe2">GA</span><span style="color: #efc400">NG</span>
-                </h1>
-
-                <p class="font-etna" style="color: #626161; font-size:10px">
-                    Sistem Manajemen Magang
-                </p>
+            <div class="flex flex-col items-center p-2">
+                <div class="flex items-center justify-center gap-4">
+                    <img src="{{ \App\Models\SystemSetting::get('logo_komdigi', url('storage/vendor/logo_komdigi.png')) }}" 
+                         alt="Logo Komdigi" 
+                         class="object-contain" 
+                         style="height: 60px; width: auto;"/>
+                    <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" 
+                         alt="Logo Simagang" 
+                         class="object-contain" 
+                         style="height: 56px; width: auto;"/>
+                </div>
             </div>
 
             <div>

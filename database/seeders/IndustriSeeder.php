@@ -13,7 +13,7 @@ class IndustriSeeder extends Seeder
      */
     public function run(): void
     {
-        $superAdminQuery = User::where('role', 'super_admin')
+        $superAdminQuery = User::role('super_admin')
             ->orderBy('id');
 
         $jumlahSuperAdmin = $superAdminQuery->count();

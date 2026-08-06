@@ -34,7 +34,8 @@ class AdminLowonganController extends Controller
 
         $query = Lowongan::with('industri')
             ->whereHas('industri', function ($q) {
-                $q->where('nama_industri', 'BBLSDM Komdigi Makassar');
+                $q->where('nama_industri', 'like', '%BBLSDM%')
+                  ->orWhere('nama_industri', 'like', '%Komdigi%');
             })
             ->orderByRaw("
                 CASE
@@ -79,7 +80,8 @@ class AdminLowonganController extends Controller
 
         // data statistik
         $totalLowongan = Lowongan::whereHas('industri', function ($q) {
-            $q->where('nama_industri', 'BBLSDM Komdigi Makassar');
+            $q->where('nama_industri', 'like', '%BBLSDM%')
+              ->orWhere('nama_industri', 'like', '%Komdigi%');
         })->count();
 
         $totalPending = Lowongan::where('status_verifikasi', 'pending')->count();
@@ -130,8 +132,18 @@ class AdminLowonganController extends Controller
      */
     public function store(Request $request)
     {
-        $industri = Industri::where('nama_industri', 'BBLSDM Komdigi Makassar')
-            ->firstOrFail();
+        // Ambil industri BBLSDM Komdigi secara fleksibel agar tidak melempar 404 (ModelNotFoundException)
+        $industri = Industri::where('nama_industri', 'like', '%BBLSDM%')
+            ->orWhere('nama_industri', 'like', '%Komdigi%')
+            ->first();
+
+        if (!$industri) {
+            $industri = Industri::first();
+        }
+
+        if (!$industri) {
+            return back()->with('error', 'Data perusahaan/industri belum tersedia di database. Silakan tambahkan data industri terlebih dahulu.');
+        }
 
         $statusverifikasi = 'disetujui';
 

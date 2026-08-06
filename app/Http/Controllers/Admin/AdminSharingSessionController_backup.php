@@ -56,7 +56,7 @@ class AdminSharingSessionController extends Controller
 
     public function create()
     {
-        $internUsers = User::where('role', 'intern')
+        $internUsers = User::role('intern')
             ->orderBy('name')
             ->get();
 
@@ -89,7 +89,7 @@ class AdminSharingSessionController extends Controller
 
     public function edit(SharingSession $sharingSession)
     {
-        $internUsers = User::where('role', 'intern')
+        $internUsers = User::role('intern')
             ->orderBy('name')
             ->get();
 
