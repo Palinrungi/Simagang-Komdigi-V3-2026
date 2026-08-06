@@ -25,11 +25,13 @@ class FinalReport extends Model
         'needs_revision',
         'admin_note',
         'submitted_at',
+        'project_handover_agreement', // <-- Sudah ditambahkan di sini
     ];
 
     protected $casts = [
         'submitted_at' => 'datetime',
         'needs_revision' => 'boolean',
+        'project_handover_agreement' => 'boolean', // <-- Ditambahkan agar otomatis dicasting jadi boolean
         'activities' => 'array',
         'project_files' => 'array',
         'project_links' => 'array',

@@ -44,6 +44,26 @@
                 </div>
 
                 <div class="p-8 space-y-6">
+
+                    {{-- ── Status Serah Terima Proyek ── --}}
+                    <div class="p-4 rounded-xl border {{ $report->project_handover_agreement ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-gray-50 border-gray-200 text-gray-600' }}">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center {{ $report->project_handover_agreement ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-200 text-gray-400' }}">
+                                <i class="fas {{ $report->project_handover_agreement ? 'fa-check-double' : 'fa-times' }} text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide font-bold">Pernyataan Serah Terima Proyek</p>
+                                <p class="text-sm font-semibold mt-0.5">
+                                    @if($report->project_handover_agreement)
+                                        <span class="text-emerald-700">✓ Disetujui:</span> Proyek/karya magang siap diserahterimakan dan dapat digunakan sepenuhnya oleh BBLSDM Komdigi Makassar.
+                                    @else
+                                        <span class="text-gray-500">✕ Belum mencentang pernyataan persetujuan serah terima.</span>
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- File Info -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex items-start">
@@ -167,7 +187,7 @@
                                             </p>
                                             <a href="{{ route('download', ['path' => data_get($pf, 'path')]) }}"
                                                 target="_blank"
-                                                class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+                                                class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 shadow-sm transition-all">
                                                 <i class="fas fa-download mr-2"></i>Download File Proyek
                                             </a>
                                         </div>
@@ -181,7 +201,7 @@
                                         </p>
                                         <a href="{{ route('download', ['path' => $report->project_file]) }}"
                                             target="_blank"
-                                            class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+                                            class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 shadow-sm transition-all">
                                             <i class="fas fa-download mr-2"></i>Download File Proyek
                                         </a>
                                     </div>
@@ -196,7 +216,7 @@
                                                     Link Proyek {{ $loop->iteration }}
                                                 </p>
                                                 <a href="{{ $pl }}" target="_blank" rel="noopener"
-                                                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-300">
+                                                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 shadow-sm transition-all">
                                                     <i class="fas fa-external-link-alt mr-2"></i>Buka Link Proyek
                                                 </a>
                                             </div>
@@ -209,7 +229,7 @@
                                             Link Proyek
                                         </p>
                                         <a href="{{ $report->project_link }}" target="_blank" rel="noopener"
-                                            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-300">
+                                            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 shadow-sm transition-all">
                                             <i class="fas fa-external-link-alt mr-2"></i>Buka Link Proyek
                                         </a>
                                     </div>
@@ -286,13 +306,12 @@
 
                             <div class="flex justify-end space-x-3">
                                 <a href="{{ route('mentor.report.index') }}"
-                                    class="inline-flex items-center px-6 py-3 bg-gray-500 text-white font-semibold rounded-xl hover:bg-gray-600 shadow-md hover:shadow-lg transition-all duration-300">
+                                    class="inline-flex items-center px-6 py-3 bg-gray-500 text-white font-semibold rounded-xl hover:bg-gray-600 shadow-md transition-all">
                                     <i class="fas fa-times mr-2"></i>
                                     Batal
                                 </a>
-                                {{-- Tombol ini membuka modal, bukan langsung submit --}}
                                 <button type="button" id="btn-open-grade-modal"
-                                    class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300">
+                                    class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 shadow-md transition-all">
                                     <i class="fas fa-save mr-2"></i>
                                     Simpan Nilai
                                 </button>
@@ -323,7 +342,6 @@
                 Anda akan memberikan nilai kepada <strong>{{ $report->intern->name }}</strong>:
             </p>
 
-            {{-- Ringkasan nilai yang akan disimpan --}}
             <div class="my-4 p-4 bg-blue-50 rounded-xl border border-blue-200 text-center">
                 <p class="text-sm text-gray-500 mb-1">Nilai Angka</p>
                 <p class="text-3xl font-bold text-blue-700" id="modal-score-display">–</p>
@@ -349,7 +367,6 @@
 
     @push('scripts')
         <script>
-            // ── Grade preview di bawah input ──
             function updateGradePreview(score) {
                 const preview = document.getElementById('gradePreview');
                 if (!score || score < 0 || score > 100) {
@@ -363,52 +380,54 @@
                     (grade === 'A' ? 'text-green-600' : grade === 'B' ? 'text-blue-600' : 'text-yellow-600');
             }
 
-            // ── Modal konfirmasi ──
             const modal        = document.getElementById('grade-confirm-modal');
-            const modalBox     = document.getElementById('grade-modal-box');
             const form         = document.getElementById('grade-form');
             const scoreInput   = document.getElementById('score');
-
             const modalScore   = document.getElementById('modal-score-display');
             const modalGrade   = document.getElementById('modal-grade-display');
 
-            // Buka modal
-            document.getElementById('btn-open-grade-modal').addEventListener('click', function () {
-                // Validasi form dulu agar HTML5 required & range terjaga
-                if (!form.reportValidity()) return;
+            const openBtn = document.getElementById('btn-open-grade-modal');
+            if (openBtn) {
+                openBtn.addEventListener('click', function () {
+                    if (!form.reportValidity()) return;
 
-                const score = parseInt(scoreInput.value, 10);
-                if (isNaN(score) || score < 0 || score > 100) return;
+                    const score = parseInt(scoreInput.value, 10);
+                    if (isNaN(score) || score < 0 || score > 100) return;
 
-                const grade = score >= 85 ? 'A' : score >= 70 ? 'B' : 'C';
-                const gradeColor = grade === 'A' ? 'text-green-600' : grade === 'B' ? 'text-blue-600' : 'text-yellow-600';
+                    const grade = score >= 85 ? 'A' : score >= 70 ? 'B' : 'C';
+                    const gradeColor = grade === 'A' ? 'text-green-600' : grade === 'B' ? 'text-blue-600' : 'text-yellow-600';
 
-                modalScore.textContent = score;
-                modalGrade.textContent = 'Grade: ' + grade;
-                modalGrade.className   = 'text-sm font-bold mt-1 ' + gradeColor;
+                    modalScore.textContent = score;
+                    modalGrade.textContent = 'Grade: ' + grade;
+                    modalGrade.className   = 'text-sm font-bold mt-1 ' + gradeColor;
 
-                modal.style.display = 'flex';
-            });
+                    modal.style.display = 'flex';
+                });
+            }
 
-            // Tutup modal — tombol batal
-            document.getElementById('btn-grade-cancel').addEventListener('click', function () {
-                modal.style.display = 'none';
-            });
+            const cancelBtn = document.getElementById('btn-grade-cancel');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function () {
+                    modal.style.display = 'none';
+                });
+            }
 
-            // Konfirmasi — submit form
-            document.getElementById('btn-grade-confirm').addEventListener('click', function () {
-                modal.style.display = 'none';
-                form.submit();
-            });
+            const confirmBtn = document.getElementById('btn-grade-confirm');
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function () {
+                    modal.style.display = 'none';
+                    form.submit();
+                });
+            }
 
-            // Tutup modal — klik backdrop
-            modal.addEventListener('click', function (e) {
-                if (e.target === modal) modal.style.display = 'none';
-            });
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) modal.style.display = 'none';
+                });
+            }
 
-            // Tutup modal — tekan Escape
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
                     modal.style.display = 'none';
                 }
             });

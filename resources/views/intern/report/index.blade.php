@@ -415,6 +415,18 @@
                         </p>
                     </div>
 
+                    {{-- PERNYATAAN SERAH TERIMA PROYEK --}}
+                    <div class="mb-6 p-4 bg-blue-50/80 rounded-xl border border-blue-200">
+                        <label class="flex items-start space-x-3 cursor-pointer">
+                            <input type="checkbox" name="project_handover_agreement" value="1" required
+                                class="mt-1 w-5 h-5 text-blue-600 border-2 border-blue-400 rounded focus:ring-blue-500 focus:ring-offset-0 transition-all"
+                                {{ old('project_handover_agreement') ? 'checked' : '' }}>
+                            <span class="text-sm text-gray-800 leading-relaxed font-medium">
+                                Dengan ini saya menyatakan bahwa hasil proyek/karya magang ini siap diserahterimakan dan dapat digunakan sepenuhnya oleh <strong class="text-blue-900">BBLSDM Komdigi Makassar</strong>.
+                            </span>
+                        </label>
+                    </div>
+
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200">
                         <button type="button" onclick="document.getElementById('uploadForm').classList.add('hidden')"
                             class="inline-flex items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-all duration-300 w-full sm:w-auto justify-center">
@@ -431,7 +443,7 @@
 
         @else
         <!-- Upload Initial Report Card -->
-            <div class="bg-white rounded-2xl shadow-lg border border-blue-100 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-lg border border-blue-100 overflow-hidden">
             <div class="bg-blue-600 px-6 py-4">
                 <h2 class="text-xl font-bold text-white flex items-center">
                     <i class="fas fa-upload mr-3"></i>
@@ -498,7 +510,7 @@
                     </div>
 
                     {{-- Activities (Kegiatan Magang) --}}
-                    <div class="mb-8">
+                    <div class="mb-6">
                         <label for="activities_description" class="block text-sm font-semibold text-gray-700 mb-2">
                             <i class="fas fa-tasks text-green-600 mr-2"></i>Kegiatan Selama Magang (opsional)
                         </label>
@@ -511,7 +523,24 @@
                         </p>
                     </div>
 
-                        <div class="flex justify-center pt-6 border-t border-gray-200">
+                    {{-- PERNYATAAN SERAH TERIMA PROYEK --}}
+                    <div class="mb-8 p-4 bg-blue-50/80 rounded-xl border border-blue-200">
+                        <label class="flex items-start space-x-3 cursor-pointer">
+                            <input type="checkbox" name="project_handover_agreement" value="1" required
+                                class="mt-1 w-5 h-5 text-blue-600 border-2 border-blue-400 rounded focus:ring-blue-500 focus:ring-offset-0 transition-all"
+                                {{ old('project_handover_agreement') ? 'checked' : '' }}>
+                            <span class="text-sm text-gray-800 leading-relaxed font-medium">
+                                Dengan ini saya menyatakan bahwa hasil proyek/karya magang ini siap diserahterimakan dan dapat digunakan sepenuhnya oleh <strong class="text-blue-900">BBLSDM Komdigi Makassar</strong>.
+                            </span>
+                        </label>
+                        @error('project_handover_agreement')
+                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-1"></i>Persetujuan ini wajib dicentang.
+                            </p>
+                        @enderror
+                    </div>
+
+                    <div class="flex justify-center pt-6 border-t border-gray-200">
                         <button type="submit"
                             class="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
                             <i class="fas fa-upload mr-2"></i>Upload Laporan
@@ -520,107 +549,107 @@
                 </form>
             </div>
         </div>
-
-        @push('scripts')
-        <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            document.body.classList.add('page-report');
-            // Custom file input functions
-            function updateFileDisplay(input) {
-                const display = document.getElementById('fileDisplay');
-                if (input.files && input.files[0]) {
-                    display.value = input.files[0].name;
-                    display.classList.remove('text-gray-700');
-                    display.classList.add('text-blue-700');
-                }
-            }
-
-            function clearFile() {
-                const display = document.getElementById('fileDisplay');
-                const input = document.getElementById('fileInput');
-                display.value = '{{ $report?->file_name }}';
-                input.value = '';
-                display.classList.remove('text-blue-700');
-                display.classList.add('text-gray-700');
-            }
-
-            function updateProjectDisplay(input) {
-                const display = document.getElementById('projectDisplay');
-                if (!display) return;
-                if (input.files && input.files.length) {
-                    if (input.files.length > 3) {
-                        alert('Maksimal 3 file proyek. Silakan pilih ulang.');
-                        input.value = '';
-                        return;
-                    }
-                    const names = Array.from(input.files).map(f => f.name).join(', ');
-                    display.value = names;
-                    display.classList.remove('text-gray-700', 'text-gray-500');
-                    display.classList.add('text-blue-700');
-                }
-            }
-
-            function clearProject() {
-                const display = document.getElementById('projectDisplay');
-                const inputUpdate = document.getElementById('projectInput');
-                const inputCreate = document.getElementById('project_file');
-                const orig = '{{ $report?->project_file ? ($report?->project_file_name ?? basename($report?->project_file)) : 'Belum ada file proyek' }}';
-                if (display) display.value = orig;
-                if (inputUpdate) inputUpdate.value = '';
-                if (inputCreate) inputCreate.value = '';
-                if (display) {
-                    display.classList.remove('text-blue-700');
-                    display.classList.add('text-gray-700');
-                }
-            }
-
-            // Attach to global if elements exist
-            const fileInput = document.getElementById('fileInput');
-            const projectInput = document.getElementById('projectInput');
-            const projectCreateInput = document.getElementById('project_file');
-            if (fileInput) {
-                fileInput.addEventListener('change', function() { updateFileDisplay(this); });
-            }
-            if (projectInput) {
-                projectInput.addEventListener('change', function() { updateProjectDisplay(this); });
-            }
-            if (projectCreateInput) {
-                projectCreateInput.addEventListener('change', function() { updateProjectDisplay(this); });
-            }
-
-            // Clear buttons
-            const clearFileBtn = document.querySelector('button[onclick="clearFile()"]');
-            const clearProjectBtn = document.querySelector('button[onclick="clearProject()"]');
-            if (clearFileBtn) clearFileBtn.addEventListener('click', clearFile);
-            if (clearProjectBtn) clearProjectBtn.addEventListener('click', clearProject);
-
-            // Character counter for testimony
-            const testimonyInput = document.getElementById('testimony');
-            const charCount = document.getElementById('charCount');
-            if (testimonyInput) {
-                function updateCharCount() {
-                    const count = testimonyInput.value.length;
-                    charCount.textContent = count + '/1000';
-                    charCount.classList.remove('text-green-600', 'text-yellow-600', 'text-red-600');
-                    if (count < 20) {
-                        charCount.classList.add('text-red-600');
-                    } else if (count < 500) {
-                        charCount.classList.add('text-green-600');
-                    } else {
-                        charCount.classList.add('text-yellow-600');
-                    }
-                }
-                testimonyInput.addEventListener('input', updateCharCount);
-                testimonyInput.addEventListener('change', updateCharCount);
-                updateCharCount(); // Initial call
-            }
-        });
-        </script>
-        @endpush
-
         @endif
 
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    document.body.classList.add('page-report');
+    
+    // Custom file input functions
+    function updateFileDisplay(input) {
+        const display = document.getElementById('fileDisplay');
+        if (input.files && input.files[0]) {
+            display.value = input.files[0].name;
+            display.classList.remove('text-gray-700');
+            display.classList.add('text-blue-700');
+        }
+    }
+
+    function clearFile() {
+        const display = document.getElementById('fileDisplay');
+        const input = document.getElementById('fileInput');
+        display.value = '{{ $report?->file_name }}';
+        input.value = '';
+        display.classList.remove('text-blue-700');
+        display.classList.add('text-gray-700');
+    }
+
+    function updateProjectDisplay(input) {
+        const display = document.getElementById('projectDisplay');
+        if (!display) return;
+        if (input.files && input.files.length) {
+            if (input.files.length > 3) {
+                alert('Maksimal 3 file proyek. Silakan pilih ulang.');
+                input.value = '';
+                return;
+            }
+            const names = Array.from(input.files).map(f => f.name).join(', ');
+            display.value = names;
+            display.classList.remove('text-gray-700', 'text-gray-500');
+            display.classList.add('text-blue-700');
+        }
+    }
+
+    function clearProject() {
+        const display = document.getElementById('projectDisplay');
+        const inputUpdate = document.getElementById('projectInput');
+        const inputCreate = document.getElementById('project_file');
+        const orig = '{{ $report?->project_file ? ($report?->project_file_name ?? basename($report?->project_file)) : 'Belum ada file proyek' }}';
+        if (display) display.value = orig;
+        if (inputUpdate) inputUpdate.value = '';
+        if (inputCreate) inputCreate.value = '';
+        if (display) {
+            display.classList.remove('text-blue-700');
+            display.classList.add('text-gray-700');
+        }
+    }
+
+    // Attach to global if elements exist
+    const fileInput = document.getElementById('fileInput');
+    const projectInput = document.getElementById('projectInput');
+    const projectCreateInput = document.getElementById('project_file');
+    if (fileInput) {
+        fileInput.addEventListener('change', function() { updateFileDisplay(this); });
+    }
+    if (projectInput) {
+        projectInput.addEventListener('change', function() { updateProjectDisplay(this); });
+    }
+    if (projectCreateInput) {
+        projectCreateInput.addEventListener('change', function() { updateProjectDisplay(this); });
+    }
+
+    // Clear buttons
+    const clearFileBtn = document.querySelector('button[onclick="clearFile()"]');
+    const clearProjectBtn = document.querySelector('button[onclick="clearProject()"]');
+    if (clearFileBtn) clearFileBtn.addEventListener('click', clearFile);
+    if (clearProjectBtn) clearProjectBtn.addEventListener('click', clearProject);
+
+    // Character counter for testimony
+    const testimonyInput = document.getElementById('testimony');
+    const charCount = document.getElementById('charCount');
+    if (testimonyInput) {
+        function updateCharCount() {
+            const count = testimonyInput.value.length;
+            charCount.textContent = count + '/1000';
+            charCount.classList.remove('text-green-600', 'text-yellow-600', 'text-red-600');
+            if (count < 20) {
+                charCount.classList.add('text-red-600');
+            } else if (count < 500) {
+                charCount.classList.add('text-green-600');
+            } else {
+                charCount.classList.add('text-yellow-600');
+            }
+        }
+        testimonyInput.addEventListener('input', updateCharCount);
+        testimonyInput.addEventListener('change', updateCharCount);
+        updateCharCount(); // Initial call
+    }
+});
+</script>
+@endpush
 
 @endsection

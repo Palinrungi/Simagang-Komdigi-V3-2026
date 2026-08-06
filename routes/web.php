@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AdminMonitoringIndustriController;
 use App\Http\Controllers\Admin\AdminRagController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Api\HolidayController;
+use App\Http\Controllers\Admin\AdminHeroSliderController;
 use App\Http\Controllers\Api\InstitutionController;
 use App\Http\Controllers\Intern\MicroSkillController as InternMicroSkillController;
 use App\Http\Controllers\Mentor\MicroSkillController as MentorMicroSkillController;
@@ -83,6 +84,11 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
+    // 1. TAMBAHKAN LINE INI (Ambil data Hero Slider yang aktif)
+    $heroSliders = \App\Models\HeroSlider::where('is_active', true)
+                    ->orderBy('order', 'asc')
+                    ->get();
+
     $partnerFiles = Storage::disk('public')->files('partners');
     $partners = collect($partnerFiles)
         ->filter(fn ($path) => preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', $path))
@@ -104,95 +110,98 @@ Route::get('/', function () {
         ->get();
     
     $weekStart = \Carbon\Carbon::now()->startOfWeek(\Carbon\Carbon::SATURDAY);
-$weekEnd = $weekStart->copy()->addDays(6);
+    $weekEnd = $weekStart->copy()->addDays(6);
 
-$weeklySharingSessions = \App\Models\SharingSession::with(['speakerUser', 'moderatorUser'])
-    ->whereBetween('session_date', [
-        $weekStart->toDateString(),
-        $weekEnd->toDateString()
-    ])
-    ->orderBy('session_date', 'asc')
-    ->orderBy('start_time', 'asc')
-    ->take(4)
-    ->get();
+    $weeklySharingSessions = \App\Models\SharingSession::with(['speakerUser', 'moderatorUser'])
+        ->whereBetween('session_date', [
+            $weekStart->toDateString(),
+            $weekEnd->toDateString()
+        ])
+        ->orderBy('session_date', 'asc')
+        ->orderBy('start_time', 'asc')
+        ->take(4)
+        ->get();
 
-$today = \Carbon\Carbon::today();
+    $today = \Carbon\Carbon::today();
 
-$featuredSharingSession = $weeklySharingSessions
-    ->first(function ($session) use ($today) {
-        return $session->session_date->isSameDay($today);
-    });
-
-if (!$featuredSharingSession) {
     $featuredSharingSession = $weeklySharingSessions
         ->first(function ($session) use ($today) {
-            return $session->session_date->greaterThan($today);
+            return $session->session_date->isSameDay($today);
         });
-}
 
-if (!$featuredSharingSession) {
-    $featuredSharingSession = $weeklySharingSessions->last();
-}
+    if (!$featuredSharingSession) {
+        $featuredSharingSession = $weeklySharingSessions
+            ->first(function ($session) use ($today) {
+                return $session->session_date->greaterThan($today);
+            });
+    }
 
-$sideSharingSessions = $weeklySharingSessions
-    ->filter(function ($session) use ($featuredSharingSession) {
-        return !$featuredSharingSession || $session->id !== $featuredSharingSession->id;
-    })
-    ->values()
-    ->take(3);
-$landingView = \App\Models\PageView::firstOrCreate(
-    ['page' => 'landingpage'],
-    ['views' => 0]
-);
+    if (!$featuredSharingSession) {
+        $featuredSharingSession = $weeklySharingSessions->last();
+    }
 
-if (!session()->has('landingpage_view_counted')) {
-    $landingView->increment('views');
-    session(['landingpage_view_counted' => true]);
-    $landingView->refresh();
-}
+    $sideSharingSessions = $weeklySharingSessions
+        ->filter(function ($session) use ($featuredSharingSession) {
+            return !$featuredSharingSession || $session->id !== $featuredSharingSession->id;
+        })
+        ->values()
+        ->take(3);
 
-$visitorCount = $landingView->views;
+    $landingView = \App\Models\PageView::firstOrCreate(
+        ['page' => 'landingpage'],
+        ['views' => 0]
+    );
 
-$articleActivities = ActivityPost::published()
-    ->where('type', 'artikel')
-    ->orderByDesc('published_at')
-    ->orderByDesc('created_at')
-    ->take(3)
-    ->get();
+    if (!session()->has('landingpage_view_counted')) {
+        $landingView->increment('views');
+        session(['landingpage_view_counted' => true]);
+        $landingView->refresh();
+    }
 
-$youtubeActivities = ActivityPost::published()
-    ->where('type', 'youtube')
-    ->orderByDesc('published_at')
-    ->orderByDesc('created_at')
-    ->take(3)
-    ->get();
+    $visitorCount = $landingView->views;
 
-$totalArticleActivities = ActivityPost::published()
-    ->where('type', 'artikel')
-    ->count();
+    $articleActivities = ActivityPost::published()
+        ->where('type', 'artikel')
+        ->orderByDesc('published_at')
+        ->orderByDesc('created_at')
+        ->take(3)
+        ->get();
 
-$totalYoutubeActivities = ActivityPost::published()
-    ->where('type', 'youtube')
-    ->count();
+    $youtubeActivities = ActivityPost::published()
+        ->where('type', 'youtube')
+        ->orderByDesc('published_at')
+        ->orderByDesc('created_at')
+        ->take(3)
+        ->get();
+
+    $totalArticleActivities = ActivityPost::published()
+        ->where('type', 'artikel')
+        ->count();
+
+    $totalYoutubeActivities = ActivityPost::published()
+        ->where('type', 'youtube')
+        ->count();
 
     return view('landingpage', compact(
-    'partners',
-    'testimonials',
-    'totalPesertaAktif',
-    'lowongans',
-    'weeklySharingSessions',
-    'featuredSharingSession',
-    'sideSharingSessions',
-    'weekStart',
-    'weekEnd',
-    'visitorCount',
-    'articleActivities',
-    'youtubeActivities',
-    'totalArticleActivities',
-    'totalYoutubeActivities',
-));
+        'heroSliders', // <-- TAMBAHKAN VARIABEL INI DI COMPACT
+        'partners',
+        'testimonials',
+        'totalPesertaAktif',
+        'lowongans',
+        'weeklySharingSessions',
+        'featuredSharingSession',
+        'sideSharingSessions',
+        'weekStart',
+        'weekEnd',
+        'visitorCount',
+        'articleActivities',
+        'youtubeActivities',
+        'totalArticleActivities',
+        'totalYoutubeActivities',
+    ));
 
 })->name('landing');
+
 Route::get('/sharing-session/{sharingSession}', function (\App\Models\SharingSession $sharingSession) {
     $sharingSession->load(['speakerUser', 'moderatorUser']);
 
@@ -555,7 +564,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/accounts/{user}/edit', [AdminAccountController::class, 'edit'])->name('accounts.edit');
         Route::put('/accounts/{user}', [AdminAccountController::class, 'update'])->name('accounts.update');
         Route::delete('/accounts/{user}', [AdminAccountController::class, 'destroy'])->name('accounts.destroy');
-        
+        // Route CRUD Hero Sliders
+        Route::resource('hero-sliders', AdminHeroSliderController::class);
         // RAG Knowledge Management Routes
         Route::get('/rag-knowledge', [AdminRagController::class, 'index'])->name('rag.index');
         
