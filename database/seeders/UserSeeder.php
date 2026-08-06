@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
         |--------------------------------------------------------------------------
         */
         Intern::query()->update(['mentor_id' => null]);
-        User::where('role', 'mentor')->delete();
+        User::role('mentor')->delete();
         Mentor::query()->delete();
 
 

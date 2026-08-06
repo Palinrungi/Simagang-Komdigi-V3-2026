@@ -13,8 +13,8 @@ class AdminRagController extends Controller
 
     public function __construct()
     {
-        $this->ragBaseUrl = env('RAG_SERVICE_URL');
-        $this->apiKey = env('RAG_SERVICE_API_KEY');
+        $this->ragBaseUrl = rtrim(config('services.rag.url', env('RAG_SERVICE_URL')), '/');
+        $this->apiKey = config('services.rag.api_key', env('RAG_SERVICE_API_KEY'));
     }
 
     public function index()

@@ -1127,16 +1127,9 @@
 <header class="navbar">
     <div class="navbar-inner">
         <a href="{{ route('landing') }}#hero" class="nav-logo">
-            <div class="logo-wrap">
-                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Komdigi">
-            </div>
-            <div>
-                <div class="font-etna" style="font-size:20px; font-weight:900; line-height:1.1">
-                    <span style="color:#9d272a">SI</span><span style="color:#086bb0">MA</span><span style="color:#2dabe2">GA</span><span style="color:#efc400">NG</span>
-                </div>
-                <div class="font-etna" style="font-size:10px; color:#8ea5bc; margin-top:2px">
-                    Sistem Manajemen Magang
-                </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="{{ \App\Models\SystemSetting::get('logo_komdigi', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo Komdigi" style="height: 40px; width: auto; object-fit: contain;">
+                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Logo Simagang" style="height: 36px; width: auto; object-fit: contain;">
             </div>
         </a>
 
