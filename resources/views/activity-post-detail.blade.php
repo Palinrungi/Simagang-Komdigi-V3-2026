@@ -190,17 +190,10 @@
 <!-- Header Navbar -->
 <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-blue-100/80 shadow-sm">
     <div class="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between">
-        <a href="{{ route('landing') }}" class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
-                <img src="{{ url('storage/vendor/logo_komdigi.png') }}" alt="Komdigi" class="w-7 h-7 object-contain">
-            </div>
-            <div>
-                <div class="font-extrabold text-lg leading-none">
-                    <span class="text-red-700">SI</span><span class="text-blue-700">MA</span><span class="text-cyan-500">GA</span><span class="text-yellow-500">NG</span>
-                </div>
-                <div class="text-[10px] text-gray-400 mt-1">Sistem Manajemen Magang</div>
-            </div>
-        </a>
+            <a href="{{ route('landing') }}" class="flex items-center gap-3">
+                <img src="{{ \App\Models\SystemSetting::get('logo_komdigi', url('storage/vendor/logo_komdigi.png')) }}" alt="Logo Komdigi" class="h-10 w-auto object-contain">
+                <img src="{{ \App\Models\SystemSetting::get('logo_simagang', url('storage/vendor/simagang.png')) }}" alt="Logo Simagang" class="h-9 w-auto object-contain">
+            </a>
 
         <div class="flex items-center gap-3">
             <a href="{{ route('landing') }}#news" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 font-semibold text-sm hover:bg-blue-100 transition">
