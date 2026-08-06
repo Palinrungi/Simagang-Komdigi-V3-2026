@@ -214,7 +214,6 @@
                                     Tim Kerja/Bagian
                                 </a>
                                 @endcan
-                                {{-- MENU BARU: Posisi Magang --}}
                                 <a href="{{ route('admin.positions.index') }}" class="{{ request()->routeIs('admin.positions.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                     <i class="fas fa-briefcase w-4 mr-3 text-xs"></i>
                                     Posisi Magang
@@ -304,8 +303,14 @@
                             </div>
                         </div>
 
+                        {{-- Fitur Super Admin --}}
                         @if(auth()->user()->isSuperAdmin())
                         <div class="mt-1 border-t pt-1">
+                            {{-- MENU BARU DESKTOP: Kelola Hero Slider --}}
+                            <a href="{{ route('admin.hero-sliders.index') }}" class="{{ request()->routeIs('admin.hero-sliders.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
+                                <i class="fas fa-images w-5 mr-3"></i>
+                                Kelola Hero Slider
+                            </a>
                             <a href="{{ route('admin.rag.index') }}" class="{{ request()->routeIs('admin.rag.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
                                 <i class="fas fa-brain w-5 mr-3"></i>
                                 Manajemen AI RAG
@@ -402,9 +407,9 @@
                             <i class="fas fa-file-alt w-5 mr-3"></i>
                             Pengajuan Magang
                         </a>
-                        <div x-data="{ open: {{ request()->routeIs('industri.intern.*', 'industri.attendance.*', 'industri.logbook.*', 'industri.microskill.*', 'industri.report*') ? 'true' : 'false' }} }">
+                        <div x-data="{ open: {{ request()->routeIs('industri.intern.*', 'industri.attendance.*', 'industri.logbook.*', 'industri.microskill.*', 'industri.report.*') ? 'true' : 'false' }} }">
                             <button @click="open = !open"
-                                class="{{ request()->routeIs('industri.intern.*', 'industri.attendance.*', 'industri.logbook.*', 'industri.microskill.*', 'industri.report*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
+                                class="{{ request()->routeIs('industri.intern.*', 'industri.attendance.*', 'industri.logbook.*', 'industri.microskill.*', 'industri.report.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center justify-between px-4 py-3 text-sm font-medium">
                                 <span class="flex items-center">
                                     <i class="fas fa-chart-line w-5 mr-3"></i>
                                     Monitoring
@@ -470,7 +475,7 @@
                 @endauth
             </nav>
 
-            <!-- User Info & Logout -->
+            <!-- User Info & Logout Desktop -->
             <div class="border-t p-4">
                 @auth
                     @if(auth()->user()->isAdmin())
@@ -616,7 +621,6 @@
                                             Tim Kerja/Bagian
                                         </a>
                                         @endcan
-                                        {{-- MENU BARU MOBILE: Posisi Magang --}}
                                         <a href="{{ route('admin.positions.index') }}" class="{{ request()->routeIs('admin.positions.*') ? 'text-blue-700 bg-blue-50' : 'text-gray-500 hover:bg-gray-100' }} flex items-center px-4 py-2.5 text-sm font-medium">
                                             <i class="fas fa-briefcase w-4 mr-3 text-xs"></i>
                                             Posisi Magang
@@ -706,8 +710,14 @@
                                     </div>
                                 </div>
 
+                                {{-- Fitur Super Admin Mobile --}}
                                 @if(auth()->user()->isSuperAdmin())
                                 <div class="mt-1 border-t pt-1">
+                                    {{-- MENU BARU MOBILE: Kelola Hero Slider --}}
+                                    <a href="{{ route('admin.hero-sliders.index') }}" class="{{ request()->routeIs('admin.hero-sliders.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
+                                        <i class="fas fa-images w-5 mr-3"></i>
+                                        Kelola Hero Slider
+                                    </a>
                                     <a href="{{ route('admin.rag.index') }}" class="{{ request()->routeIs('admin.rag.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} w-full flex items-center px-4 py-3 text-sm font-medium">
                                         <i class="fas fa-brain w-5 mr-3"></i>
                                         Manajemen AI RAG
@@ -836,23 +846,23 @@
                                 </div>
 
                             @else
-                                <a href="{{ route('intern.dashboard') }}" class="{{ request()->routeIs('intern.dashboard') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <a href="{{ route('intern.dashboard') }}" class="{{ request()->routeIs('intern.dashboard') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-home w-5 mr-3"></i>
                                     Dashboard
                                 </a>
-                                <a href="{{ route('intern.attendance.index') }}" class="{{ request()->routeIs('intern.attendance.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <a href="{{ route('intern.attendance.index') }}" class="{{ request()->routeIs('intern.attendance.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-calendar-check w-5 mr-3"></i>
                                     Absensi
                                 </a>
-                                <a href="{{ route('intern.logbook.index') }}" class="{{ request()->routeIs('intern.logbook.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <a href="{{ route('intern.logbook.index') }}" class="{{ request()->routeIs('intern.logbook.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-book w-5 mr-3"></i>
                                     Logbook
                                 </a>
-                                <a href="{{ route('intern.report.index') }}" class="{{ request()->routeIs('intern.report.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <a href="{{ route('intern.report.index') }}" class="{{ request()->routeIs('intern.report.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-file-alt w-5 mr-3"></i>
                                     Laporan
                                 </a>
-                                <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600' }} flex items-center px-4 py-3 text-sm font-medium">
+                                <a href="{{ route('intern.microskill.index') }}" class="{{ request()->routeIs('intern.microskill.*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-700' : 'text-gray-600 hover:bg-gray-50' }} flex items-center px-4 py-3 text-sm font-medium">
                                     <i class="fas fa-star w-5 mr-3"></i>
                                     Mikro Skill
                                 </a>

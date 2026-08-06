@@ -14,7 +14,7 @@ class ReportController extends Controller
     public function index()
     {
         $intern = Auth::user()->intern;
-        $report = $intern->finalReport;
+        $report = $intern?->finalReport;
         $testimonial = $report?->testimonial;
 
         return view('intern.report.index', compact('report', 'testimonial'));
@@ -56,6 +56,9 @@ class ReportController extends Controller
             'project_links.*' => ['nullable', 'url', 'max:1024'],
             'activities' => ['nullable', 'array'],
             'activities.*.description' => ['nullable', 'string', 'max:2000'],
+            'project_handover_agreement' => ['required', 'accepted'], // <-- Validasi wajib centang
+        ], [
+            'project_handover_agreement.accepted' => 'Anda harus menyetujui pernyataan serah terima proyek sebelum mengupload laporan.',
         ]);
 
         // izin link dari domain tertentu
@@ -110,7 +113,6 @@ class ReportController extends Controller
                 if ($pfile->move($pdest, $pname) && file_exists($pdest . DIRECTORY_SEPARATOR . $pname)) {
                     $path = 'projects/' . $pname;
                     $projectFiles[] = ['path' => $path, 'name' => $pfile->getClientOriginalName()];
-                    // set first as legacy fields
                     if (is_null($projectFilePath)) {
                         $projectFilePath = $path;
                         $projectFileName = $pfile->getClientOriginalName();
@@ -131,6 +133,7 @@ class ReportController extends Controller
             'file_name' => $fileName,
             'status' => 'pending',
             'submitted_at' => now(),
+            'project_handover_agreement' => true, // <-- Terekam true ke database
         ]);
 
         return redirect()->route('intern.report.index')
@@ -154,6 +157,9 @@ class ReportController extends Controller
             'project_links.*' => ['nullable', 'url', 'max:1024'],
             'activities' => ['nullable', 'array'],
             'activities.*.description' => ['nullable', 'string', 'max:2000'],
+            'project_handover_agreement' => ['required', 'accepted'], // <-- Validasi wajib centang saat update
+        ], [
+            'project_handover_agreement.accepted' => 'Anda harus menyetujui pernyataan serah terima proyek sebelum memperbarui laporan.',
         ]);
 
         // Hanya izinkan link dari domain tertentu
@@ -167,7 +173,6 @@ class ReportController extends Controller
 
         // Handle main report file replacement
         if ($request->hasFile('file')) {
-            // delete old report file
             if ($report->file_path) {
                 $oldPath = storage_path('app/public/' . $report->file_path);
                 if (file_exists($oldPath)) {
@@ -209,13 +214,11 @@ class ReportController extends Controller
         $projectFilePath = $report->project_file;
         $projectFileName = $report->project_file_name;
 
-        // If legacy single project_file exists and no project_files array, include it so we can append new uploads
         if ($report->project_file && empty($projectFiles)) {
             $projectFiles[] = ['path' => $report->project_file, 'name' => $report->project_file_name];
         }
 
         if ($request->hasFile('project_files')) {
-            // delete old project_files entries (we'll keep legacy single file reference if present as part of array)
             if (!empty($report->project_files) && is_array($report->project_files)) {
                 foreach ($report->project_files as $pf) {
                     if (!empty($pf['path'])) {
@@ -223,7 +226,6 @@ class ReportController extends Controller
                         if (file_exists($oldP)) @unlink($oldP);
                     }
                 }
-                // reset array; we'll rebuild preserving legacy single-file earlier added
                 $projectFiles = array_values(array_filter($projectFiles));
             }
 
@@ -246,7 +248,6 @@ class ReportController extends Controller
                     }
                 }
             }
-            // ensure no more than 3 stored
             if (count($projectFiles) > 3) {
                 $projectFiles = array_slice($projectFiles, 0, 3);
             }
@@ -262,8 +263,9 @@ class ReportController extends Controller
             'activities' => $request->input('activities'),
             'file_name' => $fileName,
             'status' => 'pending',
-            'needs_revision' => false, // Reset revision flag when resubmitted
+            'needs_revision' => false,
             'submitted_at' => now(),
+            'project_handover_agreement' => true, // <-- Terekam true saat update
         ]);
 
         return redirect()->route('intern.report.index')
@@ -274,7 +276,6 @@ class ReportController extends Controller
     {
         $this->authorize('update', $report);
 
-        // Check if report is submitted
         if (!$report->submitted_at) {
             return back()->withErrors(['error' => 'Laporan harus disubmit terlebih dahulu.']);
         }

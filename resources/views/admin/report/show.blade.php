@@ -117,7 +117,6 @@
             </div>
 
             {{-- Main Content Card --}}
-
             <div class="panel mb-6">
 
                 {{-- Profile Header --}}
@@ -144,8 +143,27 @@
                 </div>
 
                 {{-- Content --}}
-
                 <div class="panel-content p-8 space-y-6">
+
+                    <!-- Status Serah Terima Proyek -->
+                    <div class="p-4 rounded-xl border {{ $report->project_handover_agreement ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-gray-50 border-gray-200 text-gray-600' }}">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center {{ $report->project_handover_agreement ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-200 text-gray-400' }}">
+                                <i class="fas {{ $report->project_handover_agreement ? 'fa-check-double' : 'fa-times' }} text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide font-bold">Pernyataan Serah Terima Proyek</p>
+                                <p class="text-sm font-semibold mt-0.5">
+                                    @if($report->project_handover_agreement)
+                                        <span class="text-emerald-700">✓ Disetujui:</span> Proyek/karya magang siap diserahterimakan dan dapat digunakan sepenuhnya oleh BBLSDM Komdigi Makassar.
+                                    @else
+                                        <span class="text-gray-500">✕ Belum mencentang pernyataan persetujuan serah terima.</span>
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- File Info -->
                     <div class="detail-grid grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex items-start">

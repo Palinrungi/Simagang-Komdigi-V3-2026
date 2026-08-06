@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="{{ url('storage/vendor/icon-komdigi.png') }}">
     <link rel="shortcut icon" href="{{ url('storage/vendor/icon-komdigi.png') }}">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
         @font-face {
             font-family: 'Etna';
@@ -26,6 +26,7 @@
             background: #f0f7ff;
             color: #0f2d4a;
             margin: 0;
+            padding-bottom: 64px;
         }
 
         /* ── NAVBAR ── */
@@ -74,9 +75,7 @@
         .nav-links a:hover { background: #eff6ff; color: #1d6fca; }
 
         /* ── DROPDOWN NAVBAR ── */
-        .nav-dropdown {
-            position: relative;
-        }
+        .nav-dropdown { position: relative; }
         .nav-dropdown-btn {
             display: inline-flex;
             align-items: center;
@@ -92,10 +91,7 @@
             border-radius: 50px;
             transition: all 0.2s;
         }
-        .nav-dropdown-btn:hover {
-            background: #eff6ff;
-            color: #1d6fca;
-        }
+        .nav-dropdown-btn:hover { background: #eff6ff; color: #1d6fca; }
         .nav-dropdown-menu {
             position: absolute;
             top: 46px;
@@ -129,46 +125,11 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        .nav-dropdown-menu a:hover {
-            background: #eff6ff;
-            color: #1d6fca;
-        }
-        .nav-dropdown-menu i {
-            width: 18px;
-            text-align: center;
-            color: #1d6fca;
-        }
+        .nav-dropdown-menu a:hover { background: #eff6ff; color: #1d6fca; }
+        .nav-dropdown-menu i { width: 18px; text-align: center; color: #1d6fca; }
 
         /* ── NAVBAR ACTIONS ── */
-        .navbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .visitor-counter {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: #eff6ff;
-            color: #1d6fca;
-            border: 1px solid #bfdbfe;
-            font-size: 13px;
-            font-weight: 700;
-            white-space: nowrap;
-            box-shadow: 0 4px 14px rgba(29,111,202,0.08);
-        }
-        .visitor-counter i {
-            font-size: 12px;
-            color: #0ea5e9;
-        }
-        .visitor-counter span {
-            color: #0f2d4a;
-        }
-        .visitor-counter-mobile { display: none; }
-        .visitor-counter-desktop { display: inline-flex; }
+        .navbar-actions { display: flex; align-items: center; gap: 12px; }
 
         .btn-login {
             display: inline-flex;
@@ -229,7 +190,6 @@
         }
         .mobile-menu a:hover { background: #eff6ff; }
 
-        /* ── MOBILE DROPDOWN AKTIVITAS ── */
         .mobile-dropdown { width: 100%; }
         .mobile-dropdown-btn {
             width: 100%;
@@ -266,14 +226,29 @@
             border-left: 3px solid #bfdbfe;
         }
 
-        /* ── HERO ── */
-        .hero {
+        /* ── HERO CAROUSEL STYLES DINAMIS ── */
+        .hero-carousel-container {
             position: relative;
             overflow: hidden;
-            min-height: 90vh;
+            min-height: 92vh;
+            background: #040d21;
+        }
+
+        .hero-slides-wrapper {
+            display: flex;
+            min-height: 92vh;
+            transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+            will-change: transform;
+        }
+
+        .hero-slide-item {
+            position: relative;
+            flex-shrink: 0;
+            min-height: 92vh;
             display: flex;
             align-items: center;
         }
+
         .hero-bg-image {
             position: absolute;
             inset: 0;
@@ -283,12 +258,14 @@
             object-position: center top;
             z-index: 0;
         }
+
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(105deg, rgba(8, 28, 70, 0.53) 0%, rgba(12, 52, 120, 0.70) 50%, rgba(8, 60, 100, 0.347) 100%);
+            background: linear-gradient(105deg, rgba(4, 13, 33, 0.72) 0%, rgba(8, 38, 92, 0.82) 50%, rgba(4, 25, 60, 0.65) 100%);
             z-index: 1;
         }
+
         .hero-accent {
             position: absolute;
             bottom: -120px;
@@ -296,7 +273,7 @@
             width: 500px;
             height: 500px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(34,211,238,0.2) 0%, transparent 70%);
             z-index: 2;
             pointer-events: none;
             animation: pulseAccent 6s ease-in-out infinite alternate;
@@ -305,6 +282,7 @@
             from { transform: scale(1); opacity: 0.8; }
             to   { transform: scale(1.15); opacity: 1; }
         }
+
         .hero-inner {
             position: relative;
             z-index: 3;
@@ -317,22 +295,23 @@
             align-items: center;
             width: 100%;
         }
+
         .hero-text-col { display: flex; flex-direction: column; }
         .hero-title {
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2rem, 4vw, 3.2rem);
             font-weight: 800;
             line-height: 1.15;
             color: white;
             margin: 0 0 1.25rem;
             text-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
-        .hero-title span { color: #7dd3fc; }
+        .hero-title span { color: #38bdf8; }
         .hero-desc {
             font-size: 1rem;
             line-height: 1.75;
-            color: rgba(255,255,255,0.82);
+            color: rgba(255,255,255,0.88);
             margin: 0;
-            max-width: 480px;
+            max-width: 520px;
             text-shadow: 0 1px 8px rgba(0,0,0,0.25);
         }
         .hero-stats {
@@ -343,7 +322,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.2);
         }
         .hero-stat-num { font-size: 1.75rem; font-weight: 800; color: white; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,0.2); }
-        .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+        .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; }
         .hero-stat-divider { width: 1px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
         
         .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 1.75rem; }
@@ -352,34 +331,143 @@
             align-items: center;
             gap: 10px;
             padding: 14px 32px;
-            background: #22d3ee;
-            color: #0c2d5e;
-            font-weight: 700;
+            background: linear-gradient(135deg, #00f2ff, #00a8ff);
+            color: #040d21;
+            font-weight: 800;
             font-size: 15px;
             border-radius: 9999px;
             text-decoration: none;
-            box-shadow: 0 6px 28px rgba(34,211,238,0.35);
+            box-shadow: 0 6px 28px rgba(0,242,255,0.38);
             transition: all 0.25s;
         }
-        .btn-primary:hover { background: #38bdf8; transform: translateY(-2px); box-shadow: 0 10px 36px rgba(34,211,238,0.45); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,242,255,0.52); filter: brightness(1.1); }
         
         .btn-outline {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             padding: 14px 32px;
-            background: rgba(255,255,255,0.15);
-            border: 1.5px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.35);
             color: white;
             font-weight: 600;
             font-size: 15px;
             border-radius: 9999px;
             text-decoration: none;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             transition: all 0.25s;
         }
-        .btn-outline:hover { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.6); }
+        .btn-outline:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.6); }
 
+        /* Navigasi Carousel Hero Controls */
+        .hero-carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        }
+        .hero-carousel-arrow:hover {
+            background: #00f2ff;
+            color: #040d21;
+            border-color: #00f2ff;
+            transform: translateY(-50%) scale(1.12);
+            box-shadow: 0 0 20px rgba(0,242,255,0.6);
+        }
+        .hero-arrow-left { left: 1.5rem; }
+        .hero-arrow-right { right: 1.5rem; }
+
+        .hero-carousel-dots {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(4, 13, 33, 0.6);
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+        }
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hero-dot.active {
+            width: 32px;
+            border-radius: 12px;
+            background: #00f2ff;
+            box-shadow: 0 0 14px rgba(0,242,255,0.9);
+        }
+
+        .hero-progress-bar-wrap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 10;
+        }
+        .hero-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00a8ff, #00f2ff);
+            box-shadow: 0 0 10px rgba(0,242,255,0.8);
+        }
+
+        /* ── SHARING SESSION & VIDEO HERO CARDS ── */
+        .sharing-hero-wrapper {
+            position: relative;
+            z-index: 3;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            width: 100%;
+        }
+
+        .sharing-hero-card {
+            background: rgba(6, 18, 48, 0.72);
+            border: 1px solid rgba(0, 242, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 2.2rem;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+        }
+
+        .sharing-item-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 14px 18px;
+            transition: all 0.3s ease;
+        }
+        .sharing-item-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(0, 242, 255, 0.4);
+            transform: translateX(4px);
+        }
+
+        /* ── SECTION GENERAL STYLES ── */
         .section-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
         .section-eyebrow {
             display: inline-block;
@@ -522,14 +610,6 @@
             border: 1.5px solid #93c5fd;
             border-radius: 50%;
         }
-        .step-image {
-            width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 16px 50px rgba(14,99,201,0.12);
-            border: 2px solid #bfdbfe;
-            transition: transform 0.35s;
-        }
-        .step-image:hover { transform: scale(1.025); }
 
         /* ── TESTIMONIALS ── */
         .section-testimonials { background: white; padding: 6rem 0; }
@@ -751,35 +831,11 @@
             .footer-center-area {
                 order: 3; width: 100%; height: auto; display: flex; flex-direction: column-reverse; align-items: center; gap: 6px; margin-top: 6px;
             }
-            .footer-visitor-counter { padding: 4px 12px; font-size: 11px; }
+            .footer-visitor-counter { padding: 4px 12px; font-size: 11px; transform: none; }
             .footer-visitor-counter small { display: inline; font-size: 10px; }
             .copyright-simple { text-align: center; font-size: 9px; line-height: 1.2; color: rgba(255,255,255,0.7); }
             body { padding-bottom: 110px; }
         }
-
-        .newsletter-form { display: flex; gap: 8px; margin-top: 1.25rem; }
-        .newsletter-form input {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 16px; border-radius: 12px; color: white; flex-grow: 1; font-size: 14px; outline: none;
-        }
-        .newsletter-form input:focus { border-color: #22d3ee; background: rgba(255,255,255,0.1); }
-        .newsletter-btn {
-            background: #22d3ee; color: #0c2d5e; padding: 0 20px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s;
-        }
-        .newsletter-btn:hover { background: #38bdf8; transform: translateY(-2px); }
-
-        .social-links { display: flex; gap: 12px; margin-top: 1.5rem; }
-        .social-links a {
-            width: 40px; height: 40px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center; border-radius: 12px; color: white; transition: 0.3s;
-        }
-        .social-links a:hover { background: #22d3ee; color: #0c2d5e; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(34,211,238,0.2); }
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
-        .partner-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; align-items: center; }
-        .partner-logos img { height: 30px; opacity: 1; transition: transform 0.3s; object-fit: contain; }
-        .partner-logos img:hover { transform: scale(1.1); }
-        .copyright { font-size: 13px; color: rgba(255,255,255,0.4); text-align: center; }
-        .copyright span { color: #22d3ee; font-weight: 600; }
 
         /* ── AKTIVITAS TERBARU DINAMIS ── */
         .section-news {
@@ -825,17 +881,15 @@
 
         /* ── RESPONSIVE GENERAL ── */
         @media (max-width: 1024px) {
-            .visitor-counter-mobile { display: inline-flex; }
-            .visitor-counter-desktop { display: none; }
             .navbar-actions { margin-left: auto; gap: 10px; }
             .nav-toggle { display: inline-flex; }
             .btn-login { display: none; }
-            .hero { min-height: auto; }
+            .hero-slides-wrapper { min-height: auto; }
+            .hero-slide-item { min-height: auto; }
             .hero-inner { grid-template-columns: 1fr; padding: 3.5rem 1.5rem; gap: 2.5rem; text-align: center; }
             .hero-desc { margin-left: auto; margin-right: auto; }
             .hero-stats { justify-content: center; }
             .hero-btns { justify-content: center; }
-            .hero-image-wrap { justify-content: center; max-width: 520px; margin: 0 auto; order: -1; }
             .process-grid { grid-template-columns: 1fr; }
             .step-block { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 0; }
             .step-block .order-swap { order: 0; }
@@ -844,11 +898,13 @@
             .partners-grid { grid-template-columns: repeat(2, 1fr); }
             .cta-inner { grid-template-columns: 1fr; }
             .nav-links { display: none; }
+            .hero-carousel-arrow { width: 40px; height: 40px; }
+            .hero-arrow-left { left: 0.5rem; }
+            .hero-arrow-right { right: 0.5rem; }
         }
         @media (max-width: 640px) {
             .hero-inner { padding: 2.5rem 1rem; gap: 1.5rem; }
             .hero-title { font-size: 1.8rem; }
-            .hero-image-wrap { max-width: 100%; }
             .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; justify-items: center; border-bottom: none; padding-bottom: 0; }
             .hero-stat-divider { display: none; }
             .partners-grid { grid-template-columns: 1fr 1fr; }
@@ -858,19 +914,13 @@
             .testi-carousel { display: block; }
             .navbar-inner { padding: 0 1rem; gap: 8px; }
             .nav-logo { gap: 8px; min-width: 0; }
-            .visitor-counter-mobile { padding: 8px 12px; font-size: 12px; }
             .nav-toggle { width: 42px; height: 42px; flex-shrink: 0; }
         }
 
         /* ── LOWONGAN SECTION ── */
         .section-jobs { background: #f0f7ff; padding: 5rem 0; scroll-margin-top: 90px; }
-        .lowongan-scroll-wrapper { display: flex; gap: 1.5rem; overflow-x: auto; padding: 0.25rem 0.25rem 1.25rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #c7d2fe #eef2ff; }
-        .lowongan-scroll-wrapper::-webkit-scrollbar { height: 6px; }
-        .lowongan-scroll-wrapper::-webkit-scrollbar-track { background: #eef2ff; border-radius: 99px; }
-        .lowongan-scroll-wrapper::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 99px; }
         .lowongan-card { position: relative; flex: 0 0 380px; min-width: 380px; scroll-snap-align: start; background: #fff; border-radius: 24px; padding: 1.4rem; border: 1px solid #e8edf5; box-shadow: 0 4px 16px rgba(15,23,42,.06); transition: .22s ease; overflow: hidden; display: flex; flex-direction: column; min-height: 220px; }
         .lowongan-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(15,23,42,.10); border-color: #c7d7f5; }
-        .lowongan-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(99,102,241,.03), transparent); pointer-events: none; }
         .card-title { margin-top: .75rem; font-size: 1.12rem; font-weight: 800; color: #0f172a; line-height: 1.35; flex: 1; }
         .card-meta { display: flex; flex-wrap: wrap; gap: .4rem .75rem; margin-top: .55rem; }
         .meta-chip { display: inline-flex; align-items: center; gap: .25rem; font-size: .72rem; font-weight: 600; color: #64748b; }
@@ -885,26 +935,15 @@
         .btn-card { height: 34px; padding: 0 1rem; border-radius: 10px; font-size: .75rem; font-weight: 700; display: inline-flex; align-items: center; gap: .35rem; text-decoration: none; white-space: nowrap; transition: .2s; }
         .btn-detail { background: #0f172a; color: #fff; }
         .btn-detail:hover { background: #4f46e5; color: #fff; text-decoration: none; }
-        .logo-wrapper { width: 78px; height: 78px; border-radius: 24px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; flex-shrink: 0; }
-        .logo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         .status-badge { display: inline-flex; align-items: center; gap: .45rem; padding: .5rem 1rem; border-radius: 999px; font-size: .75rem; font-weight: 800; letter-spacing: .3px; white-space: nowrap; flex-shrink: 0; }
-        .detail-box { border-radius: 20px; background: #f8faff; border: 1px solid #eef2ff; padding: 1rem; }
-        .detail-label { font-size: .72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; }
-        .detail-value { margin-top: .35rem; font-size: .95rem; font-weight: 700; color: #334155; }
-        .btn-action { height: 46px; border-radius: 16px; padding: 0 1rem; font-size: .88rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; transition: .2s; text-decoration: none; }
-        .btn-soft { background: #eef2ff; color: #4f46e5; }
-        .btn-soft:hover { background: #4f46e5; color: #fff; }
-        .jobs-footer { text-align: center; margin-top: 2.5rem; }
 
         @media (max-width: 640px) {
             .lowongan-card { flex: 0 0 310px; min-width: 310px; }
-            .lowongan-scroll-wrapper { gap: 1rem; padding: 0.15rem 0.15rem 1rem; }
         }
 
         #lowonganGrid::-webkit-scrollbar { height: 4px; }
         #lowonganGrid::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         #lowonganGrid::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        #lowonganGrid::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .filter-pill { background: white; color: #64748b; border-color: #e2e8f0; }
         .filter-pill:hover { border-color: #93c5fd; color: #1d4ed8; background: #eff6ff; }
@@ -913,18 +952,7 @@
         .lowongan-card.hidden-card { display: none !important; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ── TIM PENGEMBANG LAYOUT & STYLES ── */
-        .team-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.07); border: 1.5px solid #e8edf5; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
-        .team-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(14,99,201,0.13); }
-        .team-card-img { width: 100%; height: 220px; object-fit: cover; object-position: top center; display: block; }
-        .team-card-body { padding: 1.1rem 1.2rem 1.2rem; text-align: left; }
-        .team-card-name { font-weight: 700; font-size: 1.05rem; color: #0f2d4a; margin-bottom: 2px; }
-        .team-card-role { font-size: 0.82rem; color: #6b7d93; margin-bottom: 0.75rem; }
-        .team-card-socials { display: flex; gap: 8px; }
-        .team-card-social-btn { width: 32px; height: 32px; border-radius: 50%; background: #e8f4fd; display: flex; align-items: center; justify-content: center; color: #1d6fca; font-size: 13px; transition: background 0.25s, color 0.25s; text-decoration: none; }
-        .team-card-social-btn:hover { background: #1d6fca; color: #fff; }
-        
-        /* Redesign Latar Belakang Seksi dengan Efek Kaca Glowing & Pola Cyber Grid Premium */
+        /* ── TIM PENGEMBANG STYLES ── */
         .team-tabs-section { 
             background: linear-gradient(160deg, #040c1f 0%, #071536 35%, #0d255c 70%, #040c1f 100%); 
             padding: 5rem 0; 
@@ -944,7 +972,6 @@
             -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%); 
             z-index: 1;
         }
-        /* Tambahan Efek Bulatan Blur Biru Kaca Mengambang di Background */
         .team-tabs-section::before {
             content: '';
             position: absolute;
@@ -1061,7 +1088,6 @@
         }
         .insta-btn-link:hover { transform: translateY(-2px); }
 
-        /* ── SPESIFIKASI PREMIUM CARD TIM V3.5 ── */
         #tab-angkatan3 .tmember-card {
             background: 
                 linear-gradient(rgba(34, 211, 238, 0.06) 1px, transparent 1px),
@@ -1071,28 +1097,24 @@
             background-position: -1px -1px, -1px -1px, 0 0;
             border: 1.5px solid rgba(34, 211, 238, 0.25);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
-            overflow: visible !important; /* Agar bagian kepala foto transparan bisa keluar menonjol */
-        }
-        #tab-angkatan3 .tmember-photo-wrap {
             overflow: visible !important;
         }
+        #tab-angkatan3 .tmember-photo-wrap { overflow: visible !important; }
         #tab-angkatan3 .tmember-photo {
             transform: translateY(0) scale(1);
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
             transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease-in-out;
         }
 
-        /* ── EFEK HOVER PREMIUM V3.5 (POP-OUT + INSTANT BLUR & INSTAGRAM ICON) ── */
         #tab-angkatan3 .tmember-card:hover {
             border-color: rgba(34, 211, 238, 0.6);
             box-shadow: 0 25px 55px rgba(34, 211, 238, 0.25);
         }
         #tab-angkatan3 .tmember-card:hover .tmember-photo {
-            transform: translateY(-22px) scale(1.06); /* Foto bergeser naik keluar dari batas card */
-            filter: blur(4px) drop-shadow(0 15px 20px rgba(0, 0, 0, 0.55)); /* Foto langsung blur */
+            transform: translateY(-22px) scale(1.06);
+            filter: blur(4px) drop-shadow(0 15px 20px rgba(0, 0, 0, 0.55));
         }
 
-        /* Ikon Instagram Mengambang Muncul Seketika Tanpa Jeda */
         #tab-angkatan3 .tmember-insta-hover-icon {
             position: absolute;
             top: 40%;
@@ -1222,42 +1244,239 @@
 
 <main>
 
-<!-- ===== HERO ===== -->
-<section id="hero" class="hero">
-    <img src="{{ asset('storage/photos-landingpage/hero-bg.png') }}" alt="" class="hero-bg-image" aria-hidden="true">
-    <div class="hero-overlay"></div>
-    <div class="hero-accent"></div>
-    <div class="hero-inner">
-        <div class="hero-text-col">
-            <h1 class="hero-title">Sistem Magang Terbaik untuk <span>Kampus dan Sekolah</span></h1>
-            <p class="hero-desc">Nikmati pengalaman terbaik dengan mitra terpercaya. Ada Banyak Hal Besar yang Perlu dilakukan di Masa Depan. Saatnya tumbuh sebagai talenta profesional dan buktikan keahlianmu bersama BBLSDM Komdigi Makassar sekarang.</p>
-            <div class="hero-stats">
-                <div>
-                    <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
-                    <div class="hero-stat-label">Peserta Magang</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div>
-                    <div class="hero-stat-num text-center">11+</div>
-                    <div class="hero-stat-label">Mitra pendidikan dan industri</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div>
-                    <div class="hero-stat-num text-center">93.25</div>
-                    <div class="hero-stat-label">Tingkat Kepuasan</div>
-                </div>
-                <div class="hero-stat-divider"></div>
-                <div>
-                    <div class="hero-stat-num text-center">{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</div>
-                    <div class="hero-stat-label">Jumlah Pengunjung</div>
+<!-- ===== HERO CAROUSEL DINAMIS DARI DATABASE ===== -->
+<section id="hero" class="hero-carousel-container">
+    @php 
+        $heroSliders = $heroSliders ?? collect();
+        $slideCount = $heroSliders->count(); 
+    @endphp
+    <div class="hero-slides-wrapper" id="heroSlidesWrapper" style="width: {{ max($slideCount, 1) * 100 }}%;">
+        
+        @forelse($heroSliders as $index => $slider)
+            <div class="hero-slide-item" style="width: {{ 100 / max($slideCount, 1) }}%;">
+                @if($slider->image_path)
+                    <img src="{{ $slider->image_url }}" alt="" class="hero-bg-image {{ in_array($slider->type, ['youtube', 'sharing_session']) ? 'opacity-30' : '' }}" aria-hidden="true">
+                @else
+                    <img src="{{ asset('storage/photos-landingpage/hero-bg.png') }}" alt="" class="hero-bg-image" aria-hidden="true">
+                @endif
+                
+                <div class="hero-overlay" @if(in_array($slider->type, ['youtube', 'sharing_session'])) style="background: linear-gradient(105deg, rgba(4, 13, 33, 0.90) 0%, rgba(8, 38, 92, 0.95) 50%, rgba(4, 25, 60, 0.88) 100%);" @endif></div>
+                <div class="hero-accent"></div>
+
+                @if($slider->type === 'youtube' && $slider->youtube_url)
+                    {{-- TAMPILAN SLIDE YOUTUBE / VIDEO PANDUAN --}}
+                    @php
+                        preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $slider->youtube_url, $matches);
+                        $ytId = $matches[1] ?? 'nvyUqIMfeYg';
+                    @endphp
+                    <div class="sharing-hero-wrapper">
+                        <div class="sharing-hero-card">
+                            <div class="flex items-center justify-between gap-4 mb-4 flex-wrap border-b border-white/10 pb-3">
+                                <span class="inline-flex items-center gap-2 bg-red-600 text-white text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-[0_0_15px_rgba(239,68,68,0.5)]">
+                                    <i class="fab fa-youtube text-sm"></i> Video Panduan
+                                </span>
+                                <span class="text-cyan-300 text-xs sm:text-sm font-semibold">
+                                    <i class="fas fa-play-circle mr-1"></i> BBLSDM Komdigi Makassar
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                <div class="lg:col-span-6">
+                                    <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mb-3">
+                                        {{ $slider->title }}
+                                    </h2>
+                                    <p class="text-blue-100/90 text-sm leading-relaxed mb-5">
+                                        {{ $slider->subtitle }}
+                                    </p>
+                                    @if($slider->button_url)
+                                        <div class="flex flex-wrap gap-3">
+                                            <a href="{{ $slider->button_url }}" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                                                <i class="fab fa-youtube text-red-600"></i> {{ $slider->button_text ?? 'Tonton di YouTube' }}
+                                            </a>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="lg:col-span-6">
+                                    <div class="relative rounded-2xl overflow-hidden border-2 border-cyan-400/40 shadow-2xl aspect-video bg-slate-900">
+                                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ $ytId }}" title="{{ $slider->title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                @elseif($slider->type === 'sharing_session')
+                    {{-- TAMPILAN SLIDE JADWAL SHARING SESSION --}}
+                    <div class="sharing-hero-wrapper">
+                        <div class="sharing-hero-card">
+                            <div class="flex items-center justify-between gap-4 mb-5 flex-wrap border-b border-white/10 pb-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="inline-flex items-center gap-2 bg-[#00f2ff] text-[#040d21] text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-[0_0_15px_rgba(0,242,255,0.6)]">
+                                        <i class="fas fa-comments"></i> Sharing Session Minggu Ini
+                                    </span>
+                                    <span class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Updates
+                                    </span>
+                                </div>
+                                <span class="text-cyan-200 text-xs sm:text-sm font-semibold flex items-center gap-2">
+                                    <i class="fas fa-calendar-week text-[#00f2ff]"></i> Periode: <strong>{{ $weekStart->format('d M') }} - {{ $weekEnd->format('d M Y') }}</strong>
+                                </span>
+                            </div>
+
+                            @if(isset($featuredSharingSession) && $featuredSharingSession)
+                                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                                    <div class="lg:col-span-7">
+                                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-3">
+                                            {{ $featuredSharingSession->title ?? 'Materi Belum Diisi' }}
+                                        </h2>
+                                        <p class="text-blue-100/90 text-sm sm:text-base leading-relaxed mb-6 line-clamp-2">
+                                            {{ $featuredSharingSession->description ? \Illuminate\Support\Str::limit($featuredSharingSession->description, 160) : 'Ikuti agenda sharing session bermanfaat minggu ini bersama pemateri berpengalaman di BBLSDM Komdigi Makassar.' }}
+                                        </p>
+
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 text-white text-xs sm:text-sm">
+                                            <div class="sharing-item-card">
+                                                <div class="text-[10px] text-cyan-300 font-bold uppercase tracking-wider mb-1"><i class="fas fa-calendar-day mr-1"></i> Tanggal</div>
+                                                <div class="font-extrabold text-white text-sm sm:text-base">{{ $featuredSharingSession->session_date->format('d M Y') }}</div>
+                                            </div>
+                                            <div class="sharing-item-card">
+                                                <div class="text-[10px] text-cyan-300 font-bold uppercase tracking-wider mb-1"><i class="fas fa-clock mr-1"></i> Waktu</div>
+                                                <div class="font-extrabold text-white text-sm sm:text-base">{{ $featuredSharingSession->start_time ? \Carbon\Carbon::parse($featuredSharingSession->start_time)->format('H:i') : '-' }} WITA</div>
+                                            </div>
+                                            <div class="sharing-item-card">
+                                                <div class="text-[10px] text-cyan-300 font-bold uppercase tracking-wider mb-1"><i class="fas fa-map-marker-alt mr-1"></i> Lokasi</div>
+                                                <div class="font-extrabold text-white text-sm sm:text-base truncate">{{ $featuredSharingSession->location ?? 'Aula BBLSDM Komdigi' }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-wrap gap-4 items-center">
+                                            <a href="{{ route('public.sharing-session.show', $featuredSharingSession) }}" class="btn-primary">
+                                                <i class="fas fa-arrow-right"></i> Lihat Detail Sharing Session
+                                            </a>
+                                            <a href="#sharing-session" class="btn-outline">
+                                                <i class="fas fa-list-ul"></i> Lihat Semua Jadwal
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="lg:col-span-5 hidden lg:block">
+                                        <div class="relative group rounded-2xl overflow-hidden border-2 border-cyan-400/30 shadow-2xl">
+                                            <img src="{{ $featuredSharingSession->documentation_photo_url ?? asset('storage/images/Sharingsession.png') }}" alt="Sharing Session" class="w-full h-64 object-cover group-hover:scale-105 transition duration-500">
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="text-center py-8 text-blue-100">
+                                    <i class="fas fa-calendar-times text-5xl mb-3 text-cyan-300"></i>
+                                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Belum Ada Jadwal Sharing Session Minggu Ini</h3>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                @else
+                    {{-- TAMPILAN SLIDE UTAMA (GENERAL HERO) --}}
+                    <div class="hero-inner">
+                        <div class="hero-text-col">
+                            <h1 class="hero-title">{!! $slider->title !!}</h1>
+                            <p class="hero-desc">{{ $slider->subtitle }}</p>
+                            
+                            @if($index === 0)
+                                {{-- Statistik khusus di slide pertama --}}
+                                <div class="hero-stats">
+                                    <div>
+                                        <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
+                                        <div class="hero-stat-label">Peserta Magang</div>
+                                    </div>
+                                    <div class="hero-stat-divider"></div>
+                                    <div>
+                                        <div class="hero-stat-num text-center">11+</div>
+                                        <div class="hero-stat-label">Mitra pendidikan dan industri</div>
+                                    </div>
+                                    <div class="hero-stat-divider"></div>
+                                    <div>
+                                        <div class="hero-stat-num text-center">93.25</div>
+                                        <div class="hero-stat-label">Tingkat Kepuasan</div>
+                                    </div>
+                                    <div class="hero-stat-divider"></div>
+                                    <div>
+                                        <div class="hero-stat-num text-center">{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</div>
+                                        <div class="hero-stat-label">Jumlah Pengunjung</div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($slider->button_url)
+                                <div class="hero-btns">
+                                    <a href="{{ $slider->button_url }}" class="btn-primary"><i class="fas fa-rocket" style="font-size:14px"></i> {{ $slider->button_text ?? 'Daftar Sekarang' }}</a>
+                                    <a href="#usage" class="btn-outline">Lihat Fitur <i class="fas fa-arrow-right" style="font-size:13px"></i></a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+            </div>
+        @empty
+            {{-- Fallback jika database slider kosong --}}
+            <div class="hero-slide-item" style="width: 100%;">
+                <img src="{{ asset('storage/photos-landingpage/hero-bg.png') }}" alt="" class="hero-bg-image" aria-hidden="true">
+                <div class="hero-overlay"></div>
+                <div class="hero-accent"></div>
+                <div class="hero-inner">
+                    <div class="hero-text-col">
+                        <h1 class="hero-title">Sistem Magang Terbaik untuk <span>Kampus dan Sekolah</span></h1>
+                        <p class="hero-desc">Nikmati pengalaman terbaik dengan mitra terpercaya. Ada Banyak Hal Besar yang Perlu dilakukan di Masa Depan. Saatnya tumbuh sebagai talenta profesional dan buktikan keahlianmu bersama BBLSDM Komdigi Makassar sekarang.</p>
+                        <div class="hero-stats">
+                            <div>
+                                <div class="hero-stat-num text-center">{{ $totalPesertaAktif }}</div>
+                                <div class="hero-stat-label">Peserta Magang</div>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div>
+                                <div class="hero-stat-num text-center">11+</div>
+                                <div class="hero-stat-label">Mitra pendidikan dan industri</div>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div>
+                                <div class="hero-stat-num text-center">93.25</div>
+                                <div class="hero-stat-label">Tingkat Kepuasan</div>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div>
+                                <div class="hero-stat-num text-center">{{ number_format($visitorCount ?? 0, 0, ',', '.') }}</div>
+                                <div class="hero-stat-label">Jumlah Pengunjung</div>
+                            </div>
+                        </div>
+                        <div class="hero-btns">
+                            <a href="#daftar" class="btn-primary"><i class="fas fa-rocket" style="font-size:14px"></i> Daftar Sekarang</a>
+                            <a href="#usage" class="btn-outline">Lihat Fitur <i class="fas fa-arrow-right" style="font-size:13px"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-btns">
-                <a href="#daftar" class="btn-primary"><i class="fas fa-rocket" style="font-size:14px"></i> Daftar Sekarang</a>
-                <a href="#usage" class="btn-outline">Lihat Fitur <i class="fas fa-arrow-right" style="font-size:13px"></i></a>
-            </div>
-        </div>
+        @endforelse
+
     </div>
+
+    <!-- Tombol Kontrol Panah (Hanya muncul jika slide lebih dari 1) -->
+    @if($slideCount > 1)
+        <button type="button" class="hero-carousel-arrow hero-arrow-left" id="heroPrevBtn" aria-label="Slide Sebelumnya">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button type="button" class="hero-carousel-arrow hero-arrow-right" id="heroNextBtn" aria-label="Slide Selanjutnya">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="hero-carousel-dots" id="heroDotsWrapper">
+            @foreach($heroSliders as $index => $slider)
+                <div class="hero-dot {{ $index === 0 ? 'active' : '' }}" onclick="setHeroSlide({{ $index }})"></div>
+            @endforeach
+        </div>
+
+        <div class="hero-progress-bar-wrap">
+            <div class="hero-progress-bar" id="heroProgressBar"></div>
+        </div>
+    @endif
 </section>
 
 <!-- ===== Daftar Lowongan Terbaru ===== -->
@@ -1842,7 +2061,7 @@
             <button class="team-tab-btn" data-tab="angkatan2">Simagang v1</button>
         </div>
 
-        <!-- ── TAB PANEL: SIMAGANG V3.5 / ANGKATAN 3 (ACTIVE & BLUE ELEGAN CARD) ── -->
+        <!-- ── TAB PANEL: SIMAGANG V3.5 / ANGKATAN 3 ── -->
         <div class="team-tab-panel active" id="tab-angkatan3">
             <div class="team-carousel-wrapper">
                 <div class="team-members-grid max-w-4xl mx-auto !grid-cols-1 sm:!grid-cols-3 gap-5" id="carousel-grid-3">
@@ -1851,14 +2070,11 @@
                     <div class="tmember-card cursor-pointer" onclick="openInstagramModal('Aldisar Fachreza', 'https://www.instagram.com/aldisar_22?igsh=MXRieW9zdXBuYWs3cA==')">
                         <div class="tmember-photo-wrap">
                             <img src="{{ asset('storage/profiles/aldisar.jpg') }}" alt="Aldisar Fachreza" class="tmember-photo">
-                            
-                            <!-- Ikon Instagram Mengambang (Tanpa Blur Lama) -->
                             <div class="tmember-insta-hover-icon">
                                 <div class="tmember-insta-btn">
                                     <i class="fab fa-instagram"></i>
                                 </div>
                             </div>
-
                             <div class="tmember-info">
                                 <div class="tmember-name">Aldisar Fachreza</div>
                                 <div class="tmember-meta">Universitas Negeri Makassar | TEKNIK INFORMATIKA & KOMPUTER</div>
@@ -1870,14 +2086,11 @@
                     <div class="tmember-card cursor-pointer" onclick="openInstagramModal('A. Muh. Bintang P.', 'https://www.instagram.com/bintang_palinrungi?igsh=a2k1Nm13b2pjZzc5')">
                         <div class="tmember-photo-wrap">
                             <img src="{{ asset('storage/profiles/bintang.jpg') }}" alt="A. Muh. Bintang P." class="tmember-photo">
-                            
-                            <!-- Ikon Instagram Mengambang (Tanpa Blur Lama) -->
                             <div class="tmember-insta-hover-icon">
                                 <div class="tmember-insta-btn">
                                     <i class="fab fa-instagram"></i>
                                 </div>
                             </div>
-
                             <div class="tmember-info">
                                 <div class="tmember-name">A. Muh. Bintang P.</div>
                                 <div class="tmember-meta">Universitas Negeri Makassar | TEKNIK INFORMATIKA & KOMPUTER</div>
@@ -1889,14 +2102,11 @@
                     <div class="tmember-card cursor-pointer" onclick="openInstagramModal('Muh Imtiyazzaidan Arbi', 'https://www.instagram.com/zaidan.arbii?igsh=dGI2aWRkMW9zMHA5')">
                         <div class="tmember-photo-wrap">
                             <img src="{{ asset('storage/profiles/arbi.jpg') }}" alt="Muh Imtiyazzaidan Arbi" class="tmember-photo">
-                            
-                            <!-- Ikon Instagram Mengambang (Tanpa Blur Lama) -->
                             <div class="tmember-insta-hover-icon">
                                 <div class="tmember-insta-btn">
                                     <i class="fab fa-instagram"></i>
                                 </div>
                             </div>
-
                             <div class="tmember-info">
                                 <div class="tmember-name">Muh Imtiyazzaidan Arbi</div>
                                 <div class="tmember-meta">Universitas Negeri Makassar | TEKNIK INFORMATIKA & KOMPUTER</div>
@@ -2005,7 +2215,7 @@
     </div>
 </section>
 
-<!-- ===== MODAL POPUP INSTAGRAM SELESAI KLIK ===== -->
+<!-- ===== MODAL POPUP INSTAGRAM ===== -->
 <div id="instagramModal" class="insta-modal" onclick="closeInstagramModal(event)">
     <div class="insta-modal-content" onclick="event.stopPropagation()">
         <h3 id="modalDeveloperName" class="text-xl font-bold text-white mb-2">Nama Developer</h3>
@@ -2058,7 +2268,7 @@
                         <div class="cta-card-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)"><i class="fas fa-building"></i></div>
                         <div>
                             <div class="cta-card-name">Mitra Industri</div>
-                            <div class="cta-card-sub">Untuk perusahaan, startup, UMKM, dan instansi yang membuka lowongan magang.</div>
+                            <div class="cta-card-sub">For perusahaan, startup, UMKM, dan instansi yang membuka lowongan magang.</div>
                         </div>
                     </div>
                     <i class="fas fa-arrow-right cta-arrow"></i>
@@ -2097,6 +2307,80 @@
 </footer>
 
 <script>
+/* ── JS CAROUSEL HERO DINAMIS (Mendukung 1 Slide / Multi Slide) ── */
+let currentHeroSlide = 0;
+const totalHeroSlides = {{ $slideCount > 0 ? $slideCount : 1 }};
+const DURATION_HERO = 10000; // 10 Detik
+let heroTimer = null;
+let heroProgressInterval = null;
+
+const heroSlidesWrapper = document.getElementById('heroSlidesWrapper');
+const heroProgressBar = document.getElementById('heroProgressBar');
+const heroDots = document.querySelectorAll('.hero-dot');
+
+function setHeroSlide(index) {
+    if (totalHeroSlides <= 1) return; // Jika hanya 1 slide, jangan lakukan pergeseran
+    currentHeroSlide = index;
+    if (currentHeroSlide < 0) currentHeroSlide = totalHeroSlides - 1;
+    if (currentHeroSlide >= totalHeroSlides) currentHeroSlide = 0;
+
+    if (heroSlidesWrapper) {
+        let percentageShift = currentHeroSlide * (100 / totalHeroSlides);
+        heroSlidesWrapper.style.transform = `translateX(-${percentageShift}%)`;
+    }
+
+    heroDots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentHeroSlide);
+    });
+
+    startHeroTimerAndProgress();
+}
+
+function startHeroTimerAndProgress() {
+    if (totalHeroSlides <= 1) return; // Nonaktifkan timer jika hanya 1 slide
+    clearInterval(heroTimer);
+    clearInterval(heroProgressInterval);
+
+    if (heroProgressBar) {
+        heroProgressBar.style.transition = 'none';
+        heroProgressBar.style.width = '0%';
+    }
+
+    let startTime = Date.now();
+
+    heroProgressInterval = setInterval(() => {
+        let elapsed = Date.now() - startTime;
+        let percentage = (elapsed / DURATION_HERO) * 100;
+        if (percentage >= 100) {
+            percentage = 100;
+            clearInterval(heroProgressInterval);
+        }
+        if (heroProgressBar) {
+            heroProgressBar.style.width = percentage + '%';
+        }
+    }, 50);
+
+    heroTimer = setInterval(() => {
+        setHeroSlide(currentHeroSlide + 1);
+    }, DURATION_HERO);
+}
+
+// Navigasi Tombol Manual
+document.getElementById('heroPrevBtn')?.addEventListener('click', () => {
+    setHeroSlide(currentHeroSlide - 1);
+});
+
+document.getElementById('heroNextBtn')?.addEventListener('click', () => {
+    setHeroSlide(currentHeroSlide + 1);
+});
+
+// Jalankan carousel otomatis hanya jika jumlah slide > 1
+if (totalHeroSlides > 1) {
+    (function autoStartHeroCarousel() {
+        startHeroTimerAndProgress();
+    })();
+}
+
 /* ── Scroll Reveal ── */
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -2182,11 +2466,6 @@ function initCarousel({ wrapperId, dotsId, prevId, nextId, interval = 5000 }) {
 
 initCarousel({ wrapperId:'process-wrapper', dotsId:'process-dots', prevId:'process-prev', nextId:'process-next' });
 initCarousel({ wrapperId:'testi-wrapper',   dotsId:'testi-dots',   prevId:'testi-prev',   nextId:'testi-next' });
-
-function toggleMobileAktivitas() {
-    const dropdown = document.getElementById('mobileAktivitasDropdown');
-    if (dropdown) dropdown.classList.toggle('open');
-}
 
 function showActivityTab(type, button) {
     document.querySelectorAll('.activity-tab').forEach(tab => tab.classList.remove('active'));
@@ -2348,7 +2627,7 @@ window.addEventListener('resize', () => {
     resizeTimer = setTimeout(setupCarousels, 200);
 });
 
-/* ── Fungsi Modal Instagram Simagang v3.5 ── */
+/* ── Modal Instagram ── */
 function openInstagramModal(name, url) {
     document.getElementById('modalDeveloperName').textContent = name;
     document.getElementById('modalInstagramLink').href = url;

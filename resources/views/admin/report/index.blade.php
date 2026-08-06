@@ -68,7 +68,7 @@
         }
 
         .report-table {
-            min-width: 820px;
+            min-width: 960px;
         }
 
         .filter-action {
@@ -187,24 +187,13 @@
                         <table class="report-table min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr class="bg-blue-50">
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">
-                                        Nama</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Laporan</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Tanggal Upload</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Status</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">
-                                        Nilai</th>
-                                    <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">
-                                        Aksi</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tl-lg">Nama</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Laporan</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Serah Terima Proyek</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Tanggal Upload</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider">Nilai</th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-blue-900 uppercase tracking-wider rounded-tr-lg">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
@@ -217,20 +206,31 @@
                                                         class="report-avatar w-10 h-10 rounded-full object-cover border-2 border-blue-200 mr-3"
                                                         alt="{{ $report->intern->name }}">
                                                 @else
-                                                    <div
-                                                        class="report-avatar w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 border-2 border-blue-200">
+                                                    <div class="report-avatar w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 border-2 border-blue-200">
                                                         <i class="fas fa-user text-blue-600"></i>
                                                     </div>
                                                 @endif
                                                 <span class="report-name text-sm font-medium text-gray-900">
                                                     {{ $report->intern->name }}
                                                 </span>
-
                                             </div>
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                             {{ $report->file_name }}
+                                        </td>
+
+                                        {{-- Kolom Indikator Status Serah Terima Proyek --}}
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                            @if($report->project_handover_agreement)
+                                                <span class="px-2.5 py-1 inline-flex items-center text-xs font-bold rounded-full bg-emerald-100 text-emerald-800" title="Proyek siap diserahterimakan dan digunakan oleh BBLSDM Komdigi Makassar">
+                                                    <i class="fas fa-check-circle mr-1"></i> Disetujui
+                                                </span>
+                                            @else
+                                                <span class="px-2.5 py-1 inline-flex items-center text-xs font-bold rounded-full bg-gray-100 text-gray-500" title="Belum menyetujui serah terima">
+                                                    <i class="fas fa-times-circle mr-1"></i> Belum
+                                                </span>
+                                            @endif
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
@@ -239,25 +239,23 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                             <div class="flex flex-col space-y-1">
-                                                <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                                 @if ($report->status == 'approved') bg-green-100 text-green-800
                                                 @elseif($report->status == 'rejected') bg-red-100 text-red-800
                                                 @else bg-yellow-100 text-yellow-800 @endif">
                                                     {{ ucfirst($report->status) }}
                                                 </span>
                                                 @if ($report->needs_revision)
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
                                                         Revisi
                                                     </span>
                                                 @endif
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
                                             @if ($report->grade)
-                                                <span
-                                                    class="px-2 py-1 inline-flex text-sm font-bold rounded-full
+                                                <span class="px-2 py-1 inline-flex text-sm font-bold rounded-full
                                                 @if ($report->grade == 'A') bg-green-100 text-green-800
                                                 @elseif($report->grade == 'B') bg-blue-100 text-blue-800
                                                 @else bg-yellow-100 text-yellow-800 @endif">
@@ -267,6 +265,7 @@
                                                 <span class="text-gray-400 text-sm">-</span>
                                             @endif
                                         </td>
+
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                                             {{-- Aksi Lihat --}}
                                             <a href="{{ route('admin.report.show', $report) }}"
@@ -277,7 +276,7 @@
 
                                             {{-- Aksi Sertifikat --}}
                                             <a href="{{ route('admin.certificates.create', ['intern_id' => $report->intern->id]) }}"
-                                                class="text-yellow-400 hover:text-yellow-300 inline-block transition-color"
+                                                class="text-yellow-500 hover:text-yellow-600 inline-block transition-color"
                                                 title="penilaian sertifikat">
                                                 <i class="fas fa-certificate"></i>
                                             </a>
@@ -285,7 +284,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
                                             Belum ada laporan akhir.
                                         </td>
                                     </tr>
