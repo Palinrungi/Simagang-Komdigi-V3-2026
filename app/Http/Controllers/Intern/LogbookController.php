@@ -259,7 +259,108 @@ class LogbookController extends Controller
         return redirect()->route('intern.logbook.index')
             ->with('success', 'Logbook berhasil dihapus.');
     }
+    public function exportExcel()
+    {
+        $intern = Auth::user()->intern;
+        if (!$intern) {
+            return redirect()->back()->with('error', 'Data peserta magang tidak ditemukan.');
+        }
 
+        // UBAH DARI 'desc' MENJADI 'asc' AGAR TANGGAL LAMA DI ATAS, BARU KE TANGGAL TERBARU DI BAWAHNYA
+        $logbooks = Logbook::where('intern_id', $intern->id)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Judul Laporan di Baris 1
+        $sheet->setCellValue('A1', 'REKAPITULASI LOGBOOK HARIAN PESERTA MAGANG');
+        $sheet->mergeCells('A1:E1');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(13);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getRowDimension(1)->setRowHeight(30);
+
+        // Header Kolom Tabel di Baris 3
+        $sheet->setCellValue('A3', 'No');
+        $sheet->setCellValue('B3', 'Tanggal');
+        $sheet->setCellValue('C3', 'Jam Masuk (Absensi)');
+        $sheet->setCellValue('D3', 'Jam Keluar');
+        $sheet->setCellValue('E3', 'Aktivitas / Kegiatan');
+
+        // Styling Header Tabel (Baris 3)
+        $sheet->getStyle('A3:E3')->applyFromArray([
+            'font' => [
+                'bold' => true, 
+                'color' => ['argb' => 'FFFFFFFF'],
+                'size' => 11,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'FF1E3A8A'], // Biru Tua
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+        ]);
+        $sheet->getRowDimension(3)->setRowHeight(25);
+
+        $row = 4;
+        $no = 1;
+        foreach ($logbooks as $log) {
+            $attendance = Attendance::where('intern_id', $intern->id)
+                ->whereDate('date', $log->date)
+                ->first();
+
+            $jamMasuk = $attendance && $attendance->check_in 
+                ? \Carbon\Carbon::parse($attendance->check_in)->format('H:i') 
+                : '-';
+            
+            $jamKeluar = '16:00';
+
+            $sheet->setCellValue('A' . $row, $no++);
+            $sheet->setCellValue('B' . $row, \Carbon\Carbon::parse($log->date)->format('d/m/Y'));
+            $sheet->setCellValue('C' . $row, $jamMasuk);
+            $sheet->setCellValue('D' . $row, $jamKeluar);
+            $sheet->setCellValue('E' . $row, strip_tags($log->activity));
+
+            $sheet->getRowDimension($row)->setRowHeight(22);
+            $row++;
+        }
+
+        $lastRow = $row - 1;
+
+        if ($lastRow >= 3) {
+            $sheet->getStyle('A3:E' . $lastRow)->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => 'FF000000'],
+                    ],
+                ],
+            ]);
+
+            $sheet->getStyle('A4:D' . $lastRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle('E4:E' . $lastRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+            $sheet->getStyle('A3:E' . $lastRow)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        }
+
+        foreach (range('A', 'E') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $filename = 'Logbook-' . Str::slug(Auth::user()->name) . '-' . date('Y-m-d') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
+    }
     /**
      * Serve private logbook photo with one-time token validation
      */

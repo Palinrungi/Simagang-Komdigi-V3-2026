@@ -512,6 +512,7 @@ Route::put('/sharing-session/{sharingSession}/update-materi', [SharingSessionCon
     
     // Logbook Routes
     Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook.index');
+    Route::get('/logbook/export-excel', [LogbookController::class, 'exportExcel'])->name('logbook.export');
     Route::get('/logbook/create', [LogbookController::class, 'create'])->name('logbook.create');
     Route::post('/logbook', [LogbookController::class, 'store'])->name('logbook.store');
     Route::get('/logbook/{logbook}/edit', [LogbookController::class, 'edit'])->name('logbook.edit');
