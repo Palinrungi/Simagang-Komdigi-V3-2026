@@ -27,12 +27,14 @@ class Intern extends Model
         'pengajuan_detail_id',
         'soft_skill',
         'hard_skill',
+        'has_agreed_data_consent',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
         'is_active' => 'boolean',
+        'has_agreed_data_consent' => 'boolean',
     ];
 
     public function user()

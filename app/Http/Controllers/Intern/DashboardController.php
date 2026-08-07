@@ -11,6 +11,7 @@ use App\Models\SharingSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -25,6 +26,32 @@ class DashboardController extends Controller
         return route('intern.attendance.photo', [
             'filename' => $filename,
         ]);
+    }
+
+    public function showConsentForm()
+    {
+        $user = Auth::user();
+        if ($user->intern && $user->intern->has_agreed_data_consent) {
+            return redirect()->route('intern.dashboard');
+        }
+
+        return view('intern.consent');
+    }
+
+    public function submitConsentForm(Request $request)
+    {
+        $request->validate([
+            'agree' => 'required|accepted'
+        ]);
+
+        $user = Auth::user();
+        if ($user->intern) {
+            $user->intern->update([
+                'has_agreed_data_consent' => true
+            ]);
+        }
+
+        return redirect()->route('intern.dashboard')->with('success', 'Terima kasih telah menyetujui persyaratan penggunaan data.');
     }
 
     public function index()

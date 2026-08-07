@@ -108,7 +108,7 @@ class AttendanceController extends Controller
             'note' => ['required_if:status,izin,sakit', 'nullable', 'string'],
         ]);
         
-        if ($validated['status'] === 'hadir' && !$request->hasFile('photo') && empty($validated['photo_data'])) {
+        if (!$request->hasFile('photo') && empty($validated['photo_data'])) {
             return response()->json(['success' => false, 'message' => 'Foto wajib diisi.'], 400);
         }
 
@@ -126,44 +126,39 @@ class AttendanceController extends Controller
             if ($currentTime < $checkInStart || $currentTime > $checkInEnd) {
                 return response()->json(['success' => false, 'message' => 'Absensi hanya antara ' . $checkInStart . ' - ' . $checkInEnd], 400);
             }
-
-            if ($request->hasFile('photo') || $request->filled('photo_data')) {
-                try {
-                    $filename = Str::uuid() . '.jpg';
-                    $path = 'private/attendance-photos/' . $filename;
-                    $destinationPath = storage_path('app/private/attendance-photos');
-                    if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
-
-                    $manager = new ImageManager(new Driver());
-                    
-                    if ($request->hasFile('photo')) {
-                        $image = $manager->read($request->file('photo')->getRealPath())->toJpeg(80);
-                    } else {
-                        $imageData = $request->input('photo_data');
-                        if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
-                            $imageData = substr($imageData, strpos($imageData, ',') + 1);
-                        }
-                        $imageData = base64_decode($imageData);
-                        if ($imageData === false) {
-                            return response()->json(['success' => false, 'message' => 'Data gambar rusak.'], 400);
-                        }
-                        $image = $manager->read($imageData)->toJpeg(80);
-                    }
-
-                    Storage::disk('local')->put($path, (string) $image);
-                    
-                    $data['photo_path'] = $path;
-                    $data['check_in'] = $nowWita;
-                } catch (\Exception $e) {
-                    return response()->json(['success' => false, 'message' => 'Gagal upload foto: ' . $e->getMessage()], 500);
-                }
-            } else {
-                return response()->json(['success' => false, 'message' => 'Foto wajib diisi.'], 400);
-            }
+            $data['check_in'] = $nowWita;
         } else {
             $data['note'] = $validated['note'] ?? null;
             $data['document_status'] = 'pending';
-            // Document upload for API not yet implemented in this minimal version
+        }
+
+        try {
+            $filename = Str::uuid() . '.jpg';
+            $path = 'private/attendance-photos/' . $filename;
+            $destinationPath = storage_path('app/private/attendance-photos');
+            if (!file_exists($destinationPath)) mkdir($destinationPath, 0755, true);
+
+            $manager = new ImageManager(new Driver());
+            
+            if ($request->hasFile('photo')) {
+                $image = $manager->read($request->file('photo')->getRealPath())->toJpeg(80);
+            } else {
+                $imageData = $request->input('photo_data');
+                if (preg_match('/^data:image\/(jpeg|jpg|png);base64,/', $imageData)) {
+                    $imageData = substr($imageData, strpos($imageData, ',') + 1);
+                }
+                $imageData = base64_decode($imageData);
+                if ($imageData === false) {
+                    return response()->json(['success' => false, 'message' => 'Data gambar rusak.'], 400);
+                }
+                $image = $manager->read($imageData)->toJpeg(80);
+            }
+
+            Storage::disk('local')->put($path, (string) $image);
+            
+            $data['photo_path'] = $path;
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Gagal upload foto: ' . $e->getMessage()], 500);
         }
 
         $attendance = Attendance::create($data);

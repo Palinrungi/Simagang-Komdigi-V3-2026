@@ -214,7 +214,7 @@
                         <i class="fas fa-circle-info text-blue-600 mr-2"></i>
                         Spesifikasi Minimum Perangkat
                     </h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
                         <div class="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
                             <p class="text-gray-400 font-semibold">Sistem Operasi</p>
                             <p class="text-gray-800 font-bold mt-0.5">Android 8.0 (Oreo) +</p>
@@ -222,10 +222,6 @@
                         <div class="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
                             <p class="text-gray-400 font-semibold">Ukuran File APK</p>
                             <p class="text-gray-800 font-bold mt-0.5">{{ $apkSize ?? '~25 MB' }}</p>
-                        </div>
-                        <div class="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
-                            <p class="text-gray-400 font-semibold">Ruang Penyimpanan</p>
-                            <p class="text-gray-800 font-bold mt-0.5">Minimal 50 MB Free</p>
                         </div>
                         <div class="p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
                             <p class="text-gray-400 font-semibold">Koneksi Internet</p>

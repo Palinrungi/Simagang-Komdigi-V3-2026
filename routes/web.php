@@ -476,7 +476,9 @@ Route::get('/download/{path}', SecureDownloadController::class)
     ->name('download');
 
 // Intern Routes
-Route::middleware(['auth', 'intern'])->prefix('intern')->name('intern.')->group(function () {
+Route::middleware(['auth', 'intern', 'ensure.consent'])->prefix('intern')->name('intern.')->group(function () {
+    Route::get('/consent', [DashboardController::class, 'showConsentForm'])->name('consent');
+    Route::post('/consent', [DashboardController::class, 'submitConsentForm'])->name('consent.submit');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/mobile-app', [DashboardController::class, 'mobileApp'])->name('mobile-app.index');
     Route::get('/mobile-app/download', [DashboardController::class, 'downloadApp'])->name('mobile-app.download');
